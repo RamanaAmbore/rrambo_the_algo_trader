@@ -1,0 +1,9 @@
+dash
+plotly
+pandas
+selenium
+pyotp
+kiteconnect
+chromedriver-autoinstaller
+pyyaml
+python-dotenv
