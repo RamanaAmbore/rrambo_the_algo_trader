@@ -15,7 +15,7 @@ logger = get_logger(__name__)
 
 # Determine database type (SQLite or PostgreSQL)
 SQLITE_DB = os.getenv("SQLITE_DB", "True").lower() == "true"
-ACCCES_TOKEN_VALIDITY = os.getenv("ACCCES_TOKEN_VALIDITY")
+ACCCESS_TOKEN_VALIDITY = os.getenv("ACCESS_TOKEN_VALIDITY")
 logger.info(f'SQLITE database: {SQLITE_DB}')
 
 if SQLITE_DB:
@@ -71,7 +71,7 @@ def get_stored_access_token():
         if token_entry:
             age = datetime.utcnow() - token_entry.creation_ts
 
-            if age < timedelta(hours=int(ACCCES_TOKEN_VALIDITY)):
+            if age < timedelta(hours=int(ACCCESS_TOKEN_VALIDITY)):
                 return token_entry.token
 
     return None  # Token is expired or missing
