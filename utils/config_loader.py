@@ -1,6 +1,7 @@
 import os
 import yaml
 from dotenv import load_dotenv
+from types import SimpleNamespace
 
 # Load environment variables from .env
 load_dotenv()
@@ -13,22 +14,7 @@ def load_yaml(file_name):
         return yaml.safe_load(file)
 
 # Load constants
-constants = load_yaml("constants.yaml")
+constants = SimpleNamespace(**load_yaml("constants.yaml"))
+sc = SimpleNamespace(**constants.source)
 
-# Zerodha Credentials
-ZERODHA_API_KEY = os.getenv("ZERODHA_API_KEY")
-ZERODHA_API_SECRET = os.getenv("ZERODHA_API_SECRET")
-ZERODHA_TOTP_SECRET = os.getenv("ZERODHA_TOTP_SECRET")
-ZERODHA_USERNAME = os.getenv("ZERODHA_USERNAME")
-ZERODHA_PASSWORD = os.getenv("ZERODHA_PASSWORD")
 
-# Market Constants from YAML
-INSTRUMENT_TOKEN = constants["market"]["instrument_token"]
-DATA_FETCH_INTERVAL = constants["market"]["data_fetch_interval"]
-
-# Logging Configuration
-DEBUG_LOG_FILE = os.getenv("DEBUG_LOG_FILE", "logs/debug.log")
-ERROR_LOG_FILE = os.getenv("ERROR_LOG_FILE", "logs/error.log")
-CONSOLE_LOG_LEVEL = os.getenv("CONSOLE_LOG_LEVEL", "DEBUG")
-FILE_LOG_LEVEL = os.getenv("FILE_LOG_LEVEL", "DEBUG")
-ERROR_LOG_LEVEL = os.getenv("ERROR_LOG_LEVEL", "ERROR")

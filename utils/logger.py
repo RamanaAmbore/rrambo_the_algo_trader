@@ -1,71 +1,62 @@
-import time
-import pandas as pd
-import dash
-from dash import dcc, html
-import plotly.graph_objects as go
-from dash.dependencies import Input, Output
-from kiteconnect import KiteConnect
-from utils.config_loader import ZERODHA_API_KEY, INSTRUMENT_TOKEN, DATA_FETCH_INTERVAL
-from utils.logger import logger
+import logging
+import os
+from dotenv import load_dotenv
 
-# Initialize KiteConnect
-kite = KiteConnect(api_key=ZERODHA_API_KEY)
+# Load environment variables from .env
+load_dotenv()
 
-# Initialize Dash app
-app = dash.Dash(__name__)
+# Read log file paths and log levels from environment variables
+DEBUG_LOG_FILE = os.getenv("DEBUG_LOG_FILE", "logs/debug.log")
+ERROR_LOG_FILE = os.getenv("ERROR_LOG_FILE", "logs/error.log")
+CONSOLE_LOG_LEVEL = os.getenv("CONSOLE_LOG_LEVEL", "DEBUG")
+FILE_LOG_LEVEL = os.getenv("FILE_LOG_LEVEL", "DEBUG")
+ERROR_LOG_LEVEL = os.getenv("ERROR_LOG_LEVEL", "ERROR")
 
-# Define layout
-app.layout = html.Div([
-    html.H1("Indian Stock Market - Live Chart", style={'textAlign': 'center'}),
-
-    # Auto-refresh interval (from .env)
-    dcc.Interval(id='interval-component', interval=DATA_FETCH_INTERVAL * 1000, n_intervals=0),
-
-    # Graph for candlestick chart
-    dcc.Graph(id='candlestick-chart'),
-
-    html.Div(f"Data updates every {DATA_FETCH_INTERVAL} seconds", style={'textAlign': 'center', 'marginTop': '10px'})
-])
+# Create logs directory if not exists
+os.makedirs(os.path.dirname(DEBUG_LOG_FILE), exist_ok=True)
 
 
-# Function to fetch stock market data
-def fetch_live_data():
-    try:
-        to_date = pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
-        from_date = (pd.Timestamp.now() - pd.Timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')
+def get_logger(name="app_logger"):
+    """Returns a configured logger instance."""
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)  # Capture all logs, control output using handlers
 
-        historical_data = kite.historical_data(INSTRUMENT_TOKEN, from_date, to_date, "5minute")
-        df = pd.DataFrame(historical_data)
-        logger.info("Fetched market data successfully")
-        return df
-    except Exception as e:
-        logger.error(f"Error fetching market data: {e}")
-        return pd.DataFrame()
+    # Formatter
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
 
+    # Console Handler (prints logs to console)
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(getattr(logging, CONSOLE_LOG_LEVEL.upper(), logging.DEBUG))
+    console_handler.setFormatter(formatter)
 
-# Callback function to update chart
-@app.callback(
-    Output('candlestick-chart', 'figure'),
-    Input('interval-component', 'n_intervals')
-)
-def update_chart(n_intervals):
-    df = fetch_live_data()
+    # Debug Log File Handler (stores DEBUG and above logs)
+    debug_file_handler = logging.FileHandler(DEBUG_LOG_FILE)
+    debug_file_handler.setLevel(getattr(logging, FILE_LOG_LEVEL.upper(), logging.DEBUG))
+    debug_file_handler.setFormatter(formatter)
 
-    if df.empty:
-        logger.warning("Received empty market data")
-        return go.Figure()
+    # Error Log File Handler (stores only ERROR logs)
+    error_file_handler = logging.FileHandler(ERROR_LOG_FILE)
+    error_file_handler.setLevel(getattr(logging, ERROR_LOG_LEVEL.upper(), logging.ERROR))
+    error_file_handler.setFormatter(formatter)
 
-    fig = go.Figure(data=[go.Candlestick(
-        x=df['date'], open=df['open'], high=df['high'], low=df['low'], close=df['close']
-    )])
+    # Add handlers to logger
+    if not logger.handlers:
+        logger.addHandler(console_handler)
+        logger.addHandler(debug_file_handler)
+        logger.addHandler(error_file_handler)
 
-    fig.update_layout(title="Live Stock Chart", xaxis_title="Time", yaxis_title="Price",
-                      xaxis_rangeslider_visible=False)
-    return fig
+    return logger
 
 
-# Run on localhost
-if __name__ == '__main__':
-    logger.info("Starting Dash app on localhost")
-    app.run_server(debug=True, host="127.0.0.1", port=8050)
+# Example usage
+if __name__ == "__main__":
+    logger = get_logger("test_logger")
+    logger.debug("This is a debug message.")
+    logger.info("This is an info message.")
+    logger.warning("This is a warning message.")
+    logger.error("This is an error message.")
+    logger.critical("This is a critical message.")
+
 

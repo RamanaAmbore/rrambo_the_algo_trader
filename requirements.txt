@@ -7,3 +7,4 @@ kiteconnect
 chromedriver-autoinstaller
 pyyaml
 python-dotenv
+sqlalchemy
