@@ -1,3 +1,5 @@
 source:
   totp_retry_count: 3
+  conn_retry_count: 3
+  indian_timezone: Asia/Kolkata
 

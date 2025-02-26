@@ -1,43 +1,21 @@
 import dash
-import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-import pandas as pd
 import yfinance as yf
-import plotly.graph_objs as go
-from sqlalchemy import create_engine, Column, String, Float, Integer, Date
+import plotly.graph_objs as go 
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-import os
 import datetime
 from layout import create_layout
+from models.access_token import StockList, get_stock_data, get_stock_info
 
-app = dash.Dash(__name__,
-                external_stylesheets=["https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"])
-app.title = "NSE Stock Market Dashboard"
+app = dash.Dash()
+app.title = "RRambo - Stock Market Dashboard"
 
 # Database Configuration
 DB_FILE = "stocks.db"
 engine = create_engine(f'sqlite:///{DB_FILE}', echo=False)
 Base = declarative_base()
-
-
-class StockPrice(Base):
-    __tablename__ = 'stock_prices'
-    symbol = Column(String, primary_key=True)
-    date = Column(Date, primary_key=True)
-    open = Column(Float)
-    high = Column(Float)
-    low = Column(Float)
-    close = Column(Float)
-    volume = Column(Integer)
-
-
-class StockList(Base):
-    __tablename__ = 'stock_list'
-    symbol = Column(String, primary_key=True)
-    name = Column(String)
-    last_updated = Column(Date)
-
 
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
@@ -57,42 +35,6 @@ def update_stock_list():
         session.add(StockList(symbol=symbol, name=symbol, last_updated=datetime.date.today()))
     session.commit()
     session.close()
-
-
-def get_stock_data(symbol, period="7d", interval="1d"):
-    """Fetch stock data from database or Yahoo Finance."""
-    session = Session()
-    data = session.query(StockPrice).filter(StockPrice.symbol == symbol).order_by(StockPrice.date.desc()).limit(7).all()
-    session.close()
-
-    if data:
-        df = pd.DataFrame([(d.symbol, d.date, d.open, d.high, d.low, d.close, d.volume) for d in data],
-                          columns=["symbol", "Date", "Open", "High", "Low", "Close", "Volume"])
-        df.set_index("Date", inplace=True)
-        return df
-    else:
-        df = yf.download(symbol, period=period, interval=interval)
-        df.reset_index(inplace=True)
-
-        session = Session()
-        for _, row in df.iterrows():
-            session.add(StockPrice(symbol=symbol, date=row['Date'], open=row['Open'], high=row['High'],
-                                   low=row['Low'], close=row['Close'], volume=row['Volume']))
-        session.commit()
-        session.close()
-        return df
-
-
-def get_stock_info(symbol):
-    """Fetch stock fundamental data from Yahoo Finance."""
-    stock = yf.Ticker(symbol)
-    info = stock.info
-    return {
-        "Sector": info.get("sector", "N/A"),
-        "Market Cap": info.get("marketCap", "N/A"),
-        "PE Ratio": info.get("trailingPE", "N/A"),
-        "Dividend Yield": info.get("dividendYield", "N/A")
-    }
 
 
 # Update stock list once a week

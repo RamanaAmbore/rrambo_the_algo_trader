@@ -1,0 +1,229 @@
+2025-02-20 20:27:27,966 - __main__ - INFO - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-20 22:11:55,829 - __main__ - INFO - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-20 22:12:17,708 - __main__ - INFO - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-20 22:12:21,882 - __main__ - INFO - Successful Login with Request Token:ksTjZp8WBnZJubt1BkzEgnL5aj27fw8I
+2025-02-20 22:13:07,686 - __main__ - INFO - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-20 22:13:11,876 - __main__ - INFO - Successful Login with Request Token:yFxecz1bGF1lcyLAgnuoehkFQY1uvaVU
+2025-02-21 05:48:20,645 - __main__ - INFO - Successfully processed credentials, request id - ZVHn5bC7IWVFlnkS0MN9dXD6w20WhEC6pJelhfdMe1nw4AWqSz4cGQVxE5kwv8g6 received
+2025-02-21 05:48:20,695 - __main__ - INFO - Successfully processed totp - 176183
+2025-02-21 05:48:20,696 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 05:48:24,848 - __main__ - INFO - Successful Login with Request Token:uIS7DJHxUtfE3mqskFCCj0WgdMe1tJn3
+2025-02-21 05:48:25,039 - __main__ - INFO - Successfully received Access Token
+2025-02-21 05:49:40,533 - __main__ - INFO - Successfully processed credentials, request id - TgMFDYwQqNjqFCsXwBd8Uh1Hl68YZwPFgn7LlZRCved4rDlD7CV21f5l7g5BE5ut received
+2025-02-21 05:49:40,580 - __main__ - INFO - Successfully processed totp - 607536
+2025-02-21 05:49:40,581 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 05:49:44,762 - __main__ - INFO - Successful Login with Request Token:Ou5UbmbXofBt7z0putBMEiNuRxvbYoHF
+2025-02-21 05:49:44,897 - __main__ - INFO - Successfully received Access Token
+2025-02-21 05:51:20,988 - __main__ - INFO - Successfully processed credentials, request id - 1IFdn56kuvowKlxFRDBLBnBdj1INzqDgzH8tHtrZPfvax54BCufeFW06F1dQstng received
+2025-02-21 05:51:21,034 - __main__ - INFO - Successfully processed totp - 547331
+2025-02-21 05:51:21,035 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 05:51:25,209 - __main__ - INFO - Successful Login with Request Token:Dk0hPss270jbbygAqGLOX1Lw5HP8T3bB
+2025-02-21 05:51:25,284 - __main__ - INFO - Successfully received Access Token
+2025-02-21 05:51:25,284 - __main__ - INFO - Login process complete, Kite URL with Access Token Received
+2025-02-21 06:08:24,547 - __main__ - INFO - Successfully processed credentials, request id - MIon14CuHH0w8iM3sX8P7PX5Ikags7pHDa82EkbIpErkor64WJfGoImAUHsd76hv received
+2025-02-21 06:08:24,596 - __main__ - INFO - Successfully processed totp - 789952
+2025-02-21 06:08:24,596 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 06:08:28,766 - __main__ - INFO - Successful Login with Request Token:YZKAzw8F7X5DSwobJkQqFUHJfefiC5pO
+2025-02-21 06:08:28,853 - __main__ - INFO - Successfully received Access Token
+2025-02-21 06:08:57,014 - __main__ - INFO - Successfully processed credentials, request id - yqixO08J36ZpFPIZ6peZVZUEvmzidFqu14dMRxKo0sNjGIFdTH306vZmvKjoaYhE received
+2025-02-21 06:08:57,066 - __main__ - INFO - Successfully processed totp - 352746
+2025-02-21 06:08:57,066 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 06:09:01,248 - __main__ - INFO - Successful Login with Request Token:ggJ5NvUY8Lj8Vmx2wHq0laVxlRk3R7g8
+2025-02-21 06:09:01,363 - __main__ - INFO - Successfully received Access Token
+2025-02-21 06:11:39,050 - __main__ - INFO - Successfully processed credentials, request id - RLWM9kjmPnM0ks7zkvcfCM4dh6BaSPj1hQ59ABFKJfQSBVEVdzy8SUEvJ9Z3UTIL received
+2025-02-21 06:11:39,100 - __main__ - INFO - Successfully processed totp - 007053
+2025-02-21 06:11:39,100 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 06:11:43,278 - __main__ - INFO - Successful Login with Request Token:tDN394H3SNWiTCwYkY1KgFqDkEWLCI1s
+2025-02-21 06:11:43,364 - __main__ - INFO - Successfully received Access Token
+2025-02-21 06:11:43,372 - __main__ - INFO - Login process complete, Kite URL with Access Token Received
+2025-02-21 06:24:21,323 - __main__ - INFO - Successfully processed credentials, request id - DKTnPW8o06UTtyTEapsqGsJyQW4himMKEAQIRvsIMMqL5itpUfiJp4uD6vTNWmde received
+2025-02-21 06:24:21,369 - __main__ - INFO - Successfully processed totp - 684702
+2025-02-21 06:24:21,369 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 06:24:25,548 - __main__ - INFO - Successful Login with Request Token:BE4BWSnzCQRrQWqjLMFPXRtdECJeYO11
+2025-02-21 06:24:25,669 - __main__ - INFO - Successfully received Access Token
+2025-02-21 06:24:25,669 - __main__ - INFO - Login process complete, Kite URL with Access Token Received
+2025-02-21 06:41:17,372 - __main__ - INFO - Successfully processed credentials, request id - Su2L9yt0SdeKH20rCaxQwwjLsVMKNUMhvyGzzfiF2oY72AZRlwibEVhqkfgtITti received
+2025-02-21 06:41:17,424 - __main__ - INFO - Successfully processed totp - 386667
+2025-02-21 06:41:17,424 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 06:41:21,585 - __main__ - INFO - Successful Login with Request Token:B9XBFcKe105XWK1T2XkEoM52jflfc4pc
+2025-02-21 06:41:21,722 - __main__ - INFO - Successfully received Access Token
+2025-02-21 06:41:21,723 - __main__ - INFO - Login process complete, Kite URL with Access Token Received
+2025-02-21 06:42:38,159 - __main__ - INFO - Successfully processed credentials, request id - yHMEfh817mHIm4AqB10tQwPqqutj7n61mefJczTRmsSHQkYOCvq6Oy23HT680exB received
+2025-02-21 06:42:38,208 - __main__ - INFO - Successfully processed totp - 921177
+2025-02-21 06:42:38,208 - __main__ - INFO - Successfully received Kite URL with API Key - https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 06:42:42,371 - __main__ - INFO - Successful Login with Request Token:EqEKiGgyr6chTBk9d2wFOLXr1EOiKXYx
+2025-02-21 06:42:42,490 - __main__ - INFO - Successfully received Access Token
+2025-02-21 06:42:42,490 - __main__ - INFO - Login process complete, Kite URL with Access Token Received
+2025-02-21 15:39:22,409 - utils.db_utils - INFO - SQLITE database: True
+2025-02-21 15:41:15,534 - utils.db_utils - INFO - SQLITE database: True
+2025-02-21 15:41:30,176 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 15:53:47,128 - utils.db_utils - INFO - SQLITE database: True
+2025-02-21 15:53:47,135 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 15:56:13,125 - utils.db_utils - INFO - SQLITE database: True
+2025-02-21 15:56:13,126 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 15:57:02,912 - __main__ - INFO - Successfully processed credentials, request ID: DHM4UJD1Q5imv8z4bgwdlxCidqUptn6Z7NLQfaA0bdIcGMi5h1Lbs9MCEHqad6Kh
+2025-02-21 15:57:15,348 - __main__ - INFO - Successfully processed TOTP - 436070
+2025-02-21 16:02:18,921 - utils.db_utils - INFO - SQLITE database: True
+2025-02-21 16:02:18,921 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 16:02:35,476 - __main__ - INFO - Successfully processed credentials, request ID: PbgaoP2A3lPibTYf2DNisIGUx3WChSBGOmUmremgn8pybP4ZcWMxtfm2HShfSKnj
+2025-02-21 16:02:42,436 - __main__ - INFO - Successfully processed TOTP - 236412
+2025-02-21 16:03:12,618 - __main__ - INFO - Successfully received Kite URL: https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 16:03:22,004 - __main__ - INFO - Successful Login with Request Token: d9yvBKL9u8jXnNsUe8EgSZ2It5vBYRo3
+2025-02-21 16:03:25,116 - __main__ - INFO - Successfully received Access Token
+2025-02-21 16:04:29,297 - __main__ - INFO - Login process complete, Kite URL with Access Token received.
+2025-02-21 16:12:38,499 - utils.db_utils - INFO - SQLITE database: False
+2025-02-21 16:26:26,508 - utils.db_utils - INFO - SQLITE database: False
+2025-02-21 16:30:10,988 - utils.db_utils - INFO - SQLITE database: False
+2025-02-21 16:30:11,556 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 16:39:04,736 - __main__ - INFO - Successfully processed credentials, request ID: 3WIXPJwRVSY9fZ5GuQW1UL3M3K10yckCFjiiCaGFIhrV4wPCS1GIb7pdiX7cVmJl
+2025-02-21 16:39:11,708 - __main__ - INFO - Successfully processed TOTP - 257805
+2025-02-21 16:39:17,236 - __main__ - INFO - Successfully received Kite URL: https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-21 16:39:26,745 - __main__ - INFO - Successful Login with Request Token: ra9B4SIh96tdvPLDGTBrEmTZFKd2wBz7
+2025-02-21 16:39:33,900 - __main__ - INFO - Successfully received Access Token
+2025-02-21 16:39:55,703 - __main__ - INFO - Login process complete, Kite URL with Access Token received.
+2025-02-21 17:10:19,902 - utils.db_utils - INFO - SQLITE database: False
+2025-02-21 17:10:19,996 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 17:10:57,994 - utils.db_utils - INFO - SQLITE database: False
+2025-02-21 17:10:58,119 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 17:11:59,195 - utils.db_utils - INFO - SQLITE database: False
+2025-02-21 17:11:59,276 - utils.db_utils - INFO - Successfully established initial connection to database
+2025-02-21 17:12:09,807 - __main__ - INFO - Using stored access token.
+2025-02-21 17:12:09,808 - __main__ - INFO - Login process complete, Kite URL with Access Token received.
+2025-02-23 00:47:35,261 - utils.db_setup - INFO - SQLITE database: False
+2025-02-23 00:47:35,407 - utils.db_setup - INFO - Successfully established initial connection to database
+2025-02-23 00:47:35,590 - __main__ - INFO - Successfully processed credentials, request ID: 04q5spWfFXEmaAxWt5b7fU4YJGAAfmdzvovLpDL2MpORarNQJiH728zMfwHK2d43
+2025-02-23 00:47:35,646 - __main__ - INFO - Successfully processed TOTP - 585658
+2025-02-23 00:47:35,646 - __main__ - INFO - Successfully received Kite URL: https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-23 00:47:39,865 - __main__ - INFO - Successful Login with Request Token: yt9a3cRHXT92dZU1RNLvCCeJta4v60xu
+2025-02-23 00:47:40,011 - __main__ - INFO - Successfully received Access Token
+2025-02-23 00:47:40,013 - utils.access_token - INFO - Access Token updated to database
+2025-02-23 00:47:40,026 - __main__ - INFO - Login process complete, Kite URL with Access Token received.
+2025-02-23 02:10:53,841 - utils.db_connection - INFO - SQLITE database: False
+2025-02-23 02:10:53,924 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-23 02:10:53,936 - __main__ - INFO - Using stored access token.
+2025-02-23 02:10:53,936 - __main__ - INFO - Executing update_broker_conn(), connection: {kite}
+2025-02-23 02:11:29,457 - utils.db_connection - INFO - SQLITE database: False
+2025-02-23 02:11:29,655 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-23 02:11:29,667 - __main__ - INFO - Using stored access token.
+2025-02-23 02:11:29,667 - __main__ - INFO - Executing update_broker_conn(), connection: {__name__.kite}
+2025-02-23 02:11:48,443 - utils.db_connection - INFO - SQLITE database: False
+2025-02-23 02:11:48,529 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-23 02:11:48,540 - __main__ - INFO - Using stored access token.
+2025-02-23 02:12:31,636 - utils.db_connection - INFO - SQLITE database: False
+2025-02-23 02:12:31,722 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-23 02:12:31,738 - __main__ - INFO - Using stored access token.
+2025-02-23 02:12:31,738 - __main__ - INFO - Executing update_broker_conn(), connection: <kiteconnect.connect.KiteConnect object at 0x000001F66BE459D0>
+2025-02-23 02:13:21,323 - utils.db_connection - INFO - SQLITE database: False
+2025-02-23 02:13:21,413 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-23 02:13:21,590 - __main__ - INFO - Successfully processed credentials, request ID: F1uid23UpuIl2sKpRdwvEPXxeDbNzgQ7vO8gCEvhWOZH8Pt34ofCIdwrCu5Pjoo0
+2025-02-23 02:13:21,650 - __main__ - INFO - Successfully processed TOTP - 086483
+2025-02-23 02:13:21,651 - __main__ - INFO - Successfully received Kite URL: https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-23 02:13:25,841 - __main__ - INFO - Successful Login with Request Token: GloCyG8MWDcHzQa4FOBQJ00nImiC1fF4
+2025-02-23 02:13:25,965 - __main__ - INFO - Successfully received Access Token
+2025-02-23 02:13:25,968 - __main__ - INFO - Executing update_broker_conn(), connection: <kiteconnect.connect.KiteConnect object at 0x000002BDB23121D0>
+2025-02-24 22:06:34,208 - utils.db_connection - INFO - SQLITE database: False
+2025-02-24 22:09:16,459 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-24 22:09:17,041 - __main__ - INFO - Login successful, Request ID: RvTzQlvvdxFNOoYt43EfmHbq5TEZR1ILxN3HyHbPRjIg3qydJWNMRn1PWeXiXiJZ
+2025-02-24 22:09:17,121 - __main__ - INFO - TOTP Authentication successful.
+2025-02-24 22:09:17,121 - __main__ - INFO - Kite login URL received: https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-24 22:09:21,283 - __main__ - ERROR - Login failed: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /apis/broker/login/zerodha?action=login&type=login&status=success&request_token=QuNZdlk0661U8Z38dwqmVnN14Me7cmwL (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000206D0FA1B90>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-02-24 22:11:49,504 - utils.db_connection - INFO - SQLITE database: False
+2025-02-24 22:11:49,583 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-24 22:16:03,391 - utils.db_connection - INFO - SQLITE database: False
+2025-02-24 22:16:03,471 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-24 22:23:14,699 - __main__ - INFO - Login successful, Request ID: Aycq8HTNVEiwehCMltHbYOD2zDuxbaAuJIhQgdvbPdwI96gZf1WTymxplxrx2FV7
+2025-02-24 22:23:41,600 - __main__ - INFO - TOTP Authentication successful.
+2025-02-24 22:24:56,763 - utils.db_connection - INFO - SQLITE database: False
+2025-02-24 22:24:56,841 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-24 22:25:42,876 - __main__ - INFO - Login successful, Request ID: j7WKFfU7f4D4wPbOLUyxkY2ULTcV28Bjq80Q1KwqrJf2cv5SGAEWu2JmwauUAs4e
+2025-02-24 22:25:42,939 - __main__ - INFO - TOTP Authentication successful.
+2025-02-24 22:25:42,939 - __main__ - INFO - Kite login URL received: https://kite.zerodha.com/connect/login?api_key=05hjicsyku3stv9o&v=3
+2025-02-24 22:25:47,120 - __main__ - ERROR - Login failed: HTTPConnectionPool(host='localhost', port=8080): Max retries exceeded with url: /apis/broker/login/zerodha?status=success&request_token=3Uzbr4qyeiICOde13Fi60aXSfr88kAti&action=login&type=login (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024BAD8E17D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-02-24 22:25:47,120 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x0000024BADCAB2D0>
+2025-02-25 19:06:52,644 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 19:06:52,738 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 19:39:30,865 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 19:39:30,959 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 19:40:04,286 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 19:40:04,380 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 19:41:14,134 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 19:41:14,219 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 19:43:05,190 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 19:43:05,284 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 19:52:56,752 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 19:52:56,831 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 19:55:29,144 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 19:55:29,222 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 20:01:39,328 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 20:01:39,424 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 21:49:38,604 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:52:10,828 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:52:16,691 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 21:53:13,157 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:54:02,253 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:54:07,521 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 21:54:24,523 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:54:32,043 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 21:55:43,316 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:55:47,567 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 21:57:17,480 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:57:20,298 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 21:58:12,709 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 21:58:15,502 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 22:18:03,778 - __main__ - INFO - SQLITE database: False
+2025-02-25 22:18:03,876 - __main__ - INFO - Successfully established initial connection to database
+2025-02-25 22:24:05,080 - __main__ - INFO - Database tables created (sync mode).
+2025-02-25 22:26:11,514 - __main__ - INFO - Database tables created (sync mode).
+2025-02-25 22:28:46,381 - __main__ - INFO - Database tables created (sync mode).
+2025-02-25 22:30:03,469 - utils.db_connection - INFO - SQLITE database: False
+2025-02-25 22:30:03,553 - utils.db_connection - INFO - Successfully established initial connection to database
+2025-02-25 22:30:03,693 - __main__ - INFO - Database tables created (sync mode).
+2025-02-25 23:56:01,422 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-25 23:56:01,537 - __main__ - INFO - Database tables created (sync mode).
+2025-02-25 23:57:13,641 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-25 23:57:13,736 - __main__ - INFO - Database tables created (sync mode).
+2025-02-25 23:57:24,424 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-25 23:59:05,201 - __main__ - INFO - Login successful, Request ID: POtCK8Ah1TDf2y0e81GZJqmTl4ehOpnczzvlzoefRLepw96lGZbaaC83aDiKKBu4
+2025-02-25 23:59:22,909 - __main__ - INFO - TOTP authentication successful.
+2025-02-25 23:59:36,602 - __main__ - INFO - Kite login URL received.
+2025-02-25 23:59:47,547 - __main__ - INFO - Request Token received: 6T5AZLBePBxhB7DhdufnHK1K3aHbJgKx
+2025-02-26 00:00:26,714 - __main__ - ERROR - Failed to generate access token: 'AccessToken' object has no attribute 'update_access_token'
+2025-02-26 00:02:31,148 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 00:05:09,763 - __main__ - INFO - Login successful, Request ID: riXmjKfJymLckvhltfdRITJuRbAWue1mvXIQIcAhuhlN71B1o5SS7Jxm1M3pRR9Z
+2025-02-26 00:05:20,043 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 00:05:24,173 - __main__ - INFO - Kite login URL received.
+2025-02-26 00:05:33,216 - __main__ - INFO - Request Token received: zf13lVEcwxAAvrg20IgO7RGRj3sOMGmD (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000019AA8CAA7D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-02-26 00:05:47,084 - __main__ - ERROR - Failed to generate access token: Token is invalid or has expired.
+2025-02-26 00:07:25,535 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 00:07:39,626 - __main__ - INFO - Login successful, Request ID: w8Nu5lr2e76h70zr5UADfZK1E8fg2lS04dJnVyCr1Dj75DfwhZbR4LHebZtib8JU
+2025-02-26 00:07:39,694 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 00:07:39,694 - __main__ - INFO - Kite login URL received.
+2025-02-26 00:09:07,498 - __main__ - INFO - Request Token received: 2e7pBM23Oj0gP1tRlKg3Y9Gsmc3ycGi2 (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001BD0DE18850>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-02-26 00:09:51,800 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 00:09:59,390 - __main__ - INFO - Login successful, Request ID: 9LwTuVDFQ7mtp4zF9yWElDX0WFsZ8u8xBRi7nnF47Qe0hxF6Ojk6bLc1aBjBkLsw
+2025-02-26 00:09:59,468 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 00:09:59,468 - __main__ - INFO - Kite login URL received.
+2025-02-26 00:49:28,503 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 00:49:28,887 - __main__ - INFO - Login successful, Request ID: Ku84CW012YHZtGzSUKZ2nmAM6h1oqLn0iiPLTemDEGi6lgHjboE0PiSaZe6t5ftT
+2025-02-26 00:49:28,964 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 00:49:28,964 - __main__ - INFO - Kite login URL received.
+2025-02-26 00:52:09,422 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 00:52:09,879 - __main__ - INFO - Login successful, Request ID: ZsUhmmdei4kzwQGxR0Li2NzMjS4UfEU7TID7Mo6a6qoYuu88IQX2ZCmMLrwJU54k
+2025-02-26 00:52:09,991 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 00:52:09,991 - __main__ - INFO - Kite login URL received.
+2025-02-26 00:53:11,274 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 00:53:11,669 - __main__ - INFO - Login successful, Request ID: P6NfopqFBg17xPKJq9r88wrN5A6yJfIaV0oIYH3SEsf4fGIOO6I9kjkkmJINfTdn
+2025-02-26 00:53:11,779 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 00:53:11,779 - __main__ - INFO - Kite login URL received.
+2025-02-26 00:53:32,375 - __main__ - ERROR - Failed to extract request token.
+2025-02-26 00:55:10,832 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 00:55:11,277 - __main__ - INFO - Login successful, Request ID: OcnLedpscM072DArngssJmHFMp3SwgW2SM42yFTrcAkIaLKvVbhsZIrmpNhZcGPp
+2025-02-26 00:55:11,357 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 00:55:11,357 - __main__ - INFO - Kite login URL received.
+2025-02-26 00:55:32,830 - __main__ - INFO - Request Token received: LWBmiS4HI5WTRb1D0LYQIFA4m3fqi4tJ
+2025-02-26 00:55:54,222 - models.access_token - INFO - Access Token added to database
+2025-02-26 00:55:55,197 - __main__ - INFO - Access token successfully generated and stored.
+2025-02-26 00:56:26,017 - __main__ - INFO - Starting new WebSocket connection...
+2025-02-26 00:56:42,938 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x00000273CEBADC10>
+2025-02-26 00:56:54,397 - __main__ - INFO - Subscribed to new tokens: {738561, 5633}
+2025-02-26 00:56:54,397 - __main__ - INFO - Unsubscribed from tokens: [5633]
