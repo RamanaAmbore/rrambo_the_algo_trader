@@ -227,3 +227,100 @@
 2025-02-26 00:56:42,938 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x00000273CEBADC10>
 2025-02-26 00:56:54,397 - __main__ - INFO - Subscribed to new tokens: {738561, 5633}
 2025-02-26 00:56:54,397 - __main__ - INFO - Unsubscribed from tokens: [5633]
+2025-02-26 11:33:07,527 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 11:34:25,683 - utils.db_utils - INFO - Database tables created (sync mode).
+2025-02-26 11:45:13,967 - utils.database - INFO - Database tables created (sync mode).
+2025-02-26 11:45:14,184 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 13:23:19,662 - utils.database - INFO - Database tables created (sync mode).
+2025-02-26 13:25:58,312 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 13:25:58,472 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 13:32:40,755 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 13:32:40,874 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 13:34:50,330 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 13:34:50,491 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 13:42:45,941 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 13:42:46,193 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 13:47:58,956 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 13:47:59,145 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 14:03:20,233 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 14:03:20,508 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 14:07:07,195 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 14:07:07,402 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 14:27:25,630 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 14:27:26,119 - __main__ - INFO - Database tables created (sync mode).
+2025-02-26 15:07:18,231 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 15:07:56,050 - __main__ - INFO - Login successful, Request ID: gyA7KAp1UOF8ue0vHItrvUHtksXbhhccXm4QYWOWsk0fVdRomaNqWIdKy2RllRqu
+2025-02-26 15:07:56,226 - __main__ - INFO - TOTP authentication successful.
+2025-02-26 15:07:56,227 - __main__ - INFO - Kite login URL received.
+2025-02-26 15:08:00,539 - __main__ - INFO - Request Token received: Hki6BmR4zI7IYFt46HkEiWrcMY2qX8sd
+2025-02-26 15:08:00,739 - models.access_token - INFO - Access Token added to database
+2025-02-26 15:08:00,752 - __main__ - INFO - Access token successfully generated and stored.
+2025-02-26 15:09:43,804 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x00000240FCF860D0>
+2025-02-26 15:12:02,645 - utils.db_conn - INFO - Database tables created (sync mode).
+2025-02-26 15:12:02,830 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x000001DB5202B810>
+2025-02-26 15:23:18,260 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 15:23:30,195 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 15:43:54,131 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 15:47:56,184 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 15:47:56,587 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 18:41:23,228 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 18:41:23,494 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 18:42:12,763 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 18:42:13,000 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 18:55:30,246 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 18:55:30,625 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 19:01:44,081 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 19:01:44,549 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 19:04:33,781 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 19:04:34,162 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 20:12:22,842 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 20:12:23,299 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 20:13:15,497 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 20:13:15,862 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 20:13:26,305 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 20:13:26,696 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 20:14:17,143 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 20:14:17,459 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 21:41:09,122 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 21:41:09,406 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 21:41:09,769 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 21:56:31,810 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 21:56:32,012 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 21:56:32,354 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 21:59:29,254 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 21:59:29,537 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 21:59:29,693 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 22:23:41,774 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:23:41,947 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:23:42,246 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 22:25:35,621 - __main__ - INFO - Market is closed. WebSocket will not connect.
+2025-02-26 22:26:43,535 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:26:43,710 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:26:44,042 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 22:27:24,670 - __main__ - INFO - Market is closed. WebSocket will not connect.
+2025-02-26 22:27:28,483 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x0000023F9354AD50>
+2025-02-26 22:34:31,379 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:34:31,532 - __main__ - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:36:39,728 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:36:39,932 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:36:40,089 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 22:38:33,704 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:38:33,894 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:38:34,069 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 22:39:48,376 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:39:48,566 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 22:39:48,774 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-26 23:27:54,697 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 23:27:54,902 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-26 23:27:55,091 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 18:58:53,768 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 18:58:54,082 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 18:58:54,285 - zerodha_kite - INFO - Login successful, Request ID: g21ZQMfbJ97yTgSBmRrj3SFM4eemVLwXtciE9ft2iJTA8YYNryHgsao7b7k5MJzd
+2025-02-27 18:58:54,341 - zerodha_kite - INFO - TOTP authentication successful.
+2025-02-27 18:58:54,341 - zerodha_kite - INFO - Kite login URL received.
+2025-02-27 18:58:58,493 - zerodha_kite - INFO - Request Token received: 4iioCaKVkRlt6tOR6aLJOK57VVbB8Gia
+2025-02-27 18:58:58,795 - models.access_token - INFO - Access Token updated in database
+2025-02-27 18:58:58,803 - zerodha_kite - INFO - Access token successfully generated and stored.
+2025-02-27 19:03:11,457 - __main__ - INFO - Market is closed. WebSocket will not connect.
+2025-02-27 19:41:40,424 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x000002026C32BF10>
+2025-02-27 19:44:40,798 - utils.market_monitor - INFO - Market is open. Starting WebSocket connection.

@@ -2,7 +2,7 @@ import asyncio
 from kiteconnect import KiteTicker
 from market_cache import is_market_open, load_market_hours
 from market_utils import get_active_instruments
-from utils.db_utils import AsyncSessionLocal
+from utils.db_conn import AsyncSessionLocal
 
 API_KEY = "your_api_key"
 ACCESS_TOKEN = "your_access_token"

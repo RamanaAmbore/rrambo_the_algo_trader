@@ -12,9 +12,9 @@ class BacktestResults(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     strategy_id = Column(Integer, ForeignKey("strategy_config.id"), nullable=False)
-    start_date = Column(DateTime, nullable=False)
-    end_date = Column(DateTime, nullable=False)
+    start_date = Column(DateTime(timezone=True), nullable=False)
+    end_date = Column(DateTime(timezone=True), nullable=False)
     total_pnl = Column(Float, nullable=False)
     max_drawdown = Column(Float, nullable=True)
     win_rate = Column(Float, nullable=True)
-    timestamp = Column(DateTime, default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))
+    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))

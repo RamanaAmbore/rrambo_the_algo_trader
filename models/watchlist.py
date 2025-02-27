@@ -12,7 +12,7 @@ class Watchlist(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False, unique=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     instruments = relationship("WatchlistInstrument", back_populates="watchlist", cascade="all, delete")
 

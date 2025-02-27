@@ -18,4 +18,4 @@ class OrderHistory(Base):
     order_type = Column(String, nullable=False)  # MARKET/LIMIT
     quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=True)
-    timestamp = Column(DateTime, default=datetime.now(tz=ZoneInfo(sc.indian_timezone)))  # Keep UTC for consistency
+    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.indian_timezone)))  # Keep UTC for consistency

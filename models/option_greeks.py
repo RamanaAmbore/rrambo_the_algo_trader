@@ -17,4 +17,4 @@ class OptionGreeks(Base):
     vega = Column(Float, nullable=True)
     gamma = Column(Float, nullable=True)
     iv = Column(Float, nullable=True)  # Implied Volatility
-    timestamp = Column(DateTime, default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))
+    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))

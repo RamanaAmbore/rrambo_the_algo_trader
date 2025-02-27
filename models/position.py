@@ -18,7 +18,7 @@ class Position(Base):
     avg_price = Column(Float, nullable=False)
     last_price = Column(Float, nullable=True)
     pnl = Column(Float, nullable=True, comment="Profit and Loss")
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     def __repr__(self):
         return f"<Position {self.trading_symbol} ({self.quantity} @ {self.avg_price})>"

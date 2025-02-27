@@ -1,9 +1,11 @@
 import os
 import threading
+
 import pyotp
 import requests
 from dotenv import load_dotenv
 from kiteconnect import KiteConnect
+
 from models.access_token import AccessToken
 from utils.config_loader import sc
 from utils.logger import get_logger
@@ -37,11 +39,18 @@ class ZerodhaKite:
         return cls.kite
 
     @classmethod
+    def get_access_token(cls, test_conn=False):
+        """Returns KiteConnect instance, initializing it if necessary."""
+        if cls._access_token is None:
+            cls._setup_conn(test_conn=test_conn)
+        return cls._access_token
+
+    @classmethod
     def _setup_conn(cls, test_conn=False):
         """Authenticates with Zerodha, retrieves access token."""
         with cls._lock:
             if not test_conn and cls.kite:
-                return c
+                return
 
             stored_token = cls._db_token.get_stored_access_token()
             if stored_token:
@@ -50,9 +59,10 @@ class ZerodhaKite:
                 cls.kite.set_access_token(cls._access_token)
                 try:
                     cls.kite.profile()
+                    logger.info("Stored access token is fetched and successfully validated")
                     return
                 except Exception:
-                    logger.error("Stored access token is invalid. Re-authenticating...")
+                    logger.warning("Stored access token is invalid. Re-authenticating...")
 
             cls._authenticate()
 
@@ -84,7 +94,7 @@ class ZerodhaKite:
                 logger.info("TOTP authentication successful.")
                 break
             except Exception as e:
-                logger.warning(f"TOTP attempt {attempt + 1} of {sc.totp_retry_count} failed: {e}")
+                logger.warning(f"TOTP attempt {attempt + 1} of {sc.totp_retry_count} failed: {e}...")
                 if attempt == sc.totp_retry_count - 1:
                     logger.error("TOTP authentication failed after multiple attempts.")
                     raise
@@ -121,3 +131,10 @@ class ZerodhaKite:
         except Exception as e:
             logger.error(f"Failed to generate access token: {e}")
             raise
+
+
+# Initialize singleton instance
+ZerodhaKite.get_kite_conn(test_conn=True)
+
+if __name__ == "__main__":
+    logger.info(f"Kite connection initialized: {ZerodhaKite.kite}")

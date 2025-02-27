@@ -4,12 +4,12 @@ from datetime import datetime
 from sqlalchemy import Column, String
 from sqlalchemy import Date
 
-from utils.db_utils import Database
+from utils.db_conn import DbConnection
 from .base import Base
 
-engine = Database.engine
-SessionLocal = Database.sync_session
-engine = Database.engine
+engine = DbConnection.engine
+SessionLocal = DbConnection.sync_session
+engine = DbConnection.engine
 
 
 # Define Stock List Table

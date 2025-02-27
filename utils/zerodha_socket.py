@@ -1,9 +1,11 @@
-import os
 import threading
-from kiteconnect import KiteTicker, TokenException
+
+from kiteconnect import KiteTicker
+
+# from kiteconnect.exceptions import TokenException
 from utils.logger import get_logger
-from kite_conn import ZerodhaKite
 from utils.market_monitor import MarketMonitor
+from zerodha_kite import ZerodhaKite
 
 logger = get_logger(__name__)
 
@@ -30,7 +32,7 @@ class ZerodhaSocket:
             cls.market_monitor.daemon = True
             cls.market_monitor.start()
 
-        if not cls.market_monitor.is_market_open():
+        if not cls.market_monitor.is_market_open:
             logger.info("Market is closed. WebSocket will not connect.")
             return
 
@@ -101,3 +103,13 @@ class ZerodhaSocket:
             if cls.socket_conn:
                 cls.socket_conn.unsubscribe(list(tokens))
                 logger.info(f"Unsubscribed from tokens: {tokens}")
+
+# Initialize singleton instance
+ZerodhaSocket.get_socket_conn(test_conn=True)
+
+if __name__ == "__main__":
+    logger.info(f"Kite connection initialized: {ZerodhaKite.kite}")
+
+    # Example usage:
+    ZerodhaKite.add_instruments([738561, 5633])  # Add tokens
+    ZerodhaKite.remove_instruments([5633])  # Remove tokens

@@ -1,8 +1,8 @@
-from datetime import datetime, time
+from datetime import time, datetime
 from zoneinfo import ZoneInfo
 
-from sqlalchemy import Column, Integer, DateTime, Boolean, select
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import Column, Integer, Date, Time, Boolean, String, select, event
+from sqlalchemy.orm import Session
 
 from utils.config_loader import sc
 from .base import Base
@@ -12,42 +12,65 @@ class MarketHours(Base):
     __tablename__ = "market_hours"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    market_date = Column(DateTime, unique=True, nullable=True)  # Nullable for default record
-    start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=False)
-    is_default = Column(Boolean, default=False)  # Mark as default record
+    market_date = Column(Date, unique=True, nullable=True)  # Specific date entry
+    weekday = Column(String, nullable=True)  # Default weekday entry, "GLOBAL" for global default
+    start_time = Column(Time, nullable=True)
+    end_time = Column(Time, nullable=True)
+    is_market_open = Column(Boolean, nullable=False, default=True)  # Market open flag
 
     @classmethod
-    async def get_market_hours(cls, session: AsyncSession):
-        """Retrieve today's market hours or fallback to default hours."""
-        today = datetime.utcnow()
+    def get_market_hours_for_today(cls, session: Session):
+        """Retrieve market hours for today, checking date, weekday, then global default."""
+        today = datetime.now(tz=ZoneInfo(sc.indian_timezone)).date()
+        weekday = today.strftime("%A")
 
-        # First, try to fetch today's market hours
+        # 1. Check specific date record
         query = select(cls).where(cls.market_date == today)
-        result = await session.execute(query)
+        result = session.execute(query)
         market_hours = result.scalars().first()
+        if market_hours:
+            return market_hours
 
-        if not market_hours:
-            # Fetch default market hours if today's is not found
-            query = select(cls).where(cls.is_default == True)
-            result = await session.execute(query)
-            market_hours = result.scalars().first()
+        # 2. Check default weekday record
+        query = select(cls).where(cls.weekday == weekday)
+        result = session.execute(query)
+        market_hours = result.scalars().first()
+        if market_hours:
+            return market_hours
 
-        return market_hours
+        # 3. Check global default record
+        query = select(cls).where(cls.weekday == "GLOBAL")
+        result = session.execute(query)
+        return result.scalars().first()
 
     @classmethod
-    async def set_default_market_hours(cls, session: AsyncSession):
-        """Ensure there is a default market hours record in the database."""
-        query = select(cls).where(cls.is_default == True)
-        result = await session.execute(query)
-        existing_default = result.scalars().first()
+    def set_default_market_hours(cls, session: Session):
+        """Ensure default market hour records exist for global and weekdays."""
+        default_start = time(9, 15)
+        default_end = time(15, 30)
+        weekdays = ["Saturday", "Sunday"]
 
-        if not existing_default:
-            market_start = datetime.combine(datetime.now(tz=ZoneInfo(sc.indian_timezone)).date(), time(9, 15))
-            market_end = datetime.combine(datetime.now(tz=ZoneInfo(sc.indian_timezone)).date(), time(15, 30))
+        existing_defaults = session.execute(select(cls))
+        existing_records = {row.weekday for row in existing_defaults.scalars().all()}
 
-            default_market_hours = cls(
-                market_date=None, start_time=market_start, end_time=market_end, is_default=True
-            )
-            session.add(default_market_hours)
-            await session.commit()
+        # Insert global default if not exists
+        if "GLOBAL" not in existing_records:
+            global_default = cls(market_date=None, weekday="GLOBAL", start_time=default_start,
+                                 end_time=default_end, is_market_open=True)
+            session.add(global_default)
+
+        # Insert default records for each weekday if missing
+        for day in weekdays:
+            if day not in existing_records:
+                weekday_default = cls(market_date=None, weekday=day, start_time=None,
+                                      end_time=None, is_market_open=False)
+                session.add(weekday_default)
+
+        session.commit()
+
+
+# Automatically populate market hours when the table is created
+@event.listens_for(Base.metadata, "after_create")
+def initialize_market_hours(target, connection, **kwargs):
+    with Session(bind=connection) as session:
+        MarketHours.set_default_market_hours(session)

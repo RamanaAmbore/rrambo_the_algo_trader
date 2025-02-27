@@ -4,13 +4,13 @@ from zoneinfo import ZoneInfo
 from sqlalchemy import Column, String, DateTime, Integer
 
 from utils.config_loader import sc
-from utils.db_utils import Database, ACCESS_TOKEN_VALIDITY
+from utils.db_conn import DbConnection, ACCESS_TOKEN_VALIDITY
 from utils.logger import get_logger
 from .base import Base
 
 logger = get_logger(__name__)
 
-SessionLocal = Database.sync_session
+SessionLocal = DbConnection.sync_session
 
 
 # Define AccessToken model
@@ -18,7 +18,7 @@ class AccessToken(Base):
     __tablename__ = "access_token"
     id = Column(Integer, primary_key=True, autoincrement=True)
     token = Column(String, nullable=False)
-    creation_ts = Column(DateTime, default=datetime.now(tz=ZoneInfo(sc.indian_timezone)))
+    creation_ts = Column(DateTime(timezone=True), nullable=False, default=datetime.now(tz=ZoneInfo(sc.indian_timezone)))
 
     @staticmethod
     def get_stored_access_token():

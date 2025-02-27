@@ -1,6 +1,6 @@
 import asyncio
 from datetime import datetime
-from utils.db_utils import AsyncSessionLocal
+from utils.db_conn import AsyncSessionLocal
 from models.market_hours import MarketHours
 
 market_hours_cache = None  # Global variable for caching market hours

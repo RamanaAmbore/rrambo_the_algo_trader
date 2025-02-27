@@ -18,7 +18,7 @@ SQLITE_DB = os.getenv("SQLITE_DB", "True").lower() == "true"
 ACCESS_TOKEN_VALIDITY = os.getenv("ACCESS_TOKEN_VALIDITY")
 
 
-class Database:
+class DbConnection:
     """Database Utility Class for handling both Sync and Async database connections."""
 
     if SQLITE_DB:
@@ -42,11 +42,12 @@ class Database:
             logger.info("Created new PostgreSQL database.")
 
     # Create synchronous engine & session
-    engine = create_engine(DB_URL, echo=False)
+    echo = os.getenv('DB_DEBUG').lower() == 'true'
+    engine = create_engine(DB_URL, echo=echo)
     sync_session = scoped_session(sessionmaker(bind=engine, autocommit=False, autoflush=False, expire_on_commit=False))
 
     # Create async engine & session
-    async_engine = create_async_engine(DB_ASYNC_URL, echo=False, future=True)
+    async_engine = create_async_engine(DB_ASYNC_URL, echo=echo, future=True)
     async_session = sessionmaker(bind=async_engine, class_=AsyncSession, expire_on_commit=False)
 
     @classmethod
@@ -63,14 +64,14 @@ class Database:
     def init_db(cls):
         """Initialize the database (Sync mode)"""
         Base.metadata.create_all(cls.engine)  # Create tables if they don’t exist
-        logger.info("Database tables created (sync mode).")
+        logger.info("Database tables created, if not existed (sync mode).")
 
     @classmethod
     async def init_async_db(cls):
         """Initialize the database asynchronously (Async mode)"""
         async with cls.async_engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)  # Async way to create tables
-        logger.info("Database tables created (async mode).")
+        logger.info("Database tables created if not existed (async mode).")
 
     @classmethod
     def test_connection(cls):
@@ -89,4 +90,4 @@ class Database:
             yield session
 
 
-Database.init_db()
+DbConnection.init_db()
