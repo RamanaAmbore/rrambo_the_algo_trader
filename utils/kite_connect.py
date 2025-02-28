@@ -44,11 +44,9 @@ class ZerodhaKite:
         return cls.kite
 
     @classmethod
-    def get_socket_conn(cls, test_conn=False):
+    def get_access_key(cls):
         """Returns WebSocket connection for live market data."""
-        cls._setup_conn(test_conn=test_conn)
-        cls._set_market_monitor()
-        return cls.socket_conn
+        return cls._access_token
 
     @classmethod
     def _setup_conn(cls, test_conn=False):

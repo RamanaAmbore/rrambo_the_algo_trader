@@ -28,6 +28,7 @@ class AccessToken(Base):
             if token_entry:
                 age = datetime.now(tz=ZoneInfo(sc.indian_timezone)) - token_entry.creation_ts
                 if age < timedelta(hours=int(ACCESS_TOKEN_VALIDITY)):
+                    logger.info('Using access token from database')
                     return token_entry.token
         return None  # Token is expired or missing
 

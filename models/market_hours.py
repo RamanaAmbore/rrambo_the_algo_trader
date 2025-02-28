@@ -7,6 +7,11 @@ from sqlalchemy.orm import Session
 from utils.config_loader import sc
 from .base import Base
 
+from utils.logger import get_logger
+
+
+logger = get_logger(__name__)
+
 
 class MarketHours(Base):
     __tablename__ = "market_hours"
@@ -29,6 +34,7 @@ class MarketHours(Base):
         result = session.execute(query)
         market_hours = result.scalars().first()
         if market_hours:
+            logger.ino(f"Successfully fetched market hours for {today}")
             return market_hours
 
         # 2. Check default weekday record
@@ -55,6 +61,7 @@ class MarketHours(Base):
 
         # Insert global default if not exists
         if "GLOBAL" not in existing_records:
+            logger.ino("Successfully fetched default (GLOBAL) market hours")
             global_default = cls(market_date=None, weekday="GLOBAL", start_time=default_start,
                                  end_time=default_end, is_market_open=True)
             session.add(global_default)
@@ -65,6 +72,8 @@ class MarketHours(Base):
                 weekday_default = cls(market_date=None, weekday=day, start_time=None,
                                       end_time=None, is_market_open=False)
                 session.add(weekday_default)
+                logger.ino(f"Fetching default market hours for {day}")
+                break
 
         session.commit()
 

@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="changes for socket and log">
-      <change afterPath="$PROJECT_DIR$/utils/market_ticker.py" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="replaced market_monitor and zerodha_kite with market_ticker. The intial test of the module is successful">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/market_hours.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/market_hours.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/exception_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/exception_helper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/kite_connect.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/kite_connect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/market_monitor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/scheduler.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/websocket_manager.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/zerodha_socket.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/market_cache.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/market_ticker.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +68,7 @@
     "Python.login.executor": "Debug",
     "Python.login_new.executor": "Debug",
     "Python.market_monitor.executor": "Run",
+    "Python.market_ticker.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test_db_utils.executor": "Debug",
     "Python.zerodha_kite.executor": "Debug",
@@ -275,7 +277,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740666291403</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="replaced market_monitor and zerodha_kite with market_ticker. The intial test of the module is successful">
+      <option name="closed" value="true" />
+      <created>1740719484101</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1740719484101</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -284,7 +294,8 @@
     <MESSAGE value="added database related code to update and retrieve access token" />
     <MESSAGE value="sqlalchemy models created. kite connection, socket connection with market hours and token exception is updated. thread to close and open the conneciton is implemented" />
     <MESSAGE value="changes for socket and log" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes for socket and log" />
+    <MESSAGE value="replaced market_monitor and zerodha_kite with market_ticker. The intial test of the module is successful" />
+    <option name="LAST_COMMIT_MESSAGE" value="replaced market_monitor and zerodha_kite with market_ticker. The intial test of the module is successful" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -338,26 +349,6 @@
           <url>file://$PROJECT_DIR$/utils/exception_helper.py</url>
           <line>6</line>
           <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/market_ticker.py</url>
-          <line>61</line>
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/market_ticker.py</url>
-          <line>48</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/market_ticker.py</url>
-          <line>39</line>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/market_ticker.py</url>
-          <line>58</line>
-          <option name="timeStamp" value="66" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
