@@ -1,6 +1,6 @@
 import pytest
 import asyncio
-from utils.db_conn import DbConnection
+from utils.db_connection import DbConnection
 from sqlalchemy.exc import SQLAlchemyError
 
 

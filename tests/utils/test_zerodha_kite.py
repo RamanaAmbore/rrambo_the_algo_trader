@@ -9,7 +9,7 @@ from zerodha_kite import ZerodhaKite
 def mock_environment():
     """Mock environment variables."""
     with patch("zerodha_kite.os.getenv") as mock_getenv:
-        mock_getenv.side_effect = lambda key: {
+        mock_getos.getenv("side_effect = lambda key: {
             "API_KEY": "mock_api_key",
             "API_SECRET": "mock_api_secret",
             "ZERODHA_USERNAME": "mock_user",

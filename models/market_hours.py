@@ -12,7 +12,6 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-
 class MarketHours(Base):
     __tablename__ = "market_hours"
 
@@ -26,7 +25,7 @@ class MarketHours(Base):
     @classmethod
     def get_market_hours_for_today(cls, session: Session):
         """Retrieve market hours for today, checking date, weekday, then global default."""
-        today = datetime.now(tz=ZoneInfo(sc.indian_timezone)).date()
+        today = datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)).date()
         weekday = today.strftime("%A")
 
         # 1. Check specific date record

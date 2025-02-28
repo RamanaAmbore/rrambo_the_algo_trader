@@ -7,7 +7,7 @@ from utils.config_loader import sc
 from .base import Base
 
 
-class OrderHistory(Base):
+class Orders(Base):
     __tablename__ = "order_history"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -18,4 +18,4 @@ class OrderHistory(Base):
     order_type = Column(String, nullable=False)  # MARKET/LIMIT
     quantity = Column(Integer, nullable=False)
     price = Column(Float, nullable=True)
-    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.indian_timezone)))  # Keep UTC for consistency
+    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))  # Keep UTC for consistency

@@ -18,4 +18,4 @@ class OptionContracts(Base):
     option_type = Column(String, nullable=False)  # CE (Call) / PE (Put)
     lot_size = Column(Integer, nullable=False)
     tick_size = Column(Float, nullable=False)
-    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))
+    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))

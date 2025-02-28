@@ -16,4 +16,4 @@ class PortfolioHoldings(Base):
     average_price = Column(Float, nullable=False)
     current_price = Column(Float, nullable=True)
     pnl = Column(Float, nullable=True)
-    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))
+    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))

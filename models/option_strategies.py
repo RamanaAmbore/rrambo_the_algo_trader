@@ -16,4 +16,4 @@ class OptionStrategies(Base):
     max_profit = Column(Float, nullable=True)
     max_loss = Column(Float, nullable=True)
     breakeven_points = Column(JSON, nullable=True)  # List of breakeven points
-    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))
+    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))

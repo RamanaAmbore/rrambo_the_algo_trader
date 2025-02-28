@@ -4,7 +4,7 @@ from datetime import datetime, time, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.market_hours import MarketHours
-from utils.db_conn import DbConnection
+from utils.db_connection import DbConnection
 
 AsyncSessionLocal = DbConnection.async_session
 

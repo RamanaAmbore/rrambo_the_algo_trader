@@ -3,15 +3,13 @@ import threading
 
 import pyotp
 import requests
-from dotenv import load_dotenv
+
 from kiteconnect import KiteConnect
 
 from models.access_token import AccessToken
 from utils.config_loader import sc
 from utils.logger import get_logger
 
-# Load environment variables
-load_dotenv()
 logger = get_logger(__name__)
 
 
@@ -82,7 +80,7 @@ class ZerodhaKite:
             raise
 
         # Step 2: Perform TOTP authentication
-        for attempt in range(sc.totp_retry_count):
+        for attempt in range(sc.MAX_TOTP_CONN_RETRY_COUNT):
             try:
                 totp_pin = pyotp.TOTP(cls.totp_token).now()
                 response = session.post(
@@ -94,8 +92,8 @@ class ZerodhaKite:
                 logger.info("TOTP authentication successful.")
                 break
             except Exception as e:
-                logger.warning(f"TOTP attempt {attempt + 1} of {sc.totp_retry_count} failed: {e}...")
-                if attempt == sc.totp_retry_count - 1:
+                logger.warning(f"TOTP attempt {attempt + 1} of {sc.MAX_TOTP_CONN_RETRY_COUNT} failed: {e}...")
+                if attempt == sc.MAX_TOTP_CONN_RETRY_COUNT - 1:
                     logger.error("TOTP authentication failed after multiple attempts.")
                     raise
 

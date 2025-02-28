@@ -4,26 +4,23 @@ import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from dotenv import load_dotenv
 from kiteconnect import KiteTicker
 
-from db_conn import DbConnection as db
+from utils.db_connection import DbConnection as db
 from models.market_hours import MarketHours
 from utils.config_loader import sc
 from utils.logger import get_logger
-from zerodha_kite import ZerodhaKite
 
-load_dotenv()
+from utils.zerodha_kite import ZerodhaKite
 
 logger = get_logger(__name__)
-
 
 class MarketTicker(threading.Thread):
     _instance = None
     _lock = threading.Lock()
     _initialized = False
     instrument_tokens = set()
-    MAX_RECONNECT_ATTEMPTS = int(os.getenv('MAX_SOCKET_RECONNECT_ATTEMPTS', 5))
+    MAX_RECONNECT_ATTEMPTS = int(sc.MAX_SOCKET_RECONNECT_ATTEMPTS)
     RECONNECT_BACKOFF = 5  # Seconds, exponential backoff can be implemented
 
     def __new__(cls):
@@ -52,7 +49,7 @@ class MarketTicker(threading.Thread):
         logger.info("Starting MarketTicker thread")
 
     def is_market_open(self):
-        now = datetime.now(ZoneInfo(sc.indian_timezone))
+        now = datetime.now(ZoneInfo(sc.INDIAN_TIMEZONE))
         today = now.date()
 
         if self.last_checked_date != today or self.market_hours is None:
@@ -91,9 +88,8 @@ class MarketTicker(threading.Thread):
 
         if self.is_market_open():
             if self.socket_conn:
-                logger.info("WebSocket already running. No need to restart.")
                 return
-            logger.info("Starting new WebSocket connection...")
+
             self.socket_conn = KiteTicker(self.kite_conn.api_key, self.kite_conn._access_token)
             self.socket_conn.on_ticks = self.on_ticks
             self.socket_conn.on_connect = self.on_connect
@@ -120,8 +116,8 @@ class MarketTicker(threading.Thread):
         logger.info(f"Received tick data: {ticks}")
 
     def on_close(self, ws, code, reason):
-        logger.warning(f"WebSocket closed: {reason}...")
-        if "TokenException" in str(reason) or "Invalid access token" in str(reason):
+        logger.warning(f"WebSocket connection closed: {reason}...")
+        if "TokenException" in str(reason) or "Invalid access token" in str({"" if reason is None else reason}):
             logger.error("Access token may be invalid. Re-authenticating...")
             try:
                 self.init_ticker_state()

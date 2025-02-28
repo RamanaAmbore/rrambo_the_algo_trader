@@ -17,4 +17,4 @@ class BacktestResults(Base):
     total_pnl = Column(Float, nullable=False)
     max_drawdown = Column(Float, nullable=True)
     win_rate = Column(Float, nullable=True)
-    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.indian_timezone)))
+    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))

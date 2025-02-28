@@ -1,5 +1,6 @@
 source:
-  totp_retry_count: 3
-  conn_retry_count: 3
-  indian_timezone: Asia/Kolkata
-
+  MAX_TOTP_CONN_RETRY_COUNT: 3
+  MAX_KITE_CONN_RETRY_COUNT: 3
+  INDIAN_TIMEZONE: Asia/Kolkata
+  MAX_SOCKET_RECONNECT_ATTEMPTS: 3
+  

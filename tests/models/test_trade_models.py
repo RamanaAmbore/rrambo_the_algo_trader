@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models.base import Base
-from models.order_history import Trades, OrderHistory
+from models.order_history import Trades, Orders
 
 # Setup in-memory SQLite for testing
 TEST_DATABASE_URL = "sqlite:///:memory:"
@@ -42,7 +42,7 @@ def test_insert_trade(setup_db):
 def test_insert_order_history(setup_db):
     """Test inserting an order history record."""
     session = setup_db
-    order = OrderHistory(
+    order = Orders(
         order_id="O67890",
         trading_symbol="INFY",
         exchange="NSE",
@@ -55,7 +55,7 @@ def test_insert_order_history(setup_db):
     session.add(order)
     session.commit()
 
-    fetched_order = session.query(OrderHistory).filter_by(order_id="O67890").first()
+    fetched_order = session.query(Orders).filter_by(order_id="O67890").first()
     assert fetched_order is not None
     assert fetched_order.trading_symbol == "INFY"
     assert fetched_order.status == "COMPLETED"

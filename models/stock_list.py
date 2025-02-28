@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import Column, String
 from sqlalchemy import Date
 
-from utils.db_conn import DbConnection
+from utils.db_connection import DbConnection
 from .base import Base
 
 engine = DbConnection.engine

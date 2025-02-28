@@ -1,23 +1,22 @@
 import logging
 import os
-from dotenv import load_dotenv
+
+from utils.config_loader import env
 
 # Load environment variables from .env
-load_dotenv()
 
-# Read log file paths and log levels from environment variables
-DEBUG_LOG_FILE = os.getenv("DEBUG_LOG_FILE", "logs/debug.log")
-ERROR_LOG_FILE = os.getenv("ERROR_LOG_FILE", "logs/error.log")
-CONSOLE_LOG_LEVEL = os.getenv("CONSOLE_LOG_LEVEL", "DEBUG")
-FILE_LOG_LEVEL = os.getenv("FILE_LOG_LEVEL", "DEBUG")
-ERROR_LOG_LEVEL = os.getenv("ERROR_LOG_LEVEL", "ERROR")
 
 # Create logs directory if not exists
-os.makedirs(os.path.dirname(DEBUG_LOG_FILE), exist_ok=True)
+os.makedirs(os.path.dirname(env.DEBUG_LOG_FILE), exist_ok=True)
+
+logger = None
 
 
 def get_logger(name="app_logger"):
     """Returns a configured logger instance."""
+    global logger
+    if logger is not None:
+        return logger
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)  # Capture all logs, control output using handlers
 
@@ -28,17 +27,17 @@ def get_logger(name="app_logger"):
 
     # Console Handler (prints logs to console)
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(getattr(logging, CONSOLE_LOG_LEVEL.upper(), logging.DEBUG))
+    console_handler.setLevel(getattr(logging, env.CONSOLE_LOG_LEVEL.upper(), logging.DEBUG))
     console_handler.setFormatter(formatter)
 
     # Debug Log File Handler (stores DEBUG and above logs)
-    debug_file_handler = logging.FileHandler(DEBUG_LOG_FILE)
-    debug_file_handler.setLevel(getattr(logging, FILE_LOG_LEVEL.upper(), logging.DEBUG))
+    debug_file_handler = logging.FileHandler(env.DEBUG_LOG_FILE)
+    debug_file_handler.setLevel(getattr(logging, env.FILE_LOG_LEVEL.upper(), logging.DEBUG))
     debug_file_handler.setFormatter(formatter)
 
     # Error Log File Handler (stores only ERROR logs)
-    error_file_handler = logging.FileHandler(ERROR_LOG_FILE)
-    error_file_handler.setLevel(getattr(logging, ERROR_LOG_LEVEL.upper(), logging.ERROR))
+    error_file_handler = logging.FileHandler(env.ERROR_LOG_FILE)
+    error_file_handler.setLevel(getattr(logging, env.ERROR_LOG_LEVEL.upper(), logging.ERROR))
     error_file_handler.setFormatter(formatter)
 
     # Add handlers to logger
@@ -58,5 +57,3 @@ if __name__ == "__main__":
     logger.warning("This is a warning message.")
     logger.error("This is an error message.")
     logger.critical("This is a critical message.")
-
-

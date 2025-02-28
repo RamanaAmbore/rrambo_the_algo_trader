@@ -3,3 +3,28 @@
 2025-02-26 00:00:26,714 - __main__ - ERROR - Failed to generate access token: 'AccessToken' object has no attribute 'update_access_token'
 2025-02-26 00:05:47,084 - __main__ - ERROR - Failed to generate access token: Token is invalid or has expired.
 2025-02-26 00:53:32,375 - __main__ - ERROR - Failed to extract request token.
+2025-02-28 16:52:22,567 - zerodha_kite - ERROR - Failed to log in: HTTPSConnectionPool(host='kite.zerodha.com', port=443): Max retries exceeded with url: /api/login (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x00000197A94BF190>: Failed to resolve 'kite.zerodha.com' ([Errno 11001] getaddrinfo failed)"))
+2025-02-28 19:30:53,963 - app_logger - ERROR - This is an async error message.
+2025-02-28 19:30:53,964 - app_logger - CRITICAL - This is an async critical message.
+2025-02-28 19:31:02,150 - app_logger - ERROR - This is an async error message.
+2025-02-28 19:31:02,151 - app_logger - CRITICAL - This is an async critical message.
+2025-02-28 19:39:28,523 - __main__ - ERROR - This is a synchronous error message.
+2025-02-28 19:39:28,523 - __main__ - CRITICAL - This is a synchronous critical message.
+2025-02-28 19:39:28,529 - __main__ - ERROR - This is an async error message.
+2025-02-28 19:39:28,530 - __main__ - CRITICAL - This is an async critical message.
+2025-02-28 19:40:28,890 - __main__ - ERROR - This is a synchronous error message.
+2025-02-28 19:40:28,890 - __main__ - CRITICAL - This is a synchronous critical message.
+2025-02-28 19:40:28,896 - __main__ - ERROR - This is an async error message.
+2025-02-28 19:40:28,896 - __main__ - CRITICAL - This is an async critical message.
+2025-02-28 22:33:44,254 - __main__ - ERROR - This is a synchronous error message.
+2025-02-28 22:33:44,259 - __main__ - CRITICAL - This is a synchronous critical message.
+2025-02-28 22:33:44,267 - __main__ - ERROR - This is an async error message.
+2025-02-28 22:33:44,267 - __main__ - CRITICAL - This is an async critical message.
+2025-02-28 22:51:00,578 - SyncLogger - ERROR - Sync Error Message
+2025-02-28 22:51:00,579 - SyncLogger - CRITICAL - Sync Critical Message
+2025-02-28 22:56:51,329 - SyncLogger - ERROR - Sync Error Message
+2025-02-28 22:56:51,329 - SyncLogger - CRITICAL - Sync Critical Message
+2025-02-28 23:04:51,837 - test_logger - ERROR - This is an error message.
+2025-02-28 23:04:51,837 - test_logger - CRITICAL - This is a critical message.
+2025-02-28 23:32:38,085 - test_logger - ERROR - This is an error message.
+2025-02-28 23:32:38,085 - test_logger - CRITICAL - This is a critical message.

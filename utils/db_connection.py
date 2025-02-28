@@ -1,6 +1,6 @@
 import os
 
-from dotenv import load_dotenv
+
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -8,33 +8,29 @@ from sqlalchemy_utils import database_exists, create_database
 
 from models.base import Base
 from utils.logger import get_logger
+from utils.config_loader import sc, env
 
 # Load environment variables
-load_dotenv()
 logger = get_logger(__name__)  # Initialize logger
 
-# Load database configuration from .env
-SQLITE_DB = os.getenv("SQLITE_DB", "True").lower() == "true"
-ACCESS_TOKEN_VALIDITY = os.getenv("ACCESS_TOKEN_VALIDITY")
+
 
 
 class DbConnection:
     """Database Utility Class for handling both Sync and Async database connections."""
 
-    if SQLITE_DB:
-        SQLITE_PATH = os.getenv("SQLITE_PATH", "database.db")
-        DB_URL = f"sqlite:///{SQLITE_PATH}"
-        DB_ASYNC_URL = f"sqlite+aiosqlite:///{SQLITE_PATH}"
+    if env.SQLITE_DB:
+        DB_URL = f"sqlite:///{env.SQLITE_PATH}"
+        DB_ASYNC_URL = f"sqlite+aiosqlite:///{env.SQLITE_PATH}"
 
         # Ensure SQLite database file exists
-        if not os.path.exists(SQLITE_PATH):
-            open(SQLITE_PATH, "w").close()
-            logger.info(f"Created new SQLite database at {SQLITE_PATH}")
+        if not os.path.exists(env.SQLITE_PATH):
+            open(env.SQLITE_PATH, "w").close()
+            logger.info(f"Created new SQLite database at {env.SQLITE_PATH}")
 
     else:
-        POSTGRES_URL = os.getenv("POSTGRES_URL")
-        DB_URL = f"postgresql://{POSTGRES_URL}"
-        DB_ASYNC_URL = f"postgresql+asyncpg://{POSTGRES_URL}"
+        DB_URL = f"postgresql://{env.POSTGRES_URL}"
+        DB_ASYNC_URL = f"postgresql+asyncpg://{env.POSTGRES_URL}"
 
         # Ensure PostgreSQL database exists
         if not database_exists(DB_URL):
