@@ -324,3 +324,205 @@
 2025-02-27 19:03:11,457 - __main__ - INFO - Market is closed. WebSocket will not connect.
 2025-02-27 19:41:40,424 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x000002026C32BF10>
 2025-02-27 19:44:40,798 - utils.market_monitor - INFO - Market is open. Starting WebSocket connection.
+2025-02-27 20:00:13,547 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:00:13,749 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:00:14,083 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 20:01:00,506 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:01:00,848 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:01:01,120 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 20:38:42,998 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:38:43,236 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:38:43,532 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 20:54:40,519 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:54:40,700 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:54:40,988 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 20:58:27,373 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:58:27,545 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:58:27,861 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 20:59:29,261 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:59:29,418 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 20:59:29,748 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:01:36,023 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:01:36,212 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:01:36,543 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:02:21,470 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:02:21,658 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:02:21,896 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:06:10,467 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:06:10,639 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:06:10,781 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:07:09,657 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:07:09,862 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:07:10,194 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:08:27,606 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:08:27,779 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:08:28,109 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:11:14,806 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:11:14,989 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:11:15,308 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:31:03,151 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-27 21:31:03,339 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-27 21:31:10,945 - __main__ - INFO - Starting new WebSocket connection...
+2025-02-27 21:31:35,583 - __main__ - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x0000020D46277910>
+2025-02-28 07:22:47,588 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:22:47,873 - zerodha_kite - WARNING - Stored access token is invalid. Re-authenticating...
+2025-02-28 07:22:47,952 - zerodha_kite - INFO - Login successful, Request ID: 4BkJegPlThCs5XgrjQJvY1wn5mjcZUxkA3sD22z2jraVFZFyktvpyQNFdbAs1XxR
+2025-02-28 07:22:48,014 - zerodha_kite - INFO - TOTP authentication successful.
+2025-02-28 07:22:48,014 - zerodha_kite - INFO - Kite login URL received.
+2025-02-28 07:22:58,793 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:22:58,981 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:22:59,911 - zerodha_kite - WARNING - Stored access token is invalid. Re-authenticating...
+2025-02-28 07:22:59,992 - zerodha_kite - INFO - Login successful, Request ID: jREj4wJfu241br7Ah7Bk4mxkfwaaV0hjqP10JzQheueX0uEBG506norSjJIUgyl6
+2025-02-28 07:23:00,036 - zerodha_kite - INFO - TOTP authentication successful.
+2025-02-28 07:23:00,052 - zerodha_kite - INFO - Kite login URL received.
+2025-02-28 07:23:04,217 - zerodha_kite - INFO - Request Token received: nfimRSmDolTYqB0r6nLfBYcRVs96FtJ2
+2025-02-28 07:23:04,295 - models.access_token - INFO - Access Token updated in database
+2025-02-28 07:23:04,312 - zerodha_kite - INFO - Access token successfully generated and stored.
+2025-02-28 07:26:47,864 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:26:48,054 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:26:49,102 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:27:31,308 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:27:31,512 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:27:32,677 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:29:13,166 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:29:13,339 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:29:14,347 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:30:52,528 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:30:52,716 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:30:53,787 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:35:21,850 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:35:22,039 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:35:23,065 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:39:21,076 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:39:21,248 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:39:22,321 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:44:44,057 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:44:44,296 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:44:46,602 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:50:12,483 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:50:12,767 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:50:13,857 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:56:30,315 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:56:30,489 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:56:31,624 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 07:57:05,536 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 07:57:05,536 - __main__ - INFO - MarketMonitor thread started
+2025-02-28 07:59:45,819 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:59:46,103 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 07:59:47,206 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:00:12,446 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:00:14,654 - __main__ - INFO - MarketMonitor thread started
+2025-02-28 08:00:53,672 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:00:53,860 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:00:54,973 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:03:01,855 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:03:02,060 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:03:03,185 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:03:05,468 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:03:55,457 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:03:55,645 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:03:56,570 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:04:06,689 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:04:35,802 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:04:36,007 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:04:36,873 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:04:40,312 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:22:59,729 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:23:00,011 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:23:56,113 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:23:56,348 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:23:56,350 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:25:47,946 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:25:48,068 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:25:48,837 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:25:48,838 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:27:47,506 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:27:47,631 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:27:48,256 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:27:48,257 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:27:48,259 - __main__ - INFO - MarketMonitor thread started
+2025-02-28 08:29:43,559 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:29:43,688 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:29:44,310 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:29:44,311 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:30:48,310 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:30:48,434 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:30:49,204 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:30:49,205 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:31:22,085 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:31:22,206 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:31:22,952 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:31:22,953 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:31:46,577 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:31:46,703 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:31:47,429 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:31:47,430 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:33:57,303 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:33:57,418 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:33:58,259 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:33:58,259 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:36:53,987 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:36:54,156 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:36:55,226 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:36:55,227 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:38:36,612 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:38:36,726 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:38:37,521 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:38:37,521 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 08:38:37,524 - __main__ - INFO - MarketMonitor thread started
+2025-02-28 08:40:29,367 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:40:29,495 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 08:40:30,249 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 08:40:30,251 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 09:07:19,035 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:07:19,162 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:07:19,866 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 09:07:19,866 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 09:08:17,519 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:08:17,656 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:08:18,374 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 09:08:18,376 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 09:08:18,385 - __main__ - INFO - Market is open. Starting WebSocket connection.
+2025-02-28 09:08:18,385 - utils.zerodha_socket - INFO - Starting new WebSocket connection...
+2025-02-28 09:08:46,127 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:08:46,275 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:08:46,895 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 09:08:46,897 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 09:09:00,409 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:09:00,529 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:09:01,131 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 09:09:01,132 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 09:09:35,985 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:09:36,112 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:09:36,796 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 09:09:36,797 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 09:09:36,807 - __main__ - INFO - Market is open. Starting WebSocket connection.
+2025-02-28 09:09:36,807 - utils.zerodha_socket - INFO - Starting new WebSocket connection...
+2025-02-28 09:56:01,459 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:56:01,583 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 09:56:02,203 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 09:56:02,204 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 09:56:02,212 - __main__ - INFO - Market is open. Starting WebSocket connection.
+2025-02-28 09:56:02,212 - utils.zerodha_socket - INFO - Starting new WebSocket connection...
+2025-02-28 10:18:22,043 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 10:18:22,216 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 10:18:23,067 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 10:32:35,985 - utils.db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 10:32:36,103 - db_conn - INFO - Database tables created, if not existed (sync mode).
+2025-02-28 10:32:36,255 - zerodha_kite - INFO - Stored access token is fetched and successfully validated
+2025-02-28 10:32:36,255 - __main__ - INFO - Starting MarketMonitor thread
+2025-02-28 10:32:36,264 - __main__ - INFO - Market is open. Starting WebSocket connection.
+2025-02-28 10:32:36,265 - __main__ - INFO - Starting new WebSocket connection...
+2025-02-28 10:32:36,415 - __main__ - INFO - Subscribed to tokens: {738561}
+2025-02-28 10:32:36,717 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1215.95, 'last_traded_quantity': 100, 'average_traded_price': 1209.01, 'volume_traded': 4309669, 'total_buy_quantity': 548462, 'total_sell_quantity': 414721, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7331621240990918, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 35), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 35), 'depth': {'buy': [{'quantity': 478, 'price': 1215.9, 'orders': 2}, {'quantity': 32, 'price': 1215.7, 'orders': 5}, {'quantity': 603, 'price': 1215.65, 'orders': 4}, {'quantity': 168, 'price': 1215.6, 'orders': 5}, {'quantity': 1071, 'price': 1215.55, 'orders': 6}], 'sell': [{'quantity': 697, 'price': 1215.95, 'orders': 3}, {'quantity': 128, 'price': 1216.0, 'orders': 3}, {'quantity': 16, 'price': 1216.05, 'orders': 2}, {'quantity': 93, 'price': 1216.15, 'orders': 1}, {'quantity': 280, 'price': 1216.2, 'orders': 4}]}}]
+2025-02-28 10:32:37,614 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.0, 'last_traded_quantity': 1, 'average_traded_price': 1209.01, 'volume_traded': 4309669, 'total_buy_quantity': 548462, 'total_sell_quantity': 414721, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7373042829923032, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 35), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 37), 'depth': {'buy': [{'quantity': 478, 'price': 1215.9, 'orders': 2}, {'quantity': 32, 'price': 1215.7, 'orders': 5}, {'quantity': 603, 'price': 1215.65, 'orders': 4}, {'quantity': 168, 'price': 1215.6, 'orders': 5}, {'quantity': 1071, 'price': 1215.55, 'orders': 6}], 'sell': [{'quantity': 697, 'price': 1215.95, 'orders': 3}, {'quantity': 128, 'price': 1216.0, 'orders': 3}, {'quantity': 16, 'price': 1216.05, 'orders': 2}, {'quantity': 93, 'price': 1216.15, 'orders': 1}, {'quantity': 280, 'price': 1216.2, 'orders': 4}]}}]
+2025-02-28 10:32:38,214 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1215.9, 'last_traded_quantity': 30, 'average_traded_price': 1209.01, 'volume_traded': 4309669, 'total_buy_quantity': 548462, 'total_sell_quantity': 414721, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7290199652058804, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 35), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 37), 'depth': {'buy': [{'quantity': 478, 'price': 1215.9, 'orders': 2}, {'quantity': 32, 'price': 1215.7, 'orders': 5}, {'quantity': 603, 'price': 1215.65, 'orders': 4}, {'quantity': 168, 'price': 1215.6, 'orders': 5}, {'quantity': 1071, 'price': 1215.55, 'orders': 6}], 'sell': [{'quantity': 697, 'price': 1215.95, 'orders': 3}, {'quantity': 128, 'price': 1216.0, 'orders': 3}, {'quantity': 16, 'price': 1216.05, 'orders': 2}, {'quantity': 93, 'price': 1216.15, 'orders': 1}, {'quantity': 280, 'price': 1216.2, 'orders': 4}]}}]
+2025-02-28 10:32:40,913 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.1, 'last_traded_quantity': 1, 'average_traded_price': 1209.01, 'volume_traded': 4312210, 'total_buy_quantity': 552949, 'total_sell_quantity': 419655, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7455886007787259, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 39), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 39), 'depth': {'buy': [{'quantity': 199, 'price': 1216.1, 'orders': 1}, {'quantity': 100, 'price': 1216.0, 'orders': 1}, {'quantity': 1, 'price': 1215.95, 'orders': 1}, {'quantity': 114, 'price': 1215.9, 'orders': 2}, {'quantity': 697, 'price': 1215.85, 'orders': 3}], 'sell': [{'quantity': 107, 'price': 1216.25, 'orders': 1}, {'quantity': 256, 'price': 1216.35, 'orders': 3}, {'quantity': 280, 'price': 1216.4, 'orders': 5}, {'quantity': 198, 'price': 1216.45, 'orders': 4}, {'quantity': 2150, 'price': 1216.5, 'orders': 20}]}}]
+2025-02-28 10:32:41,815 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.35, 'last_traded_quantity': 72, 'average_traded_price': 1209.01, 'volume_traded': 4312210, 'total_buy_quantity': 552949, 'total_sell_quantity': 419655, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7662993952448016, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 39), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 41), 'depth': {'buy': [{'quantity': 199, 'price': 1216.1, 'orders': 1}, {'quantity': 100, 'price': 1216.0, 'orders': 1}, {'quantity': 1, 'price': 1215.95, 'orders': 1}, {'quantity': 114, 'price': 1215.9, 'orders': 2}, {'quantity': 697, 'price': 1215.85, 'orders': 3}], 'sell': [{'quantity': 107, 'price': 1216.25, 'orders': 1}, {'quantity': 256, 'price': 1216.35, 'orders': 3}, {'quantity': 280, 'price': 1216.4, 'orders': 5}, {'quantity': 198, 'price': 1216.45, 'orders': 4}, {'quantity': 2150, 'price': 1216.5, 'orders': 20}]}}]
+2025-02-28 10:32:42,415 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.3, 'last_traded_quantity': 8, 'average_traded_price': 1209.02, 'volume_traded': 4313292, 'total_buy_quantity': 553705, 'total_sell_quantity': 418070, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7621572363515903, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 41), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 41), 'depth': {'buy': [{'quantity': 123, 'price': 1216.1, 'orders': 3}, {'quantity': 100, 'price': 1216.05, 'orders': 1}, {'quantity': 267, 'price': 1216.0, 'orders': 4}, {'quantity': 85, 'price': 1215.95, 'orders': 5}, {'quantity': 764, 'price': 1215.9, 'orders': 5}], 'sell': [{'quantity': 127, 'price': 1216.3, 'orders': 3}, {'quantity': 64, 'price': 1216.4, 'orders': 1}, {'quantity': 79, 'price': 1216.45, 'orders': 1}, {'quantity': 2275, 'price': 1216.5, 'orders': 21}, {'quantity': 202, 'price': 1216.55, 'orders': 4}]}}]
+2025-02-28 10:32:46,015 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.3, 'last_traded_quantity': 5, 'average_traded_price': 1209.02, 'volume_traded': 4313292, 'total_buy_quantity': 553705, 'total_sell_quantity': 418070, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7621572363515903, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 41), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 45), 'depth': {'buy': [{'quantity': 123, 'price': 1216.1, 'orders': 3}, {'quantity': 100, 'price': 1216.05, 'orders': 1}, {'quantity': 267, 'price': 1216.0, 'orders': 4}, {'quantity': 85, 'price': 1215.95, 'orders': 5}, {'quantity': 764, 'price': 1215.9, 'orders': 5}], 'sell': [{'quantity': 127, 'price': 1216.3, 'orders': 3}, {'quantity': 64, 'price': 1216.4, 'orders': 1}, {'quantity': 79, 'price': 1216.45, 'orders': 1}, {'quantity': 2275, 'price': 1216.5, 'orders': 21}, {'quantity': 202, 'price': 1216.55, 'orders': 4}]}}]
+2025-02-28 10:32:46,615 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.5, 'last_traded_quantity': 152, 'average_traded_price': 1209.02, 'volume_traded': 4315304, 'total_buy_quantity': 555909, 'total_sell_quantity': 421838, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7787258719244546, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 45), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 45), 'depth': {'buy': [{'quantity': 14, 'price': 1216.25, 'orders': 2}, {'quantity': 6, 'price': 1216.15, 'orders': 2}, {'quantity': 431, 'price': 1216.1, 'orders': 5}, {'quantity': 104, 'price': 1216.05, 'orders': 2}, {'quantity': 1452, 'price': 1216.0, 'orders': 10}], 'sell': [{'quantity': 1933, 'price': 1216.5, 'orders': 17}, {'quantity': 335, 'price': 1216.55, 'orders': 6}, {'quantity': 117, 'price': 1216.6, 'orders': 5}, {'quantity': 413, 'price': 1216.65, 'orders': 8}, {'quantity': 403, 'price': 1216.7, 'orders': 9}]}}]
+2025-02-28 10:32:48,414 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.5, 'last_traded_quantity': 25, 'average_traded_price': 1209.02, 'volume_traded': 4315501, 'total_buy_quantity': 554584, 'total_sell_quantity': 420794, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7787258719244546, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 47), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 47), 'depth': {'buy': [{'quantity': 105, 'price': 1216.3, 'orders': 1}, {'quantity': 80, 'price': 1216.25, 'orders': 3}, {'quantity': 100, 'price': 1216.15, 'orders': 1}, {'quantity': 289, 'price': 1216.1, 'orders': 3}, {'quantity': 106, 'price': 1216.05, 'orders': 3}], 'sell': [{'quantity': 2151, 'price': 1216.5, 'orders': 17}, {'quantity': 7, 'price': 1216.55, 'orders': 2}, {'quantity': 445, 'price': 1216.6, 'orders': 8}, {'quantity': 335, 'price': 1216.65, 'orders': 8}, {'quantity': 436, 'price': 1216.7, 'orders': 9}]}}]
+2025-02-28 10:32:49,914 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.35, 'last_traded_quantity': 4, 'average_traded_price': 1209.02, 'volume_traded': 4315501, 'total_buy_quantity': 554584, 'total_sell_quantity': 420794, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7662993952448016, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 47), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 49), 'depth': {'buy': [{'quantity': 105, 'price': 1216.3, 'orders': 1}, {'quantity': 80, 'price': 1216.25, 'orders': 3}, {'quantity': 100, 'price': 1216.15, 'orders': 1}, {'quantity': 289, 'price': 1216.1, 'orders': 3}, {'quantity': 106, 'price': 1216.05, 'orders': 3}], 'sell': [{'quantity': 2151, 'price': 1216.5, 'orders': 17}, {'quantity': 7, 'price': 1216.55, 'orders': 2}, {'quantity': 445, 'price': 1216.6, 'orders': 8}, {'quantity': 335, 'price': 1216.65, 'orders': 8}, {'quantity': 436, 'price': 1216.7, 'orders': 9}]}}]
+2025-02-28 10:32:50,514 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.5, 'last_traded_quantity': 55, 'average_traded_price': 1209.02, 'volume_traded': 4315501, 'total_buy_quantity': 554584, 'total_sell_quantity': 420794, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7787258719244546, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 47), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 49), 'depth': {'buy': [{'quantity': 105, 'price': 1216.3, 'orders': 1}, {'quantity': 80, 'price': 1216.25, 'orders': 3}, {'quantity': 100, 'price': 1216.15, 'orders': 1}, {'quantity': 289, 'price': 1216.1, 'orders': 3}, {'quantity': 106, 'price': 1216.05, 'orders': 3}], 'sell': [{'quantity': 2151, 'price': 1216.5, 'orders': 17}, {'quantity': 7, 'price': 1216.55, 'orders': 2}, {'quantity': 445, 'price': 1216.6, 'orders': 8}, {'quantity': 335, 'price': 1216.65, 'orders': 8}, {'quantity': 436, 'price': 1216.7, 'orders': 9}]}}]
+2025-02-28 10:32:52,915 - __main__ - INFO - Received tick data: [{'tradable': True, 'mode': 'full', 'instrument_token': 738561, 'last_price': 1216.3, 'last_traded_quantity': 68, 'average_traded_price': 1209.02, 'volume_traded': 4317434, 'total_buy_quantity': 544695, 'total_sell_quantity': 419941, 'ohlc': {'open': 1202.0, 'high': 1216.5, 'low': 1200.05, 'close': 1207.1}, 'change': 0.7621572363515903, 'last_trade_time': datetime.datetime(2025, 2, 28, 10, 32, 51), 'oi': 0, 'oi_day_high': 0, 'oi_day_low': 0, 'exchange_timestamp': datetime.datetime(2025, 2, 28, 10, 32, 51), 'depth': {'buy': [{'quantity': 54, 'price': 1216.3, 'orders': 2}, {'quantity': 80, 'price': 1216.25, 'orders': 3}, {'quantity': 190, 'price': 1216.2, 'orders': 1}, {'quantity': 96, 'price': 1216.1, 'orders': 1}, {'quantity': 2, 'price': 1216.05, 'orders': 1}], 'sell': [{'quantity': 343, 'price': 1216.35, 'orders': 1}, {'quantity': 4, 'price': 1216.45, 'orders': 1}, {'quantity': 1894, 'price': 1216.5, 'orders': 20}, {'quantity': 7, 'price': 1216.55, 'orders': 2}, {'quantity': 230, 'price': 1216.6, 'orders': 8}]}}]

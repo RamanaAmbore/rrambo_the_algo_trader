@@ -8,7 +8,7 @@ from kiteconnect.exceptions import TokenException
 from models.access_token import AccessToken
 from utils.config_loader import sc
 from utils.logger import get_logger
-from utils.market_monitor import MarketMonitor
+from utils.market_ticker import MarketTicker
 
 # Load environment variables
 load_dotenv()
@@ -148,7 +148,7 @@ class ZerodhaKite:
 
         # Start the market monitor thread once
         if cls.market_monitor is None:
-            cls.market_monitor = MarketMonitor(cls)
+            cls.market_monitor = MarketTicker(cls)
             cls.market_monitor.daemon = True  # Stops with main program
             cls.market_monitor.start()
 
