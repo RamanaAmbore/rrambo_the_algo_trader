@@ -4,31 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="updated sync_data and thread_manager for syncing up the data and scheduling threads">
-      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="Defect fix in db_connection and for cyclic dependency">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/backtest_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/market_hours.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/market_hours.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_contracts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_greeks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_strategies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/order_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/portfolio_holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/holdings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/strategy_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/watchlist.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/models/test_access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_access_token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/models/test_portfolio_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_portfolio_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/models/test_trade_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_trade_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/sync_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/market_hours.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algoschedule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_market_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_market_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/market_ticker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/zerodha_kite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/zerodha_kite.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +94,7 @@
       <recent name="D:\rrambo_trader_new\kite_utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.market_ticker (1)">
+  <component name="RunManager" selected="Python.db_connection (1)">
     <configuration name="db_connection (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -224,8 +207,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.market_ticker (1)" />
         <item itemvalue="Python.db_connection (1)" />
+        <item itemvalue="Python.market_ticker (1)" />
         <item itemvalue="Python.sync_data" />
         <item itemvalue="Python.zerodha_kite" />
         <item itemvalue="Python.logger" />
@@ -328,7 +311,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740771378776</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Defect fix in db_connection and for cyclic dependency">
+      <option name="closed" value="true" />
+      <created>1740829895478</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1740829895478</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -341,7 +332,8 @@
     <MESSAGE value="marekt_ticker cleanedup and updated" />
     <MESSAGE value="added dotenv in config_loader, removed from other modules, performance improvement with logger" />
     <MESSAGE value="updated sync_data and thread_manager for syncing up the data and scheduling threads" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated sync_data and thread_manager for syncing up the data and scheduling threads" />
+    <MESSAGE value="Defect fix in db_connection and for cyclic dependency" />
+    <option name="LAST_COMMIT_MESSAGE" value="Defect fix in db_connection and for cyclic dependency" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -397,9 +389,14 @@
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/market_hours.py</url>
+          <url>file://$PROJECT_DIR$/models/algoschedule.py</url>
           <line>28</line>
           <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/algoschedule.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="82" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

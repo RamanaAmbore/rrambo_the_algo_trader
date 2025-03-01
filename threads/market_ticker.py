@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo
 from kiteconnect import KiteTicker
 
 from utils.db_connection import DbConnection as db
-from models.market_hours import MarketHours
+from models.algoschedule import AlgoSchedule
 from utils.config_loader import sc
 from utils.logger import get_logger
 
@@ -55,7 +55,7 @@ class MarketTicker(threading.Thread):
         if self.last_checked_date != today or self.market_hours is None:
             session = db.get_session(async_mode=False)
             try:
-                self.market_hours = MarketHours.get_market_hours_for_today(session)
+                self.market_hours = AlgoSchedule.get_market_hours_for_today(session)
             finally:
                 session.close()
             if not self.market_hours:

@@ -2083,3 +2083,23 @@
 2025-03-01 17:19:12,970 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
 2025-03-01 17:19:42,972 - models.base - INFO - Market open status: False, Current time: 17:19:42.972338, Market hours: None - None
 2025-03-01 17:19:42,972 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
+2025-03-01 18:18:27,956 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:18:28,020 - models.base - INFO - Successfully fetched default (GLOBAL) market hours
+2025-03-01 18:18:28,020 - models.base - INFO - Fetching default market hours for Saturday
+2025-03-01 18:18:59,526 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:18:59,684 - models.base - INFO - Fetching default market hours for Sunday
+2025-03-01 18:19:04,754 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:19:07,450 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:36:22,040 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:43:33,930 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:43:33,986 - models.base - INFO - Inserted default (GLOBAL) market hours
+2025-03-01 18:43:33,986 - models.base - INFO - Inserted default market hours for Saturday
+2025-03-01 18:43:33,986 - models.base - INFO - Inserted default market hours for Sunday
+2025-03-01 18:44:16,755 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:44:16,802 - models.base - INFO - Inserted default (GLOBAL) market hours
+2025-03-01 18:44:16,802 - models.base - INFO - Inserted default market hours for Saturday
+2025-03-01 18:44:16,802 - models.base - INFO - Inserted default market hours for Sunday
+2025-03-01 18:52:20,202 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:52:20,265 - models.base - INFO - Inserted default market hours for: GLOBAL, Saturday, Sunday, GLOBAL, Saturday, Sunday
+2025-03-01 18:54:03,229 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 18:54:03,298 - models.base - INFO - Inserted default market hours for: GLOBALMARKET, SaturdayMARKET, SundayMARKET, GLOBALBATCH, SaturdayBATCH, SundayBATCH

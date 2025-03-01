@@ -1,6 +1,6 @@
 from .access_token import AccessToken
 from .backtest_results import BacktestResults
-from .market_hours import MarketHours
+from .algoschedule import AlgoSchedule
 from .option_contracts import OptionContracts
 from .option_greeks import OptionGreeks
 from .option_strategies import OptionStrategies

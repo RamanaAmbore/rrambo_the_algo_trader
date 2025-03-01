@@ -3,7 +3,7 @@ import asyncio
 from datetime import datetime, time, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from models.market_hours import MarketHours
+from models.algoschedule import AlgoSchedule
 from utils.db_connection import DbConnection
 
 AsyncSessionLocal = DbConnection.async_session
@@ -20,10 +20,10 @@ async def db_session():
 async def test_set_default_market_hours(db_session: AsyncSession):
     """Test setting default market hours if none exist."""
     # Ensure there is no existing default record
-    await MarketHours.set_default_market_hours(db_session)
+    await AlgoSchedule.set_default_market_hours(db_session)
 
     # Fetch the default market hours
-    market_hours = await MarketHours.get_market_hours(db_session)
+    market_hours = await AlgoSchedule.get_market_hours(db_session)
 
     assert market_hours is not None
     assert market_hours.is_default is True
@@ -39,14 +39,14 @@ async def test_get_market_hours_with_today_entry(db_session: AsyncSession):
     market_end = datetime.combine(today, time(15, 15), tzinfo=timezone.utc)
 
     # Insert a market hours entry for today
-    new_market_hours = MarketHours(
+    new_market_hours = AlgoSchedule(
         market_date=datetime.utcnow(), start_time=market_start, end_time=market_end, is_default=False
     )
     db_session.add(new_market_hours)
     await db_session.commit()
 
     # Fetch market hours and check
-    market_hours = await MarketHours.get_market_hours(db_session)
+    market_hours = await AlgoSchedule.get_market_hours(db_session)
 
     assert market_hours is not None
     assert market_hours.start_time == market_start
@@ -60,15 +60,15 @@ async def test_get_market_hours_fallback_to_default(db_session: AsyncSession):
 
     # Delete today's entry (if any)
     await db_session.execute(
-        MarketHours.__table__.delete().where(MarketHours.market_date == today)
+        AlgoSchedule.__table__.delete().where(AlgoSchedule.market_date == today)
     )
     await db_session.commit()
 
     # Ensure default hours exist
-    await MarketHours.set_default_market_hours(db_session)
+    await AlgoSchedule.set_default_market_hours(db_session)
 
     # Fetch market hours (should return default)
-    market_hours = await MarketHours.get_market_hours(db_session)
+    market_hours = await AlgoSchedule.get_market_hours(db_session)
 
     assert market_hours is not None
     assert market_hours.is_default is True

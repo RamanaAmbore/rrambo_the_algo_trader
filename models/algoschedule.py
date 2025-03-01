@@ -9,9 +9,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 market = 'MARKET'
-class MarketHours(Base):
+class AlgoSchedule(Base):
     """Stores market hours for specific dates, weekdays, and default global settings."""
-    __tablename__ = "market_hours"
+    __tablename__ = "algo_schedule"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     market_date = Column(Date, unique=True, nullable=True)  # Specific date entry
@@ -53,33 +53,39 @@ class MarketHours(Base):
 
     @classmethod
     def set_default_market_hours(cls, session: Session):
-        """Ensure default market hour records exist for global and weekdays."""
-        default_start = time(9, 15)
-        default_end = time(15, 30)
-        weekdays = ["Saturday", "Sunday"]
+        """Ensure default market hour records exist for GLOBAL and weekends."""
 
-        existing_defaults = session.execute(select(cls))
-        existing_records = {row.weekday for row in existing_defaults.scalars().all()}
+        # Define default records as a list of tuples
+        default_records = [
+            ("GLOBAL", "MARKET", time(9, 0), time(9, 0), True),  # GLOBAL entry
+            ("Saturday", "MARKET", None, None, False),  # Saturday entry
+            ("Sunday", "MARKET", None, None, False),  # Sunday entry
+            ("GLOBAL", "BATCH", time(16, 0), None, True),  # GLOBAL entry
+            ("Saturday", "BATCH", None, None, False),  # Saturday entry
+            ("Sunday", "BATCH", None, None, False),  # Sunday entry
 
-        # Insert global default if not exists
-        if "GLOBAL" not in existing_records:
-            logger.info("Successfully fetched default (GLOBAL) market hours")
-            global_default = cls(
-                market_date=None, weekday="GLOBAL", start_time=default_start,
-                end_time=default_end, is_market_open=True, thread_name=market
+        ]
+
+        # Fetch existing weekdays from the database
+        existing_defaults = session.execute(select(cls.weekday))
+        existing_records = {row[0] for row in existing_defaults.fetchall()}
+
+        # Prepare records that need to be inserted
+        new_entries = [
+            cls(
+                weekday=weekday, thread_name=thread_name,
+                start_time=start_time, end_time=end_time,
+                is_market_open=is_market_open, market_date=None
             )
-            session.add(global_default)
+            for weekday, thread_name, start_time, end_time, is_market_open in default_records
+            if weekday not in existing_records
+        ]
 
-        # Insert default records for each weekday if missing
-        for day in weekdays:
-            if day not in existing_records:
-                weekday_default = cls(
-                    market_date=None, weekday=day, start_time=None,
-                    end_time=None, is_market_open=False, thread_name=market
-                )
-                session.add(weekday_default)
-                logger.info(f"Fetching default market hours for {day}")
-                break
+        # Insert only missing records
+        if new_entries:
+            session.add_all(new_entries)
+            session.commit()
+            logger.info(f"Inserted default market hours for: {', '.join([f'{entry.weekday} {entry.thread_name}'  for entry in new_entries])}")
 
         session.commit()
 
@@ -88,4 +94,4 @@ class MarketHours(Base):
 @event.listens_for(Base.metadata, "after_create")
 def initialize_market_hours(target, connection, **kwargs):
     with Session(bind=connection) as session:
-        MarketHours.set_default_market_hours(session)
+        AlgoSchedule.set_default_market_hours(session)
