@@ -4,10 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="added dotenv in config_loader, removed from other modules, performance improvement with logger">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="updated sync_data and thread_manager for syncing up the data and scheduling threads">
+      <change afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/thread_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/sync_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/market_hours.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/market_hours.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_greeks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/order_history.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/portfolio_holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/position.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/strategy_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/watchlist.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_access_token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_portfolio_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_portfolio_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_trade_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_trade_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/sync_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/zerodha_kite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/zerodha_kite.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,8 +85,9 @@
     "Python.login.executor": "Debug",
     "Python.login_new.executor": "Debug",
     "Python.market_monitor.executor": "Run",
-    "Python.market_ticker (1).executor": "Run",
+    "Python.market_ticker (1).executor": "Debug",
     "Python.market_ticker.executor": "Run",
+    "Python.sync_data.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test_db_utils.executor": "Debug",
     "Python.zerodha_kite.executor": "Run",
@@ -156,7 +178,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="market_ticker" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="sync_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -165,11 +187,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/threads" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\threads\market_ticker.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/threads/sync_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -203,10 +225,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.market_ticker (1)" />
-        <item itemvalue="Python.zerodha_kite" />
         <item itemvalue="Python.db_connection (1)" />
+        <item itemvalue="Python.sync_data" />
+        <item itemvalue="Python.zerodha_kite" />
         <item itemvalue="Python.logger" />
-        <item itemvalue="Python.market_ticker" />
       </list>
     </recent_temporary>
   </component>
@@ -298,7 +320,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740766764860</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="updated sync_data and thread_manager for syncing up the data and scheduling threads">
+      <option name="closed" value="true" />
+      <created>1740771378776</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1740771378776</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -310,7 +340,8 @@
     <MESSAGE value="replaced market_monitor and zerodha_kite with market_ticker. The intial test of the module is successful" />
     <MESSAGE value="marekt_ticker cleanedup and updated" />
     <MESSAGE value="added dotenv in config_loader, removed from other modules, performance improvement with logger" />
-    <option name="LAST_COMMIT_MESSAGE" value="added dotenv in config_loader, removed from other modules, performance improvement with logger" />
+    <MESSAGE value="updated sync_data and thread_manager for syncing up the data and scheduling threads" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated sync_data and thread_manager for syncing up the data and scheduling threads" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -364,6 +395,11 @@
           <url>file://$PROJECT_DIR$/utils/zerodha_wrapper.py</url>
           <line>6</line>
           <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/market_hours.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="81" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

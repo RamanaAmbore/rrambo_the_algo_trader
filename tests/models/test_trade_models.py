@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models.base import Base
-from models.order_history import Trades, Orders
+from models.orders import Trades, Orders
 
 # Setup in-memory SQLite for testing
 TEST_DATABASE_URL = "sqlite:///:memory:"

@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
 from models.base import Base
-from models.portfolio_holdings import PortfolioHoldings
+from models.holdings import Holdings
 
 
 # Create an in-memory SQLite database for testing
@@ -24,7 +24,7 @@ def db_session():
 
 def test_create_portfolio_holding(db_session):
     """Test adding a new portfolio holding."""
-    holding = PortfolioHoldings(
+    holding = Holdings(
         trading_symbol="RELIANCE",
         quantity=10,
         average_price=2500.0,
@@ -34,7 +34,7 @@ def test_create_portfolio_holding(db_session):
     db_session.add(holding)
     db_session.commit()
 
-    stored_holding = db_session.query(PortfolioHoldings).filter_by(trading_symbol="RELIANCE").first()
+    stored_holding = db_session.query(Holdings).filter_by(trading_symbol="RELIANCE").first()
     assert stored_holding is not None
     assert stored_holding.trading_symbol == "RELIANCE"
     assert stored_holding.quantity == 10
@@ -46,7 +46,7 @@ def test_create_portfolio_holding(db_session):
 
 def test_update_portfolio_holding(db_session):
     """Test updating a portfolio holding."""
-    holding = PortfolioHoldings(
+    holding = Holdings(
         trading_symbol="TCS",
         quantity=5,
         average_price=3500.0,
@@ -61,14 +61,14 @@ def test_update_portfolio_holding(db_session):
     holding.pnl = 500.0
     db_session.commit()
 
-    updated_holding = db_session.query(PortfolioHoldings).filter_by(trading_symbol="TCS").first()
+    updated_holding = db_session.query(Holdings).filter_by(trading_symbol="TCS").first()
     assert updated_holding.current_price == 3600.0
     assert updated_holding.pnl == 500.0
 
 
 def test_delete_portfolio_holding(db_session):
     """Test deleting a portfolio holding."""
-    holding = PortfolioHoldings(
+    holding = Holdings(
         trading_symbol="INFY",
         quantity=8,
         average_price=1500.0,
@@ -82,5 +82,5 @@ def test_delete_portfolio_holding(db_session):
     db_session.delete(holding)
     db_session.commit()
 
-    deleted_holding = db_session.query(PortfolioHoldings).filter_by(trading_symbol="INFY").first()
+    deleted_holding = db_session.query(Holdings).filter_by(trading_symbol="INFY").first()
     assert deleted_holding is None

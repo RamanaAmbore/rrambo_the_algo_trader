@@ -1,18 +1,16 @@
 from datetime import time, datetime
 from zoneinfo import ZoneInfo
-
-from sqlalchemy import Column, Integer, Date, Time, Boolean, String, select, event
+from sqlalchemy import Column, Integer, Date, Time, Boolean, String, select, event, DateTime
 from sqlalchemy.orm import Session
-
 from utils.config_loader import sc
-from .base import Base
-
 from utils.logger import get_logger
-
+from .base import Base
 
 logger = get_logger(__name__)
 
+market = 'MARKET'
 class MarketHours(Base):
+    """Stores market hours for specific dates, weekdays, and default global settings."""
     __tablename__ = "market_hours"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -21,6 +19,8 @@ class MarketHours(Base):
     start_time = Column(Time, nullable=True)
     end_time = Column(Time, nullable=True)
     is_market_open = Column(Boolean, nullable=False, default=True)  # Market open flag
+    thread_name = Column(String, nullable=False, default=market)  # Thread handling this market session
+    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
 
     @classmethod
     def get_market_hours_for_today(cls, session: Session):
@@ -29,22 +29,25 @@ class MarketHours(Base):
         weekday = today.strftime("%A")
 
         # 1. Check specific date record
-        query = select(cls).where(cls.market_date == today)
+        logger.info(f"Checking MARKET hours for {today}")
+        query = select(cls).where(cls.market_date == today, cls.thread_name == market)
         result = session.execute(query)
         market_hours = result.scalars().first()
         if market_hours:
-            logger.ino(f"Successfully fetched market hours for {today}")
+            logger.info(f"Successfully fetched market hours")
             return market_hours
 
         # 2. Check default weekday record
-        query = select(cls).where(cls.weekday == weekday)
+        logger.info(f"Checking default day MARKET hours for {weekday}")
+        query = select(cls).where(cls.weekday == weekday, cls.thread_name == market)
         result = session.execute(query)
         market_hours = result.scalars().first()
         if market_hours:
             return market_hours
 
         # 3. Check global default record
-        query = select(cls).where(cls.weekday == "GLOBAL")
+        logger.info(f"Checking default GLOBAL MARKET hours for {today}")
+        query = select(cls).where(cls.weekday == "GLOBAL", cls.thread_name == market)
         result = session.execute(query)
         return result.scalars().first()
 
@@ -60,18 +63,22 @@ class MarketHours(Base):
 
         # Insert global default if not exists
         if "GLOBAL" not in existing_records:
-            logger.ino("Successfully fetched default (GLOBAL) market hours")
-            global_default = cls(market_date=None, weekday="GLOBAL", start_time=default_start,
-                                 end_time=default_end, is_market_open=True)
+            logger.info("Successfully fetched default (GLOBAL) market hours")
+            global_default = cls(
+                market_date=None, weekday="GLOBAL", start_time=default_start,
+                end_time=default_end, is_market_open=True, thread_name=market
+            )
             session.add(global_default)
 
         # Insert default records for each weekday if missing
         for day in weekdays:
             if day not in existing_records:
-                weekday_default = cls(market_date=None, weekday=day, start_time=None,
-                                      end_time=None, is_market_open=False)
+                weekday_default = cls(
+                    market_date=None, weekday=day, start_time=None,
+                    end_time=None, is_market_open=False, thread_name=market
+                )
                 session.add(weekday_default)
-                logger.ino(f"Fetching default market hours for {day}")
+                logger.info(f"Fetching default market hours for {day}")
                 break
 
         session.commit()

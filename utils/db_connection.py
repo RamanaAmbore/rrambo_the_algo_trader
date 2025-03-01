@@ -1,24 +1,21 @@
 import os
 
-
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 
 from models.base import Base
+from utils.config_loader import env
 from utils.logger import get_logger
-from utils.config_loader import sc, env
 
 # Load environment variables
 logger = get_logger(__name__)  # Initialize logger
 
 
-
-
 class DbConnection:
     """Database Utility Class for handling both Sync and Async database connections."""
-
+    _initialized = False  # Class-level flag
     if env.SQLITE_DB:
         DB_URL = f"sqlite:///{env.SQLITE_PATH}"
         DB_ASYNC_URL = f"sqlite+aiosqlite:///{env.SQLITE_PATH}"
@@ -45,6 +42,8 @@ class DbConnection:
     # Create async engine & session
     async_engine = create_async_engine(DB_ASYNC_URL, echo=echo, future=True)
     async_session = sessionmaker(bind=async_engine, class_=AsyncSession, expire_on_commit=False)
+    logger.info("Database tables created, if not existed (sync mode).")
+    Base.metadata.create_all(engine)  # Create tables if they don’t exist
 
     @classmethod
     def get_session(cls, async_mode: bool = False):
@@ -59,8 +58,12 @@ class DbConnection:
     @classmethod
     def init_db(cls):
         """Initialize the database (Sync mode)"""
+        if cls._initialized:
+            return  # Prevent multiple executions
+
         Base.metadata.create_all(cls.engine)  # Create tables if they don’t exist
-        logger.info("Database tables created, if not existed (sync mode).")
+
+        cls._initialized = True  # Mark as initialized
 
     @classmethod
     async def init_async_db(cls):
@@ -84,6 +87,3 @@ class DbConnection:
         """Provides an async session for database operations."""
         async with cls.async_session() as session:
             yield session
-
-
-DbConnection.init_db()

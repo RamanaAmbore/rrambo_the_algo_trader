@@ -1,9 +1,11 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from utils.config_loader import sc
+from .base import Base
 
 
 class Watchlist(Base):
@@ -12,7 +14,7 @@ class Watchlist(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False, unique=True)
-    created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
+    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
 
     instruments = relationship("WatchlistInstrument", back_populates="watchlist", cascade="all, delete")
 

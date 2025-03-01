@@ -8,6 +8,7 @@ from kiteconnect import KiteConnect
 
 from models.access_token import AccessToken
 from utils.config_loader import sc
+from utils.db_connection import DbConnection
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -50,7 +51,7 @@ class ZerodhaKite:
             if not test_conn and cls.kite:
                 return
 
-            stored_token = cls._db_token.get_stored_access_token()
+            stored_token = cls._db_token.get_stored_access_token(DbConnection)
             if stored_token:
                 cls._access_token = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
@@ -124,7 +125,7 @@ class ZerodhaKite:
             cls.kite.set_access_token(cls._access_token)
 
             # Store the new access token
-            cls._db_token.check_update_access_token(cls._access_token)
+            cls._db_token.check_update_access_token(cls._access_token,DbConnection)
             logger.info("Access token successfully generated and stored.")
         except Exception as e:
             logger.error(f"Failed to generate access token: {e}")

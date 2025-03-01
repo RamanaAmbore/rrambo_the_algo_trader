@@ -28,7 +28,7 @@ def test_store_and_retrieve_access_token(db_session):
     """Test storing and retrieving a valid access token."""
     # Insert a new access token
     token_value = "test_token_123"
-    new_token = AccessToken(token=token_value, creation_ts=datetime.now(timezone.utc))
+    new_token = AccessToken(token=token_value, timestamp=datetime.now(timezone.utc))
     db_session.add(new_token)
     db_session.commit()
 
@@ -46,7 +46,7 @@ def test_expired_access_token(db_session):
     # Insert an expired token
     expired_token = AccessToken(
         token="expired_token",
-        creation_ts=datetime.now(timezone.utc) - timedelta(hours=25)  # Expired
+        timestamp=datetime.now(timezone.utc) - timedelta(hours=25)  # Expired
     )
     db_session.add(expired_token)
     db_session.commit()
@@ -61,7 +61,7 @@ def test_expired_access_token(db_session):
 def test_update_access_token(db_session):
     """Test updating an existing access token."""
     # Insert an initial token
-    initial_token = AccessToken(token="old_token", creation_ts=datetime.now(timezone.utc))
+    initial_token = AccessToken(token="old_token", timestamp=datetime.now(timezone.utc))
     db_session.add(initial_token)
     db_session.commit()
 
@@ -74,7 +74,7 @@ def test_update_access_token(db_session):
     # Verify the token is updated
     updated_token = db_session.query(AccessToken).first()
     assert updated_token.token == "new_token_456", "Token should be updated."
-    assert updated_token.creation_ts > initial_token.creation_ts, "Timestamp should be updated."
+    assert updated_token.timestamp > initial_token.timestamp, "Timestamp should be updated."
 
 
 def test_insert_new_access_token(db_session):

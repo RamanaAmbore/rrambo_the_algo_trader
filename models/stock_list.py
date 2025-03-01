@@ -1,15 +1,12 @@
 import datetime
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, DateTime
 from sqlalchemy import Date
 
-from utils.db_connection import DbConnection
+from utils.config_loader import sc
 from .base import Base
-
-engine = DbConnection.engine
-SessionLocal = DbConnection.sync_session
-engine = DbConnection.engine
 
 
 # Define Stock List Table
@@ -22,8 +19,8 @@ class StockList(Base):
     last_updated = Column(Date)
 
 
-def save_stock_list():
-    with SessionLocal() as session:
+def save_stock_list(db_connection):
+    with db_connection.sync_session() as session:
         last_update = session.query(StockList).order_by(StockList.last_updated.desc()).first()
         if last_update and (datetime.date.today() - last_update.last_updated).days < 7:
             session.close()
@@ -40,7 +37,7 @@ def save_stock_list():
                     name=stock["name"],
                     yahoo_ticker=stock["yahoo_ticker"],
                     exchange=stock["exchange"],
-                    last_updated=datetime.date.today(),
+                    timestamp=Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE))),
                 )
             )
         session.commit()
