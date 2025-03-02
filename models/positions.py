@@ -1,11 +1,9 @@
-from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
-from zoneinfo import ZoneInfo
 
-from sqlalchemy import Column, Integer, String, DECIMAL, DateTime, select
+from sqlalchemy import Column, Integer, String, DECIMAL, DateTime, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from utils.config_loader import sc
+from utils.date_time_utils import timestamp_indian
 from .base import Base
 
 
@@ -26,7 +24,7 @@ class Positions(Base):
     avg_price = Column(DECIMAL(12, 2), nullable=False)  # Decimal for accuracy
     last_price = Column(DECIMAL(12, 2), nullable=True)
     pnl = Column(DECIMAL(12, 2), nullable=True, comment="Profit and Loss")
-    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     def __repr__(self):
         return f"<Position {self.trading_symbol} ({self.quantity} @ {self.avg_price})>"
@@ -42,7 +40,7 @@ class Positions(Base):
             avg_price=to_decimal(data["average_price"]),
             last_price=to_decimal(data.get("last_price", 0.0)),  # Default to 0.0 if missing
             pnl=to_decimal(data.get("unrealised_pnl", 0.0)),
-            timestamp=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE))  # Correctly assigning timestamp
+            timestamp=timestamp_indian()  # Correctly assigning timestamp
         )
 
     @classmethod

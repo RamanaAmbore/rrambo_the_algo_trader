@@ -1,83 +1,124 @@
+import asyncio
 import threading
 import time
-import asyncio
-from datetime import datetime, timedelta
+
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from market_ticker import MarketTicker  # Import MarketTicker
-from sync_data import sync_all  # Import sync function
-from utils.logger import get_logger  # Import Async Logger
+# Import existing thread functions
+from market_ticker import MarketTicker
+from models.algo_schedule import AlgoSchedule
+from sync_data import sync_all
+from utils.date_time_utils import current_time_indian
+from utils.db_connection import DbConnection as Db
+from utils.logger import get_logger
 
-# Initialize Logger
 logger = get_logger(__name__)
 
 
 class ThreadManager:
-    def __init__(self, num_threads):
-        """
-        Initializes the thread manager.
-        :param num_threads: Number of additional threads to run independently.
-        """
-        self.num_threads = num_threads
-        self.market_ticker = MarketTicker()  # Initialize MarketTicker
+    def __init__(self):
+        self.scheduler = BackgroundScheduler()
+        self.running_threads = {}  # Tracks running threads
+        self.lock = threading.Lock()  # Prevents race conditions
 
-    def worker(self, thread_id):
-        """Function executed by each worker thread independently."""
-        logger.info(f"Worker Thread-{thread_id} started execution at {datetime.now()}")
+    @staticmethod
+    def fetch_schedules():
+        """Fetch active schedules from algo_schedule using sync session."""
 
-    def start_market_ticker(self):
-        """Starts the MarketTicker WebSocket thread."""
+        with Db.get_sync_session() as session:
+            try:
+                schedules = [AlgoSchedule.get_market_hours_for_today(session)]
+                return schedules
+            except Exception as e:
+                logger.error(f"Error fetching schedules: {e}")
+                return []
+
+
+    @staticmethod
+    def start_market_ticker():
+        """Start MarketTicker WebSocket."""
         logger.info("Starting MarketTicker WebSocket...")
-        self.market_ticker.start()
+        ticker = MarketTicker()
+        ticker.start()
 
-    def start_sync_process(self):
-        """Starts the sync process in a separate thread."""
+    @staticmethod
+    def start_sync_process():
+        """Start sync process asynchronously."""
         logger.info("Starting sync process...")
-        asyncio.run(sync_all())  # Run async sync function
+        asyncio.run(sync_all())
 
-    def start_threads(self):
-        """Starts MarketTicker and multiple independent threads."""
-        logger.info("Starting scheduled tasks...")
+    def start_thread(self, thread_name):
+        """Start a new thread only if it's not already running."""
+        with self.lock:
+            if thread_name in self.running_threads and self.running_threads[thread_name].is_alive():
+                logger.info(f"Thread {thread_name} is already running. Skipping restart.")
+                return
 
-        # Start MarketTicker in a separate thread
-        ticker_thread = threading.Thread(target=self.start_market_ticker, daemon=True)
-        ticker_thread.start()
+            logger.info(f"Starting new thread: {thread_name}")
 
-        # Start worker threads
-        threads = []
-        for i in range(self.num_threads):
-            thread = threading.Thread(target=self.worker, args=(i,), daemon=True)
-            threads.append(thread)
+            if thread_name == "MARKET":
+                thread = threading.Thread(target=self.start_market_ticker, daemon=True)
+            elif thread_name == "BATCH":
+                thread = threading.Thread(target=self.start_sync_process, daemon=True)
+            else:
+                logger.warning(f"Unknown thread type: {thread_name}. Skipping.")
+                return
+
             thread.start()
+            self.running_threads[thread_name] = thread  # Store thread instance
 
-        # Start the sync process in a separate thread
-        sync_thread = threading.Thread(target=self.start_sync_process, daemon=True)
-        sync_thread.start()
+    def stop_thread(self, thread_name):
+        """Stop a thread by marking it as stopped."""
+        with self.lock:
+            if thread_name in self.running_threads:
+                logger.info(f"Stopping thread {thread_name}...")
+                del self.running_threads[thread_name]  # Remove thread from tracking
 
-        # Optional: Wait for worker threads to complete
-        for thread in threads:
-            thread.join()
+    def manage_threads(self):
+        """Fetch schedules, start/stop threads dynamically, and handle updates."""
+        schedules = self.fetch_schedules()
+        now = current_time_indian()
+
+        with self.lock:
+            for schedule in schedules:
+                thread_name = schedule.thread_name
+                start_time = schedule.start_time
+                end_time = schedule.end_time
+
+                # Start thread if within start time
+                if now >= start_time and thread_name not in self.running_threads:
+                    self.start_thread(thread_name)
+
+                # Stop thread if end_time is set and passed
+                if end_time and now >= end_time and thread_name in self.running_threads:
+                    self.stop_thread(thread_name)
+
+    def schedule_tasks(self):
+        """Schedule periodic checks to manage threads dynamically."""
+        self.scheduler.add_job(self.manage_threads, "interval", seconds=30)
+        self.scheduler.start()
+        logger.info("Scheduler started. Checking for thread updates every 30 seconds.")
+
+    def run(self):
+        """Start the manager and keep it running."""
+        logger.info("Running initial thread check before scheduling...")
+        self.manage_threads()  # 🔥 Immediate execution to avoid delay
+
+        self.schedule_tasks()
+
+        logger.info("ThreadManager is running...")
+
+        try:
+            while True:
+                time.sleep(1)  # Keep the script alive
+        except (KeyboardInterrupt, SystemExit):
+            self.scheduler.shutdown()
+            logger.info("Scheduler shut down. Stopping all threads.")
+            with self.lock:
+                self.running_threads.clear()  # Mark all threads as stopped
 
 
-# Create an instance of the manager
-manager = ThreadManager(num_threads=5)
-
-# Create APScheduler
-scheduler = BackgroundScheduler()
-
-# Schedule MarketTicker and sync_data tasks
-start_time = datetime.now() + timedelta(seconds=10)  # Start in 10 seconds
-scheduler.add_job(manager.start_threads, 'date', run_date=start_time)
-
-# Start the scheduler
-scheduler.start()
-
-logger.info(f"Scheduled MarketTicker and sync tasks to start at {start_time}")
-
-# Keep the script running so the scheduler can execute
-try:
-    while True:
-        time.sleep(1)
-except (KeyboardInterrupt, SystemExit):
-    scheduler.shutdown()
-    logger.info("Scheduler shutdown")
+# Run the Thread Manager
+if __name__ == "__main__":
+    manager = ThreadManager()
+    manager.run()

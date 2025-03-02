@@ -1,13 +1,10 @@
 import logging
 import os
 
-from utils.config_loader import env
-
-# Load environment variables from .env
-
+from utils.config_loader import Env
 
 # Create logs directory if not exists
-os.makedirs(os.path.dirname(env.DEBUG_LOG_FILE), exist_ok=True)
+os.makedirs(os.path.dirname(Env.DEBUG_LOG_FILE), exist_ok=True)
 
 logger = None
 
@@ -21,23 +18,21 @@ def get_logger(name="app_logger"):
     logger.setLevel(logging.DEBUG)  # Capture all logs, control output using handlers
 
     # Formatter
-    formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
     # Console Handler (prints logs to console)
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(getattr(logging, env.CONSOLE_LOG_LEVEL.upper(), logging.DEBUG))
+    console_handler.setLevel(getattr(logging, Env.CONSOLE_LOG_LEVEL.upper(), logging.DEBUG))
     console_handler.setFormatter(formatter)
 
     # Debug Log File Handler (stores DEBUG and above logs)
-    debug_file_handler = logging.FileHandler(env.DEBUG_LOG_FILE)
-    debug_file_handler.setLevel(getattr(logging, env.FILE_LOG_LEVEL.upper(), logging.DEBUG))
+    debug_file_handler = logging.FileHandler(Env.DEBUG_LOG_FILE)
+    debug_file_handler.setLevel(getattr(logging, Env.FILE_LOG_LEVEL.upper(), logging.DEBUG))
     debug_file_handler.setFormatter(formatter)
 
     # Error Log File Handler (stores only ERROR logs)
-    error_file_handler = logging.FileHandler(env.ERROR_LOG_FILE)
-    error_file_handler.setLevel(getattr(logging, env.ERROR_LOG_LEVEL.upper(), logging.ERROR))
+    error_file_handler = logging.FileHandler(Env.ERROR_LOG_FILE)
+    error_file_handler.setLevel(getattr(logging, Env.ERROR_LOG_LEVEL.upper(), logging.ERROR))
     error_file_handler.setFormatter(formatter)
 
     # Add handlers to logger

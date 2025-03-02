@@ -1,10 +1,10 @@
-from datetime import datetime
-from zoneinfo import ZoneInfo
 from decimal import Decimal, ROUND_DOWN
 
 from sqlalchemy import Column, Integer, String, DateTime, DECIMAL, JSON
-from utils.config_loader import sc
+
+from utils.date_time_utils import timestamp_indian
 from .base import Base
+
 
 def to_decimal(value, precision="0.01"):
     """Convert float to Decimal with given precision (default: 2 decimal places)."""
@@ -20,7 +20,7 @@ class OptionStrategies(Base):
     max_profit = Column(DECIMAL(12, 2), nullable=True)  # 2 decimal precision for money values
     max_loss = Column(DECIMAL(12, 2), nullable=True)
     breakeven_points = Column(JSON, nullable=True)  # List of breakeven points
-    timestamp = Column(DateTime(timezone=True), default=lambda: datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), default=lambda: timestamp_indian())
 
     def __repr__(self):
         return f"<OptionStrategy {self.strategy_name} | Max PnL: {self.max_profit} | Max Loss: {self.max_loss}>"

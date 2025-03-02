@@ -3,7 +3,6 @@ import threading
 
 import pyotp
 import requests
-
 from kiteconnect import KiteConnect
 
 from models.access_token import AccessToken
@@ -125,7 +124,7 @@ class ZerodhaKite:
             cls.kite.set_access_token(cls._access_token)
 
             # Store the new access token
-            cls._db_token.check_update_access_token(cls._access_token,DbConnection)
+            cls._db_token.check_update_access_token(cls._access_token, DbConnection)
             logger.info("Access token successfully generated and stored.")
         except Exception as e:
             logger.error(f"Failed to generate access token: {e}")

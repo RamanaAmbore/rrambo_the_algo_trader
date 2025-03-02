@@ -1,11 +1,9 @@
-from datetime import datetime
 from decimal import Decimal, ROUND_DOWN
-from zoneinfo import ZoneInfo
 
-from sqlalchemy import Column, Integer, String, DateTime, select, DECIMAL
+from sqlalchemy import Column, Integer, String, DateTime, select, DECIMAL, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from utils.config_loader import sc  # Import shared timezone constants
+from utils.date_time_utils import timestamp_indian
 from .base import Base
 
 
@@ -25,7 +23,7 @@ class Holdings(Base):
     average_price = Column(DECIMAL(10, 2), nullable=False)  # 2 decimal places
     current_price = Column(DECIMAL(10, 2), nullable=True)  # 2 decimal places
     pnl = Column(DECIMAL(10, 2), nullable=True)  # 2 decimal places
-    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     def __repr__(self):
         return f"<Holding {self.trading_symbol} ({self.quantity} @ {self.average_price})>"

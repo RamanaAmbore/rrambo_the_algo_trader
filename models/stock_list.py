@@ -1,11 +1,10 @@
 import datetime
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, DateTime, text
 from sqlalchemy import Date
 
-from utils.config_loader import sc
+from utils.date_time_utils import timestamp_indian
 from .base import Base
 
 
@@ -37,7 +36,7 @@ def save_stock_list(db_connection):
                     name=stock["name"],
                     yahoo_ticker=stock["yahoo_ticker"],
                     exchange=stock["exchange"],
-                    timestamp=Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE))),
+                    timestamp=Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP")),
                 )
             )
         session.commit()

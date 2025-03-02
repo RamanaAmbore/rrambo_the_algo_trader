@@ -6,7 +6,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 
 from models.base import Base
-from utils.config_loader import env
+from utils.config_loader import Env
 from utils.logger import get_logger
 
 # Load environment variables
@@ -18,23 +18,23 @@ class DbConnection:
 
     _initialized = False  # Class-level flag
 
-    if env.SQLITE_DB:
-        DB_URL = f"sqlite:///{env.SQLITE_PATH}"
-        DB_ASYNC_URL = f"sqlite+aiosqlite:///{env.SQLITE_PATH}"
+    if Env.SQLITE_DB:
+        DB_URL = f"sqlite:///{Env.SQLITE_PATH}"
+        DB_ASYNC_URL = f"sqlite+aiosqlite:///{Env.SQLITE_PATH}"
 
         # Ensure SQLite database file exists
-        if not os.path.exists(env.SQLITE_PATH):
-            open(env.SQLITE_PATH, "w").close()
-            logger.info(f"Created new SQLite database at {env.SQLITE_PATH}")
+        if not os.path.exists(Env.SQLITE_PATH):
+            open(Env.SQLITE_PATH, "w").close()
+            logger.info(f"Created new SQLite database at {Env.SQLITE_PATH}")
 
     else:
-        DB_URL = f"postgresql://{env.POSTGRES_URL}"
-        DB_ASYNC_URL = f"postgresql+asyncpg://{env.POSTGRES_URL}"
+        DB_URL = f"postgresql://{Env.POSTGRES_URL}"
+        DB_ASYNC_URL = f"postgresql+asyncpg://{Env.POSTGRES_URL}"
 
-        # Ensure PostgreSQL database exists
+        # Ensure PostgresSQL database exists
         if not database_exists(DB_URL):
             create_database(DB_URL)
-            logger.info("Created new PostgreSQL database.")
+            logger.info("Created new PostgresSQL database.")
 
     # Create synchronous engine & session
     echo = os.getenv('DB_DEBUG', 'false').lower() == 'true'
@@ -49,7 +49,7 @@ class DbConnection:
     Base.metadata.create_all(engine)  # Create tables if they don’t exist
 
     @staticmethod
-    def get_session(async_mode: bool = False):
+    def get_sync_session(async_mode: bool = False):
         """
         Returns a database session.
 

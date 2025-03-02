@@ -12,3 +12,12 @@ Requests==2.32.3
 SQLAlchemy==2.0.38
 SQLAlchemy_Utils==0.41.2
 yfinance==0.2.54
+
+SQLAlchemy-Utils~=0.41.2
+dash-html-components~=2.0.0
+APScheduler~=3.11.0
+dash-core-components~=2.0.0
+dash-bootstrap-components~=1.7.1
+pandas~=2.2.3
+selenium~=4.28.1
+webdriver-manager~=4.0.2

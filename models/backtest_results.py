@@ -1,10 +1,7 @@
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
-from sqlalchemy import Column, Integer, DateTime, ForeignKey, DECIMAL
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, DECIMAL, text
 from sqlalchemy.future import select
 
-from utils.config_loader import sc
+from utils.date_time_utils import timestamp_indian
 from .base import Base
 
 
@@ -19,7 +16,7 @@ class BacktestResults(Base):
     total_pnl = Column(DECIMAL(10, 2), nullable=False)  # 2 decimal places
     max_drawdown = Column(DECIMAL(10, 2), nullable=True)  # 2 decimal places
     win_rate = Column(DECIMAL(5, 2), nullable=True)  # 2 decimal places, smaller range
-    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     @classmethod
     async def get_all_results(cls, session):

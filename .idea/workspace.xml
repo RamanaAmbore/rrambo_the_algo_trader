@@ -4,14 +4,49 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="Defect fix in db_connection and for cyclic dependency">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="Changed market_hours table to algo_scheule tabel to use it for multiple threads">
+      <change afterPath="$PROJECT_DIR$/data_sync/sync_Trades.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/date_time_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/constants.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/settings/constants.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/market_hours.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algoschedule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/models/test_market_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/models/test_market_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algoschedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_schedule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_greeks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/strategy_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/watchlist.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_access_token.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_db_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_market_models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_option_models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_portfolio_models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/models/test_trade_models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_api_utils/test_kite_connect.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_sync/download_reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_market_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/utils/test_zerodha_kite.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/utils/test_zerodha_socket.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/market_ticker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/sync_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/thread_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/config_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/config_loader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/get_stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/get_stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/zerodha_kite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/zerodha_kite.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/zerodha_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/zerodha_wrapper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,12 +90,14 @@
     "Python.app.executor": "Run",
     "Python.broker_connection.executor": "Run",
     "Python.database.executor": "Run",
+    "Python.date_time_utils.executor": "Run",
     "Python.db_conn.executor": "Run",
     "Python.db_connect.executor": "Debug",
     "Python.db_connection (1).executor": "Run",
     "Python.db_connection.executor": "Run",
     "Python.db_utils (1).executor": "Debug",
     "Python.db_utils.executor": "Debug",
+    "Python.download_reports.executor": "Debug",
     "Python.kite_connect (1).executor": "Debug",
     "Python.kite_connection_new.executor": "Debug",
     "Python.logger.executor": "Run",
@@ -73,6 +110,7 @@
     "Python.sync_data.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test_db_utils.executor": "Debug",
+    "Python.thread_manager.executor": "Debug",
     "Python.zerodha_kite.executor": "Run",
     "Python.zerodha_socket.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -94,7 +132,29 @@
       <recent name="D:\rrambo_trader_new\kite_utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.db_connection (1)">
+  <component name="RunManager" selected="Python.download_reports">
+    <configuration name="date_time_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/date_time_utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="db_connection (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -117,7 +177,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="logger" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="download_reports" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -126,11 +186,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data_sync" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/logger.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_sync/download_reports.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -139,7 +199,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="market_ticker (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="thread_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -152,29 +212,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/threads/market_ticker.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="sync_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/threads" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/threads/sync_data.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/threads/thread_manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -207,11 +245,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.db_connection (1)" />
-        <item itemvalue="Python.market_ticker (1)" />
-        <item itemvalue="Python.sync_data" />
+        <item itemvalue="Python.download_reports" />
         <item itemvalue="Python.zerodha_kite" />
-        <item itemvalue="Python.logger" />
+        <item itemvalue="Python.db_connection (1)" />
+        <item itemvalue="Python.date_time_utils" />
+        <item itemvalue="Python.thread_manager" />
       </list>
     </recent_temporary>
   </component>
@@ -319,7 +357,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740829895478</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Changed market_hours table to algo_scheule tabel to use it for multiple threads">
+      <option name="closed" value="true" />
+      <created>1740835635749</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1740835635749</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -333,7 +379,8 @@
     <MESSAGE value="added dotenv in config_loader, removed from other modules, performance improvement with logger" />
     <MESSAGE value="updated sync_data and thread_manager for syncing up the data and scheduling threads" />
     <MESSAGE value="Defect fix in db_connection and for cyclic dependency" />
-    <option name="LAST_COMMIT_MESSAGE" value="Defect fix in db_connection and for cyclic dependency" />
+    <MESSAGE value="Changed market_hours table to algo_scheule tabel to use it for multiple threads" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed market_hours table to algo_scheule tabel to use it for multiple threads" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -389,14 +436,39 @@
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/algoschedule.py</url>
-          <line>28</line>
-          <option name="timeStamp" value="81" />
+          <url>file://$PROJECT_DIR$/models/algo_schedule.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/algoschedule.py</url>
-          <line>58</line>
-          <option name="timeStamp" value="82" />
+          <url>file://$PROJECT_DIR$/threads/thread_manager.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/threads/thread_manager.py</url>
+          <line>123</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/threads/thread_manager.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="85" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/db_connection.py</url>
+          <line>48</line>
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_sync/download_reports.py</url>
+          <line>240</line>
+          <option name="timeStamp" value="115" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/data_sync/download_reports.py</url>
+          <line>234</line>
+          <option name="timeStamp" value="116" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

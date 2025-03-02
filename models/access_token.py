@@ -1,9 +1,9 @@
-from datetime import datetime, timedelta, timezone
-from zoneinfo import ZoneInfo
+from datetime import timedelta
 
-from sqlalchemy import Column, String, DateTime, Integer
+from sqlalchemy import Column, String, DateTime, Integer, text
 
-from utils.config_loader import sc, env
+from utils.config_loader import Env
+from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
 
@@ -15,7 +15,7 @@ class AccessToken(Base):
     __tablename__ = "access_token"
     id = Column(Integer, primary_key=True, autoincrement=True)
     token = Column(String, nullable=False)
-    timestamp = Column(DateTime(timezone=True), nullable=False, default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     @staticmethod
     def get_stored_access_token(db_connection):
@@ -23,8 +23,8 @@ class AccessToken(Base):
         with db_connection.sync_session() as session:
             token_entry = session.query(AccessToken).first()
             if token_entry:
-                age = datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)) - token_entry.timestamp
-                if age < timedelta(hours=env.ACCESS_TOKEN_VALIDITY):
+                age = timestamp_indian() - token_entry.timestamp
+                if age < timedelta(hours=Env.ACCESS_TOKEN_VALIDITY):
                     logger.info('Using access token from database')
                     return token_entry.token
         return None  # Token is expired or missing
@@ -37,9 +37,9 @@ class AccessToken(Base):
             if token_entry:
                 if token_entry.token != new_token:
                     token_entry.token = new_token
-                    token_entry.timestamp = datetime.now(timezone.utc)
+                    token_entry.timestamp = timestamp_indian()
                     logger.info("Access Token updated in database")
             else:
-                session.add(AccessToken(token=new_token, timestamp=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE))))
+                session.add(AccessToken(token=new_token, timestamp=timestamp_indian()))
                 logger.info("Access Token added to database")
             session.commit()

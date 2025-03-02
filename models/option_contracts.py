@@ -1,9 +1,13 @@
 from datetime import datetime
-from zoneinfo import ZoneInfo
 from decimal import Decimal, ROUND_DOWN
-from sqlalchemy import Column, Integer, String, DateTime, DECIMAL
+from zoneinfo import ZoneInfo
+
+from sqlalchemy import Column, Integer, String, DateTime, DECIMAL, text
+
 from utils.config_loader import sc
+from utils.date_time_utils import timestamp_indian
 from .base import Base
+
 
 def to_decimal(value):
     """Convert float to Decimal with 2 decimal places."""
@@ -21,7 +25,7 @@ class OptionContracts(Base):
     option_type = Column(String, nullable=False)  # CE (Call) / PE (Put)
     lot_size = Column(Integer, nullable=False)
     tick_size = Column(DECIMAL(10, 2), nullable=False)  # Tick size needs exact precision
-    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     def __repr__(self):
         return f"<OptionContract {self.trading_symbol} | {self.option_type} | Strike {self.strike_price}>"

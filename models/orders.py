@@ -1,9 +1,10 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from sqlalchemy import Column, Integer, String, DECIMAL, SmallInteger, DateTime, Index, func
+from sqlalchemy import Column, Integer, String, DECIMAL, SmallInteger, DateTime, Index, text
 
 from utils.config_loader import sc  # Import settings
+from utils.date_time_utils import timestamp_indian
 from .base import Base
 
 
@@ -18,7 +19,7 @@ class Orders(Base):
     order_type = Column(String, nullable=False)  # MARKET/LIMIT
     quantity = Column(SmallInteger, nullable=False)  # Memory-efficient if range is small
     price = Column(DECIMAL(10, 2), nullable=True)  # Precise storage instead of Float
-    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     # Composite index for faster queries on symbol, exchange, and time
     __table_args__ = (

@@ -11,7 +11,7 @@ load_dotenv()
 # Function to load YAML file
 def load_yaml(file_name):
     """Load constants from a YAML file."""
-    path = os.path.join(os.path.dirname(__file__), "..", "config", file_name)  # Updated path
+    path = os.path.join(os.path.dirname(__file__), "..", "settings", file_name)  # Updated path
     with open(path, "r") as file:
         return yaml.safe_load(file)
 
@@ -21,7 +21,7 @@ constants = SimpleNamespace(**load_yaml("constants.yaml"))
 sc = SimpleNamespace(**constants.source)
 
 
-class env:
+class Env:
     # Zerodha Credentials
     API_KEY = os.getenv("API_KEY")
     API_SECRET = os.getenv("API_SECRET")
@@ -51,8 +51,14 @@ class env:
     SQLITE_DB = os.getenv("SQLITE_DB", "True").lower() == "true"
     SQLITE_PATH = os.getenv("SQLITE_PATH", "database.db")
 
-    # PostgreSQL Configuration (Only used if SQLITE_DB=False)
+    # PostgresSQL Configuration (Only used if SQLITE_DB=False)
     POSTGRES_URL = os.getenv("POSTGRES_URL")
     ACCESS_TOKEN_VALIDITY = int(os.getenv("ACCESS_TOKEN_VALIDITY"))
 
     DB_DEBUG = os.getenv('DB_DEBUG').lower() == 'true'
+    DOWNLOAD_TRADEBBOOK = os.getenv('DOWNLOAD_TRADEBBOOK').lower() == 'true'
+    DOWNLOAD_PL = os.getenv('DOWNLOAD_PL').lower() == 'true'
+    DOWNLOAD_LEDGER = os.getenv('DOWNLOAD_LEDGER').lower() == 'true'
+    DOWNLOAD_POSITIONS = os.getenv('DOWNLOAD_POSITIONS').lower() == 'true'
+    DOWNLOAD_HOLDINGS = os.getenv('DOWNLOAD_HOLDINGS').lower() == 'true'
+    DOWNLOAD_DIR = os.getenv('DOWNLOAD_DIR')

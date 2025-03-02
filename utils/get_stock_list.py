@@ -1,6 +1,8 @@
-import utils.zerodha_kite as broker
 from models.access_token import save_stock_list
-from utils import logger
+from utils.db_connection import DbConnection
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 def fetch_kite_stock_list():
@@ -8,7 +10,7 @@ def fetch_kite_stock_list():
     Fetches the list of stocks from Zerodha Kite API.
     Returns a list of dictionaries containing symbol, name, yahoo_ticker, and exchange.
     """
-    kite = broker.kite
+    kite = DbConnection.get_sync_session()
     instruments = kite.instruments("NSE")
     stock_list = []
 

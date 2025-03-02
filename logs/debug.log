@@ -2103,3 +2103,177 @@
 2025-03-01 18:52:20,265 - models.base - INFO - Inserted default market hours for: GLOBAL, Saturday, Sunday, GLOBAL, Saturday, Sunday
 2025-03-01 18:54:03,229 - models.base - INFO - Database tables created, if not existed (sync mode).
 2025-03-01 18:54:03,298 - models.base - INFO - Inserted default market hours for: GLOBALMARKET, SaturdayMARKET, SundayMARKET, GLOBALBATCH, SaturdayBATCH, SundayBATCH
+2025-03-01 19:11:44,437 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 19:11:44,912 - models.base - INFO - Using access token from database
+2025-03-01 19:11:45,052 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 19:11:45,053 - models.base - INFO - Running sync_data.py in standalone mode...
+2025-03-01 19:11:45,054 - models.base - INFO - Starting trade, order, position, and holdings synchronization...
+2025-03-01 19:11:45,054 - models.base - INFO - Fetching trades from Kite API...
+2025-03-01 19:11:45,179 - models.base - INFO - No new trades to insert.
+2025-03-01 19:11:45,179 - models.base - INFO - Fetching orders from Kite API...
+2025-03-01 19:11:45,243 - models.base - INFO - No new orders to insert.
+2025-03-01 19:11:45,243 - models.base - INFO - Fetching positions from Kite API...
+2025-03-01 19:11:45,312 - models.base - INFO - No new positions to insert.
+2025-03-01 19:11:45,313 - models.base - INFO - Fetching holdings from Kite API...
+2025-03-01 19:11:45,384 - models.base - INFO - No new holdings to insert.
+2025-03-01 19:11:45,384 - models.base - INFO - Synchronization completed.
+2025-03-01 19:50:14,995 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 19:50:15,482 - models.base - INFO - Using access token from database
+2025-03-01 19:50:15,778 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 19:50:15,779 - models.base - INFO - Running sync_data.py in standalone mode...
+2025-03-01 19:50:15,781 - models.base - INFO - Starting trade, order, position, and holdings synchronization...
+2025-03-01 19:50:15,781 - models.base - INFO - Fetching trades from Kite API...
+2025-03-01 19:50:15,789 - models.base - INFO - Fetching orders from Kite API...
+2025-03-01 19:50:15,792 - models.base - INFO - Fetching positions from Kite API...
+2025-03-01 19:50:15,795 - models.base - INFO - Fetching holdings from Kite API...
+2025-03-01 19:50:15,971 - models.base - INFO - No new trades to insert.
+2025-03-01 19:50:16,011 - models.base - INFO - No new positions to insert.
+2025-03-01 19:50:16,023 - models.base - INFO - No new holdings to insert.
+2025-03-01 19:50:16,048 - models.base - INFO - No new orders to insert.
+2025-03-01 19:50:16,049 - models.base - INFO - Synchronization completed.
+2025-03-01 19:58:41,735 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 19:58:42,236 - models.base - INFO - Using access token from database
+2025-03-01 19:58:42,392 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 19:58:42,433 - models.base - INFO - Scheduler started. Checking for thread updates every 30 seconds.
+2025-03-01 19:58:42,463 - models.base - INFO - ThreadManager is running...
+2025-03-01 19:59:25,566 - models.base - INFO - Scheduler shut down. Stopping all threads.
+2025-03-01 20:01:14,536 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:01:15,157 - models.base - INFO - Using access token from database
+2025-03-01 20:01:15,439 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:01:53,198 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:01:53,696 - models.base - INFO - Using access token from database
+2025-03-01 20:01:53,967 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:01:53,976 - models.base - INFO - Scheduler started. Checking for thread updates every 30 seconds.
+2025-03-01 20:01:53,977 - models.base - INFO - ThreadManager is running...
+2025-03-01 20:02:24,076 - models.base - INFO - Starting thread MARKET at 09:00:00
+2025-03-01 20:02:24,078 - models.base - INFO - Starting MarketTicker WebSocket...
+2025-03-01 20:02:24,078 - models.base - INFO - Stopping thread MARKET at 09:00:00
+2025-03-01 20:02:24,078 - models.base - INFO - Starting MarketTicker thread
+2025-03-01 20:02:24,079 - models.base - INFO - Checking MARKET record for 2025-03-01
+2025-03-01 20:02:24,082 - models.base - INFO - Checking default day MARKET record for Saturday
+2025-03-01 20:02:24,083 - models.base - INFO - Successfully fetched default day MARKET record for Saturday
+2025-03-01 20:02:24,084 - models.base - INFO - Market open status: False, Current time: 20:02:24.079890, Market hours: None - None
+2025-03-01 20:02:24,084 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
+2025-03-01 20:02:54,085 - models.base - INFO - Market open status: False, Current time: 20:02:54.085708, Market hours: None - None
+2025-03-01 20:02:54,085 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
+2025-03-01 20:03:24,086 - models.base - INFO - Market open status: False, Current time: 20:03:24.086841, Market hours: None - None
+2025-03-01 20:03:24,086 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
+2025-03-01 20:03:41,561 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:03:42,068 - models.base - INFO - Using access token from database
+2025-03-01 20:03:42,192 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:03:42,202 - models.base - INFO - Scheduler started. Checking for thread updates every 30 seconds.
+2025-03-01 20:03:42,203 - models.base - INFO - ThreadManager is running...
+2025-03-01 20:04:12,303 - models.base - INFO - Starting thread MARKET at 09:00:00
+2025-03-01 20:04:12,303 - models.base - INFO - Starting MarketTicker WebSocket...
+2025-03-01 20:04:12,304 - models.base - INFO - Starting MarketTicker thread
+2025-03-01 20:04:12,305 - models.base - INFO - Checking MARKET record for 2025-03-01
+2025-03-01 20:04:12,309 - models.base - INFO - Checking default day MARKET record for Saturday
+2025-03-01 20:04:12,309 - models.base - INFO - Successfully fetched default day MARKET record for Saturday
+2025-03-01 20:04:12,309 - models.base - INFO - Market open status: False, Current time: 20:04:12.305949, Market hours: None - None
+2025-03-01 20:04:12,309 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
+2025-03-01 20:04:42,311 - models.base - INFO - Market open status: False, Current time: 20:04:42.311053, Market hours: None - None
+2025-03-01 20:04:42,311 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
+2025-03-01 20:05:12,311 - models.base - INFO - Market open status: False, Current time: 20:05:12.311785, Market hours: None - None
+2025-03-01 20:05:12,311 - models.base - INFO - Market is closed. Ensuring WebSocket is stopped.
+2025-03-01 20:05:33,202 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:05:33,939 - models.base - INFO - Using access token from database
+2025-03-01 20:05:34,241 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:06:00,498 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:06:01,243 - models.base - INFO - Using access token from database
+2025-03-01 20:06:01,486 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:06:01,492 - models.base - INFO - Scheduler started. Checking for thread updates every 30 seconds.
+2025-03-01 20:06:01,493 - models.base - INFO - ThreadManager is running...
+2025-03-01 20:10:13,079 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:10:15,075 - models.base - INFO - Using access token from database
+2025-03-01 20:10:15,209 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:10:15,219 - models.base - INFO - Running initial thread check before scheduling...
+2025-03-01 20:11:11,107 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:11:11,621 - models.base - INFO - Using access token from database
+2025-03-01 20:11:11,760 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:11:11,762 - models.base - INFO - Running initial thread check before scheduling...
+2025-03-01 20:16:11,002 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:16:11,497 - models.base - INFO - Using access token from database
+2025-03-01 20:16:11,628 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:16:11,631 - models.base - INFO - Running initial thread check before scheduling...
+2025-03-01 20:16:11,631 - models.base - INFO - Checking MARKET record for 2025-03-01
+2025-03-01 20:16:11,637 - models.base - INFO - Checking default day MARKET record for Saturday
+2025-03-01 20:16:11,672 - models.base - INFO - Successfully fetched default day MARKET record for Saturday
+2025-03-01 20:16:37,354 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 20:16:37,834 - models.base - INFO - Using access token from database
+2025-03-01 20:16:37,923 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 20:16:37,926 - models.base - INFO - Running initial thread check before scheduling...
+2025-03-01 20:16:37,926 - models.base - INFO - Checking MARKET record for 2025-03-01
+2025-03-01 20:16:37,932 - models.base - INFO - Checking default day MARKET record for Saturday
+2025-03-01 20:16:37,963 - models.base - INFO - Successfully fetched default day MARKET record for Saturday
+2025-03-01 22:31:00,230 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 22:31:02,364 - models.base - INFO - Using access token from database
+2025-03-01 22:31:02,678 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 22:31:02,710 - models.base - INFO - Running initial thread check before scheduling...
+2025-03-01 22:31:19,812 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 22:31:20,631 - models.base - INFO - Using access token from database
+2025-03-01 22:31:20,883 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 22:31:20,899 - models.base - INFO - Running initial thread check before scheduling...
+2025-03-01 22:58:08,883 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 22:58:09,640 - models.base - INFO - Using access token from database
+2025-03-01 22:58:09,912 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-01 22:58:09,921 - models.base - INFO - Running initial thread check before scheduling...
+2025-03-01 22:58:26,012 - models.base - INFO - Checking MARKET record for 2025-03-01
+2025-03-01 22:58:26,017 - models.base - INFO - Checking default day MARKET record for Saturday
+2025-03-01 22:58:26,020 - models.base - INFO - Successfully fetched default day MARKET record for Saturday
+2025-03-01 22:59:24,338 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-01 22:59:25,085 - models.base - INFO - Using access token from database
+2025-03-01 22:59:25,369 - models.base - INFO - Stored access token is fetched and successfully validated
+2025-03-02 12:58:34,715 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:03:51,725 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:04:21,264 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:05:43,351 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:07:42,735 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:15:17,811 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:15:26,895 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:15:52,538 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:16:02,034 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:16:08,116 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:16:21,325 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:16:33,478 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:19:32,986 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:20:57,361 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:21:21,986 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:21:32,572 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:21:40,378 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:21:46,067 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:21:51,847 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:21:57,143 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:02,391 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:07,443 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:15,603 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:20,992 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:26,182 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:32,509 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:37,742 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:46,027 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:22:53,849 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:23:03,995 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:23:10,804 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:23:15,881 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:23:21,061 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:23:26,460 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:23:45,602 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:23:51,693 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:24:01,834 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:28:34,044 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:31:13,153 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:34:26,122 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:36:53,986 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:36:54,106 - models.base - INFO - Inserted default market hours for: GLOBAL MARKET, Saturday MARKET, Sunday MARKET
+2025-03-02 13:42:54,587 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:42:54,791 - models.base - INFO - Inserted default market hours for: GLOBAL MARKET, Saturday MARKET, Sunday MARKET
+2025-03-02 13:54:50,477 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:54:50,593 - models.base - INFO - Inserted default market hours for: GLOBAL MARKET, Saturday MARKET, Sunday MARKET
+2025-03-02 13:57:27,611 - models.base - INFO - Database tables created, if not existed (sync mode).
+2025-03-02 13:57:27,941 - models.base - INFO - Login successful, Request ID: Gmo2lKN8e9myygebrgjKD6wxSIHoPqJV3PxsK7fyYpX3FxOEoQiU98UB5rkWB70V
+2025-03-02 13:57:28,059 - models.base - INFO - TOTP authentication successful.
+2025-03-02 13:57:28,059 - models.base - INFO - Kite login URL received.
+2025-03-02 13:57:32,365 - models.base - INFO - Request Token received: 5Ouz9THbfrd63QulQv30y31ueAMfZfKI
+2025-03-02 13:57:32,624 - models.base - INFO - Access Token added to database
+2025-03-02 13:57:32,631 - models.base - INFO - Access token successfully generated and stored.
+2025-03-02 13:57:32,631 - models.base - INFO - Kite connection initialized: <kiteconnect.connect.KiteConnect object at 0x000002664FF59FD0>

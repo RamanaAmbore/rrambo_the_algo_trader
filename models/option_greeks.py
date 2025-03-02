@@ -1,9 +1,10 @@
-from datetime import datetime
-from zoneinfo import ZoneInfo
 from decimal import Decimal, ROUND_DOWN
-from sqlalchemy import Column, Integer, DateTime, DECIMAL, ForeignKey
-from utils.config_loader import sc
+
+from sqlalchemy import Column, Integer, DateTime, DECIMAL, ForeignKey, text
+
+from utils.date_time_utils import timestamp_indian
 from .base import Base
+
 
 def to_decimal(value, precision="0.0001"):
     """Convert float to Decimal with 4 decimal places for option Greeks."""
@@ -20,7 +21,7 @@ class OptionGreeks(Base):
     vega = Column(DECIMAL(10, 4), nullable=True)
     gamma = Column(DECIMAL(10, 4), nullable=True)
     iv = Column(DECIMAL(10, 2), nullable=True)  # IV typically has 2 decimal places
-    timestamp = Column(DateTime(timezone=True), default=datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)))
+    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     def __repr__(self):
         return f"<OptionGreek Token: {self.instrument_token} | Δ: {self.delta} | IV: {self.iv}>"

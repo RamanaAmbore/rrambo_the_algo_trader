@@ -5,7 +5,7 @@ from utils.logger import get_logger
 """
 drop table  access_token cascade;
 drop table  backtest_results cascade;
-drop table  market_hours cascade;
+drop table  algo_schedule cascade;
 drop table  option_contracts cascade;
 drop table  option_greeks cascade;
 drop table  option_strategies cascade;
