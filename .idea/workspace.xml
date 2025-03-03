@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="code cleanup and robust logging for download_reports.py">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="downlod_reports.py is fully tested. .env is updtaed for parameters">
+      <change afterPath="$PROJECT_DIR$/models/ledger_entry.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/profit_loss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_sync/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_sync/download_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings/constants.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/settings/constants.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -354,7 +352,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741001373115</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="downlod_reports.py is fully tested. .env is updtaed for parameters">
+      <option name="closed" value="true" />
+      <created>1741034365082</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1741034365082</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -372,6 +378,7 @@
     <MESSAGE value="download reports from console using selenium" />
     <MESSAGE value="download folder fix for firexfox selenium" />
     <MESSAGE value="code cleanup and robust logging for download_reports.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="code cleanup and robust logging for download_reports.py" />
+    <MESSAGE value="downlod_reports.py is fully tested. .env is updtaed for parameters" />
+    <option name="LAST_COMMIT_MESSAGE" value="downlod_reports.py is fully tested. .env is updtaed for parameters" />
   </component>
 </project>

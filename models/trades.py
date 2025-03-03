@@ -1,7 +1,8 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from sqlalchemy import Column, Integer, String, SmallInteger, DECIMAL, DateTime, Boolean, Enum, Index, text
+from sqlalchemy import Column, Integer, String, SmallInteger, DECIMAL, DateTime, Boolean, Enum, Index, text, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 import utils.config_loader as sc  # Assuming timezone constants are stored here
 from utils.config_loader import sc  # Import settings
@@ -69,3 +70,21 @@ class Trades(Base):
 
     def __repr__(self):
         return f"<Trade {self.trade_id} - {self.trading_symbol} {self.trade_type} {self.quantity} @ {self.price}>"
+
+    @classmethod
+    async def exists(cls, session, trade_id):
+        """Check if a trade already exists."""
+        result = await session.execute(select(cls).where(cls.trade_id == trade_id))
+        return result.scalars().first() is not None
+    @classmethod
+    async def get_existing_records(cls, session: AsyncSession):
+        """Fetch all existing trade IDs from the table."""
+        result = await session.execute(select(cls.trade_id))
+        return {row[0] for row in result.fetchall()}
+
+    @classmethod
+    async def bulk_insert(cls, session: AsyncSession, records):
+        """Insert multiple trade records in bulk."""
+        session.add_all(records)
+        await session.commit()
+
