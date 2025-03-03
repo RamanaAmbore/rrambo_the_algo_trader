@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="download folder fix for firexfox selenium">
-      <change afterPath="$PROJECT_DIR$/utils/utils.py" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="code cleanup and robust logging for download_reports.py">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_sync/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_sync/download_reports.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/debug.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/debug.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/settings/constants.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/settings/constants.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/config_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/config_loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/zerodha_kite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/zerodha_kite.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,43 +48,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.SimpleDashboard.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.broker_connection.executor": "Run",
-    "Python.database.executor": "Run",
-    "Python.date_time_utils.executor": "Run",
-    "Python.db_conn.executor": "Run",
-    "Python.db_connect.executor": "Debug",
-    "Python.db_connection (1).executor": "Run",
-    "Python.db_connection.executor": "Run",
-    "Python.db_utils (1).executor": "Debug",
-    "Python.db_utils.executor": "Debug",
-    "Python.download_reports (1).executor": "Run",
-    "Python.download_reports.executor": "Debug",
-    "Python.kite_connect (1).executor": "Debug",
-    "Python.kite_connection_new.executor": "Debug",
-    "Python.logger.executor": "Run",
-    "Python.login (1).executor": "Run",
-    "Python.login.executor": "Debug",
-    "Python.login_new.executor": "Debug",
-    "Python.market_monitor.executor": "Run",
-    "Python.market_ticker (1).executor": "Debug",
-    "Python.market_ticker.executor": "Run",
-    "Python.sync_data.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test_db_utils.executor": "Debug",
-    "Python.thread_manager.executor": "Debug",
-    "Python.zerodha_kite.executor": "Run",
-    "Python.zerodha_socket.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/rrambo_trader_new/settings/constants.yaml",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.SimpleDashboard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.broker_connection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.database.executor&quot;: &quot;Run&quot;,
+    &quot;Python.date_time_utils.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_conn.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_connect.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.db_connection (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_connection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_utils (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.db_utils.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.download_reports (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.download_reports.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.kite_connect (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.kite_connection_new.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.logger.executor&quot;: &quot;Run&quot;,
+    &quot;Python.login (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.login.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.login_new.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.market_monitor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.market_ticker (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.market_ticker.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.sync_data.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_db_utils.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.thread_manager.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.zerodha_kite.executor&quot;: &quot;Run&quot;,
+    &quot;Python.zerodha_socket.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/rrambo_trader_new/settings/constants.yaml&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new" />
@@ -214,8 +211,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.download_reports (1)" />
-        <item itemvalue="Python.sync_data" />
         <item itemvalue="Python.market_ticker" />
+        <item itemvalue="Python.sync_data" />
         <item itemvalue="Python.download_reports" />
         <item itemvalue="Python.zerodha_kite" />
       </list>
@@ -349,7 +346,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740959511391</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="code cleanup and robust logging for download_reports.py">
+      <option name="closed" value="true" />
+      <created>1741001373115</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1741001373115</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -366,22 +371,7 @@
     <MESSAGE value="Changed market_hours table to algo_scheule tabel to use it for multiple threads" />
     <MESSAGE value="download reports from console using selenium" />
     <MESSAGE value="download folder fix for firexfox selenium" />
-    <option name="LAST_COMMIT_MESSAGE" value="download folder fix for firexfox selenium" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_sync/download_reports.py</url>
-          <line>185</line>
-          <option name="timeStamp" value="131" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_sync/download_reports.py</url>
-          <line>140</line>
-          <option name="timeStamp" value="133" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="code cleanup and robust logging for download_reports.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="code cleanup and robust logging for download_reports.py" />
   </component>
 </project>

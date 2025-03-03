@@ -4,10 +4,43 @@ source:
   INDIAN_TIMEZONE: Asia/Kolkata
   MAX_SOCKET_RECONNECT_ATTEMPTS: 3
   EST_TIMEZONE: EST
-  REPORT_LINKS:
-      Tradebook: https://console.zerodha.com/reports/tradebook
-      P&L: https://console.zerodha.com/reports/pnl
-      Ledger: https://console.zerodha.com/reports/ledger
-      Tax Reports: https://console.zerodha.com/reports/tax
-      Holdings: https://console.zerodha.com/portfolio/holdings
-      Positions: https://console.zerodha.com/portfolio/positions
+  DOWNLOAD_REPORTS:
+      Tradebook:
+        url: https://console.zerodha.com/reports/tradebook
+        segment:
+          element: //label[contains(text(), 'Segment')]/following-sibling::select
+          values:
+            - Equity
+            - Futures & Options
+        P&L:
+        date_range: //input[@placeholder="Select range"]
+        button: //button[@type='submit']
+        href: //a[contains(text(), "CSV")]
+        prefix:
+          tradebook
+      P&L:
+        url: https://console.zerodha.com/reports/pnl
+        segment:
+          element: //label[contains(text(), 'Segment')]/following-sibling::select
+          values:
+            - Equity
+            - Futures & Options
+        P&L:
+          element: //label[contains(text(), 'P&L')]/following-sibling::select
+          values:
+            - Realised P&L
+        date_range: //input[@placeholder="Select range"]
+        button: //button[@class='btn-blue']
+        href: //div[contains(text(), 'Download')]
+        prefix: pnl
+      Ledger:
+        url: https://console.zerodha.com/funds/statement
+        segment:
+          element: //label[contains(text(), 'Category')]/following-sibling::select
+          values:
+            - Equity
+        P&L:
+        date_range: //input[@placeholder="Date"]
+        button: //button[@type='submit']
+        href: //a[contains(text(), "CSV")]
+        prefix: funds

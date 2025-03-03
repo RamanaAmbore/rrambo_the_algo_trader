@@ -123,70 +123,92 @@ def download_reports(driver):
     os.makedirs(Env.DOWNLOAD_DIR, exist_ok=True)
     all_downloaded_files = {}
     try:
-        for name, url in sc.REPORT_LINKS.items():
+        for name, item in sc.DOWNLOAD_REPORTS.items():
             if not DOWNLOAD_FLAGS.get(name, False):
                 continue
 
             logger.info(f"Downloading: {name}")
-            driver.get(url)
-            time.sleep(5)
-            downloaded_files = {"Equity":"", "Futures & Options":""}
+            driver.get(item['url'])
+            time.sleep(2)
+            downloaded_files = {}
             current_start = REPORT_START_DATE
             while current_start < REPORT_END_DATE:
                 current_end = min(current_start + timedelta(days=364), REPORT_END_DATE)
 
-                for segment in ["Equity", "Futures & Options"]:  # Select both segments
-                    try:
-                        dropdown = WebDriverWait(driver, 10).until(
-                            EC.presence_of_element_located((By.XPATH, '//select')))
-                        highlight_element(driver, dropdown)
-                        select = Select(dropdown)
-                        select.select_by_visible_text(segment)
-                        logger.info(f"Selected {segment} in dropdown.")
-                    except Exception as e:
-                        logger.error(f"Dropdown selection failed for {segment}: {e}")
-                        continue  # Skip to the next segment if selection fails
+                for segment in item['segment']['values']:  # Select both segments
+                    counter = 0
+                    while True:
+                        counter += 1
+                        try:
+                            if segment not in downloaded_files:
+                                downloaded_files[segment] = ""
+                            dropdown = WebDriverWait(driver, 10).until(
+                                EC.presence_of_element_located((By.XPATH, item['segment']['element'])))
+                            highlight_element(driver, dropdown)
+                            select = Select(dropdown)
+                            select.select_by_visible_text(segment)
+                            logger.info(f"Selected {segment} in dropdown.")
+                        except Exception as e:
+                            if counter <= 3: continue
+                            logger.error(f"Dropdown selection failed for {segment}: {e}")
+                            continue  # Skip to the next segment if selection fails
 
-                    date_range_str = ""
-                    try:
-                        date_range = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.XPATH, '//input[@placeholder="Select range"]')))
-                        highlight_element(driver, date_range)
-                        time.sleep(2)
+                        try:
+                            if item['P&L'] is not None:
+                                dropdown = WebDriverWait(driver, 10).until(
+                                    EC.presence_of_element_located((By.XPATH, item['P&L']['element'])))
+                                highlight_element(driver, dropdown)
+                                select = Select(dropdown)
+                                select.select_by_visible_text(item['P&L']['values'][0])
+                                logger.info(f"Selected {item['P&L']['element']} in dropdown.")
+                        except Exception as e:
+                            if counter <= 3: continue
+                            logger.error(f"Dropdown selection failed for {item['P&L']['element']}: {e}")
+                            continue  # Skip to the next segment if selection fails
 
-                        date_range_str = date_range.get_attribute("value")
-                        date_range_str = f'{current_start.strftime("%Y-%m-%d")}{date_range_str[10:13]}{current_end.strftime("%Y-%m-%d")}'
+                        date_range_str = ""
+                        try:
+                            date_range = WebDriverWait(driver, 10).until(
+                                EC.element_to_be_clickable((By.XPATH, item['date_range'])))
+                            highlight_element(driver, date_range)
+                            time.sleep(2)
 
-                        date_range.send_keys(Keys.CONTROL + "a")
+                            date_range_str = date_range.get_attribute("value")
+                            date_range_str = f'{current_start.strftime("%Y-%m-%d")}{date_range_str[10:13]}{current_end.strftime("%Y-%m-%d")}'
+                            date_range.send_keys(Keys.CONTROL + "a")  # Select all text
+                            date_range.send_keys(Keys.DELETE)  # Delete selected text
 
-                        date_range.send_keys(Keys.BACKSPACE)
-                        date_range.clear()
-                        date_range.send_keys(date_range_str)
+                            date_range.clear()
+                            time.sleep(1)
+                            date_range.send_keys(date_range_str)
+                            time.sleep(5)
+                        except Exception as e:
+                            if counter <= 3: continue
+                            logger.error(f"Failed to set date range: {date_range_str} for {segment}: {e}")
+                            continue  # Skip to the next segment if date range setting fails
 
-                        arrow_button = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
-                        highlight_element(driver, arrow_button)
-                        arrow_button.click()
-                        logger.info(f"Applied date filter {date_range_str} for {segment}")
+                        try:
+                            arrow_button = WebDriverWait(driver, 10).until(
+                                EC.element_to_be_clickable((By.XPATH, item['button'])))
+                            highlight_element(driver, arrow_button)
+                            arrow_button.click()
+                            logger.info(f"Applied date filter {date_range_str} for {segment}")
+                            download_csv_link = WebDriverWait(driver, 10).until(
+                                EC.element_to_be_clickable((By.XPATH, item['href'])))
+                            highlight_element(driver, download_csv_link)
+                            files_in_dir = set(os.listdir(Env.DOWNLOAD_DIR))
+                            download_csv_link.click()
 
-                    except Exception as e:
-                        logger.error(f"Failed to set date range: {date_range_str} for {segment}: {e}")
-                        continue  # Skip to the next segment if date range setting fails
-
-                    try:
-                        download_csv_link = WebDriverWait(driver, 10).until(
-                            EC.element_to_be_clickable((By.XPATH, '//a[contains(text(), "CSV")]')))
-                        highlight_element(driver, download_csv_link)
-                        files_in_dir = set(os.listdir(Env.DOWNLOAD_DIR))
-                        download_csv_link.click()
-
-                        # Wait for the file to appear in the download directory
-                        downloaded_file= wait_for_download(files_in_dir)
-                        downloaded_files[segment]= downloaded_files[segment] + downloaded_file
-                        logger.info(f"Download completed for {segment} for {date_range_str}: {downloaded_file}")
-                    except Exception as e:
-                        logger.error(f"Failed to download report for {segment}: {e}")
-                        FAILED_REPORTS.append(f"{name} - {segment} - {date_range_str}")
+                            # Wait for the file to appear in the download directory
+                            downloaded_file = wait_for_download(files_in_dir)
+                            downloaded_files[segment] = downloaded_files[segment] + downloaded_file
+                            logger.info(f"Download completed for {segment} for {date_range_str}: {downloaded_file}")
+                            break
+                        except Exception as e:
+                            if counter > 3:
+                                logger.error(f"Failed to download report for {segment}: {e}")
+                                FAILED_REPORTS.append(f"{name} - {segment} - {date_range_str}")
+                                break
                 current_start = current_end + timedelta(days=1)
             all_downloaded_files[name] = downloaded_files
             logger.info(f'Downloaded files for {name}: {downloaded_files}')
@@ -208,7 +230,7 @@ def download_reports(driver):
 def wait_for_download(files_in_dir, timeout=60):
     """Waits for a file to fully download in the given directory."""
     end_time = time.time() + timeout
-# Initial files
+    # Initial files
 
     while time.time() < end_time:
         current_files = set(os.listdir(Env.DOWNLOAD_DIR))
@@ -229,6 +251,7 @@ def wait_for_download(files_in_dir, timeout=60):
         time.sleep(1)  # Wait before checking again
 
     raise TimeoutError("Download did not complete within the given time.")
+
 
 def main():
     """Main function to test login and report downloads."""
