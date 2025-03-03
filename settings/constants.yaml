@@ -4,3 +4,10 @@ source:
   INDIAN_TIMEZONE: Asia/Kolkata
   MAX_SOCKET_RECONNECT_ATTEMPTS: 3
   EST_TIMEZONE: EST
+  REPORT_LINKS:
+      Tradebook: https://console.zerodha.com/reports/tradebook
+      P&L: https://console.zerodha.com/reports/pnl
+      Ledger: https://console.zerodha.com/reports/ledger
+      Tax Reports: https://console.zerodha.com/reports/tax
+      Holdings: https://console.zerodha.com/portfolio/holdings
+      Positions: https://console.zerodha.com/portfolio/positions

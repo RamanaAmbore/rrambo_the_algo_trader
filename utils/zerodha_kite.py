@@ -1,7 +1,6 @@
 import os
 import threading
 
-import pyotp
 import requests
 from kiteconnect import KiteConnect
 
@@ -9,6 +8,7 @@ from models.access_token import AccessToken
 from utils.config_loader import sc
 from utils.db_connection import DbConnection
 from utils.logger import get_logger
+from utils.utils import generate_totp
 
 logger = get_logger(__name__)
 
@@ -82,12 +82,10 @@ class ZerodhaKite:
         # Step 2: Perform TOTP authentication
         for attempt in range(sc.MAX_TOTP_CONN_RETRY_COUNT):
             try:
-                totp_pin = pyotp.TOTP(cls.totp_token).now()
-                response = session.post(
-                    cls.twofa_url,
+                totp_pin = generate_totp()
+                response = session.post(cls.twofa_url,
                     data={"user_id": cls.username, "request_id": request_id, "twofa_value": totp_pin,
-                          "twofa_type": "totp"},
-                )
+                          "twofa_type": "totp"}, )
                 response.raise_for_status()
                 logger.info("TOTP authentication successful.")
                 break

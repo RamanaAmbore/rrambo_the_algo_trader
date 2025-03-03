@@ -31,3 +31,93 @@
 2025-03-01 16:53:13,415 - models.base - ERROR - No market hours record found in market hours table for 2025-03-01
 2025-03-01 16:53:43,424 - models.base - ERROR - No market hours record found in market hours table for 2025-03-01
 2025-03-01 17:00:26,193 - models.base - ERROR - No market hours record found in market hours table for 2025-03-01
+2025-03-03 10:55:25,770 - __main__ - ERROR - Dropdown selection failed for Futures & options: Message: Could not locate element with visible text: Futures & options; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+
+2025-03-03 11:03:32,474 - __main__ - ERROR - Failed to download Equity report: Message: 
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5
+NoSuchElementError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:527:5
+dom.find/</<@chrome://remote/content/shared/DOM.sys.mjs:136:16
+
+2025-03-03 11:03:33,018 - __main__ - ERROR - Dropdown selection failed for Futures & options: Message: Could not locate element with visible text: Futures & options; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+
+2025-03-03 12:23:23,102 - __main__ - ERROR - Failed to download Equity report: Message: 
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5
+NoSuchElementError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:527:5
+dom.find/</<@chrome://remote/content/shared/DOM.sys.mjs:136:16
+
+2025-03-03 12:23:23,646 - __main__ - ERROR - Dropdown selection failed for Futures & options: Message: Could not locate element with visible text: Futures & options; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+
+2025-03-03 14:08:13,003 - __main__ - ERROR - Failed to download Equity report: Message: 
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5
+NoSuchElementError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:527:5
+dom.find/</<@chrome://remote/content/shared/DOM.sys.mjs:136:16
+
+2025-03-03 14:10:41,875 - __main__ - ERROR - Failed to download Futures & Options report: 'NoneType' object has no attribute 'append'
+2025-03-03 14:17:07,175 - __main__ - ERROR - Failed to download report for Equity: Download did not complete within the given time.
+2025-03-03 14:17:36,205 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:18:08,503 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:18:30,885 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:18:49,642 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:19:08,814 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:19:28,590 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:19:42,796 - __main__ - ERROR - Failed to download report for Equity: Message: 
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5
+NoSuchElementError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:527:5
+dom.find/</<@chrome://remote/content/shared/DOM.sys.mjs:136:16
+
+2025-03-03 14:19:43,357 - __main__ - ERROR - Dropdown selection failed for Futures & Options: Message: Element <select> is not clickable at point (163,207) because another element <div class="input-lock"> obscures it
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5
+ElementClickInterceptedError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:342:5
+webdriverClickElement@chrome://remote/content/marionette/interaction.sys.mjs:177:11
+interaction.clickElement@chrome://remote/content/marionette/interaction.sys.mjs:136:11
+clickElement@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:344:29
+receiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:220:31
+
+2025-03-03 14:20:02,430 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:31:54,331 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:32:12,482 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:32:34,262 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:32:55,974 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:33:15,674 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:33:33,406 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:33:55,264 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:34:11,490 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:34:35,750 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:46:52,288 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:47:13,915 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:47:35,611 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:47:57,351 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:48:19,099 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:48:40,795 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:49:02,521 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:49:24,563 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:49:43,287 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:58:12,736 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:58:34,389 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:58:57,170 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 14:59:45,199 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:00:06,959 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:00:28,946 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:00:50,632 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:01:12,359 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:01:34,479 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:01:56,275 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:02:18,155 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 15:11:19,151 - __main__ - ERROR - Failed to download report for Futures & Options: 'NoneType' object has no attribute 'append'
+2025-03-03 16:29:55,619 - __main__ - ERROR - Failed to download report for Equity: Message: 
+Stacktrace:
+RemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8
+WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5
+NoSuchElementError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:527:5
+dom.find/</<@chrome://remote/content/shared/DOM.sys.mjs:136:16
+

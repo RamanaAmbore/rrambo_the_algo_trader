@@ -62,3 +62,7 @@ class Env:
     DOWNLOAD_POSITIONS = os.getenv('DOWNLOAD_POSITIONS').lower() == 'true'
     DOWNLOAD_HOLDINGS = os.getenv('DOWNLOAD_HOLDINGS').lower() == 'true'
     DOWNLOAD_DIR = os.getenv('DOWNLOAD_DIR')
+    REPORT_START_DATE = os.getenv('REPORT_START_DATE')
+    REPORT_LOOKBACK_DAYS = int(os.getenv('REPORT_LOOKBACK_DAYS'))
+
+
