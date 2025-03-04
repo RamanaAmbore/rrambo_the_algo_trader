@@ -15,7 +15,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 from utils.config_loader import Env, sc
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
-from utils.utils import generate_totp
+from utils.utils_func import generate_totp
 
 logger = get_logger(__name__)  # Initialize logger
 

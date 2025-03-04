@@ -1,10 +1,10 @@
-from sqlalchemy import Column, Integer, String, DECIMAL, Enum, Index, select
+from sqlalchemy import Column, Integer, String, DECIMAL, Enum, Index, select, DateTime
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import text
 from utils.date_time_utils import timestamp_indian
 
-Base = declarative_base()
+from .base import Base
 
 class ProfitLoss(Base):
     """Model for profit and loss data."""
@@ -18,13 +18,13 @@ class ProfitLoss(Base):
     buy_value = Column(DECIMAL(12, 2), nullable=False)
     sell_value = Column(DECIMAL(12, 2), nullable=False)
     realized_pnl = Column(DECIMAL(12, 2), nullable=False)
-    realized_pnl_pct = Column(DECIMAL(6, 2), nullable=False)
+    realized_pnl_pct = Column(DECIMAL(12, 2), nullable=False)
     previous_closing_price = Column(DECIMAL(10, 2), nullable=True)
     open_quantity = Column(Integer, nullable=False, default=0)
-    open_quantity_type = Column(Enum("BUY", "SELL", name="open_quantity_type_enum"), nullable=False)
+    open_quantity_type = Column(String, nullable=False)
     open_value = Column(DECIMAL(12, 2), nullable=False)
     unrealized_pnl = Column(DECIMAL(12, 2), nullable=False)
-    unrealized_pnl_pct = Column(DECIMAL(6, 2), nullable=False)
+    unrealized_pnl_pct = Column(DECIMAL(12, 2), nullable=False)
     timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
 
     __table_args__ = (Index("idx_symbol_timestamp", "symbol", "timestamp"),)

@@ -43,4 +43,4 @@ source:
         date_range: //input[@placeholder="Date"]
         button: //button[@type='submit']
         href: //a[contains(text(), "CSV")]
-        prefix: funds
+        prefix: ledger

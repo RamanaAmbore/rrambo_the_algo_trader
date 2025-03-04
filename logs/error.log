@@ -7511,3 +7511,8 @@ WebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:197:5
 NoSuchElementError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:527:5
 dom.find/</<@chrome://remote/content/shared/DOM.sys.mjs:136:16
 
+2025-03-04 15:44:50,742 - models.base - ERROR - No model found for prefix: funds
+2025-03-04 15:47:23,694 - models.base - ERROR - No model found for prefix: funds
+2025-03-04 15:48:33,448 - models.base - ERROR - No model found for prefix: funds
+2025-03-04 15:50:43,567 - models.base - ERROR - No model found for prefix: funds
+2025-03-04 15:51:10,807 - models.base - ERROR - No model found for prefix: funds
