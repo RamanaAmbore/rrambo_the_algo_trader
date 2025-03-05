@@ -2,10 +2,11 @@ import pandas as pd
 from sqlalchemy.exc import SQLAlchemyError
 
 from models import Trades
-from threads.sync_data import logger
+from utils.logger import get_logger
 from utils.db_connection import DbConnection as Db
 from utils.zerodha_kite import ZerodhaKite
 
+logger = get_logger(__name__)
 
 def fetch_and_sync_trades_api():
     """Fetch trades from Kite API and insert missing ones into the database."""

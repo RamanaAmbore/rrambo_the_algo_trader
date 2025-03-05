@@ -1,25 +1,25 @@
 import asyncio
 import glob
 import os
-from json.decoder import NaN
+from math import nan
 
 import pandas as pd
-import pytz
 
-from models.ledger_entry import LedgerEntry
+from models.ledger_entries import LedgerEntries
 from models.profit_loss import ProfitLoss
 from models.trades import Trades  # Removed TradeTypeEnum import
 from utils.config_loader import Env, sc
+from utils.date_time_utils import INDIAN_TIMEZONE
 from utils.db_connection import DbConnection as Db
 from utils.logger import get_logger
 
 logger = get_logger(__name__)  # Initialize logger
-IST = pytz.timezone("Asia/Kolkata")
+# INDIAN_TIMEZONE = pytz.timezone("Asia/Kolkata")
 
 
 def return_model_for_prefix(report_prefix: str):
     """Return the correct model based on the file prefix."""
-    model_mapping = {"tradebook": Trades, "pnl": ProfitLoss, "ledger": LedgerEntry}
+    model_mapping = {"tradebook": Trades, "pnl": ProfitLoss, "ledger": LedgerEntries}
     return model_mapping.get(report_prefix)
 
 
@@ -28,7 +28,7 @@ def to_ist(timestamp):
     if pd.isna(timestamp) or timestamp is None:
         return None
     ts = pd.to_datetime(timestamp)
-    return ts.tz_localize("UTC").tz_convert(IST) if ts.tzinfo is None else ts.astimezone(IST)
+    return ts.tz_localize("UTC").tz_convert(INDIAN_TIMEZONE) if ts.tzinfo is None else ts.astimezone(INDIAN_TIMEZONE)
 
 
 async def load_data(file_path: str, model, prefix):
@@ -44,36 +44,28 @@ async def load_data(file_path: str, model, prefix):
     elif file_path.endswith(".xlsx"):
         df = pd.read_excel(file_path)
 
+    logger.info(f"Record Count: {len(df)}")
+
     if prefix == 'pnl':
-        # Step 1: Find the row index where a specific value (e.g., "ID") exists in column "A"
         header_row_idx = df[df["Unnamed: 1"] == "Symbol"].index[0]
-
-        # Step 2: Set this row as the new header
         df.columns = df.iloc[header_row_idx]
-
-        # Step 3: Remove all rows before the new header and reset index
         df = df.iloc[header_row_idx + 1:].reset_index(drop=True)
 
     if df is None or df.empty:
         logger.warning(f"No data in {file_path}")
         return
 
-    # Replace NaN values with None (to avoid database errors)
     df = df.fillna("")
 
     async for session in Db.get_async_session():
-        # Fetch existing records
         existing_records = await model.get_existing_records(session)
-
-        # Prepare new records for bulk insert
         new_records = []
         for _, row in df.iterrows():
-            if model == Trades and row["trade_id"] not in existing_records:
-                print(row['symbol'])
+            if Env.DOWNLOAD_TRADEBBOOK and model == Trades and row["trade_id"] not in existing_records:
                 new_records.append(Trades(trade_id=row["trade_id"], order_id=row["order_id"],
-                                          trading_symbol="" if row["symbol"] == NaN else row["symbol"],
+                                          trading_symbol="" if row["symbol"] == nan else row["symbol"],
                                           isin=row.get("isin"), exchange=row["exchange"], segment=row["segment"],
-                                          series=row["series"], trade_type=row["trade_type"],  # Kept as a string
+                                          series=row["series"], trade_type=row["trade_type"],
                                           auction=row.get("auction", False), quantity=row["quantity"],
                                           price=row["price"], trade_date=pd.to_datetime(row["trade_date"]).tz_localize(
                         sc.INDIAN_TIMEZONE) if row["trade_date"] else None,
@@ -83,7 +75,7 @@ async def load_data(file_path: str, model, prefix):
                                               sc.INDIAN_TIMEZONE) if row.get("expiry_date") else None,
                                           instrument_type="Options" if row.get("expiry_date") else "Equity", ))
 
-            elif model == ProfitLoss and (row["Symbol"], row["ISIN"]) not in existing_records:
+            elif Env.DOWNLOAD_PL and model == ProfitLoss and (row["Symbol"], row["ISIN"]) not in existing_records:
                 new_records.append(ProfitLoss(symbol=row["Symbol"], isin=row["ISIN"], quantity=row["Quantity"],
                                               buy_value=row["Buy Value"], sell_value=row["Sell Value"],
                                               realized_pnl=row["Realized P&L"],
@@ -94,16 +86,20 @@ async def load_data(file_path: str, model, prefix):
                                               open_value=row["Open Value"], unrealized_pnl=row["Unrealized P&L"],
                                               unrealized_pnl_pct=row["Unrealized P&L Pct."], ))
 
-            elif model == LedgerEntry and (
+
+            elif Env.DOWNLOAD_LEDGER and model == LedgerEntries and (
                     row['particulars'], row['posting_date'], row['cost_center'], row['voucher_type'], row['debit'],
                     row['credit'], row['net_balance']) not in existing_records:
-                new_records.append(LedgerEntry(particulars=row['particulars'], posting_date=row['posting_date'],
-                                               cost_center=row['cost_center'], voucher_type=row['voucher_type'],
-                                               debit=0 if row['debit'] == '' else row['debit'],
-                                               credit=0 if row['credit'] == '' else row['credit'],
-                                               net_balance=row['net_balance'], ))
+                new_records.append(LedgerEntries(particulars=row['particulars'],
+                                                 posting_date=None if row['posting_date'] == '' else row[
+                                                     'posting_date'], cost_center=row['cost_center'],
+                                                 voucher_type=row['voucher_type'],
+                                                 debit=0 if row['debit'] == '' else row['debit'],
+                                                 credit=0 if row['credit'] == '' else row['credit'],
+                                                 net_balance=row['net_balance'], source="BATCH"
 
-        # Bulk insert new records
+                                                 ))
+
         if new_records:
             await model.bulk_insert(session, new_records)
             logger.info(f"✅ Inserted {len(new_records)} new records into {model.__tablename__}")
@@ -111,7 +107,6 @@ async def load_data(file_path: str, model, prefix):
 
 async def process_directory(directory: str, prefix: str):
     """Process all matching files in a directory based on prefix."""
-
     if not os.path.exists(directory):
         logger.error(f"Directory not found: {directory}")
         return
@@ -121,15 +116,14 @@ async def process_directory(directory: str, prefix: str):
         logger.error(f"No model found for prefix: {prefix}")
         return
 
-    # Find all files matching the prefix
     files = glob.glob(os.path.join(directory, f"{prefix}*.*"))
-
     for file_path in files:
+        logger.info(f'Processing file: {file_path}')
         logger.info(f"Processing {file_path} for {model.__name__}")
         await load_data(file_path, model, prefix)
 
 
-async def main():
+async def load_reports():
     """Loop through sc.DOWNLOAD_REPORTS and process each type."""
     for key, value in sc.DOWNLOAD_REPORTS.items():
         prefix = value.get("prefix")
@@ -140,4 +134,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(load_reports())

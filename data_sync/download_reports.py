@@ -1,3 +1,4 @@
+import asyncio
 import os
 import time
 from datetime import timedelta, datetime
@@ -7,11 +8,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
+from data_sync.load_reports import load_reports
 from utils.config_loader import Env, sc
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
@@ -95,7 +97,7 @@ def login_kite(driver):
         logger.info("Submitted login credentials.")
 
         # Wait for TOTP field
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//input[@type='number']")))
+        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@type='number']")))
         totp_field = driver.find_element(By.XPATH, "//input[@type='number']")
         highlight_element(driver, totp_field)
 
@@ -143,7 +145,7 @@ def download_reports(driver):
                             if segment not in downloaded_files:
                                 downloaded_files[segment] = ""
                             dropdown = WebDriverWait(driver, 10).until(
-                                EC.presence_of_element_located((By.XPATH, item['segment']['element'])))
+                                ec.presence_of_element_located((By.XPATH, item['segment']['element'])))
                             highlight_element(driver, dropdown)
                             select = Select(dropdown)
                             select.select_by_visible_text(segment)
@@ -156,7 +158,7 @@ def download_reports(driver):
                         try:
                             if item['P&L'] is not None:
                                 dropdown = WebDriverWait(driver, 10).until(
-                                    EC.presence_of_element_located((By.XPATH, item['P&L']['element'])))
+                                    ec.presence_of_element_located((By.XPATH, item['P&L']['element'])))
                                 highlight_element(driver, dropdown)
                                 select = Select(dropdown)
                                 select.select_by_visible_text(item['P&L']['values'][0])
@@ -169,7 +171,7 @@ def download_reports(driver):
                         date_range_str = ""
                         try:
                             date_range = WebDriverWait(driver, 10).until(
-                                EC.element_to_be_clickable((By.XPATH, item['date_range'])))
+                                ec.element_to_be_clickable((By.XPATH, item['date_range'])))
                             highlight_element(driver, date_range)
                             time.sleep(2)
 
@@ -177,11 +179,8 @@ def download_reports(driver):
                             date_range_str = f'{current_start.strftime("%Y-%m-%d")}{date_range_str[10:13]}{current_end.strftime("%Y-%m-%d")}'
                             date_range.send_keys(Keys.CONTROL + "a")  # Select all text
                             date_range.send_keys(Keys.DELETE)  # Delete selected text
-
-                            date_range.clear()
-                            time.sleep(1)
                             date_range.send_keys(date_range_str)
-                            time.sleep(5)
+                            date_range.send_keys(Keys.ENTER)
                         except Exception as e:
                             if counter <= 3: continue
                             logger.error(f"Failed to set date range: {date_range_str} for {segment}: {e}")
@@ -189,12 +188,12 @@ def download_reports(driver):
 
                         try:
                             arrow_button = WebDriverWait(driver, 10).until(
-                                EC.element_to_be_clickable((By.XPATH, item['button'])))
+                                ec.element_to_be_clickable((By.XPATH, item['button'])))
                             highlight_element(driver, arrow_button)
                             arrow_button.click()
                             logger.info(f"Applied date filter {date_range_str} for {segment}")
                             download_csv_link = WebDriverWait(driver, 10).until(
-                                EC.element_to_be_clickable((By.XPATH, item['href'])))
+                                ec.element_to_be_clickable((By.XPATH, item['href'])))
                             highlight_element(driver, download_csv_link)
                             files_in_dir = set(os.listdir(Env.DOWNLOAD_DIR))
                             download_csv_link.click()
@@ -212,7 +211,7 @@ def download_reports(driver):
                 current_start = current_end + timedelta(days=1)
             all_downloaded_files[name] = downloaded_files
             logger.info(f'Downloaded files for {name}: {downloaded_files}')
-        logger.info(f'Downloaded files for all segements: {all_downloaded_files}')
+        logger.info(f'Downloaded files for all segments: {all_downloaded_files}')
 
     except Exception as e:
         logger.error(f"Error while downloading reports: {e}")
@@ -253,7 +252,7 @@ def wait_for_download(files_in_dir, timeout=60):
     raise TimeoutError("Download did not complete within the given time.")
 
 
-def main():
+def login_download_reports():
     """Main function to test login and report downloads."""
     test_login_only = False
 
@@ -268,4 +267,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    login_download_reports()
+    asyncio.run(load_reports())

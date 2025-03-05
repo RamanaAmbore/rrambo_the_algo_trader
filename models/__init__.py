@@ -11,6 +11,6 @@ from .stock_list import StockList
 from .strategy_config import StrategyConfig
 from .trades import Trades
 from .profit_loss import ProfitLoss
-from .ledger_entry import LedgerEntry
+from .ledger_entries import LedgerEntries
 from .watchlists import Watchlists
 from .watchlists import WatchlistInstruments

@@ -1,47 +1,61 @@
+from sqlalchemy import Column, String, Integer, Numeric, Boolean, DateTime, select, JSON
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from datetime import datetime
-from zoneinfo import ZoneInfo
-
-from sqlalchemy import Column, Integer, String, DECIMAL, SmallInteger, DateTime, Index, text
-
-from utils.config_loader import sc  # Import settings
-from utils.date_time_utils import timestamp_indian
 from .base import Base
+
+
+def timestamp_indian():
+    return datetime.now()
 
 
 class Orders(Base):
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_id = Column(String, unique=True, nullable=False, index=True)  # Indexed for fast lookups
-    trading_symbol = Column(String, nullable=False)
-    exchange = Column(String, nullable=False)  # NSE/BSE
-    status = Column(String, nullable=False)  # OPEN, COMPLETED, CANCELED
-    order_type = Column(String, nullable=False)  # MARKET/LIMIT
-    quantity = Column(SmallInteger, nullable=False)  # Memory-efficient if range is small
-    price = Column(DECIMAL(10, 2), nullable=True)  # Precise storage instead of Float
-    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
-
-    # Composite index for faster queries on symbol, exchange, and time
-    __table_args__ = (
-        Index("idx_order_trading_symbol_exchange_time", "trading_symbol", "exchange", "timestamp"),
-    )
+    account_id = Column(String, nullable=False)
+    placed_by = Column(String, nullable=False)
+    order_id = Column(String, nullable=False, unique=True)
+    exchange_order_id = Column(String, nullable=True)
+    parent_order_id = Column(String, nullable=True)
+    status = Column(String, nullable=False)
+    status_message = Column(String, nullable=True)
+    status_message_raw = Column(String, nullable=True)
+    order_timestamp = Column(DateTime, nullable=False)
+    exchange_update_timestamp = Column(DateTime, nullable=True)
+    exchange_timestamp = Column(DateTime, nullable=True)
+    variety = Column(String, nullable=False)
+    modified = Column(Boolean, default=False)
+    exchange = Column(String, nullable=False)
+    tradingsymbol = Column(String, nullable=False)
+    instrument_token = Column(Integer, nullable=False)
+    order_type = Column(String, nullable=False)
+    transaction_type = Column(String, nullable=False)
+    validity = Column(String, nullable=False)
+    validity_ttl = Column(Integer, default=0)
+    product = Column(String, nullable=False)
+    quantity = Column(Integer, default=0)
+    disclosed_quantity = Column(Integer, default=0)
+    price = Column(Numeric(10, 2), default=0)
+    trigger_price = Column(Numeric(10, 2), default=0)
+    average_price = Column(Numeric(10, 2), default=0)
+    filled_quantity = Column(Integer, default=0)
+    pending_quantity = Column(Integer, default=0)
+    cancelled_quantity = Column(Integer, default=0)
+    market_protection = Column(Integer, default=0)
+    meta = Column(JSON, nullable=True)
+    tag = Column(String, nullable=True)
+    guid = Column(String, nullable=True)
+    timestamp = Column(DateTime, default=timestamp_indian)
 
     @classmethod
-    def from_api_data(cls, order_data):
-        """Creates an Orders object from API data."""
-        return cls(
-            order_id=order_data["order_id"],
-            trading_symbol=order_data["tradingsymbol"],
-            exchange=order_data["exchange"],
-            status=order_data["status"],
-            order_type=order_data["order_type"],
-            quantity=order_data["quantity"],
-            price=order_data.get("average_price", None),  # Handle missing price gracefully
-            timestamp=datetime.strptime(order_data["order_timestamp"], "%Y-%m-%d %H:%M:%S").replace(tzinfo=ZoneInfo(sc.INDIAN_TIMEZONE))
-        )
+    async def get_all_orders(cls, session: AsyncSession):
+        result = await session.execute(select(cls))
+        return result.scalars().all()
 
     @classmethod
-    async def get_all_orders(cls, session):
-        """Fetch all orders asynchronously."""
-        return await session.execute(cls.__table__.select())
+    def from_api_data(cls, data):
+        return cls(**data)
 
+    def __repr__(self):
+        return f"<Orders(order_id={self.order_id}, tradingsymbol={self.tradingsymbol}, status={self.status})>"

@@ -1,7 +1,7 @@
 import pyotp
 
 from models.trades import Trades
-from models.ledger_entry import LedgerEntry
+from models.ledger_entries import LedgerEntries
 from models.profit_loss import ProfitLoss
 from utils.config_loader import Env
 
@@ -17,7 +17,7 @@ def return_model_for_prefix(report_prefix):
     elif report_prefix.startswith("pnl"):
         model = ProfitLoss
     elif report_prefix.startswith("ledger"):
-        model = LedgerEntry
+        model = LedgerEntries
     else:
         print("Unsupported file format!")
     return model

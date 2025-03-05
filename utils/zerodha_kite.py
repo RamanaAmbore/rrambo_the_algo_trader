@@ -5,10 +5,10 @@ import requests
 from kiteconnect import KiteConnect
 
 from models.access_token import AccessToken
-from utils_func.config_loader import sc
-from utils_func.db_connection import DbConnection
-from utils_func.logger import get_logger
-from utils_func.utils import generate_totp
+from utils.config_loader import sc
+from utils.db_connection import DbConnection
+from utils.logger import get_logger
+from utils.utils_func import generate_totp
 
 logger = get_logger(__name__)
 

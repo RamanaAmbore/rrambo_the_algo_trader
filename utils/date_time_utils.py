@@ -5,7 +5,7 @@ from utils.config_loader import sc  # Importing timezone settings
 
 # Define constants for timezones
 EST_ZONE = ZoneInfo(sc.EST_TIMEZONE)
-INDIAN_ZONE = ZoneInfo(sc.INDIAN_TIMEZONE)
+INDIAN_TIMEZONE = ZoneInfo(sc.INDIAN_TIMEZONE)
 
 
 # Helper functions for direct use
@@ -19,7 +19,7 @@ def timestamp_est():
 
 
 def timestamp_indian():
-    return datetime.now(tz=INDIAN_ZONE)
+    return datetime.now(tz=INDIAN_TIMEZONE)
 
 
 def today_local():
@@ -32,7 +32,7 @@ def today_est():
 
 
 def today_indian():
-    return datetime.now(tz=INDIAN_ZONE).date()
+    return datetime.now(tz=INDIAN_TIMEZONE).date()
 
 
 def current_time_local():
@@ -45,7 +45,7 @@ def current_time_est():
 
 
 def current_time_indian():
-    return datetime.now(tz=INDIAN_ZONE).time()
+    return datetime.now(tz=INDIAN_TIMEZONE).time()
 
 
 # Test Code in __main__
