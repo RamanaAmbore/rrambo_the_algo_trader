@@ -4,7 +4,7 @@ import time
 from kiteconnect import KiteTicker
 
 from models.algo_schedule import AlgoSchedule
-from utils.config_loader import sc
+from utils.settings_loader import sc
 from utils.date_time_utils import today_indian, current_time_indian
 from utils.db_connection import DbConnection as Db
 from utils.logger import get_logger

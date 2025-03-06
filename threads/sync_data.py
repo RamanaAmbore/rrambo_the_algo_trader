@@ -47,7 +47,7 @@ async def fetch_and_sync_orders():
         return
 
     logger.info(f"Fetched {len(api_orders)} orders from API.")
-    print(f'orders: {api_orders[0]}')
+    logger.info(f'orders: {api_orders[0]}')
 
     async for session in Db.get_async_session():
         try:
@@ -91,11 +91,11 @@ async def fetch_and_sync_positions():
         logger.error(f"Failed to fetch positions: {ex}")
         return
 
-    print(f'Positions: {api_positions[0]}')
+    logger.info(f'Positions: {api_positions[0]}')
 
     async for session in Db.get_async_session():
         try:
-            existing_positions = await Positions.get_all_positions(session)
+            existing_positions = await Positions.get_all_results(session)
             existing_instrument_tokens = {pos.instrument_token for pos in existing_positions}
 
             new_positions = [Positions.from_api_data(pos) for pos in api_positions if
@@ -127,7 +127,7 @@ async def fetch_and_sync_holdings():
     if not api_holdings:
         logger.info("No holdings found in API response.")
         return
-    print(f'Holdings: {api_holdings[0]}')
+    logger.info(f'Holdings: {api_holdings[0]}')
     async for session in Db.get_async_session():
         try:
             existing_holdings = await Holdings.get_all_holdings(session)

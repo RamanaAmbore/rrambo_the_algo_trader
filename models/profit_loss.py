@@ -1,8 +1,8 @@
-from sqlalchemy import Column, String, Date, Numeric, Integer, select, DateTime, text, Boolean, BigInteger
+from sqlalchemy import Column, String, Numeric, Integer, select, DateTime, text, Boolean
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.ext.declarative import declarative_base
 
 from utils.date_time_utils import timestamp_indian
+from utils.settings_loader import Env
 from .base import Base
 
 
@@ -23,9 +23,10 @@ class ProfitLoss(Base):
     open_value = Column(Numeric(12, 2), nullable=False)
     unrealized_pnl = Column(Numeric(12, 2), nullable=False)
     unrealized_pnl_pct = Column(Numeric(12, 2), nullable=False)
-    timestamp = Column(DateTime(timezone=True), default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
-    source = Column(String, nullable=True, default="BATCH")
-    warning = Column(Boolean, default=False)
+    source = Column(String, nullable=True, default="SCHEDULE")
+    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                       server_default=text("CURRENT_TIMESTAMP"))
+    warning_error = Column(Boolean, default=False)
     msg = Column(String, nullable=True)
 
     @classmethod
@@ -39,6 +40,14 @@ class ProfitLoss(Base):
         """Fetch all existing (symbol, ISIN) pairs from the table."""
         result = await session.execute(select(cls.symbol, cls.isin))
         return {(row[0], row[1]) for row in result.fetchall()}
+
+
+    @classmethod
+    async def get_all_results(cls, session, account_id=Env.ZERODHA_USERNAME):
+        """Fetch all backtest results asynchronously."""
+        result = await session.execute(select(cls).where(cls.account_id == account_id))
+        return result.scalars().all()
+
 
     @classmethod
     async def bulk_insert(cls, session: AsyncSession, records):

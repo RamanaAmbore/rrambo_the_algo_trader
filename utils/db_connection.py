@@ -6,7 +6,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy_utils import database_exists, create_database
 
 from models.base import Base
-from utils.config_loader import Env
+from utils.settings_loader import Env
 from utils.logger import get_logger
 
 # Load environment variables

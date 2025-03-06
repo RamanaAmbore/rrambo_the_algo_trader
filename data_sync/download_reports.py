@@ -14,7 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 from data_sync.load_reports import load_reports
-from utils.config_loader import Env, sc
+from utils.settings_loader import Env, sc
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
 from utils.utils_func import generate_totp
@@ -199,8 +199,9 @@ def download_reports(driver):
                             download_csv_link.click()
 
                             # Wait for the file to appear in the download directory
-                            downloaded_file = wait_for_download(files_in_dir)
-                            downloaded_files[segment] = downloaded_files[segment] + downloaded_file
+                            if not check_for_error_text_js(driver):
+                                downloaded_file = wait_for_download(files_in_dir)
+                                downloaded_files[segment] = downloaded_files[segment] + downloaded_file
                             logger.info(f"Download completed for {segment} for {date_range_str}: {downloaded_file}")
                             break
                         except Exception as e:
@@ -224,6 +225,13 @@ def download_reports(driver):
             logger.warning(f"All reports downloaded successfully, with the exception of: {FAILED_REPORTS}")
         else:
             logger.info("All reports downloaded successfully!")
+
+
+def check_for_error_text_js(driver):
+    """Returns True if 'something went wrong' or 'empty' is present anywhere in the page source."""
+    return driver.execute_script(
+        "return document.body.innerText.includes('something went wrong') || document.body.innerText.includes(\"Report's empty\");"
+    )
 
 
 def wait_for_download(files_in_dir, timeout=60):
