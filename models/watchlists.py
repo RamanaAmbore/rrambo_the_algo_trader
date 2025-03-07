@@ -1,47 +1,32 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, text, Boolean
+from sqlalchemy import Column, String, ForeignKey, DateTime, text, Boolean, Index, Enum
 from sqlalchemy.orm import relationship
-
-from utils.settings_loader import Env
+from model_utils import source
 from utils.date_time_utils import timestamp_indian
 from .base import Base
 
 
 class Watchlists(Base):
-    """Model for user-defined watchlists."""
+    """Model for storing user watchlists."""
     __tablename__ = "watchlists"
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String, nullable=True, default=Env.ZERODHA_USERNAME)
-    name = Column(String, nullable=False, unique=True)
-    source = Column(String, nullable=True, default="API")
+    id = Column(String(20), primary_key=True)  # Unique identifier for the watchlist
+    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    desc = Column(String(255), nullable=False)  # Watchlist name
+    source = Column(Enum(source), nullable=True, server_default="MANUAL")  # Token source (e.g., API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
-    warning_error = Column(Boolean, default=False)
-    msg = Column(String, nullable=True)
+    warning_error = Column(Boolean, nullable=False, default=False)
+    notes = Column(String(255), nullable=True)  # Optional notes
 
-    instruments = relationship("WatchlistInstruments", back_populates="watchlist", cascade="all, delete")
+    # Unique constraint on account_id + name to prevent duplicates within an account
+    __table_args__ = (
+        Index("idx_account_watchlist", "account_id", "desc", unique=True),
+    )
 
-    def __repr__(self):
-        return f"<Watchlist {self.name}>"
-
-
-class WatchlistInstruments(Base):
-    """Mapping of instruments to watchlists."""
-    __tablename__ = "watchlist_instruments"
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String, nullable=True, default=Env.ZERODHA_USERNAME)
-    watchlist_id = Column(Integer, ForeignKey("watchlists.id", ondelete="CASCADE"))
-    trading_symbol = Column(String, nullable=False, index=True)
-    exchange = Column(String, nullable=False)
-    instrument_token = Column(Integer, nullable=False, unique=True)
-    source = Column(String, nullable=True, default="API")
-    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                       server_default=text("CURRENT_TIMESTAMP"))
-    warning_error = Column(Boolean, default=False)
-    msg = Column(String, nullable=True)
-
-    watchlist = relationship("Watchlists", back_populates="instruments")
+    # Relationship with WatchlistInstruments
+    instruments = relationship("WatchlistInstruments", back_populates="watchlist", cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"<WatchlistInstrument {self.trading_symbol} ({self.exchange})>"
+        return f"<Watchlist(id={self.id}, account_id={self.account_id}, name={self.desc})>"
+
+

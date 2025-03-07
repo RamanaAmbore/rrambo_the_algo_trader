@@ -73,3 +73,8 @@ class DbConnection:
         """Provides an async session for database operations."""
         async with DbConnection.async_session() as session:
             yield session
+
+    @staticmethod
+    async def get_session(sync=False):
+        """Provides an async session for database operations."""
+        return DbConnection.get_sync_session() if sync else DbConnection.get_sync_session()

@@ -1,3 +1,5 @@
+from decimal import Decimal, ROUND_DOWN
+
 import pyotp
 
 from models.trades import Trades
@@ -20,4 +22,10 @@ def return_model_for_prefix(report_prefix):
         model = LedgerEntries
     else:
         print("Unsupported file format!")
-    return model
+    return
+
+def to_decimal(value, precision="0.01"):
+    """Convert float to Decimal with 4 decimal places for option Greeks."""
+    return Decimal(value).quantize(Decimal(precision), rounding=ROUND_DOWN)
+
+

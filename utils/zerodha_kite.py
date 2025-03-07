@@ -109,8 +109,8 @@ class ZerodhaKite:
                 request_token = str(e).split("request_token=")[1].split("&")[0].split()[0]
                 logger.info(f"Request Token received: {request_token}")
             except Exception:
-                msg = "Failed to extract request token."
-                logger.error(msg)
+                notes = "Failed to extract request token."
+                logger.error(notes)
                 raise
 
         # Step 4: Generate access token

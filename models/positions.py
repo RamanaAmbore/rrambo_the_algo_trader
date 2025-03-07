@@ -1,13 +1,10 @@
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, select, text, Numeric, Boolean
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import Column, Integer, String, DateTime, text, Numeric, Boolean, ForeignKey, Enum
 
 from utils.date_time_utils import timestamp_indian
-# Custom utilities
-from utils.settings_loader import Env
 from .base import Base
-
+from model_utils import source
 
 class Positions(Base):
     """
@@ -48,17 +45,17 @@ class Positions(Base):
         source (str): Source of data.
         timestamp (datetime): Record creation timestamp.
         warning_error (bool): Warning or error flag.
-        msg (str): Optional message.
+        notes (str): Optional message.
     """
     __tablename__ = "positions"
 
     # Column definitions
     id = Column(Integer, primary_key=True, autoincrement=True)  # Unique identifier for each position
-    account_id = Column(String, nullable=False, default=Env.ZERODHA_USERNAME)  # Associated account ID
+    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
     tradingsymbol = Column(String, nullable=False)  # Trading symbol of the position
-    exchange = Column(String, nullable=False)  # Exchange where the position is traded
+    exchange = Column(String(10), nullable=False)  # Exchange where the position is traded
     instrument_token = Column(Integer, nullable=False, unique=True)  # Unique instrument token
-    product = Column(String, nullable=False)  # Product type (e.g., MIS, CNC)
+    product = Column(String(10), nullable=False)  # Product type (e.g., MIS, CNC)
     quantity = Column(Integer, default=0)  # Quantity of the position
     overnight_quantity = Column(Integer, default=0)  # Quantity held overnight
     multiplier = Column(Integer, default=1)  # Multiplier for the position
@@ -84,39 +81,11 @@ class Positions(Base):
     day_sell_quantity = Column(Integer, default=0)  # Day sell quantity
     day_sell_price = Column(Numeric(10, 2), default=0)  # Day sell price
     day_sell_value = Column(Numeric(12, 2), default=0)  # Day sell value
-    source = Column(String, nullable=True, default="API")  # Source of data
+    source = Column(Enum(source), nullable=True, server_default="API")  # Token source (e.g., API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))  # Record creation timestamp
     warning_error = Column(Boolean, default=False)  # Warning or error flag
-    msg = Column(String, nullable=True)  # Optional message
-
-    @classmethod
-    async def get_all_results(cls, session, account_id=Env.ZERODHA_USERNAME):
-        """
-        Fetch all backtest results asynchronously.
-
-        Args:
-            session (AsyncSession): SQLAlchemy AsyncSession instance.
-            account_id (str): Account ID to filter the results. Defaults to Env.ZERODHA_USERNAME.
-
-        Returns:
-            list: List of all backtest results for the specified account ID.
-        """
-        result = await session.execute(select(cls).where(cls.account_id == account_id))
-        return result.scalars().all()
-
-    @classmethod
-    def from_api_data(cls, data):
-        """
-        Create a Positions instance from API data.
-
-        Args:
-            data (dict): Data from the API.
-
-        Returns:
-            Positions: A new Positions instance populated with the provided data.
-        """
-        return cls(**data)
+    notes = Column(String(255), nullable=True)  # Optional message
 
     def __repr__(self):
         """

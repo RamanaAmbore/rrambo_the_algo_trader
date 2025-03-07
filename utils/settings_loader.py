@@ -22,16 +22,13 @@ sc = SimpleNamespace(**constants.source)
 
 
 class Env:
-    # Zerodha Credentials
-    API_KEY = os.getenv("API_KEY")
-    API_SECRET = os.getenv("API_SECRET")
-    ZERODHA_USERNAME = os.getenv("ZERODHA_USERNAME")
-    ZERODHA_PASSWORD = os.getenv("ZERODHA_PASSWORD")
-    TOTP_TOKEN = os.getenv("TOTP_TOKEN")
+    # Database Configuration
+    SQLITE_DB = os.getenv("SQLITE_DB", "True").lower() == "true"
+    SQLITE_PATH = os.getenv("SQLITE_PATH", "database.db")
 
-    # Market Configurations
-    INSTRUMENT_TOKEN = os.getenv("INSTRUMENT_TOKEN")
-    DATA_FETCH_INTERVAL = os.getenv("DATA_FETCH_INTERVAL")
+    # PostgresSQL Configuration (Only used if SQLITE_DB=False)
+    POSTGRES_URL = os.getenv("POSTGRES_URL")
+
 
     # Logging Configuration
     DEBUG_LOG_FILE = os.getenv("DEBUG_LOG_FILE", "logs/debug.log")
@@ -39,30 +36,38 @@ class Env:
     CONSOLE_LOG_LEVEL = os.getenv("CONSOLE_LOG_LEVEL", "DEBUG")
     FILE_LOG_LEVEL = os.getenv("FILE_LOG_LEVEL", "DEBUG")
     ERROR_LOG_LEVEL = os.getenv("ERROR_LOG_LEVEL", "ERROR")
+    DB_DEBUG = os.getenv('DB_DEBUG').lower() == 'true'
+
+    API_KEY = None
+    API_SECRET = None
+    ZERODHA_USERNAME = None
+    ZERODHA_PASSWORD = None
+    TOTP_TOKEN = None
+
+    # Market Configurations
+    INSTRUMENT_TOKEN = None
+    DATA_FETCH_INTERVAL = None
 
     # urls
-    BASE_URL = os.getenv("BASE_URL")
-    LOGIN_URL = os.getenv("LOGIN_URL")
-    TWOFA_URL = os.getenv("TWOFA_URL")
-    INSTRUMENTS_URL = os.getenv("INSTRUMENTS_URL")
-    REDIRECT_URL = os.getenv("REDIRECT_URL")
+    BASE_URL = None
+    LOGIN_URL = None
+    TWOFA_URL = None
+    INSTRUMENTS_URL = None
+    REDIRECT_URL = None
 
-    # Database Configuration
-    SQLITE_DB = os.getenv("SQLITE_DB", "True").lower() == "true"
-    SQLITE_PATH = os.getenv("SQLITE_PATH", "database.db")
+    ACCESS_TOKEN_VALIDITY = None
 
-    # PostgresSQL Configuration (Only used if SQLITE_DB=False)
-    POSTGRES_URL = os.getenv("POSTGRES_URL")
-    ACCESS_TOKEN_VALIDITY = int(os.getenv("ACCESS_TOKEN_VALIDITY"))
+    DOWNLOAD_TRADEBBOOK = None
+    DOWNLOAD_PL = None
+    DOWNLOAD_LEDGER = None
+    DOWNLOAD_POSITIONS = None
+    DOWNLOAD_HOLDINGS = None
+    DOWNLOAD_DIR = None
+    REPORT_START_DATE = None
+    REPORT_LOOKBACK_DAYS = None
 
-    DB_DEBUG = os.getenv('DB_DEBUG').lower() == 'true'
-    DOWNLOAD_TRADEBBOOK = os.getenv('DOWNLOAD_TRADEBBOOK').lower() == 'true'
-    DOWNLOAD_PL = os.getenv('DOWNLOAD_PL').lower() == 'true'
-    DOWNLOAD_LEDGER = os.getenv('DOWNLOAD_LEDGER').lower() == 'true'
-    DOWNLOAD_POSITIONS = os.getenv('DOWNLOAD_POSITIONS').lower() == 'true'
-    DOWNLOAD_HOLDINGS = os.getenv('DOWNLOAD_HOLDINGS').lower() == 'true'
-    DOWNLOAD_DIR = os.getenv('DOWNLOAD_DIR')
-    REPORT_START_DATE = os.getenv('REPORT_START_DATE')
-    REPORT_LOOKBACK_DAYS = int(os.getenv('REPORT_LOOKBACK_DAYS'))
 
+    @classmethod
+    def update_settings(account_settings_dict):
+        pass
 
