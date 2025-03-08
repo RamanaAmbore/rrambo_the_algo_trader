@@ -63,33 +63,33 @@ class Env:
 
     # Dynamic Parameters (converted to lowercase)
     USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
-    instrument_token: Optional[str] = None
-    data_fetch_interval: Optional[int] = None
+    INSTRUMENT_TOKEN: Optional[str] = None
+    DATA_FETCH_INTERVAL: Optional[int] = None
     
     # URLs (converted to lowercase)
-    base_url: Optional[str] = None
-    login_url: Optional[str] = None
-    twofa_url: Optional[str] = None
-    instruments_url: Optional[str] = None
-    redirect_url: Optional[str] = None
+    BASE_URL: Optional[str] = None
+    LOGIN_URL: Optional[str] = None
+    TWOFA_URL: Optional[str] = None
+    INSTRUMENT_URL: Optional[str] = None
+    REDIRECT_URL: Optional[str] = None
     
     # Token Configuration (converted to lowercase)
-    access_token_validity: Optional[int] = None
+    ACCESS_TOKEN_VALIDITY: Optional[int] = None
     
     # Download Configuration (converted to lowercase)
-    download_tradebook: Optional[bool] = None
-    download_pl: Optional[bool] = None
-    download_ledger: Optional[bool] = None
-    download_positions: Optional[bool] = None
-    download_holdings: Optional[bool] = None
-    download_dir: Optional[str] = None
-    report_start_date: Optional[datetime] = None
-    report_lookback_days: Optional[int] = None
+    DOWNLOAD_TRADEBOOK: Optional[bool] = None
+    DOWNLOAD_PL: Optional[bool] = None
+    DOWNLOAD_LEDGER: Optional[bool] = None
+    DOWNLOAD_POSITIONS: Optional[bool] = None
+    DOWNLOAD_HOLDINGS: Optional[bool] = None
+    DOWNLOAD_DIR: Optional[str] = None
+    REPORT_START_DATE: Optional[datetime] = None
+    REPORT_LOOKBACK_DAYS: Optional[int] = None
 
     @classmethod
-    def reset_parms(cls, records) -> None:
+    def reset_parms(cls, records, refresh=False) -> None:
         try:
-            if not cls.USER_CREDENTIALS:
+            if not cls.USER_CREDENTIALS or refresh:
                 unique_BrokerAccounts = {record.account_id for record in records if record.account_id}
 
                 for record in records:
@@ -98,10 +98,11 @@ class Env:
                         if record.account_id not in cls.USER_CREDENTIALS:
                             cls.USER_CREDENTIALS[record.account_id] = {}
                         cls.USER_CREDENTIALS[record.account_id][record.parameter] = record.value
+                        continue
                     
                     # Handle global parameters
-                    param_value = record.value
-                    param_name = record.parameter.lower()  # Convert to lowercase
+                    param_value = record.value.strip()
+                    param_name = record.parameter.strip()  # Convert to lowercase
                     
                     if hasattr(cls, param_name):
                         # Convert value to appropriate type
@@ -111,8 +112,6 @@ class Env:
                             setattr(cls, param_name, int(param_value))
                         else:
                             setattr(cls, param_name, param_value)
-
-            print("Parameters reset successfully")
         except Exception as e:
             print(f"Error resetting parameters: {e}")
             raise

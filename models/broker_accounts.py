@@ -51,8 +51,6 @@ class BrokerAccounts(Base):
 
     trades = relationship("Trades", back_populates="broker_account")
     
-    watchlist_instruments = relationship("WatchlistInstruments", back_populates="broker_account")
-    
     positions = relationship("Positions", back_populates="broker_account")
 
     option_contracts = relationship("OptionContracts", back_populates="broker_account")
