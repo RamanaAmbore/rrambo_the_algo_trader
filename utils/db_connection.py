@@ -119,13 +119,6 @@ class DbConnection:
         except Exception as e:
             logger.error(f"Error during database cleanup: {e}")
 
-# Initialize parameters after ensuring tables exist
-# with DbConnection.get_sync_session() as session:
-#     parameters = session.query(Parameters).all()
-#     Env.reset_parms(parameters)
-#     session.commit()
-#
-# logger.info("Database and parameters initialized successfully")
 
 async def test_async_session():
     """Test async session functionality."""

@@ -31,7 +31,7 @@ class Parameters(Base):
         UniqueConstraint('account_id', 'parameter', name='uq_account_parameter'),
         Index('idx_account_parameter', 'account_id', 'parameter'),
         Index('idx_parameter_lookup', 'parameter'),
-        CheckConstraint("value IS NOT NULL OR notes IS NOT NULL",
+        CheckConstraint("parameter IS NOT NULL",
                        name="check_value_or_notes_not_null"),
     )
     @classmethod

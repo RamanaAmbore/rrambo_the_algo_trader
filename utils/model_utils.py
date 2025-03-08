@@ -51,6 +51,11 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
     {"account_id": "ZG0790", "parameter": "ZERODHA_PASSWORD", "value": "Zerodha01#"},
     {"account_id": "ZG0790", "parameter": "TOTP_TOKEN", "value": "YJPG3JUXH365ENNG7LNGEWRMQWQBKSSZ"},
 
+    {"account_id": "ZJ6294", "parameter": "API_KEY", "value": None},
+    {"account_id": "ZJ6294", "parameter": "API_SECRET", "value": None},
+    {"account_id": "ZJ6294", "parameter": "ZERODHA_PASSWORD", "value": "Anirudh01#"},
+    {"account_id": "ZJ6294", "parameter": "TOTP_TOKEN", "value": "W765AAJV7VU55C6LNBEIFSCWZ2LCALXB"},
+
     # Market Configurations
     {"account_id": None, "parameter": "INSTRUMENT_TOKEN", "value": "260105"},
     {"account_id": None, "parameter": "DATA_FETCH_INTERVAL", "value": "5"},

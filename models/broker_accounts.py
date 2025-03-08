@@ -47,7 +47,7 @@ class BrokerAccounts(Base):
     
     strategy_config = relationship("StrategyConfig", back_populates="broker_account")
     
-    threads = relationship("Threads", back_populates="broker_account")
+    algo_thread_status = relationship("AlgoThreadStatus", back_populates="broker_account")
 
     trades = relationship("Trades", back_populates="broker_account")
     
