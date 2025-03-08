@@ -61,6 +61,7 @@ class DbConnection:
 
             # Configure all mappers before creating tables
             Base.metadata.reflect(cls._engine)
+            Base.metadata.drop_all(cls._engine)
             Base.metadata.create_all(cls._engine)
             
 

@@ -9,7 +9,7 @@ from utils.model_utils import source, DEFAULT_BROKER_ACCOUNTS
 
 class BrokerAccounts(Base):
     """Model for storing broker account details manually."""
-    __tablename__ = "broker_accounts"
+    __tablename__ = "broker_accounts"  # Changed to lowercase
 
     account_id = Column(String(10), primary_key=True)  # Unique account identifier
     broker_name = Column(String(20), nullable=False)  # Name of the broker
@@ -23,34 +23,41 @@ class BrokerAccounts(Base):
         """String representation for debugging."""
         return f"<BrokerAccounts(account_id='{self.account_id}', broker_name='{self.broker_name}', notes='{self.notes}')>"
 
-    # Add this relationship
-    # AccessToken = relationship("AccessToken", back_populates="broker_account")
-    # holdings = relationship("Holdings", back_populates="broker_account")
-    # # Fix relationship definitions to be consistent
-    # parameters = relationship("Parameters", back_populates="broker_account")
-    # algo_schedules = relationship("AlgoSchedules", back_populates="broker_account")
-    # backtests = relationship("BacktestResults", back_populates="broker_account")  # Changed from "account" to "broker_account"
-    # option_greeks = relationship("OptionGreeks", back_populates="broker_account")
-    # # Add this relationship
-    # ledger_entries = relationship("LedgerEntries", back_populates="broker_account")
-    # option_strategies = relationship("OptionStrategies", back_populates="broker_account")
-    # # Add this relationship
-    # orders = relationship("Orders", back_populates="broker_account")
-    # # Add this relationship
-    # refresh_flags = relationship("RefreshFlags", back_populates="broker_account")
-    # # Add this relationship
-    # stock_list = relationship("StockList", back_populates="broker_account")
-    # # Add this relationship
-    # strategy_configs = relationship("StrategyConfig", back_populates="broker_account")
-    # # Add this relationship
-    # threads = relationship("Threads", back_populates="broker_account")
-    # # Add this relationship
-    # trades = relationship("Trades", back_populates="broker_account")
-    # # Add this relationship
-    # watchlist_instruments = relationship("WatchlistInstruments", back_populates="broker_account")
-    # # Add this relationship
-    # positions = relationship("Positions", back_populates="broker_account")
+    access_tokens = relationship("AccessToken", back_populates="broker_account")
 
+    holdings = relationship("Holdings", back_populates="broker_account")
+
+    parameter = relationship("Parameters", back_populates="broker_account")
+
+    algo_schedule_time = relationship("AlgoScheduleTime", back_populates="broker_account")
+
+    backtest_results = relationship("BacktestResults", back_populates="broker_account")
+
+    option_greeks = relationship("OptionGreeks", back_populates="broker_account")
+    
+    ledger_entries = relationship("LedgerEntries", back_populates="broker_account")
+
+    option_strategies = relationship("OptionStrategies", back_populates="broker_account")
+    
+    orders = relationship("Orders", back_populates="broker_account")
+    
+    refresh_flags = relationship("RefreshFlags", back_populates="broker_account")
+    
+    stock_list = relationship("StockList", back_populates="broker_account")
+    
+    strategy_config = relationship("StrategyConfig", back_populates="broker_account")
+    
+    threads = relationship("Threads", back_populates="broker_account")
+
+    trades = relationship("Trades", back_populates="broker_account")
+    
+    watchlist_instruments = relationship("WatchlistInstruments", back_populates="broker_account")
+    
+    positions = relationship("Positions", back_populates="broker_account")
+
+    option_contracts = relationship("OptionContracts", back_populates="broker_account")
+
+    profit_loss = relationship("ProfitLoss", back_populates="broker_account")
 
 @event.listens_for(BrokerAccounts.__table__, "after_create")
 def insert_default_records(target, connection, **kwargs):

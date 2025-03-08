@@ -36,7 +36,7 @@ class Holdings(Base):
     notes = Column(String(255), nullable=True)  # Optional message field for additional info
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="holdings")
+    broker_account = relationship("BrokerAccounts", back_populates="holdings")
     __table_args__ = (CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
                       CheckConstraint("average_price >= 0", name="check_avg_price_non_negative"),
                       CheckConstraint("current_price >= 0", name="check_current_price_non_negative"),

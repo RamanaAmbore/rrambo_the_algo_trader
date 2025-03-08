@@ -20,8 +20,7 @@ class OptionContracts(Base):
     __tablename__ = "option_contracts"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    # account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
-    account_id = Column(String(10),  nullable=True)
+    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
     instrument_token = Column(Integer, unique=True, nullable=False)
     trading_symbol = Column(String(20), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=False)
@@ -34,9 +33,9 @@ class OptionContracts(Base):
                        server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
-    # greeks = relationship("OptionGreeks", back_populates="option_contract")
-    # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="option_contracts")
+
+    option_greeks = relationship("OptionGreeks", back_populates="option_contract")
+    broker_account = relationship("BrokerAccounts", back_populates="option_contracts")
 
     __table_args__ = (CheckConstraint("strike_price > 0", name="check_strike_price_positive"),
                       CheckConstraint("lot_size > 0", name="check_lot_size_positive"),

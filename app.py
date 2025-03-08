@@ -18,6 +18,7 @@ engine = create_engine(f'sqlite:///{DB_FILE}', echo=False)
 Base = declarative_base()
 
 Base.metadata.create_all(engine)
+Base.metadata.drop_all(engine)
 Session = sessionmaker(bind=engine)
 
 

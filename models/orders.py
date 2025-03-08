@@ -82,7 +82,7 @@ class Orders(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="orders")
+    broker_account = relationship("BrokerAccounts", back_populates="orders")
 
     __table_args__ = (CheckConstraint(f"status IN {tuple(ORDER_STATUS)}", name="check_valid_status"),
                       CheckConstraint(f"variety IN {tuple(ORDER_VARIETY)}", name="check_valid_variety"),

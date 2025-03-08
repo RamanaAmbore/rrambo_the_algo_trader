@@ -27,8 +27,8 @@ class AccessToken(Base):
     warning_error = Column(Boolean, nullable=False, default=False)  # Flag for warnings/errors
     notes = Column(String(255), nullable=True)  # Additional message field for logging
 
-    # # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="access_token")
+    # Fix relationship name and back_populates
+    broker_account = relationship("BrokerAccounts", back_populates="access_tokens")
 
     def __repr__(self):
         return (f"<AccessToken(id={self.id}, account_id='{self.account_id}', token='{self.token}', "

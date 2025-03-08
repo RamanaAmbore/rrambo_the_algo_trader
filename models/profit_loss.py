@@ -39,7 +39,7 @@ class ProfitLoss(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="profit_loss")
+    broker_account= relationship("BrokerAccounts", back_populates="profit_loss")
 
     __table_args__ = (
         CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),

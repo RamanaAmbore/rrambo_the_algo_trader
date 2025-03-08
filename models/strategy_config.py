@@ -25,8 +25,8 @@ class StrategyConfig(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    # backtests = relationship("BacktestResults", back_populates="strategy")
-    # broker_account = relationship("BrokerAccounts", back_populates="strategy_configs")
+    backtest_results = relationship("BacktestResults", back_populates="strategy_config")
+    broker_account = relationship("BrokerAccounts", back_populates="strategy_config")
 
     __table_args__ = (
         Index("idx_account_strategy2", "account_id", "strategy_name"),

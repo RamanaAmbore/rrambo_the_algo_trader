@@ -26,7 +26,7 @@ class Watchlists(Base):
     )
 
     # Relationship with WatchlistInstruments
-    # instruments = relationship("WatchlistInstruments", back_populates="watchlist", cascade="all, delete-orphan")
+    watchlist_instruments = relationship("WatchlistInstruments", back_populates="watchlist", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Watchlist(id={self.id}, account_id={self.account_id}, name={self.desc})>"

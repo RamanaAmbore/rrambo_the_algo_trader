@@ -33,7 +33,7 @@ class StockList(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="stock_list")
+    broker_account = relationship("BrokerAccounts", back_populates="stock_list")
 
     __table_args__ = (
         Index("idx_trading_symbol2", "trading_symbol"),

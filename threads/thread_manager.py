@@ -6,7 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 # Import existing thread functions
 from market_ticker import MarketTicker
-from models.algo_schedule import AlgoSchedules
+from models.algo_schedule import AlgoScheduleTime
 from sync_data import sync_all
 from utils.date_time_utils import current_time_indian
 from utils.db_connection import DbConnection as Db
@@ -27,7 +27,7 @@ class ThreadManager:
 
         with Db.get_sync_session() as session:
             try:
-                schedules = [AlgoSchedules.get_market_hours_for_today(session)]
+                schedules = [AlgoScheduleTime.get_market_hours_for_today(session)]
                 return schedules
             except Exception as e:
                 logger.error(f"Error fetching schedules: {e}")
@@ -81,7 +81,7 @@ class ThreadManager:
 
         with self.lock:
             for schedule in schedules:
-                thread_name = schedule.thread_name
+                thread_name = schedule.thread
                 start_time = schedule.start_time
                 end_time = schedule.end_time
 

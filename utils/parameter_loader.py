@@ -90,7 +90,7 @@ class Env:
     def reset_parms(cls, records) -> None:
         try:
             if not cls.USER_CREDENTIALS:
-                unique_account_ids = {record.account_id for record in records if record.account_id}
+                unique_BrokerAccounts = {record.account_id for record in records if record.account_id}
 
                 for record in records:
                     # Handle account-specific parameters

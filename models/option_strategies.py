@@ -27,7 +27,7 @@ class OptionStrategies(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="option_strategies")
+    broker_account = relationship("BrokerAccounts", back_populates="option_strategies")
 
     __table_args__ = (CheckConstraint("max_loss <= 0", name="check_max_loss_negative"),
                       CheckConstraint("max_profit >= 0", name="check_max_profit_positive"),

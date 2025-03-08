@@ -44,8 +44,8 @@ class BacktestResults(Base):
     notes = Column(String(255), nullable=True)  # Additional messages or error details
 
     # Relationships for ORM
-    # account = relationship("BrokerAccounts", back_populates="backtest_results")
-    # strategy = relationship("StrategyConfig", back_populates="backtest_results")
+    broker_account = relationship("BrokerAccounts", back_populates="backtest_results")
+    strategy_config = relationship("StrategyConfig", back_populates="backtest_results")
 
     # Table constraints & indexes
     __table_args__ = (CheckConstraint("total_pnl >= 0", name="check_total_pnl_non_negative"),

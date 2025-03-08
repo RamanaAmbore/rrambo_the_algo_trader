@@ -26,10 +26,10 @@ class RefreshFlags(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="refresh_flags")
+    broker_account = relationship("BrokerAccounts", back_populates="refresh_flags")
 
     __table_args__ = (
-        UniqueConstraint('account_id', 'thread_name', name='uq_account_thread'),
+        UniqueConstraint('account_id', 'thread_name', name='print2'),
         Index('idx_account_timestamp1', 'account_id', 'timestamp'),
     )
 

@@ -28,15 +28,18 @@ class source(enum.Enum):
     FRONTEND = 'FRONTEND'
     CODE = "CODE"
 
-
 DEFAULT_SCHEDULE_RECORDS = [
-    {"weekday": WeekdayEnum.GLOBAL, "schedule_name": "MARKET", "start_time": time(9, 0), "end_time": time(15, 30),
+    {"schedule": "MARKET"},
+    {"schedule": "WEEKEND"}]
+
+DEFAULT_SCHEDULE_TIME_RECORDS = [
+    {"weekday": WeekdayEnum.GLOBAL, "schedule": "MARKET", "start_time": time(9, 0), "end_time": time(15, 30),
         "is_active": True},
-    {"weekday": WeekdayEnum.SATURDAY, "schedule_name": "MARKET", "start_time": None, "end_time": None,
+    {"weekday": WeekdayEnum.SATURDAY, "schedule": "MARKET", "start_time": None, "end_time": None,
         "is_active": False},
-    {"weekday": WeekdayEnum.SUNDAY, "schedule_name": "MARKET", "start_time": None, "end_time": None,
+    {"weekday": WeekdayEnum.SUNDAY, "schedule": "MARKET", "start_time": None, "end_time": None,
         "is_active": False},
-    {"weekday": WeekdayEnum.SATURDAY, "schedule_name": "WEEKEND", "start_time": time(9, 0), "end_time": None,
+    {"weekday": WeekdayEnum.SATURDAY, "schedule": "WEEKEND", "start_time": time(9, 0), "end_time": None,
         "is_active": True}]
 
 DEFAULT_BROKER_ACCOUNTS = [{"account_id": "ZG0790", "broker_name": "Zerodha", "notes": "Haritha account"},

@@ -4,53 +4,35 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="added account_id to models and made changes to rest of the work. code executed successfully">
-      <change afterPath="$PROJECT_DIR$/models/parameters.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/model_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/parameter_loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="based code before fixing foreign key issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_sync/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/download_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_sync/load_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/load_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/algo_schedule.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/backtest_results.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/broker_accounts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/holdings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/ledger_entries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/model_utils.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_contracts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_greeks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_strategies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/parameters.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/positions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/profit_loss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/refresh_flags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/settings.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/strategy_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlist_instruments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlists.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/access_token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/algo_schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/algo_schedules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_contracts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/algo_schedules.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/market_ticker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/thread_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/date_time_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/date_time_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/settings_loader.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/settings_loader_new.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/utils_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils_func.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/zerodha_kite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/zerodha_kite.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/model_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/model_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/parameter_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/parameter_loader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -449,7 +431,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741354487048</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="based code before fixing foreign key issues">
+      <option name="closed" value="true" />
+      <created>1741417484146</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1741417484146</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -472,7 +462,8 @@
     <MESSAGE value="load_reports.py is tested executing successfully. Need to clean up the code" />
     <MESSAGE value="sync_data.py is updated and tested" />
     <MESSAGE value="added account_id to models and made changes to rest of the work. code executed successfully" />
-    <option name="LAST_COMMIT_MESSAGE" value="added account_id to models and made changes to rest of the work. code executed successfully" />
+    <MESSAGE value="based code before fixing foreign key issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="based code before fixing foreign key issues" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -506,16 +497,6 @@
           <url>file://$PROJECT_DIR$/utils/parameter_loader.py</url>
           <line>147</line>
           <option name="timeStamp" value="179" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/db_connection.py</url>
-          <line>116</line>
-          <option name="timeStamp" value="182" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/db_connection.py</url>
-          <line>117</line>
-          <option name="timeStamp" value="183" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

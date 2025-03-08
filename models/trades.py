@@ -43,7 +43,7 @@ class Trades(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="trades")
+    broker_account = relationship("BrokerAccounts", back_populates="trades")
 
     __table_args__ = (
         CheckConstraint(f"trade_type IN {tuple(TRADE_TYPES)}", name="check_valid_trade_type"),

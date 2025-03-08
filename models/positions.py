@@ -40,7 +40,7 @@ class Positions(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts
-    # broker_account = relationship("BrokerAccounts", back_populates="positions")
+    broker_account = relationship("BrokerAccounts", back_populates="positions")
 
     __table_args__ = (
         CheckConstraint(f"position_type IN {tuple(POSITION_TYPES)}", name="check_valid_position_type"),

@@ -29,7 +29,7 @@ class LedgerEntries(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="ledger_entries")
+    broker_account = relationship("BrokerAccounts", back_populates="ledger_entries")
 
     __table_args__ = (CheckConstraint("debit >= 0", name="check_debit_non_negative"),
                       CheckConstraint("credit >= 0", name="check_credit_non_negative"),

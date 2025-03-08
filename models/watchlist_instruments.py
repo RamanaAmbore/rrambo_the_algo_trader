@@ -28,8 +28,8 @@ class WatchlistInstruments(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    # watchlist = relationship("Watchlists", back_populates="instruments")
-    # broker_account = relationship("BrokerAccounts", back_populates="watchlist_instruments")
+    watchlist = relationship("Watchlists", back_populates="watchlist_instruments")
+    broker_account = relationship("BrokerAccounts", back_populates="watchlist_instruments")
 
     __table_args__ = (
         ForeignKeyConstraint(

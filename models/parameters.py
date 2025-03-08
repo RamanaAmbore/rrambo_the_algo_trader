@@ -26,7 +26,7 @@ class Parameters(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    # broker_account = relationship("BrokerAccounts", back_populates="parameters")
+    broker_account = relationship("BrokerAccounts", back_populates="parameter")
     __table_args__ = (
         UniqueConstraint('account_id', 'parameter', name='uq_account_parameter'),
         Index('idx_account_parameter', 'account_id', 'parameter'),

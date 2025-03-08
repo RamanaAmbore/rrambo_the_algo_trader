@@ -16,8 +16,7 @@ class OptionGreeks(Base):
     __tablename__ = "option_greeks"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10),  nullable=True)
-    # account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
     instrument_token = Column(Integer, ForeignKey("option_contracts.instrument_token", ondelete="CASCADE"),
                             nullable=False)
     delta = Column(DECIMAL(10, 4), nullable=True)  # Higher precision for Greeks
@@ -32,8 +31,8 @@ class OptionGreeks(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    # broker_account = relationship("BrokerAccounts", back_populates="option_greeks")
-    # option_contract = relationship("OptionContracts", back_populates="greeks")
+    broker_account = relationship("BrokerAccounts", back_populates="option_greeks")
+    option_contract = relationship("OptionContracts", back_populates="option_greeks")
 
     __table_args__ = (
         CheckConstraint("delta BETWEEN -1 AND 1", name="check_delta_range"),
