@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="parameter_loader tested successfully">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/rrambo_trader_new.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/rrambo_trader_new.iml" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="algo_thread and algo_thread_status tables added">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/parameters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/model_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/model_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -436,7 +429,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741444119009</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="algo_thread and algo_thread_status tables added">
+      <option name="closed" value="true" />
+      <created>1741454056977</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1741454056977</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -462,7 +463,8 @@
     <MESSAGE value="based code before fixing foreign key issues" />
     <MESSAGE value="foreign key issues are fixed" />
     <MESSAGE value="parameter_loader tested successfully" />
-    <option name="LAST_COMMIT_MESSAGE" value="parameter_loader tested successfully" />
+    <MESSAGE value="algo_thread and algo_thread_status tables added" />
+    <option name="LAST_COMMIT_MESSAGE" value="algo_thread and algo_thread_status tables added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

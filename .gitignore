@@ -1,3 +1,7 @@
 logs/
 __pycharm__
 .idea/
+.venv
+worspace.xml
+data/
+db/
