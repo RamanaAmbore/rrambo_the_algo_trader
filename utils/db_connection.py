@@ -1,13 +1,14 @@
-import os
+from pathlib import Path
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from sqlalchemy_utils import database_exists, create_database
 
+from models import Parameters
 from models.base import Base
-from utils.settings_loader import Env
 from utils.logger import get_logger
+from utils.parameter_loader import Env
 
 # Load environment variables
 logger = get_logger(__name__)  # Initialize logger
@@ -16,65 +17,156 @@ logger = get_logger(__name__)  # Initialize logger
 class DbConnection:
     """Database Utility Class for handling both Sync and Async database connections."""
 
-    _initialized = False  # Class-level flag
+    _initialized: bool = False
+    _engine = None
+    _async_engine = None
+    _sync_session = None
+    _async_session = None
 
-    if Env.SQLITE_DB:
-        DB_URL = f"sqlite:///{Env.SQLITE_PATH}"
-        DB_ASYNC_URL = f"sqlite+aiosqlite:///{Env.SQLITE_PATH}"
+    @classmethod
+    def initialize(cls) -> None:
+        """Initialize database connection and create tables."""
+        if cls._initialized:
+            return
 
-        # Ensure SQLite database file exists
-        if not os.path.exists(Env.SQLITE_PATH):
-            open(Env.SQLITE_PATH, "w").close()
-            logger.info(f"Created new SQLite database at {Env.SQLITE_PATH}")
-
-    else:
-        DB_URL = f"postgresql://{Env.POSTGRES_URL}"
-        DB_ASYNC_URL = f"postgresql+asyncpg://{Env.POSTGRES_URL}"
-
-        # Ensure PostgresSQL database exists
-        if not database_exists(DB_URL):
-            create_database(DB_URL)
-            logger.info("Created new PostgresSQL database.")
-
-    # Create synchronous engine & session
-    echo = os.getenv('DB_DEBUG', 'false').lower() == 'true'
-    engine = create_engine(DB_URL, echo=echo)
-    sync_session = scoped_session(sessionmaker(bind=engine, autocommit=False, autoflush=False, expire_on_commit=False))
-
-    # Create async engine & session
-    async_engine = create_async_engine(DB_ASYNC_URL, echo=echo, future=True)
-    async_session = sessionmaker(bind=async_engine, class_=AsyncSession, expire_on_commit=False)
-
-    logger.info("Database tables created, if not existed (sync mode).")
-    Base.metadata.create_all(engine)  # Create tables if they don’t exist
-
-    @staticmethod
-    def get_sync_session(async_mode: bool = False):
-        """
-        Returns a database session.
-
-        :param async_mode: If True, returns an async session, else returns a sync session.
-        :return: Sync or Async session object
-        """
-        return DbConnection.async_session() if async_mode else DbConnection.sync_session()
-
-    @staticmethod
-    def test_connection():
-        """Tests the database connection (Sync mode)."""
         try:
-            with DbConnection.engine.connect() as conn:
-                conn.execute(text("SELECT 1"))
-                logger.info("Successfully connected to the database.")
-        except Exception as e:
-            logger.error(f"Database connection failed: {e}")
+            # Setup database URLs
+            if Env.SQLITE_DB:
+                db_path = Path(Env.SQLITE_PATH)
+                cls.DB_URL = f"sqlite:///{db_path}"
+                cls.DB_ASYNC_URL = f"sqlite+aiosqlite:///{db_path}"
 
-    @staticmethod
-    async def get_async_session():
-        """Provides an async session for database operations."""
-        async with DbConnection.async_session() as session:
+                # Ensure SQLite database directory exists
+                db_path.parent.mkdir(parents=True, exist_ok=True)
+                if not db_path.exists():
+                    db_path.touch()
+                    logger.info(f"Created new SQLite database at {db_path}")
+
+            else:
+                cls.DB_URL = f"postgresql://{Env.POSTGRES_URL}"
+                cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Env.POSTGRES_URL}"
+
+                if not database_exists(cls.DB_URL):
+                    create_database(cls.DB_URL)
+                    logger.info("Created new PostgreSQL database")
+
+            # Initialize engines and sessions
+            echo = Env.DB_DEBUG
+            cls._engine = create_engine(cls.DB_URL, echo=echo)
+            cls._async_engine = create_async_engine(cls.DB_ASYNC_URL, echo=echo, future=True)
+
+            cls._sync_session = scoped_session(
+                sessionmaker(bind=cls._engine, autocommit=False, autoflush=False, expire_on_commit=False))
+            cls._async_session = sessionmaker(bind=cls._async_engine, class_=AsyncSession, expire_on_commit=False)
+
+            # Configure all mappers before creating tables
+            Base.metadata.reflect(cls._engine)
+            Base.metadata.create_all(cls._engine)
+            
+
+            cls._initialized = True
+
+        except Exception as e:
+            logger.error(f"Database initialization failed: {e}")
+            raise
+
+    @classmethod
+    def get_sync_session(cls) -> Session:
+        """Get a synchronous database session."""
+        if not cls._initialized:
+            cls.initialize()
+        return cls._sync_session()
+
+    @classmethod
+    async def get_async_session(cls) -> AsyncSession:
+        """Get an asynchronous database session."""
+        if not cls._initialized:
+            cls.initialize()
+        async with cls._async_session() as session:
             yield session
 
-    @staticmethod
-    async def get_session(sync=False):
-        """Provides an async session for database operations."""
-        return DbConnection.get_sync_session() if sync else DbConnection.get_sync_session()
+    @classmethod
+    def test_connection(cls) -> bool:
+        """Test database connection and return status."""
+        if not cls._initialized:
+            cls.initialize()
+
+        try:
+            with cls._engine.connect() as conn:
+                conn.execute(text("SELECT 1"))
+                logger.info("Database connection test successful")
+                return True
+        except Exception as e:
+            logger.error(f"Database connection test failed: {e}")
+            return False
+
+    @classmethod
+    async def cleanup(cls) -> None:
+        """Cleanup database connections."""
+        try:
+            if cls._engine:
+                cls._engine.dispose()
+            if cls._async_engine:
+                await cls._async_engine.dispose()
+            cls._initialized = False
+            logger.info("Database connections cleaned up")
+        except Exception as e:
+            logger.error(f"Error during database cleanup: {e}")
+
+# Initialize parameters after ensuring tables exist
+with DbConnection.get_sync_session() as session:
+    parameters = session.query(Parameters).all()
+    Env.reset_parms(parameters)
+    session.commit()
+
+logger.info("Database and parameters initialized successfully")
+
+async def test_async_session():
+    """Test async session functionality."""
+    try:
+        async for session in DbConnection.get_async_session():
+            result = await session.execute(text("SELECT 1"))
+            value = result.scalar()
+            logger.info(f"Async session test result: {value}")
+    except Exception as e:
+        logger.error(f"Async session test failed: {e}")
+
+
+def test_sync_session():
+    """Test sync session functionality."""
+    try:
+        with DbConnection.get_sync_session() as session:
+            result = session.execute(text("SELECT 1"))
+            value = result.scalar()
+            logger.info(f"Sync session test result: {value}")
+    except Exception as e:
+        logger.error(f"Sync session test failed: {e}")
+
+
+async def main():
+    """Main function to test both sync and async database sessions."""
+    try:
+        logger.info("Testing database connections...")
+
+        # Test sync session
+        logger.info("Testing synchronous session...")
+        test_sync_session()
+
+        # Test async session
+        logger.info("Testing asynchronous session...")
+        await test_async_session()
+
+        # Test connection
+        connection_status = DbConnection.test_connection()
+        logger.info(f"Connection test status: {connection_status}")
+
+    except Exception as e:
+        logger.error(f"Main test failed: {e}")
+    finally:
+        await DbConnection.cleanup()  # Changed to await cleanup
+
+
+if __name__ == "__main__":
+    import asyncio
+
+    asyncio.run(main())

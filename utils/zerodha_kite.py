@@ -5,7 +5,7 @@ import requests
 from kiteconnect import KiteConnect
 
 from models.access_token import AccessToken
-from utils.settings_loader import sc
+from utils.parameter_loader import sc
 from utils.db_connection import DbConnection
 from utils.logger import get_logger
 from utils.utils_func import generate_totp

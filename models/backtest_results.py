@@ -1,9 +1,13 @@
-from sqlalchemy import Column, Integer, DateTime, ForeignKey, DECIMAL, text, String, Boolean, select, Index, \
-    CheckConstraint, Enum
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, DECIMAL, text, String, Boolean, Index, CheckConstraint, \
+    Enum
 from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
+from utils.logger import get_logger
 from .base import Base
-from model_utils import source
+from utils.model_utils import source
+
+logger = get_logger(__name__)
+
 
 class BacktestResults(Base):
     """
@@ -32,29 +36,24 @@ class BacktestResults(Base):
 
     # Metadata
     source = Column(Enum(source), nullable=True, server_default="CODE")  # Token source (e.g., API)
-    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian, server_default=text("CURRENT_TIMESTAMP"))
+    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                       server_default=text("CURRENT_TIMESTAMP"))
 
     # Error/warning tracking
     warning_error = Column(Boolean, nullable=False, default=False)  # Whether backtest encountered warnings/errors
     notes = Column(String(255), nullable=True)  # Additional messages or error details
-    
-    
 
     # Relationships for ORM
-    account = relationship("BrokerAccounts", back_populates="backtests")
-    strategy = relationship("StrategyConfig", back_populates="backtests")
+    # account = relationship("BrokerAccounts", back_populates="backtest_results")
+    # strategy = relationship("StrategyConfig", back_populates="backtest_results")
 
     # Table constraints & indexes
-    __table_args__ = (
-        CheckConstraint("total_pnl >= 0", name="check_total_pnl_non_negative"),
-        CheckConstraint("win_rate >= 0 AND win_rate <= 100", name="check_win_rate_range"),
-        Index("idx_backtest_account_id", "account_id"),
-    )
+    __table_args__ = (CheckConstraint("total_pnl >= 0", name="check_total_pnl_non_negative"),
+                      CheckConstraint("win_rate >= 0 AND win_rate <= 100", name="check_win_rate_range"),
+                      Index("idx_backtest_account_id", "account_id"),)
 
     def __repr__(self):
         return (f"<BacktestResults(id={self.id}, account_id='{self.account_id}', strategy_id={self.strategy_id}, "
                 f"start_date={self.start_date}, end_date={self.end_date}, total_pnl={self.total_pnl}, "
                 f"max_drawdown={self.max_drawdown}, win_rate={self.win_rate}, source='{self.source}', "
-                f"warning_error={self.warning_error}, notes='{self.notes}')>")
-
-
+                f"timestamp={self.timestamp}, warning_error={self.warning_error}, notes='{self.notes}')>")

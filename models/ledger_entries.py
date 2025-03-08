@@ -1,9 +1,14 @@
-from sqlalchemy import Column, String, Numeric, Integer, select, DateTime, text, Boolean, ForeignKey, Enum
+from sqlalchemy import (Column, String, Numeric, Integer, select, DateTime, text, Boolean, ForeignKey, Enum,
+                        CheckConstraint, Index)
 from sqlalchemy.ext.asyncio import AsyncSession
-
+from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
+from utils.logger import get_logger
 from .base import Base
-from model_utils import source
+from utils.model_utils import source
+
+logger = get_logger(__name__)
+
 
 class LedgerEntries(Base):
     __tablename__ = "ledger_entries"
@@ -17,14 +22,26 @@ class LedgerEntries(Base):
     debit = Column(Numeric(10, 2), default=0.00)
     credit = Column(Numeric(10, 2), default=0.00)
     net_balance = Column(Numeric(15, 2), default=0.00)
-    source = Column(Enum(source), nullable=True, server_default="REPORTS")  # Token source (e.g., API)
+    source = Column(Enum(source), nullable=True, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
-    warning_error = Column(Boolean, default=False)
-    notes = Column(String(255), nullable=True)  # Optional message field for additional info
+    warning_error = Column(Boolean, nullable=False, default=False)
+    notes = Column(String(255), nullable=True)
+
+    # Relationship with BrokerAccounts model
+    # broker_account = relationship("BrokerAccounts", back_populates="ledger_entries")
+
+    __table_args__ = (CheckConstraint("debit >= 0", name="check_debit_non_negative"),
+                      CheckConstraint("credit >= 0", name="check_credit_non_negative"),
+                      Index("idx_account_date1", "account_id", "posting_date"),
+                      Index("idx_voucher_type", "voucher_type"),)
 
     def __repr__(self):
-        return f"<LedgerEntry(particulars='{self.particulars}', posting_date='{self.posting_date}')>"
+        return (f"<LedgerEntry(id={self.id}, account_id='{self.account_id}', "
+                f"particulars='{self.particulars}', posting_date='{self.posting_date}', "
+                f"voucher_type='{self.voucher_type}', debit={self.debit}, credit={self.credit}, "
+                f"net_balance={self.net_balance}, source='{self.source}', timestamp={self.timestamp}, "
+                f"warning_error={self.warning_error}, notes='{self.notes}')>")
 
     @classmethod
     async def get_existing_records(cls, session: AsyncSession):

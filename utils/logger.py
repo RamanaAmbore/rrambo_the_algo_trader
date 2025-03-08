@@ -1,7 +1,7 @@
 import logging
 import os
 
-from utils.settings_loader import Env
+from utils.parameter_loader import Env
 
 # Create logs directory if not exists
 os.makedirs(os.path.dirname(Env.DEBUG_LOG_FILE), exist_ok=True)

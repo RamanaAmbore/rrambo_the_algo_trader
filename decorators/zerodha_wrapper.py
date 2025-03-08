@@ -3,7 +3,7 @@ from functools import wraps
 from utils.logger import get_logger
 from kiteconnect.exceptions import TokenException
 
-from utils.settings_loader import sc
+from utils.parameter_loader import sc
 from utils.zerodha_kite import ZerodhaKite
 
 logger = get_logger(__name__)

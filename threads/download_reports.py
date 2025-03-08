@@ -13,8 +13,8 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
-from data_sync.load_reports import load_reports
-from utils.settings_loader import Env, sc
+from threads.load_reports import load_reports
+from utils.parameter_loader import Env, sc
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
 from utils.utils_func import generate_totp

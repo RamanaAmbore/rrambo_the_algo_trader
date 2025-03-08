@@ -8,7 +8,7 @@ import pandas as pd
 from models.ledger_entries import LedgerEntries
 from models.profit_loss import ProfitLoss
 from models.trades import Trades  # Removed TradeTypeEnum import
-from utils.settings_loader import Env, sc
+from utils.parameter_loader import Env, sc
 from utils.date_time_utils import INDIAN_TIMEZONE
 from utils.db_connection import DbConnection as Db
 from utils.logger import get_logger

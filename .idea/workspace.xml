@@ -5,53 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="added account_id to models and made changes to rest of the work. code executed successfully">
-      <change afterPath="$PROJECT_DIR$/backend.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/broker_accounts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/model_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/refresh_flags.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/watchlist_instruments.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/access_token.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/algo_schedule.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/backtest_results.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/broker_accounts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/holdings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/ledger_entries.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/option_contracts.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/option_greeks.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/option_strategies.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/orders.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/positions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/profit_loss.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/refresh_flags.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/stock_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/strategy_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/trades.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/watchlists.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/settings_loader_new.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/parameters.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/model_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/parameter_loader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_sync/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/download_reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_sync/load_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/load_reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/algo_schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_schedule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_schedule.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/broker_accounts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/holdings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/ledger_entries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/model_utils.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_contracts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_greeks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_strategies.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/parameters.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/positions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/profit_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/refresh_flags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/settings.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/strategy_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/trades.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlist_instruments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/access_token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/algo_schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/algo_schedules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/market_ticker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/thread_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/date_time_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/date_time_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/settings_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/settings_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/settings_loader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/settings_loader_new.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/utils_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils_func.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/zerodha_kite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/zerodha_kite.py" afterDir="false" />
     </list>
@@ -118,6 +115,7 @@
     "Python.market_monitor.executor": "Run",
     "Python.market_ticker (1).executor": "Debug",
     "Python.market_ticker.executor": "Run",
+    "Python.parameter_loader (1).executor": "Run",
     "Python.settings_loader.executor": "Run",
     "Python.settings_loader_new.executor": "Run",
     "Python.sync_data.executor": "Run",
@@ -139,11 +137,11 @@
       <recent name="D:\rrambo_trader_new" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\rrambo_trader_new\decorators" />
-      <recent name="D:\rrambo_trader_new\data_sync" />
       <recent name="D:\rrambo_trader_new\threads" />
       <recent name="D:\rrambo_trader_new\utils" />
-      <recent name="D:\rrambo_trader_new\tests\models" />
+      <recent name="D:\rrambo_trader_new\models" />
+      <recent name="D:\rrambo_trader_new\decorators" />
+      <recent name="D:\rrambo_trader_new\data_sync" />
     </key>
   </component>
   <component name="RunManager" selected="Python.db_connection">
@@ -191,7 +189,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="settings_loader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="parameter_loader (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -204,7 +202,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/settings_loader.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/parameter_loader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -260,10 +258,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.db_connection" />
+        <item itemvalue="Python.parameter_loader (1)" />
         <item itemvalue="Python.zerodha_kite" />
         <item itemvalue="Python.backend" />
         <item itemvalue="Python.settings_loader_new" />
-        <item itemvalue="Python.settings_loader" />
       </list>
     </recent_temporary>
   </component>
@@ -443,7 +441,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741266870929</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="added account_id to models and made changes to rest of the work. code executed successfully">
+      <option name="closed" value="true" />
+      <created>1741354487048</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1741354487048</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -472,7 +478,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/data_sync/load_reports.py</url>
+          <url>file://$PROJECT_DIR$/threads/load_reports.py</url>
           <line>35</line>
           <option name="timeStamp" value="159" />
         </line-breakpoint>
@@ -492,34 +498,24 @@
           <option name="timeStamp" value="169" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/settings_loader_new.py</url>
-          <line>30</line>
-          <option name="timeStamp" value="170" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/services/option_contracts.py</url>
           <line>8</line>
           <option name="timeStamp" value="171" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/parameter_loader.py</url>
+          <line>147</line>
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/utils/db_connection.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="172" />
+          <line>116</line>
+          <option name="timeStamp" value="182" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/broker_accounts.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="173" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/strategy_config.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="174" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/models/watchlist_instruments.py</url>
-          <line>16</line>
-          <option name="timeStamp" value="175" />
+          <url>file://$PROJECT_DIR$/utils/db_connection.py</url>
+          <line>117</line>
+          <option name="timeStamp" value="183" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,8 +1,9 @@
 from sqlalchemy import Column, String, DateTime, text, Boolean, Integer, ForeignKey, Enum
+from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from model_utils import source
+from utils.model_utils import source
 
 logger = get_logger(__name__)
 
@@ -26,7 +27,10 @@ class AccessToken(Base):
     warning_error = Column(Boolean, nullable=False, default=False)  # Flag for warnings/errors
     notes = Column(String(255), nullable=True)  # Additional message field for logging
 
+    # # Relationship with BrokerAccounts model
+    # broker_account = relationship("BrokerAccounts", back_populates="access_token")
+
     def __repr__(self):
-        return (f"<AccessToken(id={self.id}, account_id='{self.account_id}', "
+        return (f"<AccessToken(id={self.id}, account_id='{self.account_id}', token='{self.token}', "
                 f"source='{self.source}', timestamp={self.timestamp}, "
                 f"warning_error={self.warning_error}, notes='{self.notes}')>")

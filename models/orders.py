@@ -1,10 +1,20 @@
-from sqlalchemy import Column, String, Integer, Numeric, Boolean, DateTime, JSON, text, ForeignKey, Enum
-
+from sqlalchemy import Column, String, Integer, Numeric, Boolean, DateTime, JSON, text, ForeignKey, Enum, \
+    CheckConstraint, Index
+from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
+from utils.logger import get_logger
 from .base import Base
-from model_utils import source
+from utils.model_utils import source
 
+logger = get_logger(__name__)
 
+# Enums for order fields
+ORDER_STATUS = ["COMPLETE", "CANCELLED", "REJECTED", "PENDING", "OPEN"]
+ORDER_VARIETY = ["regular", "bo", "co"]
+ORDER_TYPE = ["MARKET", "LIMIT", "SL", "SLM"]
+TRANSACTION_TYPE = ["BUY", "SELL"]
+VALIDITY = ["DAY", "IOC"]
+PRODUCT = ["MIS", "CNC", "NRML"]
 
 
 class Orders(Base):
@@ -67,9 +77,27 @@ class Orders(Base):
 
     # Logging and tracking
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                       server_default=text("CURRENT_TIMESTAMP"))  # Record creation timestamp
-    warning_error = Column(Boolean, default=False)  # Flag to indicate warnings/errors
-    notes = Column(String(255), nullable=True)  # Optional message or error details
+                       server_default=text("CURRENT_TIMESTAMP"))
+    warning_error = Column(Boolean, nullable=False, default=False)
+    notes = Column(String(255), nullable=True)
+
+    # Relationship with BrokerAccounts model
+    # broker_account = relationship("BrokerAccounts", back_populates="orders")
+
+    __table_args__ = (CheckConstraint(f"status IN {tuple(ORDER_STATUS)}", name="check_valid_status"),
+                      CheckConstraint(f"variety IN {tuple(ORDER_VARIETY)}", name="check_valid_variety"),
+                      CheckConstraint(f"order_type IN {tuple(ORDER_TYPE)}", name="check_valid_order_type"),
+                      CheckConstraint(f"transaction_type IN {tuple(TRANSACTION_TYPE)}",
+                                      name="check_valid_transaction_type"),
+                      CheckConstraint(f"validity IN {tuple(VALIDITY)}", name="check_valid_validity"),
+                      CheckConstraint(f"product IN {tuple(PRODUCT)}", name="check_valid_product"),
+                      CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
+                      CheckConstraint("price >= 0", name="check_price_non_negative"),
+                      CheckConstraint("trigger_price >= 0", name="check_trigger_price_non_negative"),
+                      CheckConstraint("filled_quantity + pending_quantity + cancelled_quantity = quantity",
+                                      name="check_quantity_balance"), Index("idx_order_id", "order_id"),
+                      Index("idx_account_timestamp2", "account_id", "timestamp"),
+                      Index("idx_instrument2", "instrument_token"),)
 
     def __repr__(self):
         """

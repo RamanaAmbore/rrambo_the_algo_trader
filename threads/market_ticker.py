@@ -3,8 +3,8 @@ import time
 
 from kiteconnect import KiteTicker
 
-from models.algo_schedule import AlgoSchedule
-from utils.settings_loader import sc
+from models.algo_schedule import AlgoSchedules
+from utils.parameter_loader import sc
 from utils.date_time_utils import today_indian, current_time_indian
 from utils.db_connection import DbConnection as Db
 from utils.logger import get_logger
@@ -62,7 +62,7 @@ class MarketTicker(threading.Thread):
         if self.last_checked_date != today or self.market_hours is None:
             session = Db.get_sync_session(async_mode=False)
             try:
-                self.market_hours = AlgoSchedule.get_market_hours_for_today(session)
+                self.market_hours = AlgoSchedules.get_market_hours_for_today(session)
             finally:
                 session.close()
             if not self.market_hours:

@@ -5,7 +5,7 @@ import pyotp
 from models.trades import Trades
 from models.ledger_entries import LedgerEntries
 from models.profit_loss import ProfitLoss
-from utils.settings_loader import Env
+from utils.parameter_loader import Env
 
 
 def generate_totp():
