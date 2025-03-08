@@ -16,7 +16,7 @@ class RefreshFlags(Base):
     __tablename__ = "refresh_flags"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     thread_name = Column(String(20), nullable=False)
     value = Column(Boolean, nullable=False, default=False)
     source = Column(Enum(source), nullable=True, server_default="MANUAL")
@@ -29,12 +29,12 @@ class RefreshFlags(Base):
     broker_account = relationship("BrokerAccounts", back_populates="refresh_flags")
 
     __table_args__ = (
-        UniqueConstraint('account_id', 'thread_name', name='print2'),
-        Index('idx_account_timestamp1', 'account_id', 'timestamp'),
+        UniqueConstraint('account', 'thread_name', name='print2'),
+        Index('idx_account_timestamp1', 'account', 'timestamp'),
     )
 
     def __repr__(self):
-        return (f"<RefreshFlags(id={self.id}, account_id='{self.account_id}', "
+        return (f"<RefreshFlags(id={self.id}, account='{self.account}', "
                 f"thread_name='{self.thread_name}', value={self.value}, "
                 f"source='{self.source}', timestamp={self.timestamp}, "
                 f"warning_error={self.warning_error})>")

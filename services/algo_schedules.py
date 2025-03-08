@@ -16,35 +16,35 @@ logger = get_logger(__name__)
 market = "MARKET"
 
 
-def get_market_hours_for_today(account_id):
+def get_market_hours_for_today(account):
     """Retrieve today's market hours with a fallback mechanism."""
 
     today = datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)).date()
     weekday = today.strftime("%A")
 
-    for acc_id in [account_id, None]:  # Try account-specific first, then global
+    for acc_id in [account, None]:  # Try account-specific first, then global
         with Db.get_sync_session() as session:
             logger.info(f"Checking for MARKET hours for {today} with acc_id {acc_id}")
 
             query = select(AlgoScheduleTime).where(AlgoScheduleTime.market_date.is_(today),
-                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account_id.is_(
-                    acc_id) if acc_id is None else AlgoScheduleTime.account_id == acc_id)
+                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account.is_(
+                    acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
 
             logger.info(f"Checking default weekday MARKET hours for {weekday} with acc_id {acc_id}")
             query = select(AlgoScheduleTime).where(AlgoScheduleTime.weekday.is_(weekday),
-                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account_id.is_(
-                    acc_id) if acc_id is None else AlgoScheduleTime.account_id == acc_id)
+                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account.is_(
+                    acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
 
             logger.info(f"Checking for GLOBAL default MARKET hours with acc_id {acc_id}")
             query = select(AlgoScheduleTime).where(AlgoScheduleTime.weekday.is_("GLOBAL"),
-                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account_id.is_(
-                    acc_id) if acc_id is None else AlgoScheduleTime.account_id == acc_id)
+                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account.is_(
+                    acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
@@ -52,7 +52,7 @@ def get_market_hours_for_today(account_id):
     return None  # Return None if no matching schedule is found
 
 
-def get_batch_schedules(session: Session, account_id, batch_type=None):
+def get_batch_schedules(session: Session, account, batch_type=None):
     """Retrieve today's batch processing schedules."""
 
     today = today_indian()
@@ -62,12 +62,12 @@ def get_batch_schedules(session: Session, account_id, batch_type=None):
 
     schedules = []
 
-    for acc_id in [account_id, None]:
-        logger.info(f"Checking batch schedules of type {batch_type} for {today} with account_id {acc_id}")
+    for acc_id in [account, None]:
+        logger.info(f"Checking batch schedules of type {batch_type} for {today} with account {acc_id}")
 
         query = select(AlgoScheduleTime).where(AlgoScheduleTime.market_date.is_(today), AlgoScheduleTime.thread_name.is_(market),
-                                            AlgoScheduleTime.account_id.is_(
-                                                acc_id) if acc_id is None else AlgoScheduleTime.account_id == acc_id)
+                                            AlgoScheduleTime.account.is_(
+                                                acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
 
         if batch_type:
             query = query.where(AlgoScheduleTime.thread_name.in_(batch_type))

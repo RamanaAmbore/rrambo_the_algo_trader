@@ -17,7 +17,7 @@ class AlgoThreadStatus(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(50), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     schedule = Column(String(20), ForeignKey("algo_schedule.schedule", ondelete="CASCADE"), nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
     last_run = Column(DateTime(timezone=True), nullable=True)
@@ -36,14 +36,14 @@ class AlgoThreadStatus(Base):
     algo_schedule = relationship("AlgoSchedules", back_populates="algo_thread_status")
 
     __table_args__ = (
-        UniqueConstraint('thread', 'account_id', name='uq_algo_thread_account'),
+        UniqueConstraint('thread', 'account', name='uq_algo_thread_account'),
         Index('idx_active_threads', 'is_active', 'next_run'),
         Index('idx_thread_status', 'thread', 'is_active'),
     )
 
     def __repr__(self):
         return (f"<ThreadStatus(id={self.id}, thread={self.thread}, "
-                f"account_id='{self.account_id}', schedule='{self.schedule}', "
+                f"account='{self.account}', schedule='{self.schedule}', "
                 f"is_active={self.is_active}, last_run={self.last_run}, "
                 f"next_run={self.next_run}, run_count={self.run_count}, "
                 f"error_count={self.error_count}, source='{self.source}')>")

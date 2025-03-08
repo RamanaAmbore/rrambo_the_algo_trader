@@ -18,7 +18,7 @@ class ProfitLoss(Base):
     __tablename__ = "profit_loss"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     symbol = Column(String(20), nullable=False, index=True)
     isin = Column(String(12), nullable=True, index=True)
     quantity = Column(Integer, nullable=False)
@@ -47,12 +47,12 @@ class ProfitLoss(Base):
         CheckConstraint("sell_value >= 0", name="check_sell_value_non_negative"),
         CheckConstraint("open_quantity >= 0", name="check_open_quantity_non_negative"),
         CheckConstraint(f"open_quantity_type IN {tuple(QUANTITY_TYPES)}", name="check_quantity_type_valid"),
-        Index("idx_account_symbol4", "account_id", "symbol"),
+        Index("idx_account_symbol4", "account", "symbol"),
         Index("idx_timestamp3", "timestamp"),
     )
 
     def __repr__(self):
-        return (f"<ProfitLoss(id={self.id}, account_id='{self.account_id}', "
+        return (f"<ProfitLoss(id={self.id}, account='{self.account}', "
                 f"symbol='{self.symbol}', quantity={self.quantity}, "
                 f"realized_pnl={self.realized_pnl}, unrealized_pnl={self.unrealized_pnl}, "
                 f"open_quantity={self.open_quantity}, open_quantity_type='{self.open_quantity_type}', "

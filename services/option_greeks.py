@@ -4,10 +4,10 @@ from models import OptionGreeks
 from utils.utils_func import to_decimal
 from utils.db_connection import DbConnection as Db
 
-async def get_all_results(account_id,sync=False):
+async def get_all_results(account,sync=False):
     """Fetch all backtest results asynchronously."""
     with Db.get_session(sync) as session:
-        result = await session.execute(select(OptionGreeks).where(OptionGreeks.account_id.is_(account_id)))
+        result = await session.execute(select(OptionGreeks).where(OptionGreeks.account.is_(account)))
         return result.scalars().all()
 
 

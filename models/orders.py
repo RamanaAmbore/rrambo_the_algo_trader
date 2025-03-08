@@ -30,7 +30,7 @@ class Orders(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # Account and order identifiers
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     placed_by = Column(String(10), nullable=False)  # Who placed the order (User ID)
     order_id = Column(String(20), nullable=False, unique=True)  # Unique order ID
     exchange_order_id = Column(String(20), nullable=True)  # Exchange-specific order ID
@@ -96,7 +96,7 @@ class Orders(Base):
                       CheckConstraint("trigger_price >= 0", name="check_trigger_price_non_negative"),
                       CheckConstraint("filled_quantity + pending_quantity + cancelled_quantity = quantity",
                                       name="check_quantity_balance"), Index("idx_order_id", "order_id"),
-                      Index("idx_account_timestamp2", "account_id", "timestamp"),
+                      Index("idx_account_timestamp2", "account", "timestamp"),
                       Index("idx_instrument2", "instrument_token"),)
 
     def __repr__(self):

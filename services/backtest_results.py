@@ -25,21 +25,21 @@ async def insert_result(result_data, sync=False):
         return new_result  # Return the newly created record
 
 
-async def get_all_results(account_id,sync=False):
+async def get_all_results(account,sync=False):
     """
     Fetch all backtest results asynchronously.
 
-    - If `account_id` is provided, fetches only results for that account.
-    - If `account_id` is None, fetches all results from the table.
+    - If `account` is provided, fetches only results for that account.
+    - If `account` is None, fetches all results from the table.
 
     :param session: SQLAlchemy async session for executing queries
-    :param account_id: Optional account ID to filter results
+    :param account: Optional account ID to filter results
     :return: List of backtest results matching the criteria
     """
     with Db.get_session(sync) as session:
         query = select(BacktestResults).order_by(BacktestResults.start_date.desc())  # Sort results by latest start_date
-        if account_id:
-            query = query.where(BacktestResults.account_id.is_(account_id))
+        if account:
+            query = query.where(BacktestResults.account.is_(account))
     
         result = await session.execute(query)
         return result.scalars().all()

@@ -22,7 +22,7 @@ class BacktestResults(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # Foreign keys
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     strategy_id = Column(Integer, ForeignKey("strategy_config.id", ondelete="CASCADE"), nullable=False, index=True)
 
     # Date range for backtest
@@ -50,10 +50,10 @@ class BacktestResults(Base):
     # Table constraints & indexes
     __table_args__ = (CheckConstraint("total_pnl >= 0", name="check_total_pnl_non_negative"),
                       CheckConstraint("win_rate >= 0 AND win_rate <= 100", name="check_win_rate_range"),
-                      Index("idx_backtest_account_id", "account_id"),)
+                      Index("idx_backtest_account", "account"),)
 
     def __repr__(self):
-        return (f"<BacktestResults(id={self.id}, account_id='{self.account_id}', strategy_id={self.strategy_id}, "
+        return (f"<BacktestResults(id={self.id}, account='{self.account}', strategy_id={self.strategy_id}, "
                 f"start_date={self.start_date}, end_date={self.end_date}, total_pnl={self.total_pnl}, "
                 f"max_drawdown={self.max_drawdown}, win_rate={self.win_rate}, source='{self.source}', "
                 f"timestamp={self.timestamp}, warning_error={self.warning_error}, notes='{self.notes}')>")

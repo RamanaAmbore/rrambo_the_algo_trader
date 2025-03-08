@@ -14,7 +14,7 @@ class LedgerEntries(Base):
     __tablename__ = "ledger_entries"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     particulars = Column(String(255), nullable=False)
     posting_date = Column(String(10), nullable=True)
     cost_center = Column(String(20), nullable=True)
@@ -33,11 +33,11 @@ class LedgerEntries(Base):
 
     __table_args__ = (CheckConstraint("debit >= 0", name="check_debit_non_negative"),
                       CheckConstraint("credit >= 0", name="check_credit_non_negative"),
-                      Index("idx_account_date1", "account_id", "posting_date"),
+                      Index("idx_account_date1", "account", "posting_date"),
                       Index("idx_voucher_type", "voucher_type"),)
 
     def __repr__(self):
-        return (f"<LedgerEntry(id={self.id}, account_id='{self.account_id}', "
+        return (f"<LedgerEntry(id={self.id}, account='{self.account}', "
                 f"particulars='{self.particulars}', posting_date='{self.posting_date}', "
                 f"voucher_type='{self.voucher_type}', debit={self.debit}, credit={self.credit}, "
                 f"net_balance={self.net_balance}, source='{self.source}', timestamp={self.timestamp}, "

@@ -19,7 +19,7 @@ class Positions(Base):
     __tablename__ = "positions"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     trading_symbol = Column(String(20), nullable=False, index=True)
     exchange = Column(String(10), nullable=False)
     instrument_token = Column(Integer, nullable=False)
@@ -47,9 +47,9 @@ class Positions(Base):
         CheckConstraint(f"product IN {tuple(PRODUCT_TYPES)}", name="check_valid_product"),
         CheckConstraint("multiplier > 0", name="check_multiplier_positive"),
         CheckConstraint("margin_used >= 0", name="check_margin_non_negative"),
-        Index("idx_account_symbol3", "account_id", "trading_symbol"),
+        Index("idx_account_symbol3", "account", "trading_symbol"),
         Index("idx_instrument1", "instrument_token"),
-        Index("idx_active_positions", "account_id", "quantity", "position_type"),
+        Index("idx_active_positions", "account", "quantity", "position_type"),
     )
 
     def __repr__(self):

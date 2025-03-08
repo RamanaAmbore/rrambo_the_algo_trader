@@ -20,10 +20,10 @@ async def get_existing_records(sync=False):
         return {(row[0], row[1]) for row in result.fetchall()}
 
 
-async def get_all_results(account_id, sync=False):
+async def get_all_results(account, sync=False):
     """Fetch all backtest results asynchronously."""
     with Db.get_session(sync) as session:
-        result = await session.execute(select(ProfitLoss).where(ProfitLoss.account_id.is_(account_id)))
+        result = await session.execute(select(ProfitLoss).where(ProfitLoss.account.is_(account)))
         return result.scalars().all()
 
 

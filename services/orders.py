@@ -9,16 +9,16 @@ from utils.db_connection import DbConnection as Db
 #     return datetime.now()
 
 
-async def get_all_results(account_id, sync=False):
+async def get_all_results(account, sync=False):
     """
     Fetch all orders for a specific account asynchronously.
 
     :param session: SQLAlchemy async session for database queries
-    :param account_id: User account ID (default: from environment)
+    :param account: User account ID (default: from environment)
     :return: List of all orders for the given account
     """
     with Db.get_session(sync) as session:
-        result = await session.execute(select(Orders).where(Orders.account_id.is_(account_id)))
+        result = await session.execute(select(Orders).where(Orders.account.is_(account)))
         return result.scalars().all()
 
 

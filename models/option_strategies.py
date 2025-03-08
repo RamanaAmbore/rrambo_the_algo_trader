@@ -14,7 +14,7 @@ class OptionStrategies(Base):
     __tablename__ = "option_strategies"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     strategy_name = Column(String(50), nullable=False)
     legs = Column(JSON, nullable=False)
     max_profit = Column(DECIMAL(12, 2), nullable=True)
@@ -31,11 +31,11 @@ class OptionStrategies(Base):
 
     __table_args__ = (CheckConstraint("max_loss <= 0", name="check_max_loss_negative"),
                       CheckConstraint("max_profit >= 0", name="check_max_profit_positive"),
-                      Index("idx_account_strategy1", "account_id", "strategy_name"),
+                      Index("idx_account_strategy1", "account", "strategy_name"),
                       Index("idx_timestamp2", "timestamp"),)
 
     def __repr__(self):
-        return (f"<OptionStrategy(id={self.id}, account_id='{self.account_id}', "
+        return (f"<OptionStrategy(id={self.id}, account='{self.account}', "
                 f"strategy_name='{self.strategy_name}', legs={self.legs}, "
                 f"max_profit={self.max_profit}, max_loss={self.max_loss}, "
                 f"breakeven_points={self.breakeven_points}, source='{self.source}', "

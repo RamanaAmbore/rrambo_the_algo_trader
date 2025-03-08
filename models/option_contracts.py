@@ -20,7 +20,7 @@ class OptionContracts(Base):
     __tablename__ = "option_contracts"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     instrument_token = Column(Integer, unique=True, nullable=False)
     trading_symbol = Column(String(20), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=False)
@@ -45,7 +45,7 @@ class OptionContracts(Base):
                       Index("idx_trading_symbol1", "trading_symbol"),)
 
     def __repr__(self):
-        return (f"<OptionContract(id={self.id}, account_id='{self.account_id}', "
+        return (f"<OptionContract(id={self.id}, account='{self.account}', "
                 f"instrument_token={self.instrument_token}, trading_symbol='{self.trading_symbol}', "
                 f"expiry_date={self.expiry_date}, strike_price={self.strike_price}, "
                 f"option_type='{self.option_type}', lot_size={self.lot_size}, "

@@ -16,7 +16,7 @@ class StockList(Base):
     __tablename__ = "stock_list"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     trading_symbol = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False, unique=True)
     exchange = Column(String(10), nullable=False)  # NSE/BSE
@@ -38,7 +38,7 @@ class StockList(Base):
     __table_args__ = (
         Index("idx_trading_symbol2", "trading_symbol"),
         Index("idx_instrument_token", "instrument_token"),
-        Index("idx_account_symbol1", "account_id", "trading_symbol"),
+        Index("idx_account_symbol1", "account", "trading_symbol"),
     )
 
     def __repr__(self):

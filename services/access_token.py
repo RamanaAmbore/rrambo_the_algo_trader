@@ -33,20 +33,20 @@ def decrypt_token(encrypted_token: str) -> str:
         raise
 
 
-def get_stored_access_tokens(db_connection: Db, account_id: str) -> Optional[str]:
+def get_stored_access_tokens(db_connection: Db, account: str) -> Optional[str]:
     """
-    Retrieve stored access token for a given account_id.
+    Retrieve stored access token for a given account.
 
     Args:
         db_connection: Database connection instance
-        account_id: Account ID for which the token is being fetched
+        account: Account ID for which the token is being fetched
 
     Returns:
         str: Valid access token or None if expired/missing
     """
     try:
         with db_connection.sync_session() as session:
-            token_entry = session.query(AccessTokens).filter_by(account_id=account_id).first()
+            token_entry = session.query(AccessTokens).filter_by(account=account).first()
 
             if token_entry:
                 age = timestamp_indian() - token_entry.timestamp
@@ -61,17 +61,17 @@ def get_stored_access_tokens(db_connection: Db, account_id: str) -> Optional[str
     return None
 
 
-def check_update_access_tokens(new_token: str, account_id: str) -> None:
+def check_update_access_tokens(new_token: str, account: str) -> None:
     """
     Save or update access token in database.
 
     Args:
         new_token: New access token to be stored
-        account_id: Account ID for which the token is being updated
+        account: Account ID for which the token is being updated
     """
     try:
         with Db.get_sync_session() as session:
-            token_entry = session.query(AccessTokens).filter_by(account_id=account_id).first()
+            token_entry = session.query(AccessTokens).filter_by(account=account).first()
             encrypted_token = encrypt_token(new_token)
 
             if token_entry:
@@ -82,7 +82,7 @@ def check_update_access_tokens(new_token: str, account_id: str) -> None:
                     logger.info("Access Token updated in database")
             else:
                 new_entry = AccessTokens(
-                    account_id=account_id,
+                    account=account,
                     token=encrypted_token,
                     timestamp=timestamp_indian()
                 )

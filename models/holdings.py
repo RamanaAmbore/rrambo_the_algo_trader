@@ -20,7 +20,7 @@ class Holdings(Base):
     __tablename__ = "holdings"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     trading_symbol = Column(String(20), nullable=False, index=True)  # Indexed for faster searches
     exchange = Column(String(10), nullable=False)  # Exchange where the stock is listed (NSE/BSE)
     quantity = Column(Integer, nullable=False)  # Number of shares held
@@ -40,13 +40,13 @@ class Holdings(Base):
     __table_args__ = (CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
                       CheckConstraint("average_price >= 0", name="check_avg_price_non_negative"),
                       CheckConstraint("current_price >= 0", name="check_current_price_non_negative"),
-                      Index("idx_account_symbol2", "account_id", "trading_symbol", unique=True),)
+                      Index("idx_account_symbol2", "account", "trading_symbol", unique=True),)
 
     def __repr__(self):
         """
         Returns a string representation of the object for debugging purposes.
         """
-        return (f"<Holdings(id={self.id}, account_id='{self.account_id}', trading_symbol='{self.trading_symbol}', "
+        return (f"<Holdings(id={self.id}, account='{self.account}', trading_symbol='{self.trading_symbol}', "
                 f"exchange='{self.exchange}', quantity={self.quantity}, avg_price={self.average_price}, "
                 f"current_price={self.current_price}, pnl={self.pnl}, source='{self.source}', "
                 f"timestamp={self.timestamp}, warning_error={self.warning_error}, notes='{self.notes}')>")

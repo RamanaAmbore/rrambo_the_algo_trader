@@ -13,7 +13,7 @@ class AccessTokens(Base):
     __tablename__ = "access_tokens"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=False)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False)
     token = Column(String(255), nullable=False)
     source = Column(Enum(source), nullable=True, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
@@ -25,10 +25,10 @@ class AccessTokens(Base):
     broker_account = relationship("BrokerAccounts", back_populates="access_tokens")
 
     __table_args__ = (
-        UniqueConstraint('account_id', name='uq_access_token'),
-        Index("idx_account", "account_id"),
+        UniqueConstraint('account', name='uq_access_token'),
+        Index("idx_account", "account"),
     )
 
     def __repr__(self):
-        return (f"<AccessTokens(id={self.id}, account_id='{self.account_id}', "
+        return (f"<AccessTokens(id={self.id}, account='{self.account}', "
                 f"source='{self.source}', warning_error={self.warning_error})>")

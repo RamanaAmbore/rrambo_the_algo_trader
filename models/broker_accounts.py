@@ -11,7 +11,7 @@ class BrokerAccounts(Base):
     """Model for storing broker account details manually."""
     __tablename__ = "broker_accounts"  # Changed to lowercase
 
-    account_id = Column(String(10), primary_key=True)  # Unique account identifier
+    account = Column(String(10), primary_key=True)  # Unique account identifier
     broker_name = Column(String(20), nullable=False)  # Name of the broker
     source = Column(Enum(source), nullable=True, server_default="MANUAL")  # Token source (e.g., API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
@@ -21,7 +21,7 @@ class BrokerAccounts(Base):
 
     def __repr__(self):
         """String representation for debugging."""
-        return f"<BrokerAccounts(account_id='{self.account_id}', broker_name='{self.broker_name}', notes='{self.notes}')>"
+        return f"<BrokerAccounts(account='{self.account}', broker_name='{self.broker_name}', notes='{self.notes}')>"
 
     access_tokens = relationship("AccessTokens", back_populates="broker_account")
 

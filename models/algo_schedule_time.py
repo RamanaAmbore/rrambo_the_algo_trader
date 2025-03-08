@@ -16,7 +16,7 @@ class AlgoScheduleTime(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(20), ForeignKey("algo_schedule.schedule", ondelete="CASCADE"), nullable=False)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     market_date = Column(Date, nullable=True)
     weekday = Column(Enum(WeekdayEnum), nullable=True)
     start_time = Column(Time, nullable=True)
@@ -34,12 +34,12 @@ class AlgoScheduleTime(Base):
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),
-        UniqueConstraint('schedule', 'account_id', 'market_date', 'weekday', name='uq_schedule_time'),
-        Index('idx_schedule_time', 'schedule', 'account_id', 'market_date', 'weekday'),)
+        UniqueConstraint('schedule', 'account', 'market_date', 'weekday', name='uq_schedule_time'),
+        Index('idx_schedule_time', 'schedule', 'account', 'market_date', 'weekday'),)
 
     def __repr__(self):
         return (f"<AlgoScheduleTime(id={self.id}, "
-                f"schedule='{self.schedule}', account_id='{self.account_id}', "
+                f"schedule='{self.schedule}', account='{self.account}', "
                 f"market_date={self.market_date}, weekday={self.weekday}, "
                 f"start_time={self.start_time}, end_time={self.end_time}, "
                 f"is_market_open={self.is_market_open}, source='{self.source}', "

@@ -16,7 +16,7 @@ class OptionGreeks(Base):
     __tablename__ = "option_greeks"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     instrument_token = Column(Integer, ForeignKey("option_contracts.instrument_token", ondelete="CASCADE"),
                             nullable=False)
     delta = Column(DECIMAL(10, 4), nullable=True)  # Higher precision for Greeks
@@ -42,7 +42,7 @@ class OptionGreeks(Base):
     )
 
     def __repr__(self):
-        return (f"<OptionGreeks(id={self.id}, account_id='{self.account_id}', "
+        return (f"<OptionGreeks(id={self.id}, account='{self.account}', "
                 f"instrument_token={self.instrument_token}, delta={self.delta}, "
                 f"theta={self.theta}, vega={self.vega}, gamma={self.gamma}, "
                 f"iv={self.iv}, source='{self.source}', timestamp={self.timestamp}, "

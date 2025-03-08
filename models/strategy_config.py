@@ -15,7 +15,7 @@ class StrategyConfig(Base):
     __tablename__ = "strategy_config"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     strategy_name = Column(String(50), unique=True, nullable=False)
     parameters = Column(JSON, nullable=False)
     source = Column(Enum(source), nullable=True, server_default="MANUAL")
@@ -29,11 +29,11 @@ class StrategyConfig(Base):
     broker_account = relationship("BrokerAccounts", back_populates="strategy_config")
 
     __table_args__ = (
-        Index("idx_account_strategy2", "account_id", "strategy_name"),
+        Index("idx_account_strategy2", "account", "strategy_name"),
         Index("idx_timestamp4", "timestamp"),
     )
 
     def __repr__(self):
-        return (f"<StrategyConfig(id={self.id}, account_id='{self.account_id}', "
+        return (f"<StrategyConfig(id={self.id}, account='{self.account}', "
                 f"strategy_name='{self.strategy_name}', source='{self.source}', "
                 f"timestamp={self.timestamp}, warning_error={self.warning_error})>")

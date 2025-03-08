@@ -20,7 +20,7 @@ class Trades(Base):
     __tablename__ = "trades"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     trade_id = Column(BigInteger, unique=True, nullable=False, index=True)
     order_id = Column(BigInteger, nullable=False, index=True)
     trading_symbol = Column(String(20), nullable=False, index=True)
@@ -51,7 +51,7 @@ class Trades(Base):
         CheckConstraint(f"instrument_type IN {tuple(INSTRUMENT_TYPES)}", name="check_valid_instrument_type"),
         CheckConstraint("quantity > 0", name="check_quantity_positive"),
         CheckConstraint("price >= 0", name="check_price_non_negative"),
-        Index("idx_account_date2", "account_id", "trade_date"),
+        Index("idx_account_date2", "account", "trade_date"),
         Index("idx_symbol_date", "trading_symbol", "trade_date"),
     )
 
