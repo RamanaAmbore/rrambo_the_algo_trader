@@ -16,7 +16,7 @@ class AlgoThreadStatus(Base):
     __tablename__ = "algo_thread_status"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(String(50), ForeignKey("algo_thread.thread", ondelete="CASCADE"), nullable=False)
+    thread = Column(String(50), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
     account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
     schedule = Column(String(20), ForeignKey("algo_schedule.schedule", ondelete="CASCADE"), nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
@@ -31,12 +31,12 @@ class AlgoThreadStatus(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_thread = relationship("AlgoThread", back_populates="algo_thread_status")
+    algo_threads = relationship("AlgoThreads", back_populates="algo_thread_status")
     broker_account = relationship("BrokerAccounts", back_populates="algo_thread_status")
     algo_schedule = relationship("AlgoSchedules", back_populates="algo_thread_status")
 
     __table_args__ = (
-        UniqueConstraint('thread', 'account_id', name='uq_thread_account'),
+        UniqueConstraint('thread', 'account_id', name='uq_algo_thread_account'),
         Index('idx_active_threads', 'is_active', 'next_run'),
         Index('idx_thread_status', 'thread', 'is_active'),
     )

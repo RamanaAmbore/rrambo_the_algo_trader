@@ -7,9 +7,9 @@ from utils.model_utils import source
 
 logger = get_logger(__name__)
 
-class AlgoThread(Base):
+class AlgoThreads(Base):
     """Model for storing thread definitions."""
-    __tablename__ = "algo_thread"
+    __tablename__ = "algo_threads"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(50), nullable=False, unique=True)  # Changed length to match ThreadStatus
@@ -19,10 +19,10 @@ class AlgoThread(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with ThreadStatus
-    algo_thread_status = relationship("AlgoThreadStatus", back_populates="algo_thread", cascade="all, delete-orphan")
+    algo_thread_status = relationship("AlgoThreadStatus", back_populates="algo_threads", cascade="all, delete-orphan")
 
     __table_args__ = (
-        UniqueConstraint('thread', name='uq_thread'),
+        UniqueConstraint('thread', name='uq_algo_thread'),
         Index("idx_thread", "thread"),
     )
 

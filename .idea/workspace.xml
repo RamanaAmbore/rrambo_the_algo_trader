@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="algo_thread and algo_thread_status tables added">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="code cleanup for models">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_thread.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_threads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_thread_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_thread_status.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -446,7 +447,23 @@
       <option name="project" value="LOCAL" />
       <updated>1741454210870</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="code cleanup for models">
+      <option name="closed" value="true" />
+      <created>1741456112508</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1741456112508</updated>
+    </task>
+    <task id="LOCAL-00028" summary="code cleanup for models">
+      <option name="closed" value="true" />
+      <created>1741456675866</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1741456675866</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -473,7 +490,8 @@
     <MESSAGE value="foreign key issues are fixed" />
     <MESSAGE value="parameter_loader tested successfully" />
     <MESSAGE value="algo_thread and algo_thread_status tables added" />
-    <option name="LAST_COMMIT_MESSAGE" value="algo_thread and algo_thread_status tables added" />
+    <MESSAGE value="code cleanup for models" />
+    <option name="LAST_COMMIT_MESSAGE" value="code cleanup for models" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
