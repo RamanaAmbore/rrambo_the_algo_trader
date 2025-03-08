@@ -11,7 +11,6 @@ class Watchlists(Base):
 
     id = Column(String(20), nullable=False, primary_key=True)
     watchlist = Column(String(20), unique=True)
-    desc = Column(String(255), nullable=False)
     source = Column(Enum(source), nullable=True, server_default="MANUAL")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                       server_default=text("CURRENT_TIMESTAMP"))
@@ -26,4 +25,4 @@ class Watchlists(Base):
     watchlist_instruments = relationship("WatchlistInstruments", back_populates="watchlist_rel")
 
     def __repr__(self):
-        return f"<Watchlist(id={self.id}, watchlist='{self.watchlist}', desc='{self.desc}')>"
+        return f"<Watchlist(id={self.id}, watchlist='{self.watchlist}')>"  # Removed desc from repr
