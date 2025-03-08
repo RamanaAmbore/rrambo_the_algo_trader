@@ -19,7 +19,7 @@ class Watchlists(Base):
 
     __table_args__ = (
         UniqueConstraint('watchlist', name='uq_watchlist'),
-        Index("idx_watchlist", "watchlist"),
+        Index("idx_watchlist1", "watchlist"),
     )
 
     watchlist_instruments = relationship("WatchlistInstruments", back_populates="watchlist_rel")

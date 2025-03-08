@@ -10,7 +10,7 @@ logger = get_logger(__name__)
 
 class AlgoSchedules(Base):
     """Stores schedule definitions that can be referenced by other tables."""
-    __tablename__ = "algo_schedules"
+    __tablename__ = "algo_schedule"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(20), nullable=False, unique=True)  # Unique constraint for referential integrity

@@ -23,7 +23,7 @@ class BrokerAccounts(Base):
         """String representation for debugging."""
         return f"<BrokerAccounts(account_id='{self.account_id}', broker_name='{self.broker_name}', notes='{self.notes}')>"
 
-    access_tokens = relationship("AccessToken", back_populates="broker_account")
+    access_tokens = relationship("AccessTokens", back_populates="broker_account")
 
     holdings = relationship("Holdings", back_populates="broker_account")
 

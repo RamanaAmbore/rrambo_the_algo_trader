@@ -8,9 +8,9 @@ from utils.model_utils import source
 logger = get_logger(__name__)
 
 
-class AccessToken(Base):
+class AccessTokens(Base):
     """Stores access tokens for API authentication."""
-    __tablename__ = "access_token"
+    __tablename__ = "access_tokens"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=False)
@@ -25,10 +25,10 @@ class AccessToken(Base):
     broker_account = relationship("BrokerAccounts", back_populates="access_tokens")
 
     __table_args__ = (
-        UniqueConstraint('account_id', name='uq_account_token'),
+        UniqueConstraint('account_id', name='uq_access_token'),
         Index("idx_account", "account_id"),
     )
 
     def __repr__(self):
-        return (f"<AccessToken(id={self.id}, account_id='{self.account_id}', "
+        return (f"<AccessTokens(id={self.id}, account_id='{self.account_id}', "
                 f"source='{self.source}', warning_error={self.warning_error})>")

@@ -4,7 +4,7 @@ import threading
 import requests
 from kiteconnect import KiteConnect
 
-from models.access_token import AccessToken
+from models.access_tokens import AccessTokens
 from utils.parameter_loader import sc
 from utils.db_connection import DbConnection
 from utils.logger import get_logger
@@ -17,8 +17,8 @@ class ZerodhaKite:
     """Handles Kite API authentication and access token management."""
 
     _lock = threading.Lock()
-    _access_token = None
-    _db_token = AccessToken()
+    _access_tokens = None
+    _db_token = AccessTokens()
 
     api_key = os.getenv("API_KEY")
     _api_secret = os.getenv("API_SECRET")
@@ -37,11 +37,11 @@ class ZerodhaKite:
         return cls.kite
 
     @classmethod
-    def get_access_token(cls, test_conn=False):
+    def get_access_tokens(cls, test_conn=False):
         """Returns KiteConnect instance, initializing it if necessary."""
-        if cls._access_token is None:
+        if cls._access_tokens is None:
             cls._setup_conn(test_conn=test_conn)
-        return cls._access_token
+        return cls._access_tokens
 
     @classmethod
     def _setup_conn(cls, test_conn=False):
@@ -50,11 +50,11 @@ class ZerodhaKite:
             if not test_conn and cls.kite:
                 return
 
-            stored_token = cls._db_token.get_stored_access_token(DbConnection)
+            stored_token = cls._db_token.get_stored_access_tokens(DbConnection)
             if stored_token:
-                cls._access_token = stored_token
+                cls._access_tokens = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
-                cls.kite.set_access_token(cls._access_token)
+                cls.kite.set_access_tokens(cls._access_tokens)
                 try:
                     cls.kite.profile()
                     logger.info("Stored access token is fetched and successfully validated")
@@ -117,12 +117,12 @@ class ZerodhaKite:
         try:
             kite = KiteConnect(api_key=cls.api_key)
             session_data = kite.generate_session(request_token, api_secret=cls._api_secret)
-            cls._access_token = session_data["access_token"]
+            cls._access_tokens = session_data["access_tokens"]
             cls.kite = kite
-            cls.kite.set_access_token(cls._access_token)
+            cls.kite.set_access_tokens(cls._access_tokens)
 
             # Store the new access token
-            cls._db_token.check_update_access_token(cls._access_token, DbConnection)
+            cls._db_token.check_update_access_tokens(cls._access_tokens, DbConnection)
             logger.info("Access token successfully generated and stored.")
         except Exception as e:
             logger.error(f"Failed to generate access token: {e}")

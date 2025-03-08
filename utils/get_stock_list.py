@@ -1,4 +1,4 @@
-from models.access_token import save_stock_list
+from models.access_tokens import save_stock_list
 from utils_func.db_connection import DbConnection
 from utils_func.logger import get_logger
 

@@ -1,8 +1,8 @@
 from datetime import timedelta
 from typing import Optional
 
-from models import AccessToken
-from models.access_token import logger
+from models import AccessTokens
+from models.access_tokens import logger
 from utils.date_time_utils import timestamp_indian
 from utils.db_connection import DbConnection as Db
 from utils.parameter_loader import Env
@@ -33,7 +33,7 @@ def decrypt_token(encrypted_token: str) -> str:
         raise
 
 
-def get_stored_access_token(db_connection: Db, account_id: str) -> Optional[str]:
+def get_stored_access_tokens(db_connection: Db, account_id: str) -> Optional[str]:
     """
     Retrieve stored access token for a given account_id.
 
@@ -46,7 +46,7 @@ def get_stored_access_token(db_connection: Db, account_id: str) -> Optional[str]
     """
     try:
         with db_connection.sync_session() as session:
-            token_entry = session.query(AccessToken).filter_by(account_id=account_id).first()
+            token_entry = session.query(AccessTokens).filter_by(account_id=account_id).first()
 
             if token_entry:
                 age = timestamp_indian() - token_entry.timestamp
@@ -61,7 +61,7 @@ def get_stored_access_token(db_connection: Db, account_id: str) -> Optional[str]
     return None
 
 
-def check_update_access_token(new_token: str, account_id: str) -> None:
+def check_update_access_tokens(new_token: str, account_id: str) -> None:
     """
     Save or update access token in database.
 
@@ -71,7 +71,7 @@ def check_update_access_token(new_token: str, account_id: str) -> None:
     """
     try:
         with Db.get_sync_session() as session:
-            token_entry = session.query(AccessToken).filter_by(account_id=account_id).first()
+            token_entry = session.query(AccessTokens).filter_by(account_id=account_id).first()
             encrypted_token = encrypt_token(new_token)
 
             if token_entry:
@@ -81,7 +81,7 @@ def check_update_access_token(new_token: str, account_id: str) -> None:
                     session.commit()
                     logger.info("Access Token updated in database")
             else:
-                new_entry = AccessToken(
+                new_entry = AccessTokens(
                     account_id=account_id,
                     token=encrypted_token,
                     timestamp=timestamp_indian()

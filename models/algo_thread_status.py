@@ -18,7 +18,7 @@ class AlgoThreadStatus(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(50), ForeignKey("algo_thread.thread", ondelete="CASCADE"), nullable=False)
     account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
-    schedule = Column(String(20), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(20), ForeignKey("algo_schedule.schedule", ondelete="CASCADE"), nullable=False)
     is_active = Column(Boolean, nullable=False, default=True)
     last_run = Column(DateTime(timezone=True), nullable=True)
     next_run = Column(DateTime(timezone=True), nullable=True)

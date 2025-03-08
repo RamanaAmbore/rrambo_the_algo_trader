@@ -1,4 +1,4 @@
-from .access_token import AccessToken
+from .access_tokens import AccessTokens
 from .backtest_results import BacktestResults
 from .algo_schedule_time import AlgoScheduleTime
 from .option_contracts import OptionContracts
@@ -17,6 +17,6 @@ from .watchlist_instruments import WatchlistInstruments
 from .parameters import Parameters
 from .refresh_flags import RefreshFlags
 from .broker_accounts import BrokerAccounts
-from .algo_schedules import AlgoSchedules
+from .algo_schedule import AlgoSchedules
 from .algo_thread import AlgoThread
 from .algo_thread_status import AlgoThreadStatus

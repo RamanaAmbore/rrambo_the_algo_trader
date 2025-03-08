@@ -15,7 +15,7 @@ class AlgoScheduleTime(Base):
     __tablename__ = "algo_schedule_time"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    schedule = Column(String(20), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(20), ForeignKey("algo_schedule.schedule", ondelete="CASCADE"), nullable=False)
     account_id = Column(String(10), ForeignKey("broker_accounts.account_id", ondelete="CASCADE"), nullable=True)
     market_date = Column(Date, nullable=True)
     weekday = Column(Enum(WeekdayEnum), nullable=True)

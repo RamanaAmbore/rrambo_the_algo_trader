@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 import datetime
 from layout import create_layout
-from models.access_token import StockList, get_stock_data, get_stock_info
+from models.access_tokens import StockList, get_stock_data, get_stock_info
 
 app = dash.Dash()
 app.title = "RRambo - Stock Market Dashboard"
