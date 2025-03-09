@@ -17,7 +17,7 @@ source:
         button: //button[@type='submit']
         href: //a[contains(text(), "CSV")]
         prefix:
-          report_tradebook
+          tradebook
       P&L:
         url: https://console.zerodha.com/reports/pnl
         segment:

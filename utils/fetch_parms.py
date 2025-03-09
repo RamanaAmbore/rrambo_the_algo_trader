@@ -1,4 +1,5 @@
 import os
+import threading
 from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
@@ -33,6 +34,9 @@ except Exception as e:
 
 class Parm:
     """Environment configuration and parameter management."""
+    
+    # Thread safety lock
+    _lock = threading.Lock()
     
     # Database Configuration
     SQLITE_DB: bool = os.getenv("SQLITE_DB", "True").lower() == "true"
@@ -76,69 +80,41 @@ class Parm:
     @classmethod
     def reset_parms(cls, records, refresh=False) -> None:
         """Reset parameters from database records."""
-        try:
-            if not cls.USER_CREDENTIALS or refresh:
-                for record in records:
-                    account = None if record.account is None else record.account.strip()
-                    value = None if record.value is None else record.value.strip()
-                    parameter = None if record.parameter is None else record.parameter.strip()
+        with cls._lock:  # Thread-safe parameter updates
+            try:
+                if not cls.USER_CREDENTIALS or refresh:
+                    for record in records:
+                        account = None if record.account is None else record.account.strip()
+                        value = None if record.value is None else record.value.strip()
+                        parameter = None if record.parameter is None else record.parameter.strip()
 
-                    if account:
-                        if account not in cls.USER_CREDENTIALS:
-                            cls.USER_CREDENTIALS[account] = {}
-                        cls.USER_CREDENTIALS[account][parameter] = None if value is None else decrypt_text(value)
-                        continue
+                        if account:
+                            if account not in cls.USER_CREDENTIALS:
+                                cls.USER_CREDENTIALS[account] = {}
+                            cls.USER_CREDENTIALS[account][parameter] = None if value is None else decrypt_text(value)
+                            continue
 
-                    if hasattr(cls, parameter):
-                        if isinstance(getattr(cls, parameter), bool):
-                            setattr(cls, parameter, value.lower() == 'true')
-                        elif isinstance(getattr(cls, parameter), int):
-                            setattr(cls, parameter, int(value))
-                        else:
-                            setattr(cls, parameter, value)
-                cls.USERS = list(cls.USER_CREDENTIALS.keys())
-        except Exception as e:
-            print(f"Error resetting parameters: {e}")
-            raise
+                        if hasattr(cls, parameter):
+                            if isinstance(getattr(cls, parameter), bool):
+                                setattr(cls, parameter, value.lower() == 'true')
+                            elif isinstance(getattr(cls, parameter), int):
+                                setattr(cls, parameter, int(value))
+                            else:
+                                setattr(cls, parameter, value)
+                    cls.USERS = list(cls.USER_CREDENTIALS.keys())
+            except Exception as e:
+                print(f"Error resetting parameters: {e}")
+                raise
 
     @classmethod
     def get_credentials(cls, user_id: str) -> Dict[str, Any]:
         """Get credentials for a specific user."""
-        if not cls.USER_CREDENTIALS:
-            cls.reset_parms()
+        with cls._lock:  # Thread-safe credential access
+            if not cls.USER_CREDENTIALS:
+                cls.reset_parms()
 
-        if user_id not in cls.USER_CREDENTIALS:
-            print(f"No credentials found for user {user_id}")
-            raise KeyError(f"No credentials found for user {user_id}")
+            if user_id not in cls.USER_CREDENTIALS:
+                print(f"No credentials found for user {user_id}")
+                raise KeyError(f"No credentials found for user {user_id}")
 
-        return cls.USER_CREDENTIALS[user_id]
-
-
-def main():
-    """Test function to verify parameter loading functionality."""
-    try:
-        print("Testing parameter loading...")
-        Parm.reset_parms()
-
-        print("Global Parameters:")
-        for parameter in ['instrument_token', 'data_fetch_interval', 'base_url', 
-                         'access_token_validity', 'download_dir']:
-            value = getattr(Parm, parameter)
-            print(f"{parameter}: {value}")
-
-        if Parm.USER_CREDENTIALS:
-            print("User Credentials:")
-            for user_id, creds in Parm.USER_CREDENTIALS.items():
-                print(f"User {user_id}:")
-                for param, value in creds.items():
-                    print(f"  {param}: {value}")
-        else:
-            print("No user credentials found")
-
-    except Exception as e:
-        print(f"Error testing parameters: {e}")
-        raise
-
-
-if __name__ == "__main__":
-    main()
+            return cls.USER_CREDENTIALS[user_id].copy()  # Return a copy for thread safety
