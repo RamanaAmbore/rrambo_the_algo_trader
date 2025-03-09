@@ -6,7 +6,7 @@ from sqlalchemy import select
 from models import OptionContracts
 from utils.fetch_parms import sc
 from utils.utils_func import to_decimal
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 
 async def get_all_results(account, sync=False):
     """Fetch all backtest results asynchronously."""

@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models import Positions
 # Custom utilities
 from utils.fetch_parms import Parm
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 
 async def get_all_results(account, sync=False):
     """

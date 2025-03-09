@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 from models import ReportTradebook
 from utils.logger import get_logger
 

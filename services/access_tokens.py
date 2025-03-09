@@ -4,7 +4,7 @@ from typing import Optional
 from models import AccessTokens
 from models.access_tokens import logger
 from utils.date_time_utils import timestamp_indian
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 from utils.fetch_parms import Parm
 from cryptography.fernet import Fernet, InvalidToken
 

@@ -14,7 +14,7 @@ from utils.fetch_parms import Parm
 logger = get_logger(__name__)  # Initialize logger
 
 
-class DbConnection:
+class DbConnect:
     """Database Utility Class for handling both Sync and Async database connections."""
 
     _initialized: bool = False
@@ -124,7 +124,7 @@ class DbConnection:
 async def test_async_session():
     """Test async session functionality."""
     try:
-        async for session in DbConnection.get_async_session():
+        async for session in DbConnect.get_async_session():
             result = await session.execute(text("SELECT 1"))
             value = result.scalar()
             logger.info(f"Async session test result: {value}")
@@ -135,7 +135,7 @@ async def test_async_session():
 def test_sync_session():
     """Test sync session functionality."""
     try:
-        with DbConnection.get_sync_session() as session:
+        with DbConnect.get_sync_session() as session:
             result = session.execute(text("SELECT 1"))
             value = result.scalar()
             logger.info(f"Sync session test result: {value}")
@@ -157,15 +157,15 @@ async def main():
         await test_async_session()
 
         # Test connection
-        connection_status = DbConnection.test_connection()
+        connection_status = DbConnect.test_connection()
         logger.info(f"Connection test status: {connection_status}")
 
     except Exception as e:
         logger.error(f"Main test failed: {e}")
     finally:
-        await DbConnection.cleanup()  # Changed to await cleanup
+        await DbConnect.cleanup()  # Changed to await cleanup
 
-DbConnection.initialize()
+DbConnect.initialize()
 if __name__ == "__main__":
     import asyncio
 

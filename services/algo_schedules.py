@@ -9,7 +9,7 @@ from utils.date_time_utils import today_indian
 from utils.logger import get_logger
 from settings.load_db_parms import DEFAULT_ALGO_SCHEDULE_RECORDS
 from utils.fetch_parms import sc
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 
 logger = get_logger(__name__)
 

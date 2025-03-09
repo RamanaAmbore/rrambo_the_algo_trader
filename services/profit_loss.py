@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import ReportProfitLoss
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 
 
 async def exists(symbol: str, isin: str):

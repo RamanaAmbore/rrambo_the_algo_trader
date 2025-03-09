@@ -1,1 +1,1 @@
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db

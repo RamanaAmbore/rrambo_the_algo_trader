@@ -6,7 +6,7 @@ from kiteconnect import KiteTicker
 from models.algo_schedule import AlgoScheduleTime
 from utils.fetch_parms import sc
 from utils.date_time_utils import today_indian, current_time_indian
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 from utils.logger import get_logger
 from utils.kite_api_login import ZerodhaKite
 

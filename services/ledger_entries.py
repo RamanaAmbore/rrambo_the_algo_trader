@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import ReportLedgerEntries
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 
 async def get_existing_records(sync=False):
     """Fetch all existing ledger entry IDs from the table."""

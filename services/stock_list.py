@@ -5,7 +5,7 @@ from sqlalchemy import Column, DateTime, text
 
 from models import StockList
 from utils.date_time_utils import timestamp_indian
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 
 def save_stock_list(sync=False):
     with Db.get_session(sync) as session:

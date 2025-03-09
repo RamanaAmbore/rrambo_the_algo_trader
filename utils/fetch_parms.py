@@ -9,23 +9,11 @@ from dotenv import load_dotenv
 
 from utils.cipher_utils import decrypt_text
 
-# from services.parameters import fetch_all_records
-
-# Load environment variables from .env
 load_dotenv()
 
 
-# Function to load YAML file
 def load_yaml(file_name: str) -> dict:
-    """
-    Load constants from a YAML file.
-    
-    Args:
-        file_name: Name of the YAML file in settings directory
-    
-    Returns:
-        dict: Loaded YAML content
-    """
+    """Load constants from a YAML file."""
     try:
         path = Path(__file__).parent.parent / "settings" / file_name
         with open(path, "r") as file:
@@ -35,7 +23,6 @@ def load_yaml(file_name: str) -> dict:
         raise
 
 
-# Load constants
 try:
     constants = SimpleNamespace(**load_yaml("constants.yaml"))
     sc = SimpleNamespace(**constants.source)
@@ -46,11 +33,13 @@ except Exception as e:
 
 class Parm:
     """Environment configuration and parameter management."""
-
-    # Database and Logging Configuration (unchanged)
+    
+    # Database Configuration
     SQLITE_DB: bool = os.getenv("SQLITE_DB", "True").lower() == "true"
     SQLITE_PATH: str = os.getenv("SQLITE_PATH", "database.db")
     POSTGRES_URL: Optional[str] = os.getenv("POSTGRES_URL")
+    DROP_TABLES: bool = os.getenv("DROP_TABLES", "True").lower() == "true"
+    DB_DEBUG: bool = os.getenv('DB_DEBUG', 'false').lower() == 'true'
 
     # Logging Configuration
     DEBUG_LOG_FILE: str = os.getenv("DEBUG_LOG_FILE", "logs/debug.log")
@@ -58,26 +47,22 @@ class Parm:
     CONSOLE_LOG_LEVEL: str = os.getenv("CONSOLE_LOG_LEVEL", "DEBUG")
     FILE_LOG_LEVEL: str = os.getenv("FILE_LOG_LEVEL", "DEBUG")
     ERROR_LOG_LEVEL: str = os.getenv("ERROR_LOG_LEVEL", "ERROR")
-    DB_DEBUG: bool = os.getenv('DB_DEBUG', 'false').lower() == 'true'
-    ENCRYPTION_KEY: str = os.getenv('ENCRYPTION_KEY', '')
-    DROP_TABLES = os.getenv("DROP_TABLES", "True").lower() == "true"
 
-    # Dynamic Parameters (converted to lowercase)
+    # Security Configuration
+    ENCRYPTION_KEY: str = os.getenv('ENCRYPTION_KEY', '')
+
+    # Dynamic Parameters
     USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
     INSTRUMENT_TOKEN: Optional[str] = None
     DATA_FETCH_INTERVAL: Optional[int] = None
-
-    # URLs (converted to lowercase)
     BASE_URL: Optional[str] = None
     LOGIN_URL: Optional[str] = None
     TWOFA_URL: Optional[str] = None
     INSTRUMENT_URL: Optional[str] = None
     REDIRECT_URL: Optional[str] = None
-
-    # Token Configuration (converted to lowercase)
     ACCESS_TOKEN_VALIDITY: Optional[int] = None
 
-    # Download Configuration (converted to lowercase)
+    # Download Configuration
     DOWNLOAD_TRADEBOOK: Optional[bool] = None
     DOWNLOAD_PL: Optional[bool] = None
     DOWNLOAD_LEDGER: Optional[bool] = None
@@ -86,19 +71,18 @@ class Parm:
     DOWNLOAD_DIR: Optional[str] = None
     REPORT_START_DATE: Optional[datetime] = None
     REPORT_LOOKBACK_DAYS: Optional[int] = None
-    USERS = []
-
-    # Initialize encryption
+    USERS: list = []
 
     @classmethod
     def reset_parms(cls, records, refresh=False) -> None:
+        """Reset parameters from database records."""
         try:
             if not cls.USER_CREDENTIALS or refresh:
                 for record in records:
-                    # Handle account-specific parameters
                     account = None if record.account is None else record.account.strip()
-                    value =  None if record.value is None else record.value.strip()
+                    value = None if record.value is None else record.value.strip()
                     parameter = None if record.parameter is None else record.parameter.strip()
+
                     if account:
                         if account not in cls.USER_CREDENTIALS:
                             cls.USER_CREDENTIALS[account] = {}
@@ -106,7 +90,6 @@ class Parm:
                         continue
 
                     if hasattr(cls, parameter):
-                        # Convert value to appropriate type
                         if isinstance(getattr(cls, parameter), bool):
                             setattr(cls, parameter, value.lower() == 'true')
                         elif isinstance(getattr(cls, parameter), int):
@@ -120,6 +103,7 @@ class Parm:
 
     @classmethod
     def get_credentials(cls, user_id: str) -> Dict[str, Any]:
+        """Get credentials for a specific user."""
         if not cls.USER_CREDENTIALS:
             cls.reset_parms()
 
@@ -134,20 +118,16 @@ def main():
     """Test function to verify parameter loading functionality."""
     try:
         print("Testing parameter loading...")
-
-        # Reset parameters
         Parm.reset_parms()
 
-        # Print loaded parameters
         print("Global Parameters:")
-        for parameter in ['instrument_token', 'data_fetch_interval', 'base_url', 'access_token_validity',
-                          'download_dir']:
+        for parameter in ['instrument_token', 'data_fetch_interval', 'base_url', 
+                         'access_token_validity', 'download_dir']:
             value = getattr(Parm, parameter)
             print(f"{parameter}: {value}")
 
-        # Print user credentials if any exist
         if Parm.USER_CREDENTIALS:
-            print("\nUser Credentials:")
+            print("User Credentials:")
             for user_id, creds in Parm.USER_CREDENTIALS.items():
                 print(f"User {user_id}:")
                 for param, value in creds.items():
@@ -159,5 +139,6 @@ def main():
         print(f"Error testing parameters: {e}")
         raise
 
-# if __name__ == "__main__":
-#     main()
+
+if __name__ == "__main__":
+    main()

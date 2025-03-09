@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from models.holdings import Holdings
 from models.orders import Orders
 from models.positions import Positions
-from utils.db_connect import DbConnection as Db
+from utils.db_connect import DbConnect as Db
 from utils.logger import get_logger
 from utils.kite_api_login import ZerodhaKite
 
