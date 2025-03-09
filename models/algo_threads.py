@@ -45,6 +45,7 @@ def initialize_default_records(connection):
                 connection.execute(table.insert(), record)
     except Exception as e:
         logger.error(f"Error managing default Algo Threads records: {e}")
+        raise
 
 
 @event.listens_for(AlgoThreads.__table__, 'after_create')

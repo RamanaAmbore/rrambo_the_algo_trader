@@ -52,6 +52,7 @@ def initialize_default_records(connection):
                 connection.execute(table.insert(), record)
     except Exception as e:
         logger.error(f"Error managing default Algo Thread Schedule Xref records: {e}")
+        raise
 
 
 @event.listens_for(AlgoThreadScheduleXref.__table__, 'after_create')

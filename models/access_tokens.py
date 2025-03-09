@@ -44,6 +44,7 @@ def initialize_default_records(connection):
                 connection.execute(table.insert(), record)
     except Exception as e:
         logger.error(f"Error managing default access tokens: {e}")
+        raise
 
 @event.listens_for(AccessTokens.__table__, 'after_create')
 def insert_default_records(target, connection, **kwargs):

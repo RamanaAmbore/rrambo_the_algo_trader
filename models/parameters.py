@@ -65,6 +65,7 @@ def initialize_default_records(connection):
                 connection.execute(table.insert(), record)
     except Exception as e:
         logger.error(f"Error managing default Parameter records: {e}")
+        raise
 
 
 @event.listens_for(Parameters.__table__, 'after_create')

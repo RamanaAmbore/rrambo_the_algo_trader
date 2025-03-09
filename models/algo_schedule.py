@@ -49,6 +49,7 @@ def initialize_default_records(connection):
                 connection.execute(table.insert(), record)
     except Exception as e:
         logger.error(f"Error managing default Alog Schedule records: {e}")
+        raise
 
 
 @event.listens_for(AlgoSchedule.__table__, 'after_create')

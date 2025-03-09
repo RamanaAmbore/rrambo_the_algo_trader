@@ -65,6 +65,7 @@ def initialize_default_records(connection):
                 connection.execute(table.insert(), record)
     except Exception as e:
         logger.error(f"Error managing default Broker Account records: {e}")
+        raise
 
 
 @event.listens_for(BrokerAccounts.__table__, 'after_create')

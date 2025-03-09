@@ -60,6 +60,7 @@ def initialize_default_records(connection):
                 connection.execute(table.insert(), record)
     except Exception as e:
         logger.error(f"Error managing default Algo Schedule Time records: {e}")
+        raise
 
 
 @event.listens_for(AlgoScheduleTime.__table__, 'after_create')
