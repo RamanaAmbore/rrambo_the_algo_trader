@@ -22,6 +22,8 @@ class DbConnect:
     _async_engine = None
     _sync_session = None
     _async_session = None
+    DB_URL: str = None
+    DB_ASYNC_URL: str = None
 
     @classmethod
     def initialize(cls) -> None:
@@ -30,58 +32,79 @@ class DbConnect:
             return
 
         try:
-            # Setup database URLs
-            if Parm.SQLITE_DB:
-                db_path = Path(Parm.SQLITE_PATH)
-                cls.DB_URL = f"sqlite:///{db_path}"
-                cls.DB_ASYNC_URL = f"sqlite+aiosqlite:///{db_path}"
-
-                # Ensure SQLite database directory exists
-                db_path.parent.mkdir(parents=True, exist_ok=True)
-                if not db_path.exists():
-                    db_path.touch()
-                    logger.info(f"Created new SQLite database at {db_path}")
-
-            else:
-                cls.DB_URL = f"postgresql://{Parm.POSTGRES_URL}"
-                cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Parm.POSTGRES_URL}"
-
-                if not database_exists(cls.DB_URL):
-                    create_database(cls.DB_URL)
-                    logger.info("Created new PostgreSQL database")
-
-            # Initialize engines and sessions
-            echo = Parm.DB_DEBUG
-            cls._engine = create_engine(cls.DB_URL, echo=echo)
-            cls._async_engine = create_async_engine(cls.DB_ASYNC_URL, echo=echo, future=True)
-
-            cls._sync_session = scoped_session(
-                sessionmaker(bind=cls._engine, autocommit=False, autoflush=False, expire_on_commit=False))
-            cls._async_session = sessionmaker(bind=cls._async_engine, class_=AsyncSession, expire_on_commit=False)
-
-            # Configure all mappers before creating
-            Base.metadata.reflect(cls._engine)
-            if Parm.DROP_TABLES:
-                Base.metadata.drop_all(cls._engine)
-            Base.metadata.create_all(cls._engine)
+            cls._setup_database_urls()
+            cls._initialize_engines_and_sessions()
+            cls._setup_database_tables()
+            # Parameter initialization moved to get_sync_session
             cls._initialized = True
+            logger.info("Database and parameters initialized successfully")
 
         except Exception as e:
             logger.error(f"Database initialization failed: {e}")
             raise
 
+    @classmethod
+    def _setup_database_urls(cls) -> None:
+        """Setup database URLs based on configuration."""
+        if Parm.SQLITE_DB:
+            db_path = Path(Parm.SQLITE_PATH)
+            cls.DB_URL = f"sqlite:///{db_path}"
+            cls.DB_ASYNC_URL = f"sqlite+aiosqlite:///{db_path}"
+            cls._ensure_sqlite_path(db_path)
+        else:
+            cls.DB_URL = f"postgresql://{Parm.POSTGRES_URL}"
+            cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Parm.POSTGRES_URL}"
+            cls._ensure_postgres_db()
+
+    @classmethod
+    def _ensure_sqlite_path(cls, db_path: Path) -> None:
+        """Ensure SQLite database file exists."""
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        if not db_path.exists():
+            db_path.touch()
+            logger.info(f"Created new SQLite database at {db_path}")
+
+    @classmethod
+    def _ensure_postgres_db(cls) -> None:
+        """Ensure PostgreSQL database exists."""
+        if not database_exists(cls.DB_URL):
+            create_database(cls.DB_URL)
+            logger.info("Created new PostgreSQL database")
+
+    @classmethod
+    def _initialize_engines_and_sessions(cls) -> None:
+        """Initialize database engines and sessions."""
+        echo = Parm.DB_DEBUG
+        cls._engine = create_engine(cls.DB_URL, echo=echo)
+        cls._async_engine = create_async_engine(cls.DB_ASYNC_URL, echo=echo, future=True)
+
+        cls._sync_session = scoped_session(
+            sessionmaker(bind=cls._engine, autocommit=False, autoflush=False, expire_on_commit=False))
+        cls._async_session = sessionmaker(bind=cls._async_engine, class_=AsyncSession, expire_on_commit=False)
+
+    @classmethod
+    def _setup_database_tables(cls) -> None:
+        """Setup database tables."""
+        Base.metadata.reflect(cls._engine)
+        if Parm.DROP_TABLES:
+            Base.metadata.drop_all(cls._engine)
+        Base.metadata.create_all(cls._engine)
+
+    @classmethod
+    def _initialize_parameters(cls) -> None:
+        """Initialize parameters from database."""
         with cls.get_sync_session() as session:
             parameters = session.query(Parameters).all()
             Parm.reset_parms(parameters)
+            logger.info('Parameters are refreshed from database')
             session.commit()
-
-        logger.info("Database and parameters initialized successfully")
 
     @classmethod
     def get_sync_session(cls) -> Session:
         """Get a synchronous database session."""
         if not cls._initialized:
             cls.initialize()
+            cls._initialize_parameters()  # Move parameter initialization here
         return cls._sync_session()
 
     @classmethod
@@ -165,7 +188,7 @@ async def main():
     finally:
         await DbConnect.cleanup()  # Changed to await cleanup
 
-DbConnect.initialize()
+# DbConnect.initialize()
 if __name__ == "__main__":
     import asyncio
 

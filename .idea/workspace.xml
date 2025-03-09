@@ -4,33 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="added encryption and decryption of add sensitive data in the database">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="added exceptions to default data load into tables">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/access_tokens.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/algo_schedules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/backtest_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/holdings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/ledger_entries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_contracts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_greeks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_strategies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/parameters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/profit_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/refresh_flags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/strategy_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/trades.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/watchlists.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threads/load_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/load_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/market_ticker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/sync_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/thread_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/db_connect.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/fetch_parms.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/fetch_parms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/kite_api_login.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +57,7 @@
     "Python.db_conn.executor": "Run",
     "Python.db_connect.executor": "Debug",
     "Python.db_connection (1).executor": "Run",
-    "Python.db_connection.executor": "Run",
+    "Python.db_connection.executor": "Debug",
     "Python.db_utils (1).executor": "Debug",
     "Python.db_utils.executor": "Debug",
     "Python.download_reports (1).executor": "Debug",
@@ -521,12 +497,26 @@
       <option name="project" value="LOCAL" />
       <updated>1741524550955</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="changed DbConnection to DBConect">
+      <option name="closed" value="true" />
+      <created>1741526590580</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1741526590580</updated>
+    </task>
+    <task id="LOCAL-00035" summary="added exceptions to default data load into tables">
+      <option name="closed" value="true" />
+      <created>1741526758308</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1741526758308</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added database related code to update and retrieve access token" />
-    <MESSAGE value="sqlalchemy models created. kite connection, socket connection with market hours and token exception is updated. thread to close and open the conneciton is implemented" />
     <MESSAGE value="changes for socket and log" />
     <MESSAGE value="replaced market_monitor and zerodha_kite with market_ticker. The intial test of the module is successful" />
     <MESSAGE value="marekt_ticker cleanedup and updated" />
@@ -550,7 +540,9 @@
     <MESSAGE value="changed account_id to account" />
     <MESSAGE value="new tables added. default data load into the tables is standardized" />
     <MESSAGE value="added encryption and decryption of add sensitive data in the database" />
-    <option name="LAST_COMMIT_MESSAGE" value="added encryption and decryption of add sensitive data in the database" />
+    <MESSAGE value="changed DbConnection to DBConect" />
+    <MESSAGE value="added exceptions to default data load into tables" />
+    <option name="LAST_COMMIT_MESSAGE" value="added exceptions to default data load into tables" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -599,6 +591,11 @@
           <url>file://$PROJECT_DIR$/utils/fetch_parms.py</url>
           <line>79</line>
           <option name="timeStamp" value="207" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/db_connect.py</url>
+          <line>173</line>
+          <option name="timeStamp" value="210" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
