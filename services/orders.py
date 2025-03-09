@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import Orders
 
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 # def timestamp_indian():
 #     """Returns the current timestamp (Indian timezone adjustment can be handled externally)."""
 #     return datetime.now()

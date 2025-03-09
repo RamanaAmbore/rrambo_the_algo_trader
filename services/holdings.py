@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import Holdings
 from utils.utils_func import to_decimal
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 
 def from_api_data(data):
     """

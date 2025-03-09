@@ -2,7 +2,7 @@ from sqlalchemy import select
 
 from models import OptionGreeks
 from utils.utils_func import to_decimal
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 
 async def get_all_results(account,sync=False):
     """Fetch all backtest results asynchronously."""

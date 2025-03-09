@@ -1,13 +1,13 @@
-import os
 import threading
 
 import requests
 from kiteconnect import KiteConnect
 
-from models.access_tokens import AccessTokens
-from utils.parameter_loader import sc
-from utils.db_connection import DbConnection
+from services.access_tokens import get_stored_access_tokens
+from utils.db_connect import DbConnection
 from utils.logger import get_logger
+from utils.parm_loader import Parm
+from utils.parm_loader import sc
 from utils.utils_func import generate_totp
 
 logger = get_logger(__name__)
@@ -18,15 +18,13 @@ class ZerodhaKite:
 
     _lock = threading.Lock()
     _access_tokens = None
-    _db_token = AccessTokens()
-
-    api_key = os.getenv("API_KEY")
-    _api_secret = os.getenv("API_SECRET")
-    username = os.getenv("ZERODHA_USERNAME")
-    _password = os.getenv("ZERODHA_PASSWORD")
-    login_url = os.getenv("LOGIN_URL")
-    twofa_url = os.getenv("TWOFA_URL")
-    totp_token = os.getenv("TOTP_TOKEN")
+    username = Parm.USERS[0]
+    _password = Parm.USER_CREDENTIALS[username]['PASSWORD']
+    api_key = Parm.USER_CREDENTIALS[username]["API_KEY"]
+    _api_secret = Parm.USER_CREDENTIALS[username]["API_SECRET"]
+    totp_token = Parm.USER_CREDENTIALS[username]['TOTP_TOKEN']
+    login_url = Parm.LOGIN_URL
+    twofa_url = Parm.TWOFA_URL
 
     kite = None
 
@@ -50,11 +48,11 @@ class ZerodhaKite:
             if not test_conn and cls.kite:
                 return
 
-            stored_token = cls._db_token.get_stored_access_tokens(DbConnection)
+            stored_token = get_stored_access_tokens(DbConnection)
             if stored_token:
                 cls._access_tokens = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
-                cls.kite.set_access_tokens(cls._access_tokens)
+                cls.kite.set_access_token(cls._access_tokens)
                 try:
                     cls.kite.profile()
                     logger.info("Stored access token is fetched and successfully validated")
@@ -83,9 +81,8 @@ class ZerodhaKite:
         for attempt in range(sc.MAX_TOTP_CONN_RETRY_COUNT):
             try:
                 totp_pin = generate_totp()
-                response = session.post(cls.twofa_url,
-                    data={"user_id": cls.username, "request_id": request_id, "twofa_value": totp_pin,
-                          "twofa_type": "totp"}, )
+                response = session.post(cls.twofa_url, data={"user_id": cls.username, "request_id": request_id,
+                                                             "twofa_value": totp_pin, "twofa_type": "totp"}, )
                 response.raise_for_status()
                 logger.info("TOTP authentication successful.")
                 break

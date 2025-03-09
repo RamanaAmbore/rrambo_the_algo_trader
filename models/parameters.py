@@ -1,12 +1,11 @@
 from typing import Optional
-
 from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Enum, Index, Boolean, event,
                         CheckConstraint)
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
-from utils.model_utils import source, DEFAULT_PARAMETERS
+from settings.default_db_values import source, DEFAULT_PARAMETERS
 from .base import Base
 
 logger = get_logger(__name__)
@@ -34,26 +33,43 @@ class Parameters(Base):
         CheckConstraint("parameter IS NOT NULL",
                        name="check_value_or_notes_not_null"),
     )
-    @classmethod
-    def get_parameter(cls, session, parameter: str, account: Optional[str] = None) -> Optional['Parameters']:
-        """Get parameter value for given parameter name and optional account."""
-        return session.query(cls).filter(
-            cls.parameter == parameter,
-            cls.account == account
-        ).first()
+
+
+
+
     def __repr__(self):
         return (f"<Parameters(id={self.id}, account='{self.account}', "
                 f"parameter='{self.parameter}', value='{self.value}', "
                 f"source='{self.source}', timestamp={self.timestamp}, "
                 f"warning_error={self.warning_error})>")
 
-
-@event.listens_for(Parameters.__table__, "after_create")
-def initialize_parameters(target, connection, **kwargs):
-    """Initialize default system parameters after table creation."""
+def get_parameter(session, parameter: str, account: Optional[str] = None) -> Optional['Parameters']:
+        """Get parameter value for given parameter name and optional account."""
+        return session.query(Parameters).filter(
+            Parameters.parameter == parameter,
+            Parameters.account == account
+        ).first()
+def initialize_default_records(connection):
+    """Initialize default records in the table."""
     try:
-        connection.execute(target.insert(), DEFAULT_PARAMETERS)
-        logger.info("Default parameters initialized successfully")
+        table = Parameters.__table__
+        for record in DEFAULT_PARAMETERS:
+            exists = connection.execute(
+                select(table).where(
+                    table.c.parameter == record['parameter'],
+                    table.c.account == record.get('account')
+                )
+            ).scalar() is not None
+
+            if not exists:
+                connection.execute(table.insert(), record)
     except Exception as e:
-        logger.error(f"Error initializing default parameters: {e}")
+        logger.error(f"Error managing default records: {e}")
+
+
+@event.listens_for(Parameters.__table__, 'after_create')
+def insert_default_records(target, connection, **kwargs):
+    """Insert default records after table creation."""
+    initialize_default_records(connection)
+    logger.info('Default Parameter records inserted after after_create event')
 

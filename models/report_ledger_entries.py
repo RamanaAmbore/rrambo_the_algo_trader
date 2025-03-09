@@ -5,13 +5,13 @@ from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from utils.model_utils import source
+from settings.default_db_values import source
 
 logger = get_logger(__name__)
 
 
-class LedgerEntries(Base):
-    __tablename__ = "ledger_entries"
+class ReportLedgerEntries(Base):
+    __tablename__ = "report_ledger_entries"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
@@ -29,7 +29,7 @@ class LedgerEntries(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    broker_account = relationship("BrokerAccounts", back_populates="ledger_entries")
+    broker_account = relationship("BrokerAccounts", back_populates="report_ledger_entries")
 
     __table_args__ = (CheckConstraint("debit >= 0", name="check_debit_non_negative"),
                       CheckConstraint("credit >= 0", name="check_credit_non_negative"),

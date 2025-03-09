@@ -19,8 +19,8 @@ drop table  trades cascade;
 drop table  watchlists cascade;
 drop table  watchlist_instruments cascade;
 drop table  BrokerAccounts cascade;
-drop table  ledger_entries cascade;
-drop table  profit_loss cascade;
+drop table  report_ledger_entries cascade;
+drop table  report_tradebook cascade;
 drop table  refresh_flags cascade;
 drop table  settings cascade;
 """

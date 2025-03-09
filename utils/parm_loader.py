@@ -7,6 +7,7 @@ from typing import Dict, Any, Optional
 
 
 import yaml
+from cryptography.fernet import Fernet
 from dotenv import load_dotenv
 
 # from services.parameters import fetch_all_records
@@ -44,7 +45,7 @@ except Exception as e:
     raise
 
 
-class Env:
+class Parm:
     """Environment configuration and parameter management."""
     
     # Database and Logging Configuration (unchanged)
@@ -60,6 +61,7 @@ class Env:
     ERROR_LOG_LEVEL: str = os.getenv("ERROR_LOG_LEVEL", "ERROR")
     DB_DEBUG: bool = os.getenv('DB_DEBUG', 'false').lower() == 'true'
     ENCRYPTION_KEY: str = os.getenv('ENCRYPTION_KEY', '')
+    DROP_TABLES = os.getenv("DROP_TABLES", "True").lower() == "true"
 
     # Dynamic Parameters (converted to lowercase)
     USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
@@ -85,6 +87,9 @@ class Env:
     DOWNLOAD_DIR: Optional[str] = None
     REPORT_START_DATE: Optional[datetime] = None
     REPORT_LOOKBACK_DAYS: Optional[int] = None
+    USERS=[]
+    # Initialize encryption
+
 
     @classmethod
     def reset_parms(cls, records, refresh=False) -> None:
@@ -112,6 +117,8 @@ class Env:
                             setattr(cls, param_name, int(param_value))
                         else:
                             setattr(cls, param_name, param_value)
+                cls.USERS = list(cls.USER_CREDENTIALS.keys())
+                cls.cipher_suite = Fernet(cls.ENCRYPTION_KEY.encode())
         except Exception as e:
             print(f"Error resetting parameters: {e}")
             raise
@@ -134,19 +141,19 @@ def main():
         print("Testing parameter loading...")
         
         # Reset parameters
-        Env.reset_parms()
+        Parm.reset_parms()
         
         # Print loaded parameters
         print("Global Parameters:")
         for param_name in ['instrument_token', 'data_fetch_interval', 'base_url', 
                           'access_token_validity', 'download_dir']:
-            value = getattr(Env, param_name)
+            value = getattr(Parm, param_name)
             print(f"{param_name}: {value}")
         
         # Print user credentials if any exist
-        if Env.USER_CREDENTIALS:
+        if Parm.USER_CREDENTIALS:
             print("\nUser Credentials:")
-            for user_id, creds in Env.USER_CREDENTIALS.items():
+            for user_id, creds in Parm.USER_CREDENTIALS.items():
                 print(f"User {user_id}:")
                 for param, value in creds.items():
                     print(f"  {param}: {value}")

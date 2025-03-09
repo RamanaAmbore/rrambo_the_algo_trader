@@ -1,10 +1,10 @@
-from sqlalchemy import (Column, Integer, String, DateTime, text, Boolean, Index, ForeignKeyConstraint, ForeignKey, Enum,
-                        CheckConstraint, UniqueConstraint)
+from sqlalchemy import (Column, Integer, String, DateTime, text, Boolean, Index, ForeignKey, Enum,
+                        UniqueConstraint)
 from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from utils.model_utils import source
+from settings.default_db_values import source
 
 logger = get_logger(__name__)
 

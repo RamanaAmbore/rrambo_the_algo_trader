@@ -14,7 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 from threads.load_reports import load_reports
-from utils.parameter_loader import Env, sc
+from utils.parm_loader import Parm, sc
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
 from utils.utils_func import generate_totp
@@ -23,9 +23,9 @@ logger = get_logger(__name__)  # Initialize logger
 
 # 🔹 Constants
 
-REPORT_START_DATE = Env.REPORT_START_DATE
+REPORT_START_DATE = Parm.REPORT_START_DATE
 if REPORT_START_DATE is None:
-    REPORT_START_DATE = today_indian() - timedelta(Env.REPORT_LOOKBACK_DAYS)
+    REPORT_START_DATE = today_indian() - timedelta(Parm.REPORT_LOOKBACK_DAYS)
 else:
     REPORT_START_DATE = datetime(int(REPORT_START_DATE[:4]), int(REPORT_START_DATE[5:7]),
                                  int(REPORT_START_DATE[9:])).date()
@@ -33,8 +33,8 @@ else:
 REPORT_END_DATE = today_indian()
 
 # 🔹 Flags for enabling/disabling downloads
-DOWNLOAD_FLAGS = {"Tradebook": Env.DOWNLOAD_TRADEBBOOK, "P&L": Env.DOWNLOAD_PL, "Ledger": Env.DOWNLOAD_LEDGER,
-                  "Holdings": Env.DOWNLOAD_HOLDINGS, "Positions": Env.DOWNLOAD_POSITIONS, }
+DOWNLOAD_FLAGS = {"ReportTradebook": Parm.DOWNLOAD_TRADEBBOOK, "P&L": Parm.DOWNLOAD_PL, "Ledger": Parm.DOWNLOAD_LEDGER,
+                  "Holdings": Parm.DOWNLOAD_HOLDINGS, "Positions": Parm.DOWNLOAD_POSITIONS, }
 
 logger.info(f'Report start date: {REPORT_START_DATE}')
 logger.info(f'Report end date: {REPORT_END_DATE}')
@@ -51,7 +51,7 @@ def setup_driver():
     options.add_argument("--disable-gpu")
 
     # Set Download Preferences
-    download_path = os.path.abspath(Env.DOWNLOAD_DIR)
+    download_path = os.path.abspath(Parm.DOWNLOAD_DIR)
     logger.info(f"Download path: {download_path}")
     options.set_preference("browser.download.folderList", 2)  # Use custom directory
     options.set_preference("browser.download.dir", download_path)  # Ensure absolute path
@@ -83,12 +83,12 @@ def login_kite(driver):
     try:
         userid_field = driver.find_element(By.ID, "userid")
         highlight_element(driver, userid_field)
-        userid_field.send_keys(Env.ZERODHA_USERNAME)
+        userid_field.send_keys(Parm.ZERODHA_USERNAME)
         logger.info("Entered User ID.")
 
         password_field = driver.find_element(By.ID, "password")
         highlight_element(driver, password_field)
-        password_field.send_keys(Env.ZERODHA_PASSWORD)
+        password_field.send_keys(Parm.ZERODHA_PASSWORD)
         logger.info("Entered Password.")
 
         login_button = driver.find_element(By.XPATH, '//button[@type="submit"]')
@@ -122,7 +122,7 @@ def login_kite(driver):
 
 def download_reports(driver):
     """Downloads reports from Zerodha Console."""
-    os.makedirs(Env.DOWNLOAD_DIR, exist_ok=True)
+    os.makedirs(Parm.DOWNLOAD_DIR, exist_ok=True)
     all_downloaded_files = {}
     try:
         for name, item in sc.DOWNLOAD_REPORTS.items():
@@ -195,7 +195,7 @@ def download_reports(driver):
                             download_csv_link = WebDriverWait(driver, 10).until(
                                 ec.element_to_be_clickable((By.XPATH, item['href'])))
                             highlight_element(driver, download_csv_link)
-                            files_in_dir = set(os.listdir(Env.DOWNLOAD_DIR))
+                            files_in_dir = set(os.listdir(Parm.DOWNLOAD_DIR))
                             download_csv_link.click()
 
                             # Wait for the file to appear in the download directory
@@ -240,11 +240,11 @@ def wait_for_download(files_in_dir, timeout=60):
     # Initial files
 
     while time.time() < end_time:
-        current_files = set(os.listdir(Env.DOWNLOAD_DIR))
+        current_files = set(os.listdir(Parm.DOWNLOAD_DIR))
         new_file = current_files - files_in_dir  # Find newly added files
 
         if new_file:
-            file_path = os.path.join(Env.DOWNLOAD_DIR, new_file.pop())
+            file_path = os.path.join(Parm.DOWNLOAD_DIR, new_file.pop())
 
             # Wait for the file size to stabilize (ensures download is complete)
             prev_size = -1

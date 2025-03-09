@@ -5,8 +5,8 @@ source:
   MAX_SOCKET_RECONNECT_ATTEMPTS: 3
   EST_TIMEZONE: EST
   DOWNLOAD_REPORTS:
-      Tradebook:
-        url: https://console.zerodha.com/reports/tradebook
+      ReportTradebook:
+        url: https://console.zerodha.com/reports/report_tradebook
         segment:
           element: //label[contains(text(), 'Segment')]/following-sibling::select
           values:
@@ -17,7 +17,7 @@ source:
         button: //button[@type='submit']
         href: //a[contains(text(), "CSV")]
         prefix:
-          tradebook
+          report_tradebook
       P&L:
         url: https://console.zerodha.com/reports/pnl
         segment:

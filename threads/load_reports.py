@@ -5,12 +5,12 @@ from math import nan
 
 import pandas as pd
 
-from models.ledger_entries import LedgerEntries
-from models.profit_loss import ProfitLoss
-from models.trades import Trades  # Removed TradeTypeEnum import
-from utils.parameter_loader import Env, sc
+from models.report_ledger_entries import ReportLedgerEntries
+from models.report_profit_loss import ReportProfitLoss
+from models.report_tradebook import ReportTradebook  # Removed TradeTypeEnum import
+from utils.parm_loader import Parm, sc
 from utils.date_time_utils import INDIAN_TIMEZONE
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 from utils.logger import get_logger
 
 logger = get_logger(__name__)  # Initialize logger
@@ -19,7 +19,7 @@ logger = get_logger(__name__)  # Initialize logger
 
 def return_model_for_prefix(report_prefix: str):
     """Return the correct model based on the file prefix."""
-    model_mapping = {"tradebook": Trades, "pnl": ProfitLoss, "ledger": LedgerEntries}
+    model_mapping = {"report_tradebook": ReportTradebook, "pnl": ReportProfitLoss, "ledger": ReportLedgerEntries}
     return model_mapping.get(report_prefix)
 
 
@@ -61,8 +61,8 @@ async def load_data(file_path: str, model, prefix):
         existing_records = await model.get_existing_records(session)
         new_records = []
         for _, row in df.iterrows():
-            if Env.DOWNLOAD_TRADEBBOOK and model == Trades and row["trade_id"] not in existing_records:
-                new_records.append(Trades(trade_id=row["trade_id"], order_id=row["order_id"],
+            if Parm.DOWNLOAD_TRADEBBOOK and model == ReportTradebook and row["trade_id"] not in existing_records:
+                new_records.append(ReportTradebook(trade_id=row["trade_id"], order_id=row["order_id"],
                                           trading_symbol="" if row["symbol"] == nan else row["symbol"],
                                           isin=row.get("isin"), exchange=row["exchange"], segment=row["segment"],
                                           series=row["series"], trade_type=row["trade_type"],
@@ -75,8 +75,8 @@ async def load_data(file_path: str, model, prefix):
                                               sc.INDIAN_TIMEZONE) if row.get("expiry_date") else None,
                                           instrument_type="Options" if row.get("expiry_date") else "Equity", ))
 
-            elif Env.DOWNLOAD_PL and model == ProfitLoss and (row["Symbol"], row["ISIN"]) not in existing_records:
-                new_records.append(ProfitLoss(symbol=row["Symbol"], isin=row["ISIN"], quantity=row["Quantity"],
+            elif Parm.DOWNLOAD_PL and model == ReportProfitLoss and (row["Symbol"], row["ISIN"]) not in existing_records:
+                new_records.append(ReportProfitLoss(symbol=row["Symbol"], isin=row["ISIN"], quantity=row["Quantity"],
                                               buy_value=row["Buy Value"], sell_value=row["Sell Value"],
                                               realized_pnl=row["Realized P&L"],
                                               realized_pnl_pct=row["Realized P&L Pct."],
@@ -87,10 +87,10 @@ async def load_data(file_path: str, model, prefix):
                                               unrealized_pnl_pct=row["Unrealized P&L Pct."], ))
 
 
-            elif Env.DOWNLOAD_LEDGER and model == LedgerEntries and (
+            elif Parm.DOWNLOAD_LEDGER and model == ReportLedgerEntries and (
                     row['particulars'], row['posting_date'], row['cost_center'], row['voucher_type'], row['debit'],
                     row['credit'], row['net_balance']) not in existing_records:
-                new_records.append(LedgerEntries(particulars=row['particulars'],
+                new_records.append(ReportLedgerEntries(particulars=row['particulars'],
                                                  posting_date=None if row['posting_date'] == '' else row[
                                                      'posting_date'], cost_center=row['cost_center'],
                                                  voucher_type=row['voucher_type'],
@@ -128,7 +128,7 @@ async def load_reports():
     for key, value in sc.DOWNLOAD_REPORTS.items():
         prefix = value.get("prefix")
         if prefix:
-            await process_directory(Env.DOWNLOAD_DIR, prefix)
+            await process_directory(Parm.DOWNLOAD_DIR, prefix)
         else:
             logger.warning(f"Skipping {key}: Missing prefix.")
 

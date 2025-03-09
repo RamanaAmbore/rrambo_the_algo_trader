@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from utils.model_utils import source
+from settings.default_db_values import source
 
 logger = get_logger(__name__)
 
@@ -31,9 +31,9 @@ class AlgoThreadStatus(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_threads = relationship("AlgoThreads", back_populates="algo_thread_status")
+    algo_thread = relationship("AlgoThreads", back_populates="algo_thread_status")
     broker_account = relationship("BrokerAccounts", back_populates="algo_thread_status")
-    algo_schedule = relationship("AlgoSchedules", back_populates="algo_thread_status")
+    algo_schedule = relationship("AlgoSchedule", back_populates="algo_thread_status")
 
     __table_args__ = (
         UniqueConstraint('thread', 'account', name='uq_algo_thread_account'),

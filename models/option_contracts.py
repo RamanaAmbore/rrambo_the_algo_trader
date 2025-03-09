@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from utils.model_utils import source
+from settings.default_db_values import source
 
 logger = get_logger(__name__)
 
@@ -42,7 +42,7 @@ class OptionContracts(Base):
                       CheckConstraint("tick_size > 0", name="check_tick_size_positive"),
                       CheckConstraint("option_type IN ('CE', 'PE')", name="check_option_type_valid"),
                       Index("idx_expiry_strike", "expiry_date", "strike_price"),
-                      Index("idx_trading_symbol1", "trading_symbol"),)
+                      Index("idx_trading_symbol2", "trading_symbol"),)
 
     def __repr__(self):
         return (f"<OptionContract(id={self.id}, account='{self.account}', "

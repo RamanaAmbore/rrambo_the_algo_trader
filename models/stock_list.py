@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from utils.model_utils import source
+from settings.default_db_values import source
 
 logger = get_logger(__name__)
 
@@ -36,7 +36,7 @@ class StockList(Base):
     broker_account = relationship("BrokerAccounts", back_populates="stock_list")
 
     __table_args__ = (
-        Index("idx_trading_symbol2", "trading_symbol"),
+        Index("idx_trading_symbol6", "trading_symbol"),
         Index("idx_instrument_token", "instrument_token"),
         Index("idx_account_symbol1", "account", "trading_symbol"),
     )

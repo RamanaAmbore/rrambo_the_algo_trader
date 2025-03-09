@@ -1,29 +1,29 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from models import ProfitLoss
-from utils.db_connection import DbConnection as Db
+from models import ReportProfitLoss
+from utils.db_connect import DbConnection as Db
 
 
 async def exists(symbol: str, isin: str):
     """Check if a profit-loss record exists for a symbol & ISIN."""
     with Db.get_session(sync) as session:
         result = await session.execute(
-            select(ProfitLoss).where(ProfitLoss.symbol.is_(symbol), ProfitLoss.isin.is_(isin)))
+            select(ReportProfitLoss).where(ReportProfitLoss.symbol.is_(symbol), ReportProfitLoss.isin.is_(isin)))
         return result.scalars().first() is not None
 
 
 async def get_existing_records(sync=False):
     """Fetch all existing (symbol, ISIN) pairs from the table."""
     with Db.get_session(sync) as session:
-        result = await session.execute(select(ProfitLoss.symbol, ProfitLoss.isin))
+        result = await session.execute(select(ReportProfitLoss.symbol, ReportProfitLoss.isin))
         return {(row[0], row[1]) for row in result.fetchall()}
 
 
 async def get_all_results(account, sync=False):
     """Fetch all backtest results asynchronously."""
     with Db.get_session(sync) as session:
-        result = await session.execute(select(ProfitLoss).where(ProfitLoss.account.is_(account)))
+        result = await session.execute(select(ReportProfitLoss).where(ReportProfitLoss.account.is_(account)))
         return result.scalars().all()
 
 

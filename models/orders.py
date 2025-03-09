@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from utils.model_utils import source
+from settings.default_db_values import source
 
 logger = get_logger(__name__)
 
@@ -95,7 +95,7 @@ class Orders(Base):
                       CheckConstraint("price >= 0", name="check_price_non_negative"),
                       CheckConstraint("trigger_price >= 0", name="check_trigger_price_non_negative"),
                       CheckConstraint("filled_quantity + pending_quantity + cancelled_quantity = quantity",
-                                      name="check_quantity_balance"), Index("idx_order_id", "order_id"),
+                                      name="check_quantity_balance"), Index("idx_order_id1", "order_id"),
                       Index("idx_account_timestamp2", "account", "timestamp"),
                       Index("idx_instrument2", "instrument_token"),)
 

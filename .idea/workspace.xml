@@ -4,11 +4,68 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="code cleanup for models">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="changed account_id to account">
+      <change afterPath="$PROJECT_DIR$/settings/default_db_values.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/cipher_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/kite_selenium_login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/algo_thread.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_threads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_schedule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_schedule_time.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/algo_thread_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_thread_status.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_threads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/report_ledger_entries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_greeks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/report_profit_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/refresh_flags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/strategy_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/trades.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlist_instruments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/algo_schedules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/ledger_entries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_greeks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/option_strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/profit_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/refresh_flags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/strategy_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/trades.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/trades.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/constants.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/settings/constants.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/download_reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/load_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/load_reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/market_ticker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/sync_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/thread_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/date_time_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/date_time_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/db_connect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/model_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/parameter_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/parm_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/utils_func.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils_func.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/zerodha_kite.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/kite_api_login.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,10 +105,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python tests.Python tests for cipher_utils.test_cipher.executor": "Run",
     "Python.SimpleDashboard.executor": "Run",
     "Python.app.executor": "Run",
     "Python.backend.executor": "Run",
     "Python.broker_connection.executor": "Run",
+    "Python.cipher_utils.executor": "Debug",
     "Python.database.executor": "Run",
     "Python.date_time_utils.executor": "Run",
     "Python.db_conn.executor": "Run",
@@ -62,6 +121,7 @@
     "Python.db_utils.executor": "Debug",
     "Python.download_reports (1).executor": "Debug",
     "Python.download_reports.executor": "Run",
+    "Python.kite_api_login.executor": "Debug",
     "Python.kite_connect (1).executor": "Debug",
     "Python.kite_connection_new.executor": "Debug",
     "Python.load_reports (1).executor": "Run",
@@ -80,7 +140,7 @@
     "Python.test.executor": "Run",
     "Python.test_db_utils.executor": "Debug",
     "Python.thread_manager.executor": "Debug",
-    "Python.zerodha_kite.executor": "Run",
+    "Python.zerodha_kite.executor": "Debug",
     "Python.zerodha_socket.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -95,37 +155,15 @@
       <recent name="D:\rrambo_trader_new" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\rrambo_trader_new\settings" />
       <recent name="D:\rrambo_trader_new\threads" />
       <recent name="D:\rrambo_trader_new\utils" />
       <recent name="D:\rrambo_trader_new\models" />
       <recent name="D:\rrambo_trader_new\decorators" />
-      <recent name="D:\rrambo_trader_new\data_sync" />
     </key>
   </component>
   <component name="RunManager" selected="Python.db_connection">
-    <configuration name="backend" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/backend.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="db_connection" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="cipher_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -138,7 +176,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/db_connection.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/cipher_utils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -147,7 +185,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="parameter_loader (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="db_connect" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -160,7 +198,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/parameter_loader.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\utils\db_connect.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -169,7 +207,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="settings_loader_new" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="kite_api_login" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -182,7 +220,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/settings_loader_new.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\utils\kite_api_login.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -191,7 +229,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="zerodha_kite" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="parm_loader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -204,22 +242,37 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/zerodha_kite.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\utils\parm_loader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for cipher_utils.test_cipher" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;cipher_utils.test_cipher&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.db_connection" />
-        <item itemvalue="Python.parameter_loader (1)" />
-        <item itemvalue="Python.zerodha_kite" />
-        <item itemvalue="Python.backend" />
-        <item itemvalue="Python.settings_loader_new" />
+        <item itemvalue="Python.kite_api_login" />
+        <item itemvalue="Python.cipher_utils" />
+        <item itemvalue="Python tests.Python tests for cipher_utils.test_cipher" />
+        <item itemvalue="Python.parm_loader" />
       </list>
     </recent_temporary>
   </component>
@@ -463,7 +516,23 @@
       <option name="project" value="LOCAL" />
       <updated>1741456675866</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="code cleanup for models">
+      <option name="closed" value="true" />
+      <created>1741457063837</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1741457063837</updated>
+    </task>
+    <task id="LOCAL-00030" summary="changed account_id to account">
+      <option name="closed" value="true" />
+      <created>1741457178629</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1741457178629</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -491,7 +560,8 @@
     <MESSAGE value="parameter_loader tested successfully" />
     <MESSAGE value="algo_thread and algo_thread_status tables added" />
     <MESSAGE value="code cleanup for models" />
-    <option name="LAST_COMMIT_MESSAGE" value="code cleanup for models" />
+    <MESSAGE value="changed account_id to account" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed account_id to account" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -512,19 +582,44 @@
           <option name="timeStamp" value="166" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/zerodha_kite.py</url>
-          <line>12</line>
-          <option name="timeStamp" value="169" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/services/option_contract.py</url>
           <line>8</line>
           <option name="timeStamp" value="171" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/utils/parameter_loader.py</url>
-          <line>146</line>
+          <url>file://$PROJECT_DIR$/utils/parm_loader.py</url>
+          <line>148</line>
           <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/kite_api_login.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="191" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/kite_api_login.py</url>
+          <line>46</line>
+          <option name="timeStamp" value="194" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/parm_loader.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="197" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/cipher_utils.py</url>
+          <line>19</line>
+          <option name="timeStamp" value="199" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/db_connect.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="203" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/utils/parm_loader.py</url>
+          <line>63</line>
+          <option name="timeStamp" value="204" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

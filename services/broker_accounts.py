@@ -1,5 +1,5 @@
 from models import BrokerAccounts
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 
 
 def insert_account(account_data, sync=True):

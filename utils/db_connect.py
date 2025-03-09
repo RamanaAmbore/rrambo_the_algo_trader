@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, event
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from sqlalchemy_utils import database_exists, create_database
@@ -8,7 +8,7 @@ from sqlalchemy_utils import database_exists, create_database
 from models import Parameters
 from models.base import Base
 from utils.logger import get_logger
-from utils.parameter_loader import Env
+from utils.parm_loader import Parm
 
 # Load environment variables
 logger = get_logger(__name__)  # Initialize logger
@@ -31,8 +31,8 @@ class DbConnection:
 
         try:
             # Setup database URLs
-            if Env.SQLITE_DB:
-                db_path = Path(Env.SQLITE_PATH)
+            if Parm.SQLITE_DB:
+                db_path = Path(Parm.SQLITE_PATH)
                 cls.DB_URL = f"sqlite:///{db_path}"
                 cls.DB_ASYNC_URL = f"sqlite+aiosqlite:///{db_path}"
 
@@ -43,15 +43,15 @@ class DbConnection:
                     logger.info(f"Created new SQLite database at {db_path}")
 
             else:
-                cls.DB_URL = f"postgresql://{Env.POSTGRES_URL}"
-                cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Env.POSTGRES_URL}"
+                cls.DB_URL = f"postgresql://{Parm.POSTGRES_URL}"
+                cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Parm.POSTGRES_URL}"
 
                 if not database_exists(cls.DB_URL):
                     create_database(cls.DB_URL)
                     logger.info("Created new PostgreSQL database")
 
             # Initialize engines and sessions
-            echo = Env.DB_DEBUG
+            echo = Parm.DB_DEBUG
             cls._engine = create_engine(cls.DB_URL, echo=echo)
             cls._async_engine = create_async_engine(cls.DB_ASYNC_URL, echo=echo, future=True)
 
@@ -59,9 +59,10 @@ class DbConnection:
                 sessionmaker(bind=cls._engine, autocommit=False, autoflush=False, expire_on_commit=False))
             cls._async_session = sessionmaker(bind=cls._async_engine, class_=AsyncSession, expire_on_commit=False)
 
-            # Configure all mappers before creating tables
+            # Configure all mappers before creating
             Base.metadata.reflect(cls._engine)
-            Base.metadata.drop_all(cls._engine)
+            if Parm.DROP_TABLES:
+                Base.metadata.drop_all(cls._engine)
             Base.metadata.create_all(cls._engine)
             cls._initialized = True
 
@@ -71,7 +72,7 @@ class DbConnection:
 
         with cls.get_sync_session() as session:
             parameters = session.query(Parameters).all()
-            Env.reset_parms(parameters)
+            Parm.reset_parms(parameters)
             session.commit()
 
         logger.info("Database and parameters initialized successfully")
@@ -164,7 +165,7 @@ async def main():
     finally:
         await DbConnection.cleanup()  # Changed to await cleanup
 
-
+DbConnection.initialize()
 if __name__ == "__main__":
     import asyncio
 

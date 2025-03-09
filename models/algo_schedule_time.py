@@ -1,10 +1,10 @@
 from sqlalchemy import (Column, Integer, String, Date, Time, Boolean, DateTime, ForeignKey, Enum, CheckConstraint,
                         Index, text, event, UniqueConstraint)
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
-from utils.model_utils import source, WeekdayEnum, DEFAULT_SCHEDULE_TIME_RECORDS  # Combined imports from model_utils
+from settings.default_db_values import source, WeekdayEnum, DEFAULT_SCHEDULE_TIME_RECORDS
 from .base import Base
 
 logger = get_logger(__name__)
@@ -30,7 +30,7 @@ class AlgoScheduleTime(Base):
 
     # Relationships
     broker_account = relationship("BrokerAccounts", back_populates="algo_schedule_time")
-    algo_schedule = relationship("AlgoSchedules", back_populates="algo_schedule_time")
+    algo_schedule = relationship("AlgoSchedule", back_populates="algo_schedule_time")
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),
@@ -46,13 +46,28 @@ class AlgoScheduleTime(Base):
                 f"warning_error={self.warning_error}, notes='{self.notes}')>")
 
 
-# Remove the threads relationship as it's now in the AlgoSchedules model
-
-@event.listens_for(AlgoScheduleTime.__table__, "after_create")
-def insert_default_records(target, connection, **kwargs):
-    """Ensure default market hour records exist for 'GLOBAL' and weekends."""
+def initialize_default_records(connection):
+    """Initialize default records in the table."""
     try:
-        connection.execute(target.insert(), DEFAULT_SCHEDULE_TIME_RECORDS)
-        logger.info("Default market hours inserted successfully")
+        table = AlgoScheduleTime.__table__
+        for record in DEFAULT_SCHEDULE_TIME_RECORDS:
+            exists = connection.execute(
+                select(table).where(
+                    table.c.schedule == record['schedule'],
+                    table.c.account.is_(record['account']),
+                    table.c.market_date == record['market_date'],
+                    table.c.weekday == record['weekday']
+                )
+            ).scalar() is not None
+
+            if not exists:
+                connection.execute(table.insert(), record)
     except Exception as e:
-        logger.error(f"Error inserting default records: {e}")
+        logger.error(f"Error managing default records: {e}")
+
+
+@event.listens_for(AlgoScheduleTime.__table__, 'after_create')
+def insert_default_records(target, connection, **kwargs):
+    """Insert default records after table creation."""
+    initialize_default_records(connection)
+    logger.info('Default Schedule Time records inserted after after_create event')

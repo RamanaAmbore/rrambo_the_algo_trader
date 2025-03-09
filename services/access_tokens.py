@@ -4,12 +4,11 @@ from typing import Optional
 from models import AccessTokens
 from models.access_tokens import logger
 from utils.date_time_utils import timestamp_indian
-from utils.db_connection import DbConnection as Db
-from utils.parameter_loader import Env
+from utils.db_connect import DbConnection as Db
+from utils.parm_loader import Parm
 from cryptography.fernet import Fernet, InvalidToken
 
-# Initialize encryption
-cipher_suite = Fernet(Env.ENCRYPTION_KEY.encode())
+
 
 
 def encrypt_token(token: str) -> str:
@@ -50,7 +49,7 @@ def get_stored_access_tokens(db_connection: Db, account: str) -> Optional[str]:
 
             if token_entry:
                 age = timestamp_indian() - token_entry.timestamp
-                if age < timedelta(hours=Env.ACCESS_TOKEN_VALIDITY):
+                if age < timedelta(hours=Parm.ACCESS_TOKEN_VALIDITY):
                     logger.info('Using access token from database')
                     return decrypt_token(token_entry.token)
                 logger.info('Stored token has expired')
@@ -81,11 +80,7 @@ def check_update_access_tokens(new_token: str, account: str) -> None:
                     session.commit()
                     logger.info("Access Token updated in database")
             else:
-                new_entry = AccessTokens(
-                    account=account,
-                    token=encrypted_token,
-                    timestamp=timestamp_indian()
-                )
+                new_entry = AccessTokens(account=account, token=encrypted_token, timestamp=timestamp_indian())
                 session.add(new_entry)
                 session.commit()
                 logger.info("Access Token added to database")

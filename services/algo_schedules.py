@@ -7,9 +7,9 @@ from sqlalchemy.orm import Session
 from models.algo_schedule_time import AlgoScheduleTime
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
-from utils.model_utils import DEFAULT_SCHEDULE_RECORDS
-from utils.parameter_loader import sc
-from utils.db_connection import DbConnection as Db
+from settings.default_db_values import DEFAULT_SCHEDULE_RECORDS
+from utils.parm_loader import sc
+from utils.db_connect import DbConnection as Db
 
 logger = get_logger(__name__)
 

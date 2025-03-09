@@ -2,24 +2,24 @@ from decimal import Decimal, ROUND_DOWN
 
 import pyotp
 
-from models.trades import Trades
-from models.ledger_entries import LedgerEntries
-from models.profit_loss import ProfitLoss
-from utils.parameter_loader import Env
+from models.report_tradebook import ReportTradebook
+from models.report_ledger_entries import ReportLedgerEntries
+from models.report_profit_loss import ReportProfitLoss
+from utils.parm_loader import Parm
 
 
 def generate_totp():
     """Generate a valid TOTP using the secret key."""
-    return pyotp.TOTP(Env.TOTP_TOKEN).now()
+    return pyotp.TOTP(Parm.TOTP_TOKEN).now()
 
 
 def return_model_for_prefix(report_prefix):
     if report_prefix.startswith("tradebook"):
-        model = Trades
+        model = ReportTradebook
     elif report_prefix.startswith("pnl"):
-        model = ProfitLoss
+        model = ReportProfitLoss
     elif report_prefix.startswith("ledger"):
-        model = LedgerEntries
+        model = ReportLedgerEntries
     else:
         print("Unsupported file format!")
     return

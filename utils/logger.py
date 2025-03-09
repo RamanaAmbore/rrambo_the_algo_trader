@@ -1,10 +1,10 @@
 import logging
 import os
 
-from utils.parameter_loader import Env
+from utils.parm_loader import Parm
 
 # Create logs directory if not exists
-os.makedirs(os.path.dirname(Env.DEBUG_LOG_FILE), exist_ok=True)
+os.makedirs(os.path.dirname(Parm.DEBUG_LOG_FILE), exist_ok=True)
 
 logger = None
 
@@ -22,17 +22,17 @@ def get_logger(name="app_logger"):
 
     # Console Handler (prints logs to console)
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(getattr(logging, Env.CONSOLE_LOG_LEVEL.upper(), logging.DEBUG))
+    console_handler.setLevel(getattr(logging, Parm.CONSOLE_LOG_LEVEL.upper(), logging.DEBUG))
     console_handler.setFormatter(formatter)
 
     # Debug Log File Handler (stores DEBUG and above logs)
-    debug_file_handler = logging.FileHandler(Env.DEBUG_LOG_FILE)
-    debug_file_handler.setLevel(getattr(logging, Env.FILE_LOG_LEVEL.upper(), logging.DEBUG))
+    debug_file_handler = logging.FileHandler(Parm.DEBUG_LOG_FILE)
+    debug_file_handler.setLevel(getattr(logging, Parm.FILE_LOG_LEVEL.upper(), logging.DEBUG))
     debug_file_handler.setFormatter(formatter)
 
     # Error Log File Handler (stores only ERROR logs)
-    error_file_handler = logging.FileHandler(Env.ERROR_LOG_FILE)
-    error_file_handler.setLevel(getattr(logging, Env.ERROR_LOG_LEVEL.upper(), logging.ERROR))
+    error_file_handler = logging.FileHandler(Parm.ERROR_LOG_FILE)
+    error_file_handler.setLevel(getattr(logging, Parm.ERROR_LOG_LEVEL.upper(), logging.ERROR))
     error_file_handler.setFormatter(formatter)
 
     # Add handlers to logger

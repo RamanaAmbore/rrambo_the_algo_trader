@@ -3,7 +3,7 @@ from decimal import Decimal, ROUND_DOWN
 from sqlalchemy import select
 
 from models import OptionStrategies
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 from utils.utils_func import to_decimal
 
 

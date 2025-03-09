@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict
 
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 from models import Parameters
 
 logger = logging.getLogger(__name__)

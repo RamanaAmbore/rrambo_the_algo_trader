@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from models import RefreshFlags
 
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 def get_setting(sync=False):
     """
     Fetch a setting value by key from the database.

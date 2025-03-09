@@ -4,11 +4,11 @@ import time
 from kiteconnect import KiteTicker
 
 from models.algo_schedule import AlgoScheduleTime
-from utils.parameter_loader import sc
+from utils.parm_loader import sc
 from utils.date_time_utils import today_indian, current_time_indian
-from utils.db_connection import DbConnection as Db
+from utils.db_connect import DbConnection as Db
 from utils.logger import get_logger
-from utils.zerodha_kite import ZerodhaKite
+from utils.kite_api_login import ZerodhaKite
 
 logger = get_logger(__name__)
 
