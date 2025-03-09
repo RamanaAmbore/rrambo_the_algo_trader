@@ -6,8 +6,8 @@ from kiteconnect import KiteConnect
 from services.access_tokens import get_stored_access_tokens
 from utils.db_connect import DbConnection
 from utils.logger import get_logger
-from utils.parm_loader import Parm
-from utils.parm_loader import sc
+from utils.fetch_parms import Parm
+from utils.fetch_parms import sc
 from utils.utils_func import generate_totp
 
 logger = get_logger(__name__)

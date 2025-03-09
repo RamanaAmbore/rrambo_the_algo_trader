@@ -5,7 +5,7 @@ import pyotp
 from models.report_tradebook import ReportTradebook
 from models.report_ledger_entries import ReportLedgerEntries
 from models.report_profit_loss import ReportProfitLoss
-from utils.parm_loader import Parm
+from utils.fetch_parms import Parm
 
 
 def generate_totp():

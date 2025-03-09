@@ -4,11 +4,10 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Dict, Any, Optional
 
-
-
 import yaml
-from cryptography.fernet import Fernet
 from dotenv import load_dotenv
+
+from utils.cipher_utils import decrypt_text
 
 # from services.parameters import fetch_all_records
 
@@ -47,7 +46,7 @@ except Exception as e:
 
 class Parm:
     """Environment configuration and parameter management."""
-    
+
     # Database and Logging Configuration (unchanged)
     SQLITE_DB: bool = os.getenv("SQLITE_DB", "True").lower() == "true"
     SQLITE_PATH: str = os.getenv("SQLITE_PATH", "database.db")
@@ -67,17 +66,17 @@ class Parm:
     USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
     INSTRUMENT_TOKEN: Optional[str] = None
     DATA_FETCH_INTERVAL: Optional[int] = None
-    
+
     # URLs (converted to lowercase)
     BASE_URL: Optional[str] = None
     LOGIN_URL: Optional[str] = None
     TWOFA_URL: Optional[str] = None
     INSTRUMENT_URL: Optional[str] = None
     REDIRECT_URL: Optional[str] = None
-    
+
     # Token Configuration (converted to lowercase)
     ACCESS_TOKEN_VALIDITY: Optional[int] = None
-    
+
     # Download Configuration (converted to lowercase)
     DOWNLOAD_TRADEBOOK: Optional[bool] = None
     DOWNLOAD_PL: Optional[bool] = None
@@ -87,38 +86,34 @@ class Parm:
     DOWNLOAD_DIR: Optional[str] = None
     REPORT_START_DATE: Optional[datetime] = None
     REPORT_LOOKBACK_DAYS: Optional[int] = None
-    USERS=[]
-    # Initialize encryption
+    USERS = []
 
+    # Initialize encryption
 
     @classmethod
     def reset_parms(cls, records, refresh=False) -> None:
         try:
             if not cls.USER_CREDENTIALS or refresh:
-                unique_BrokerAccounts = {record.account for record in records if record.account}
-
                 for record in records:
                     # Handle account-specific parameters
-                    if record.account:
-                        if record.account not in cls.USER_CREDENTIALS:
-                            cls.USER_CREDENTIALS[record.account] = {}
-                        cls.USER_CREDENTIALS[record.account][record.parameter] = record.value
+                    account = None if record.account is None else record.account.strip()
+                    value =  None if record.value is None else record.value.strip()
+                    parameter = None if record.parameter is None else record.parameter.strip()
+                    if account:
+                        if account not in cls.USER_CREDENTIALS:
+                            cls.USER_CREDENTIALS[account] = {}
+                        cls.USER_CREDENTIALS[account][parameter] = None if value is None else decrypt_text(value)
                         continue
-                    
-                    # Handle global parameters
-                    param_value = record.value.strip()
-                    param_name = record.parameter.strip()  # Convert to lowercase
-                    
-                    if hasattr(cls, param_name):
+
+                    if hasattr(cls, parameter):
                         # Convert value to appropriate type
-                        if isinstance(getattr(cls, param_name), bool):
-                            setattr(cls, param_name, param_value.lower() == 'true')
-                        elif isinstance(getattr(cls, param_name), int):
-                            setattr(cls, param_name, int(param_value))
+                        if isinstance(getattr(cls, parameter), bool):
+                            setattr(cls, parameter, value.lower() == 'true')
+                        elif isinstance(getattr(cls, parameter), int):
+                            setattr(cls, parameter, int(value))
                         else:
-                            setattr(cls, param_name, param_value)
+                            setattr(cls, parameter, value)
                 cls.USERS = list(cls.USER_CREDENTIALS.keys())
-                cls.cipher_suite = Fernet(cls.ENCRYPTION_KEY.encode())
         except Exception as e:
             print(f"Error resetting parameters: {e}")
             raise
@@ -127,11 +122,11 @@ class Parm:
     def get_credentials(cls, user_id: str) -> Dict[str, Any]:
         if not cls.USER_CREDENTIALS:
             cls.reset_parms()
-        
+
         if user_id not in cls.USER_CREDENTIALS:
             print(f"No credentials found for user {user_id}")
             raise KeyError(f"No credentials found for user {user_id}")
-            
+
         return cls.USER_CREDENTIALS[user_id]
 
 
@@ -139,17 +134,17 @@ def main():
     """Test function to verify parameter loading functionality."""
     try:
         print("Testing parameter loading...")
-        
+
         # Reset parameters
         Parm.reset_parms()
-        
+
         # Print loaded parameters
         print("Global Parameters:")
-        for param_name in ['instrument_token', 'data_fetch_interval', 'base_url', 
-                          'access_token_validity', 'download_dir']:
-            value = getattr(Parm, param_name)
-            print(f"{param_name}: {value}")
-        
+        for parameter in ['instrument_token', 'data_fetch_interval', 'base_url', 'access_token_validity',
+                          'download_dir']:
+            value = getattr(Parm, parameter)
+            print(f"{parameter}: {value}")
+
         # Print user credentials if any exist
         if Parm.USER_CREDENTIALS:
             print("\nUser Credentials:")
@@ -163,7 +158,6 @@ def main():
     except Exception as e:
         print(f"Error testing parameters: {e}")
         raise
-
 
 # if __name__ == "__main__":
 #     main()

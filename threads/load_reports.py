@@ -8,7 +8,7 @@ import pandas as pd
 from models.report_ledger_entries import ReportLedgerEntries
 from models.report_profit_loss import ReportProfitLoss
 from models.report_tradebook import ReportTradebook  # Removed TradeTypeEnum import
-from utils.parm_loader import Parm, sc
+from utils.fetch_parms import Parm, sc
 from utils.date_time_utils import INDIAN_TIMEZONE
 from utils.db_connect import DbConnection as Db
 from utils.logger import get_logger

@@ -4,7 +4,7 @@ from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from settings.default_db_values import source, DEFAULT_SCHEDULE_RECORDS
+from settings.load_db_parms import source, DEFAULT_ALGO_SCHEDULE_RECORDS
 
 logger = get_logger(__name__)
 
@@ -41,14 +41,14 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = AlgoSchedule.__table__
-        for record in DEFAULT_SCHEDULE_RECORDS:
+        for record in DEFAULT_ALGO_SCHEDULE_RECORDS:
             exists = connection.execute(select(table.c.schedule).where(
                 table.c.schedule == record['schedule'])).scalar() is not None
 
             if not exists:
                 connection.execute(table.insert(), record)
     except Exception as e:
-        logger.error(f"Error managing default records: {e}")
+        logger.error(f"Error managing default Alog Schedule records: {e}")
 
 
 @event.listens_for(AlgoSchedule.__table__, 'after_create')

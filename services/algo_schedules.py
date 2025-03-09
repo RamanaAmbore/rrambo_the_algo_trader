@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 from models.algo_schedule_time import AlgoScheduleTime
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
-from settings.default_db_values import DEFAULT_SCHEDULE_RECORDS
-from utils.parm_loader import sc
+from settings.load_db_parms import DEFAULT_ALGO_SCHEDULE_RECORDS
+from utils.fetch_parms import sc
 from utils.db_connect import DbConnection as Db
 
 logger = get_logger(__name__)
@@ -92,7 +92,7 @@ def ensure_default_records():
 
         if not existing:
             try:
-                for record in DEFAULT_SCHEDULE_RECORDS:
+                for record in DEFAULT_ALGO_SCHEDULE_RECORDS:
                     session.add(AlgoScheduleTime(**record))
                 session.commit()
                 logger.info("Default market hours inserted manually")

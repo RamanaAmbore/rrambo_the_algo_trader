@@ -14,7 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 from threads.load_reports import load_reports
-from utils.parm_loader import Parm, sc
+from utils.fetch_parms import Parm, sc
 from utils.date_time_utils import today_indian
 from utils.logger import get_logger
 from utils.utils_func import generate_totp

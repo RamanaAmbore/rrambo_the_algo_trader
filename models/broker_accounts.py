@@ -4,7 +4,7 @@ from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from settings.default_db_values import source, DEFAULT_BROKER_ACCOUNTS
+from settings.load_db_parms import source, DEFAULT_BROKER_ACCOUNTS
 
 logger = get_logger(__name__)
 
@@ -25,7 +25,6 @@ class BrokerAccounts(Base):
     access_tokens = relationship("AccessTokens", back_populates="broker_account")
     holdings = relationship("Holdings", back_populates="broker_account")
     parameter = relationship("Parameters", back_populates="broker_account")
-    algo_schedule_time = relationship("AlgoScheduleTime", back_populates="broker_account")
     backtest_results = relationship("BacktestResults", back_populates="broker_account")
     option_greeks = relationship("OptionGreeks", back_populates="broker_account")
     report_ledger_entries = relationship("ReportLedgerEntries", back_populates="broker_account")
@@ -65,7 +64,7 @@ def initialize_default_records(connection):
             if not exists:
                 connection.execute(table.insert(), record)
     except Exception as e:
-        logger.error(f"Error managing default records: {e}")
+        logger.error(f"Error managing default Broker Account records: {e}")
 
 
 @event.listens_for(BrokerAccounts.__table__, 'after_create')

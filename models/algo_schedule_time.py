@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
-from settings.default_db_values import source, WeekdayEnum, DEFAULT_SCHEDULE_TIME_RECORDS
+from settings.load_db_parms import source, WeekdayEnum, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
 from .base import Base
 
 logger = get_logger(__name__)
@@ -16,7 +16,6 @@ class AlgoScheduleTime(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(20), ForeignKey("algo_schedule.schedule", ondelete="CASCADE"), nullable=False)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     market_date = Column(Date, nullable=True)
     weekday = Column(Enum(WeekdayEnum), nullable=True)
     start_time = Column(Time, nullable=True)
@@ -29,13 +28,12 @@ class AlgoScheduleTime(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    broker_account = relationship("BrokerAccounts", back_populates="algo_schedule_time")
     algo_schedule = relationship("AlgoSchedule", back_populates="algo_schedule_time")
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),
-        UniqueConstraint('schedule', 'account', 'market_date', 'weekday', name='uq_schedule_time'),
-        Index('idx_schedule_time', 'schedule', 'account', 'market_date', 'weekday'),)
+        UniqueConstraint('schedule', 'market_date', 'weekday', 'start_time', name='uq_schedule_time'),
+        Index('idx_schedule_time', 'schedule', 'market_date', 'weekday'),)
 
     def __repr__(self):
         return (f"<AlgoScheduleTime(id={self.id}, "
@@ -50,12 +48,10 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = AlgoScheduleTime.__table__
-        for record in DEFAULT_SCHEDULE_TIME_RECORDS:
+        for record in DEFAULT_ALGO_SCHEDULE_TIME_RECORDS:
             exists = connection.execute(
                 select(table).where(
                     table.c.schedule == record['schedule'],
-                    table.c.account.is_(record['account']),
-                    table.c.market_date == record['market_date'],
                     table.c.weekday == record['weekday']
                 )
             ).scalar() is not None
@@ -63,7 +59,7 @@ def initialize_default_records(connection):
             if not exists:
                 connection.execute(table.insert(), record)
     except Exception as e:
-        logger.error(f"Error managing default records: {e}")
+        logger.error(f"Error managing default Algo Schedule Time records: {e}")
 
 
 @event.listens_for(AlgoScheduleTime.__table__, 'after_create')

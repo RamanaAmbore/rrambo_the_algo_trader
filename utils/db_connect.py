@@ -8,7 +8,7 @@ from sqlalchemy_utils import database_exists, create_database
 from models import Parameters
 from models.base import Base
 from utils.logger import get_logger
-from utils.parm_loader import Parm
+from utils.fetch_parms import Parm
 
 # Load environment variables
 logger = get_logger(__name__)  # Initialize logger

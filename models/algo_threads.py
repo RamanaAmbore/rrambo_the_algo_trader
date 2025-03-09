@@ -4,7 +4,7 @@ from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base
-from settings.default_db_values import source, DEFAULT_ALGO_THREADS
+from settings.load_db_parms import source, DEFAULT_ALGO_THREADS
 
 logger = get_logger(__name__)
 
@@ -44,7 +44,7 @@ def initialize_default_records(connection):
             if not exists:
                 connection.execute(table.insert(), record)
     except Exception as e:
-        logger.error(f"Error managing default records: {e}")
+        logger.error(f"Error managing default Algo Threads records: {e}")
 
 
 @event.listens_for(AlgoThreads.__table__, 'after_create')

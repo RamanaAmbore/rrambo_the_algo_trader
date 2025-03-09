@@ -1,7 +1,7 @@
 import logging
 import os
 
-from utils.parm_loader import Parm
+from utils.fetch_parms import Parm
 
 # Create logs directory if not exists
 os.makedirs(os.path.dirname(Parm.DEBUG_LOG_FILE), exist_ok=True)

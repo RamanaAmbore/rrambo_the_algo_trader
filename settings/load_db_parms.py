@@ -1,7 +1,6 @@
 import enum
 from datetime import time
-
-from dateutil.rrule import weekday
+from utils.cipher_utils import encrypt_text
 
 
 class WeekdayEnum(enum.Enum):
@@ -15,11 +14,6 @@ class WeekdayEnum(enum.Enum):
     GLOBAL = 'GLOBAL'
 
 
-class Schedule(enum.Enum):
-    MARKET = 'MARKET'
-    WEEKEND = 'WEEKEND'
-
-
 class source(enum.Enum):
     API = 'API'
     MANUAL = 'MANUAL'
@@ -29,14 +23,20 @@ class source(enum.Enum):
     CODE = 'CODE'
 
 
-DEFAULT_SCHEDULE_RECORDS = [{'schedule': 'MARKET'}, {'schedule': 'PRE-MARKET'}, ]
-
 DEFAULT_ACCESS_TOKENS = [{'account': 'ZG0790', 'token': ''}, {'account': 'ZJ6294', 'token': None}]
 
 DEFAULT_ALGO_THREADS = [{'thread': 'SOCKET'}, {'thread': 'SYNC_REPORT_DATA'}, {'thread': 'UPDATE_STOCK_LIST'},
-                        {'thread': 'UPDATE_HIST_PRICES'}, {'thread': 'UPDATE_WATCHLIST_INSTRUMENTS'},
+                        {'thread': 'UPDATE_HIST_PRICES'}, {'thread': 'UPDATE_WATCHLIST_INSTRUMENTS'}, ]
 
-                        ]
+DEFAULT_ALGO_SCHEDULE_RECORDS = [{'schedule': 'MARKET'}, {'schedule': 'PRE-MARKET'}, ]
+
+DEFAULT_ALGO_SCHEDULE_TIME_RECORDS = [
+    {'weekday': WeekdayEnum.GLOBAL, 'schedule': 'MARKET', 'start_time': time(9, 0), 'end_time': time(15, 30),
+     'is_active': True},
+    {'weekday': WeekdayEnum.SATURDAY, 'schedule': 'MARKET', 'start_time': None, 'end_time': None, 'is_active': False},
+    {'weekday': WeekdayEnum.SUNDAY, 'schedule': 'MARKET', 'start_time': None, 'end_time': None, 'is_active': False},
+    {'weekday': WeekdayEnum.SATURDAY, 'schedule': 'PRE-MARKET', 'start_time': time(9, 0), 'end_time': None,
+     'is_active': True}]
 
 DEFAULT_THREAD_SCHEDULE_XREF = [{'thread': 'SOCKET', 'schedule': 'MARKET'},
                                 {'thread': 'SYNC_REPORT_DATA', 'schedule': 'PRE-MARKET'},
@@ -44,30 +44,19 @@ DEFAULT_THREAD_SCHEDULE_XREF = [{'thread': 'SOCKET', 'schedule': 'MARKET'},
                                 {'thread': 'UPDATE_HIST_PRICES', 'schedule': 'PRE-MARKET'},
                                 {'thread': 'UPDATE_WATCHLIST_INSTRUMENTS', 'schedule': 'PRE-MARKET'}]
 
-DEFAULT_WATCHLISTS = [{'watchlist': 'STOCKS'}, {'watchlist': 'STOCKS-TURNAROUND'}, {'watchlist': 'OPTIONS'},
-                      {'watchlist': 'POSITION-WATCHLIST'}, {'watchlist': 'HOLDING-WATCHLIST'} ]
-
-DEFAULT_SCHEDULE_TIME_RECORDS = [
-    {'weekday': WeekdayEnum.GLOBAL, 'schedule': 'MARKET', 'start_time': time(9, 0), 'end_time': time(15, 30),
-     'is_active': True},
-    {'weekday': WeekdayEnum.SATURDAY, 'schedule': 'MARKET', 'start_time': None, 'end_time': None, 'is_active': False},
-    {'weekday': WeekdayEnum.SUNDAY, 'schedule': 'MARKET', 'start_time': None, 'end_time': None, 'is_active': False},
-    {'weekday': WeekdayEnum.SATURDAY, 'schedule': 'WEEKEND', 'start_time': time(9, 0), 'end_time': None,
-     'is_active': True}]
-
 DEFAULT_BROKER_ACCOUNTS = [{'account': 'ZG0790', 'broker_name': 'Zerodha', 'notes': 'Haritha account'},
                            {'account': 'ZJ6294', 'broker_name': 'Zerodha', 'notes': 'Ramana account'}, ]
 
 DEFAULT_PARAMETERS = [  # Zerodha Credentials
-    {'account': 'ZG0790', 'parameter': 'API_KEY', 'value': r'05hjicsyku3stv9o'},
-    {'account': 'ZG0790', 'parameter': 'API_SECRET', 'value': r'2b5npva2x8f8fvd5lxhte3xpn4zh7lc8'},
-    {'account': 'ZG0790', 'parameter': 'PASSWORD', 'value': 'Zerodha01#'},
-    {'account': 'ZG0790', 'parameter': 'TOTP_TOKEN', 'value': r'YJPG3JUXH365ENNG7LNGEWRMQWQBKSSZ'},
+    {'account': 'ZG0790', 'parameter': 'API_KEY', 'value': encrypt_text(r'05hjicsyku3stv9o')},
+    {'account': 'ZG0790', 'parameter': 'API_SECRET', 'value': encrypt_text(r'2b5npva2x8f8fvd5lxhte3xpn4zh7lc8')},
+    {'account': 'ZG0790', 'parameter': 'PASSWORD', 'value': encrypt_text(r'Zerodha01#')},
+    {'account': 'ZG0790', 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(r'YJPG3JUXH365ENNG7LNGEWRMQWQBKSSZ')},
 
     {'account': 'ZJ6294', 'parameter': 'API_KEY', 'value': None},
     {'account': 'ZJ6294', 'parameter': 'API_SECRET', 'value': None},
-    {'account': 'ZJ6294', 'parameter': 'PASSWORD', 'value': r'Anirudh01#'},
-    {'account': 'ZJ6294', 'parameter': 'TOTP_TOKEN', 'value': r'rW765AAJV7VU55C6LNBEIFSCWZ2LCALXB'},
+    {'account': 'ZJ6294', 'parameter': 'PASSWORD', 'value': encrypt_text(r'Anirudh01#')},
+    {'account': 'ZJ6294', 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(r'rW765AAJV7VU55C6LNBEIFSCWZ2LCALXB')},
     # Market Configurations
     {'account': None, 'parameter': 'INSTRUMENT_TOKEN', 'value': '260105'},
     {'account': None, 'parameter': 'DATA_FETCH_INTERVAL', 'value': '5'},
@@ -102,3 +91,6 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
     {'account': None, 'parameter': 'DOWNLOAD_DIR', 'value': r'D:/rrambo_trader_new/data'},
     {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2017-03-01'},
     {'account': None, 'parameter': 'REPORT_LOOKBACK_DAYS', 'value': '30'}, ]
+
+DEFAULT_WATCHLISTS = [{'watchlist': 'STOCKS'}, {'watchlist': 'STOCKS-TURNAROUND'}, {'watchlist': 'OPTIONS'},
+                      {'watchlist': 'POSITION-WATCHLIST'}, {'watchlist': 'HOLDING-WATCHLIST'}]
