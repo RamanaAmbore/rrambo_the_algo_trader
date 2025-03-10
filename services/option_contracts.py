@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 from sqlalchemy import select
 
 from models import OptionContracts
-from utils.fetch_parms import sc
+from utils.parms import sc
 from utils.utils_func import to_decimal
 from utils.db_connect import DbConnect as Db
 

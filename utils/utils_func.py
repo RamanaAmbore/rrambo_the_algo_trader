@@ -5,12 +5,12 @@ import pyotp
 from models.report_tradebook import ReportTradebook
 from models.report_ledger_entries import ReportLedgerEntries
 from models.report_profit_loss import ReportProfitLoss
-from utils.fetch_parms import Parm
+from utils.parms import Parms
 
 
-def generate_totp():
+def generate_totp(totp_key):
     """Generate a valid TOTP using the secret key."""
-    return pyotp.TOTP(Parm.TOTP_TOKEN).now()
+    return pyotp.TOTP(totp_key).now()
 
 
 def return_model_for_prefix(report_prefix):

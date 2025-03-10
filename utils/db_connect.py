@@ -8,7 +8,7 @@ from sqlalchemy_utils import database_exists, create_database
 from models import Parameters
 from models.base import Base
 from utils.logger import get_logger
-from utils.fetch_parms import Parm
+from utils.parms import Parms
 
 # Load environment variables
 logger = get_logger(__name__)  # Initialize logger
@@ -46,14 +46,14 @@ class DbConnect:
     @classmethod
     def _setup_database_urls(cls) -> None:
         """Setup database URLs based on configuration."""
-        if Parm.SQLITE_DB:
-            db_path = Path(Parm.SQLITE_PATH)
+        if Parms.SQLITE_DB:
+            db_path = Path(Parms.SQLITE_PATH)
             cls.DB_URL = f"sqlite:///{db_path}"
             cls.DB_ASYNC_URL = f"sqlite+aiosqlite:///{db_path}"
             cls._ensure_sqlite_path(db_path)
         else:
-            cls.DB_URL = f"postgresql://{Parm.POSTGRES_URL}"
-            cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Parm.POSTGRES_URL}"
+            cls.DB_URL = f"postgresql://{Parms.POSTGRES_URL}"
+            cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Parms.POSTGRES_URL}"
             cls._ensure_postgres_db()
 
     @classmethod
@@ -74,7 +74,7 @@ class DbConnect:
     @classmethod
     def _initialize_engines_and_sessions(cls) -> None:
         """Initialize database engines and sessions."""
-        echo = Parm.DB_DEBUG
+        echo = Parms.DB_DEBUG
         cls._engine = create_engine(cls.DB_URL, echo=echo)
         cls._async_engine = create_async_engine(cls.DB_ASYNC_URL, echo=echo, future=True)
 
@@ -86,16 +86,16 @@ class DbConnect:
     def _setup_database_tables(cls) -> None:
         """Setup database tables."""
         Base.metadata.reflect(cls._engine)
-        if Parm.DROP_TABLES:
+        if Parms.DROP_TABLES:
             Base.metadata.drop_all(cls._engine)
         Base.metadata.create_all(cls._engine)
 
     @classmethod
-    def _initialize_parameters(cls) -> None:
+    def initialize_parameters(cls) -> None:
         """Initialize parameters from database."""
         with cls.get_sync_session() as session:
             parameters = session.query(Parameters).all()
-            Parm.reset_parms(parameters)
+            Parms.refresh_parms(parameters)
             logger.info('Parameters are refreshed from database')
             session.commit()
 
@@ -104,7 +104,7 @@ class DbConnect:
         """Get a synchronous database session."""
         if not cls._initialized:
             cls.initialize()
-            cls._initialize_parameters()  # Move parameter initialization here
+            cls.initialize_parameters()  # Move parameter initialization here
         return cls._sync_session()
 
     @classmethod

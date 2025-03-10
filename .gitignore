@@ -5,3 +5,4 @@ __pycharm__
 worspace.xml
 data/
 db/
+*.xml

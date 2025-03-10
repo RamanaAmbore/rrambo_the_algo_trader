@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, DateTime, text, Boolean, Index, Enum, UniqueConstraint, event, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
-from settings.load_db_parms import source, DEFAULT_WATCHLISTS
+from settings.parm_values import source, DEFAULT_WATCHLISTS
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
 from .base import Base

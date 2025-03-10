@@ -5,7 +5,7 @@ from models import AccessTokens
 from models.access_tokens import logger
 from utils.date_time_utils import timestamp_indian
 from utils.db_connect import DbConnect as Db
-from utils.fetch_parms import Parm
+from utils.parms import Parms
 from cryptography.fernet import Fernet, InvalidToken
 
 
@@ -49,7 +49,7 @@ def get_stored_access_tokens(db_connection: Db, account: str) -> Optional[str]:
 
             if token_entry:
                 age = timestamp_indian() - token_entry.timestamp
-                if age < timedelta(hours=Parm.ACCESS_TOKEN_VALIDITY):
+                if age < timedelta(hours=Parms.ACCESS_TOKEN_VALIDITY):
                     logger.info('Using access token from database')
                     return decrypt_token(token_entry.token)
                 logger.info('Stored token has expired')

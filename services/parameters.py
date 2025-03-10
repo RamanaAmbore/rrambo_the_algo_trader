@@ -17,3 +17,5 @@ def fetch_all_records(sync=True):
         return {}
 
 
+def refresh_parms():
+    Db.initialize_parameters()

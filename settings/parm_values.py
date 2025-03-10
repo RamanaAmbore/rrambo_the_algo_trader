@@ -56,7 +56,7 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
     {'account': 'ZJ6294', 'parameter': 'API_KEY', 'value': None},
     {'account': 'ZJ6294', 'parameter': 'API_SECRET', 'value': None},
     {'account': 'ZJ6294', 'parameter': 'PASSWORD', 'value': encrypt_text(r'Anirudh01#')},
-    {'account': 'ZJ6294', 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(r'rW765AAJV7VU55C6LNBEIFSCWZ2LCALXB')},
+    {'account': 'ZJ6294', 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(r'RQA7KROPJPY4FTBDG6JWG3WQDHGO3DDF')},
     # Market Configurations
     {'account': None, 'parameter': 'INSTRUMENT_TOKEN', 'value': '260105'},
     {'account': None, 'parameter': 'DATA_FETCH_INTERVAL', 'value': '5'},
@@ -84,12 +84,10 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
     # Other Configurations
     {'account': None, 'parameter': 'DB_DEBUG', 'value': 'True'},
     {'account': None, 'parameter': 'DOWNLOAD_TRADEBOOK', 'value': 'True'},
-    {'account': None, 'parameter': 'DOWNLOAD_PL', 'value': 'True'},
-    {'account': None, 'parameter': 'DOWNLOAD_LEDGER', 'value': 'True'},
-    {'account': None, 'parameter': 'DOWNLOAD_POSITIONS', 'value': 'False'},
-    {'account': None, 'parameter': 'DOWNLOAD_HOLDINGS', 'value': 'False'},
+    {'account': None, 'parameter': 'DOWNLOAD_PNL', 'value': 'True'},
+    {'account': None, 'parameter': 'DOWNLOAD_LEDGER', 'value': 'False'},
     {'account': None, 'parameter': 'DOWNLOAD_DIR', 'value': r'D:/rrambo_trader_new/data'},
-    {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2017-03-01'},
+    {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2015-01-01'},
     {'account': None, 'parameter': 'REPORT_LOOKBACK_DAYS', 'value': '30'}, ]
 
 DEFAULT_WATCHLISTS = [{'watchlist': 'STOCKS'}, {'watchlist': 'STOCKS-TURNAROUND'}, {'watchlist': 'OPTIONS'},

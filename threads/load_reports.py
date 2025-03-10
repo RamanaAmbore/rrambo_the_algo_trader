@@ -8,7 +8,7 @@ import pandas as pd
 from models.report_ledger_entries import ReportLedgerEntries
 from models.report_profit_loss import ReportProfitLoss
 from models.report_tradebook import ReportTradebook  # Removed TradeTypeEnum import
-from utils.fetch_parms import Parm, sc
+from utils.parms import Parms, sc
 from utils.date_time_utils import INDIAN_TIMEZONE
 from utils.db_connect import DbConnect as Db
 from utils.logger import get_logger
@@ -61,7 +61,7 @@ async def load_data(file_path: str, model, prefix):
         existing_records = await model.get_existing_records(session)
         new_records = []
         for _, row in df.iterrows():
-            if Parm.DOWNLOAD_TRADEBBOOK and model == ReportTradebook and row["trade_id"] not in existing_records:
+            if Parms.DOWNLOAD_TRADEBBOOK and model == ReportTradebook and row["trade_id"] not in existing_records:
                 new_records.append(ReportTradebook(trade_id=row["trade_id"], order_id=row["order_id"],
                                           trading_symbol="" if row["symbol"] == nan else row["symbol"],
                                           isin=row.get("isin"), exchange=row["exchange"], segment=row["segment"],
@@ -75,7 +75,7 @@ async def load_data(file_path: str, model, prefix):
                                               sc.INDIAN_TIMEZONE) if row.get("expiry_date") else None,
                                           instrument_type="Options" if row.get("expiry_date") else "Equity", ))
 
-            elif Parm.DOWNLOAD_PL and model == ReportProfitLoss and (row["Symbol"], row["ISIN"]) not in existing_records:
+            elif Parms.DOWNLOAD_PL and model == ReportProfitLoss and (row["Symbol"], row["ISIN"]) not in existing_records:
                 new_records.append(ReportProfitLoss(symbol=row["Symbol"], isin=row["ISIN"], quantity=row["Quantity"],
                                               buy_value=row["Buy Value"], sell_value=row["Sell Value"],
                                               realized_pnl=row["Realized P&L"],
@@ -87,7 +87,7 @@ async def load_data(file_path: str, model, prefix):
                                               unrealized_pnl_pct=row["Unrealized P&L Pct."], ))
 
 
-            elif Parm.DOWNLOAD_LEDGER and model == ReportLedgerEntries and (
+            elif Parms.DOWNLOAD_LEDGER and model == ReportLedgerEntries and (
                     row['particulars'], row['posting_date'], row['cost_center'], row['voucher_type'], row['debit'],
                     row['credit'], row['net_balance']) not in existing_records:
                 new_records.append(ReportLedgerEntries(particulars=row['particulars'],
@@ -128,7 +128,7 @@ async def load_reports():
     for key, value in sc.DOWNLOAD_REPORTS.items():
         prefix = value.get("prefix")
         if prefix:
-            await process_directory(Parm.DOWNLOAD_DIR, prefix)
+            await process_directory(Parms.DOWNLOAD_DIR, prefix)
         else:
             logger.warning(f"Skipping {key}: Missing prefix.")
 

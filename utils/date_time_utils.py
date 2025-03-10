@@ -1,7 +1,7 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from utils.fetch_parms import sc  # Importing timezone settings
+from utils.parms import sc  # Importing timezone settings
 
 # Define constants for timezones
 EST_ZONE = ZoneInfo(sc.EST_TIMEZONE)

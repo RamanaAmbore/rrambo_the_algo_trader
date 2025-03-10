@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
-from settings.load_db_parms import source, WeekdayEnum, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
+from settings.parm_values import source, WeekdayEnum, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
 from .base import Base
 
 logger = get_logger(__name__)

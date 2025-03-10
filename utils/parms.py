@@ -32,11 +32,12 @@ except Exception as e:
     raise
 
 
-class Parm:
+class Parms:
     """Environment configuration and parameter management."""
     
     # Thread safety lock
     _lock = threading.Lock()
+    _initialized = False
     
     # Database Configuration
     SQLITE_DB: bool = os.getenv("SQLITE_DB", "True").lower() == "true"
@@ -57,41 +58,43 @@ class Parm:
 
     # Dynamic Parameters
     USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
-    INSTRUMENT_TOKEN: Optional[str] = None
-    DATA_FETCH_INTERVAL: Optional[int] = None
-    BASE_URL: Optional[str] = None
-    LOGIN_URL: Optional[str] = None
-    TWOFA_URL: Optional[str] = None
-    INSTRUMENT_URL: Optional[str] = None
-    REDIRECT_URL: Optional[str] = None
-    ACCESS_TOKEN_VALIDITY: Optional[int] = None
+    INSTRUMENT_TOKEN: Optional[str] = ''
+    DATA_FETCH_INTERVAL: Optional[int] = 0
+    BASE_URL: Optional[str] = ''
+    LOGIN_URL: Optional[str] = ''
+    TWOFA_URL: Optional[str] = ''
+    INSTRUMENT_URL: Optional[str] = ''
+    REDIRECT_URL: Optional[str] = ''
+    ACCESS_TOKEN_VALIDITY: Optional[int] = 0
 
     # Download Configuration
-    DOWNLOAD_TRADEBOOK: Optional[bool] = None
-    DOWNLOAD_PL: Optional[bool] = None
-    DOWNLOAD_LEDGER: Optional[bool] = None
-    DOWNLOAD_POSITIONS: Optional[bool] = None
-    DOWNLOAD_HOLDINGS: Optional[bool] = None
-    DOWNLOAD_DIR: Optional[str] = None
-    REPORT_START_DATE: Optional[datetime] = None
-    REPORT_LOOKBACK_DAYS: Optional[int] = None
+    DOWNLOAD_TRADEBOOK: Optional[bool] = True
+    DOWNLOAD_PNL: Optional[bool] = True
+    DOWNLOAD_LEDGER: Optional[bool] = True
+    DOWNLOAD_DIR: Optional[str] = ''
+    REPORT_START_DATE: Optional[datetime] = ''
+    REPORT_LOOKBACK_DAYS: Optional[int] = 0
     USERS: list = []
 
     @classmethod
-    def reset_parms(cls, records, refresh=False) -> None:
+    def refresh_parms(cls, records=None, refresh=False) -> None:
         """Reset parameters from database records."""
         with cls._lock:  # Thread-safe parameter updates
             try:
-                if not cls.USER_CREDENTIALS or refresh:
+                if not cls._initialized or refresh:
+                    if records is None:
+                        return
+                        
+                    temp_credentials = {}
                     for record in records:
                         account = None if record.account is None else record.account.strip()
                         value = None if record.value is None else record.value.strip()
                         parameter = None if record.parameter is None else record.parameter.strip()
 
                         if account:
-                            if account not in cls.USER_CREDENTIALS:
-                                cls.USER_CREDENTIALS[account] = {}
-                            cls.USER_CREDENTIALS[account][parameter] = None if value is None else decrypt_text(value)
+                            if account not in temp_credentials:
+                                temp_credentials[account] = {}
+                            temp_credentials[account][parameter] = None if value is None else decrypt_text(value)
                             continue
 
                         if hasattr(cls, parameter):
@@ -101,7 +104,10 @@ class Parm:
                                 setattr(cls, parameter, int(value))
                             else:
                                 setattr(cls, parameter, value)
+                    
+                    cls.USER_CREDENTIALS = temp_credentials
                     cls.USERS = list(cls.USER_CREDENTIALS.keys())
+                    cls._initialized = True
             except Exception as e:
                 print(f"Error resetting parameters: {e}")
                 raise
@@ -110,11 +116,18 @@ class Parm:
     def get_credentials(cls, user_id: str) -> Dict[str, Any]:
         """Get credentials for a specific user."""
         with cls._lock:  # Thread-safe credential access
-            if not cls.USER_CREDENTIALS:
-                cls.reset_parms()
+            if not cls._initialized:
+                print(f"Parameters not initialized")
+                raise RuntimeError("Parameters not initialized")
 
             if user_id not in cls.USER_CREDENTIALS:
                 print(f"No credentials found for user {user_id}")
                 raise KeyError(f"No credentials found for user {user_id}")
 
-            return cls.USER_CREDENTIALS[user_id].copy()  # Return a copy for thread safety
+            return dict(cls.USER_CREDENTIALS[user_id])  # Return a deep copy
+
+    @classmethod
+    def is_initialized(cls) -> bool:
+        """Check if parameters are initialized."""
+        with cls._lock:
+            return cls._initialized

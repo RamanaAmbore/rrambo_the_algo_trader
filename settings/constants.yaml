@@ -5,8 +5,8 @@ source:
   MAX_SOCKET_RECONNECT_ATTEMPTS: 3
   EST_TIMEZONE: EST
   DOWNLOAD_REPORTS:
-      ReportTradebook:
-        url: https://console.zerodha.com/reports/report_tradebook
+      DOWNLOAD_TRADEBOOK:
+        url: https://console.zerodha.com/reports/tradebook
         segment:
           element: //label[contains(text(), 'Segment')]/following-sibling::select
           values:
@@ -18,7 +18,7 @@ source:
         href: //a[contains(text(), "CSV")]
         prefix:
           tradebook
-      P&L:
+      DOWNLOAD_PNL:
         url: https://console.zerodha.com/reports/pnl
         segment:
           element: //label[contains(text(), 'Segment')]/following-sibling::select
@@ -33,7 +33,7 @@ source:
         button: //button[@class='btn-blue']
         href: //div[contains(text(), 'Download')]
         prefix: pnl
-      Ledger:
+      DOWNLOAD_LEDGER:
         url: https://console.zerodha.com/funds/statement
         segment:
           element: //label[contains(text(), 'Category')]/following-sibling::select
