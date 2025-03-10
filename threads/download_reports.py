@@ -16,12 +16,21 @@ from utils.date_time_utils import today_indian
 from utils.db_connect import DbConnect
 from utils.logger import get_logger
 from utils.parms import Parms, sc
-from utils.utils_func import generate_totp
+from utils.utils_func import generate_totp, delete_folder_contents
 
 logger = get_logger(__name__)  # Initialize logger
 
 
 class ReportDownloader:
+    driver = None
+    report_start_date = None
+    report_end_date = None
+    user = None
+    credential = None
+    failed_reports = []  # Track failed downloads
+    download_path = None
+    download_flags = None
+
     @classmethod
     def setup_driver(cls):
         """Setup Firefox WebDriver with auto-download settings."""
@@ -31,10 +40,10 @@ class ReportDownloader:
         options.add_argument("--disable-gpu")
 
         # Set Download Preferences
-        download_path = os.path.abspath(Parms.DOWNLOAD_DIR)
-        logger.info(f"Download path: {download_path}")
+
+        logger.info(f"Download path: {cls.download_path}")
         options.set_preference("browser.download.folderList", 2)  # Use custom directory
-        options.set_preference("browser.download.dir", download_path)  # Ensure absolute path
+        options.set_preference("browser.download.dir", cls.download_path)  # Ensure absolute path
         options.set_preference("browser.download.useDownloadDir", True)
         options.set_preference("browser.download.panel.shown", False)  # Hide download panel
         options.set_preference("browser.helperApps.neverAsk.saveToDisk",
@@ -242,6 +251,9 @@ class ReportDownloader:
 
     @classmethod
     def initialize(cls):
+
+        cls.download_path = os.path.abspath(Parms.DOWNLOAD_DIR)
+        delete_folder_contents(cls.download_path)
         DbConnect.initialize_parameters()
         cls.report_start_date = Parms.REPORT_START_DATE
         if cls.report_start_date is None:
@@ -250,13 +262,15 @@ class ReportDownloader:
             cls.report_start_date = datetime(int(cls.report_start_date[:4]), int(cls.report_start_date[5:7]),
                                              int(cls.report_start_date[9:])).date()
         cls.report_end_date = today_indian()
-        # 🔹 Flags for enabling/disabling downloads
-        cls.download_flags = {"DOWNLOAD_TRADEBOOK": Parms.DOWNLOAD_TRADEBOOK, "DOWNLOAD_PNL": Parms.DOWNLOAD_PNL,
+
+
+        cls.download_flags = {"DOWNLOAD_TRADEBOOK": Parms.DOWNLOAD_TRADEBOOK,
+                              "DOWNLOAD_PNL": Parms.DOWNLOAD_PNL,
                               "DOWNLOAD_LEDGER": Parms.DOWNLOAD_LEDGER}
+
         logger.info(f'Report start date: {cls.report_start_date}')
         logger.info(f'Report end date: {cls.report_end_date}')
         logger.info(f'Report list: {cls.download_flags}')
-        cls.failed_reports = []  # Track failed downloads
 
 
 if __name__ == "__main__":
