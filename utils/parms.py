@@ -75,6 +75,7 @@ class Parms:
     REPORT_START_DATE: Optional[datetime] = ''
     REPORT_LOOKBACK_DAYS: Optional[int] = 0
     USERS: list = []
+    MAX_SELENIUM_RETRIES=0
 
     @classmethod
     def refresh_parms(cls, records=None, refresh=False) -> None:

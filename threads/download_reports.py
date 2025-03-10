@@ -1,4 +1,3 @@
-import asyncio
 import os
 import time
 from datetime import timedelta, datetime
@@ -13,35 +12,13 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
-from threads.load_reports import load_reports
-from utils.db_connect import DbConnect
-from utils.parms import Parms, sc
 from utils.date_time_utils import today_indian
+from utils.db_connect import DbConnect
 from utils.logger import get_logger
+from utils.parms import Parms, sc
 from utils.utils_func import generate_totp
 
 logger = get_logger(__name__)  # Initialize logger
-
-# 🔹 Constants
-DbConnect.initialize_parameters()
-REPORT_START_DATE = Parms.REPORT_START_DATE
-if REPORT_START_DATE is None:
-    REPORT_START_DATE = today_indian() - timedelta(Parms.REPORT_LOOKBACK_DAYS)
-else:
-    REPORT_START_DATE = datetime(int(REPORT_START_DATE[:4]), int(REPORT_START_DATE[5:7]),
-                                 int(REPORT_START_DATE[9:])).date()
-
-REPORT_END_DATE = today_indian()
-
-# 🔹 Flags for enabling/disabling downloads
-DOWNLOAD_FLAGS = {"DOWNLOAD_TRADEBOOK": Parms.DOWNLOAD_TRADEBOOK, "DOWNLOAD_PNL": Parms.DOWNLOAD_PNL,
-                  "DOWNLOAD_LEDGER": Parms.DOWNLOAD_LEDGER, }
-
-logger.info(f'Report start date: {REPORT_START_DATE}')
-logger.info(f'Report end date: {REPORT_END_DATE}')
-logger.info(f'Report list: {DOWNLOAD_FLAGS}')
-
-FAILED_REPORTS = []  # Track failed downloads
 
 
 def setup_driver():
@@ -102,12 +79,12 @@ def login_kite(driver, user, credential):
         totp_field = driver.find_element(By.XPATH, "//input[@type='number']")
         highlight_element(driver, totp_field)
 
-        ztotp = generate_totp(credential['TOTP_TOKEN'])
-        logger.info(f"🔹 Generated TOTP: {ztotp}")
-        totp_field.send_keys(ztotp)
-        time.sleep(1)
-
         for attempt in range(sc.MAX_TOTP_CONN_RETRY_COUNT):
+            ztotp = generate_totp(credential['TOTP_TOKEN'])
+            logger.info(f"🔹 Generated TOTP: {ztotp}")
+            totp_field.send_keys(ztotp)
+            time.sleep(2)
+
             if "dashboard" in driver.current_url:
                 logger.info("Login Successful!")
                 return
@@ -117,27 +94,26 @@ def login_kite(driver, user, credential):
 
     except Exception as e:
         logger.error(f"Login Failed: {e}")
-        driver.quit()
         raise
 
 
-def download_reports(driver):
+def download_reports(driver, report_start_date, report_end_date, download_flags, failed_reports):
     """Downloads reports from Zerodha Console."""
     os.makedirs(Parms.DOWNLOAD_DIR, exist_ok=True)
     all_downloaded_files = {}
-    MAX_SELENIUM_RETRIES = 3
+    max_selenium_retries = Parms.MAX_SELENIUM_RETRIES
     try:
         for name, item in sc.DOWNLOAD_REPORTS.items():
-            if not DOWNLOAD_FLAGS.get(name, False):
+            if not download_flags.get(name, False):
                 continue
 
             logger.info(f"Downloading: {name}")
             driver.get(item['url'])
             time.sleep(1)
             downloaded_files = {}
-            current_start = REPORT_START_DATE
-            while current_start < REPORT_END_DATE:
-                current_end = min(current_start + timedelta(days=364), REPORT_END_DATE)
+            current_start = report_start_date
+            while current_start < report_end_date:
+                current_end = min(current_start + timedelta(days=364), report_end_date)
 
                 for segment in item['segment']['values']:  # Select both segments
                     counter = 0
@@ -153,7 +129,7 @@ def download_reports(driver):
                             select.select_by_visible_text(segment)
                             logger.info(f"Selected {segment} in dropdown.")
                         except Exception as e:
-                            if counter > MAX_SELENIUM_RETRIES:
+                            if counter > max_selenium_retries:
                                 logger.error(f"Dropdown selection failed for {segment}: {e}")
                                 continue  # Skip to the next segment if selection fails
 
@@ -166,7 +142,7 @@ def download_reports(driver):
                                 select.select_by_visible_text(item['P&L']['values'][0])
                                 logger.info(f"Selected {item['P&L']['element']} in dropdown.")
                         except Exception as e:
-                            if counter > MAX_SELENIUM_RETRIES:
+                            if counter > max_selenium_retries:
                                 logger.error(f"Dropdown selection failed for {item['P&L']['element']}: {e}")
                                 continue  # Skip to the next segment if selection fails
 
@@ -184,7 +160,7 @@ def download_reports(driver):
                             date_range.send_keys(Keys.ENTER)
                             logger.info(f"Applied date filter {date_range_str} for {segment}")
                         except Exception as e:
-                            if counter > MAX_SELENIUM_RETRIES:
+                            if counter > max_selenium_retries:
                                 logger.error(f"Failed to set date range: {date_range_str} for {segment}: {e}")
                                 continue  # Skip to the next segment if date range setting fails
 
@@ -208,9 +184,9 @@ def download_reports(driver):
                             logger.info(f"Download completed for {segment} for {date_range_str}: {downloaded_file}")
                             break
                         except Exception as e:
-                            if counter > MAX_SELENIUM_RETRIES:
+                            if counter > max_selenium_retries:
                                 logger.error(f"Failed to download report for {segment}: {e}")
-                                FAILED_REPORTS.append(f"{name} - {segment} - {date_range_str}")
+                                failed_reports.append(f"{name} - {segment} - {date_range_str}")
                                 break
                 current_start = current_end + timedelta(days=1)
             all_downloaded_files[name] = downloaded_files
@@ -221,11 +197,10 @@ def download_reports(driver):
         logger.error(f"Error while downloading reports: {e}")
 
     finally:
-        driver.quit()
         logger.info("All tasks completed!")
 
-        if FAILED_REPORTS:
-            logger.warning(f"All reports downloaded successfully, with the exception of: {FAILED_REPORTS}")
+        if failed_reports:
+            logger.warning(f"All reports downloaded successfully, with the exception of: {failed_reports}")
         else:
             logger.info("All reports downloaded successfully!")
 
@@ -238,47 +213,48 @@ def check_for_error_text_js(driver):
 
 
 def wait_for_download(files_in_dir, timeout=60):
-    """Waits for a file to fully download in the given directory."""
     end_time = time.time() + timeout
-    # Initial files
-
     while time.time() < end_time:
-        current_files = set(os.listdir(Parms.DOWNLOAD_DIR))
-        new_file = current_files - files_in_dir  # Find newly added files
-
-        if new_file:
-            file_path = os.path.join(Parms.DOWNLOAD_DIR, new_file.pop())
-
-            # Wait for the file size to stabilize (ensures download is complete)
-            prev_size = -1
-            while time.time() < end_time:
-                curr_size = os.path.getsize(file_path)
-                if curr_size == prev_size:  # Size is stable
-                    return file_path
-                prev_size = curr_size
-                time.sleep(1)  # Check every second
-
-        time.sleep(1)  # Wait before checking again
-
-    raise TimeoutError("Download did not complete within the given time.")
+        new_files = set(os.listdir(Parms.DOWNLOAD_DIR)) - files_in_dir
+        for file in new_files:
+            if not (file.endswith(".crdownload") or file.endswith(".part")):
+                return file
+        time.sleep(1)
+    raise TimeoutError("Download did not complete within the timeout period.")
 
 
 def login_download_reports():
     """Main function to test login and report downloads."""
-    test_login_only = False
-    # DbConnect.initialize_parameters()
+    # 🔹 Constants
+    DbConnect.initialize_parameters()
+    report_start_date = Parms.REPORT_START_DATE
+    if report_start_date is None:
+        report_start_date = today_indian() - timedelta(Parms.REPORT_LOOKBACK_DAYS)
+    else:
+        report_start_date = datetime(int(report_start_date[:4]), int(report_start_date[5:7]),
+                                     int(report_start_date[9:])).date()
+
+    report_end_date = today_indian()
+
+    # 🔹 Flags for enabling/disabling downloads
+    download_flags = {"DOWNLOAD_TRADEBOOK": Parms.DOWNLOAD_TRADEBOOK, "DOWNLOAD_PNL": Parms.DOWNLOAD_PNL,
+                      "DOWNLOAD_LEDGER": Parms.DOWNLOAD_LEDGER}
+
+    logger.info(f'Report start date: {report_start_date}')
+    logger.info(f'Report end date: {report_end_date}')
+    logger.info(f'Report list: {download_flags}')
+
+    failed_reports = []  # Track failed downloads
 
     for user, credential in Parms.USER_CREDENTIALS.items():
         driver = setup_driver()
         try:
             login_kite(driver, user, credential)
-            if not test_login_only:
-                logger.info("Login successful! Proceeding with downloads...")
-                download_reports(driver)
+            logger.info("Login successful! Proceeding with downloads...")
+            download_reports(driver, report_start_date, report_end_date, download_flags, failed_reports)
         finally:
             if driver is not None: driver.quit()
 
 
 if __name__ == "__main__":
     login_download_reports()
-    asyncio.run(load_reports())
