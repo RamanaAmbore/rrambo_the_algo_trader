@@ -4,11 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="made fetch_parms.py thread safe">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="code cleanup for download_reports">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings/parm_values.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings/parm_values.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_schedule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_schedule_time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_thread_schedule_xref.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_thread_schedule_xref.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_thread_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_thread_status.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/algo_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/algo_threads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_greeks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/option_strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/parameters.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/parameters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/refresh_flags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/report_ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/report_ledger_entries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/report_profit_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/report_tradebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/strategy_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlist_instruments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/algo_schedules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings/parm_values.py" beforeDir="false" afterPath="$PROJECT_DIR$/settings/load_parms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/threads/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/threads/download_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/parms.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/parms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,53 +69,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for cipher_utils.test_cipher.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SimpleDashboard.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.backend.executor&quot;: &quot;Run&quot;,
-    &quot;Python.broker_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.cipher_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.database.executor&quot;: &quot;Run&quot;,
-    &quot;Python.date_time_utils.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_conn.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connect.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_connection (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_utils (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fetch_parms (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.kite_api_login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connect (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connection_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.load_reports (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.load_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.logger.executor&quot;: &quot;Run&quot;,
-    &quot;Python.login (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.login_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_monitor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.market_ticker (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_ticker.executor&quot;: &quot;Run&quot;,
-    &quot;Python.parameter_loader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader_new.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_data.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.thread_manager.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.zerodha_kite.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.zerodha_socket.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/rrambo_trader_new&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for cipher_utils.test_cipher.executor": "Run",
+    "Python.SimpleDashboard.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.backend.executor": "Run",
+    "Python.broker_connection.executor": "Run",
+    "Python.cipher_utils.executor": "Debug",
+    "Python.database.executor": "Run",
+    "Python.date_time_utils.executor": "Run",
+    "Python.db_conn.executor": "Run",
+    "Python.db_connect.executor": "Debug",
+    "Python.db_connection (1).executor": "Run",
+    "Python.db_connection.executor": "Run",
+    "Python.db_utils (1).executor": "Debug",
+    "Python.db_utils.executor": "Debug",
+    "Python.download_reports (1).executor": "Debug",
+    "Python.download_reports.executor": "Run",
+    "Python.fetch_parms (1).executor": "Run",
+    "Python.kite_api_login.executor": "Debug",
+    "Python.kite_connect (1).executor": "Debug",
+    "Python.kite_connection_new.executor": "Debug",
+    "Python.load_reports (1).executor": "Run",
+    "Python.load_reports.executor": "Run",
+    "Python.logger.executor": "Run",
+    "Python.login (1).executor": "Run",
+    "Python.login.executor": "Debug",
+    "Python.login_new.executor": "Debug",
+    "Python.market_monitor.executor": "Run",
+    "Python.market_ticker (1).executor": "Debug",
+    "Python.market_ticker.executor": "Run",
+    "Python.parameter_loader (1).executor": "Run",
+    "Python.settings_loader.executor": "Run",
+    "Python.settings_loader_new.executor": "Run",
+    "Python.sync_data.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_db_utils.executor": "Debug",
+    "Python.thread_manager.executor": "Debug",
+    "Python.zerodha_kite.executor": "Debug",
+    "Python.zerodha_socket.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/rrambo_trader_new",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new\services" />
@@ -537,11 +560,18 @@
       <option name="project" value="LOCAL" />
       <updated>1741535224320</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="code cleanup for download_reports">
+      <option name="closed" value="true" />
+      <created>1741620489783</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1741620489783</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="marekt_ticker cleanedup and updated" />
     <MESSAGE value="added dotenv in config_loader, removed from other modules, performance improvement with logger" />
     <MESSAGE value="updated sync_data and thread_manager for syncing up the data and scheduling threads" />
     <MESSAGE value="Defect fix in db_connection and for cyclic dependency" />
@@ -566,7 +596,8 @@
     <MESSAGE value="added exceptions to default data load into tables" />
     <MESSAGE value="db_connect cleaned up" />
     <MESSAGE value="made fetch_parms.py thread safe" />
-    <option name="LAST_COMMIT_MESSAGE" value="made fetch_parms.py thread safe" />
+    <MESSAGE value="code cleanup for download_reports" />
+    <option name="LAST_COMMIT_MESSAGE" value="code cleanup for download_reports" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

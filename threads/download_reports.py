@@ -86,14 +86,14 @@ def login_kite(driver, user, credential):
             time.sleep(2)
 
             if "dashboard" in driver.current_url:
-                logger.info("Login Successful!")
+                logger.info(f"Login Successful for user: {user}")
                 return
             else:
-                logger.warning("Invalid TOTP! Retrying...")
+                logger.warning("Invalid TOTP! Retrying for user: {user}...")
                 time.sleep(1)
 
     except Exception as e:
-        logger.error(f"Login Failed: {e}")
+        logger.error(f"Login Failed for user{user} with exception: {e}")
         raise
 
 

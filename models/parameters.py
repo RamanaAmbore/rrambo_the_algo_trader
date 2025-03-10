@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 from utils.date_time_utils import timestamp_indian
 from utils.logger import get_logger
-from settings.parm_values import source, DEFAULT_PARAMETERS
+from settings.load_parms import source, DEFAULT_PARAMETERS
 from .base import Base
 
 logger = get_logger(__name__)
