@@ -73,13 +73,12 @@ class DatabaseManager:
         Base.metadata.create_all(cls._engine)
 
     @classmethod
-    def initialize_parameters(cls,refresh=False) -> None:
+    def initialize_parameters(cls) -> None:
         """Initialize parameters from database."""
-        if refresh:
-            with cls.get_sync_session() as session:
-                Parameters.refresh_parameters(records=session.query(ParameterTable).all(),refresh=refresh)
-                logger.info('Parameters are refreshed from database')
-                session.commit()
+        with cls.get_sync_session() as session:
+            Parameters.refresh_parameters(records=session.query(ParameterTable).all(),refresh=True)
+            logger.info('Parameters are refreshed from database')
+            session.commit()
 
     @classmethod
     def get_sync_session(cls) -> Session:

@@ -5,18 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="db_manager is cleaned up">
+      <change afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/get_stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/get_stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_profit_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_tradebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/download_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/load_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/load_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/market_ticker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/sync_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/thread_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/upload_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/upload_reports.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/download_reports.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +88,10 @@
     "Python.market_ticker (1).executor": "Debug",
     "Python.market_ticker.executor": "Run",
     "Python.parameter_loader (1).executor": "Run",
+    "Python.report_donwloader.executor": "Run",
+    "Python.report_downloader (1).executor": "Run",
+    "Python.report_downloader (2).executor": "Run",
+    "Python.report_downloader.executor": "Run",
     "Python.settings_loader.executor": "Run",
     "Python.settings_loader_new.executor": "Run",
     "Python.sync_data.executor": "Run",
@@ -119,12 +115,12 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\src" />
+      <recent name="D:\rrambo_trader_new" />
       <recent name="D:\rrambo_trader_new\tests\utils" />
       <recent name="D:\rrambo_trader_new\settings" />
-      <recent name="D:\rrambo_trader_new\threads" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.download_reports">
+  <component name="RunManager" selected="Python.report_downloader (2)">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -169,29 +165,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="date_time_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/utils" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/utils/date_time_utils.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="download_reports" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="report_donwloader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -204,7 +178,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/download_reports.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/report_donwloader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -213,51 +187,87 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for src.core.database_manager.test_sync_session" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="report_downloader (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/core" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;src.core.database_manager.test_sync_session&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/report_downloader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python" type="tests" factoryName="Autodetect" temporary="true">
+    <configuration name="report_downloader (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/utils" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/src/core/database_manager.py&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/report_downloader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="report_downloader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\report_downloader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
       <item itemvalue="Python.database_manager" />
-      <item itemvalue="Python.date_time_utils" />
-      <item itemvalue="Python.download_reports" />
-      <item itemvalue="Python tests.Python tests for src.core.database_manager.test_sync_session" />
-      <item itemvalue="Python tests.Python" />
+      <item itemvalue="Python.report_donwloader" />
+      <item itemvalue="Python.report_downloader" />
+      <item itemvalue="Python.report_downloader (1)" />
+      <item itemvalue="Python.report_downloader (2)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.download_reports" />
+        <item itemvalue="Python.report_downloader (2)" />
+        <item itemvalue="Python.report_donwloader" />
+        <item itemvalue="Python.report_downloader (1)" />
+        <item itemvalue="Python.report_downloader" />
         <item itemvalue="Python.database_manager" />
-        <item itemvalue="Python.date_time_utils" />
-        <item itemvalue="Python tests.Python" />
-        <item itemvalue="Python tests.Python tests for src.core.database_manager.test_sync_session" />
       </list>
     </recent_temporary>
   </component>
@@ -629,7 +639,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741704002713</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="db_manager is cleaned up">
+      <option name="closed" value="true" />
+      <created>1741704698533</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1741704698533</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -667,16 +685,6 @@
           <url>file://$PROJECT_DIR$/src/services/option_contract.py</url>
           <line>8</line>
           <option name="timeStamp" value="171" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
-          <line>20</line>
-          <option name="timeStamp" value="191" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
-          <line>46</line>
-          <option name="timeStamp" value="194" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/utils/date_time_utils.py</url>

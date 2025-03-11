@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
-from src.core.database_manager import DatabaseManager
+from src.core.database_manager import DatabaseManager as Db
 from src.utils.date_time_utils import today_indian
 
 from src.utils.logger import get_logger
@@ -19,6 +19,8 @@ from src.utils.parameter_manager import ParameterManager as Parm, sc
 from src.utils.utils import generate_totp, delete_folder_contents
 
 logger = get_logger(__name__)  # Initialize logger
+Db.initialize_parameters()
+
 
 class ReportDownloader:
     driver = None
@@ -107,7 +109,7 @@ class ReportDownloader:
 
     @classmethod
     def download_reports(cls):
-        """Downloads reports from Zerodha Console."""
+        """Downloads reports from Zerodha Console and returns a dictionary of downloaded files."""
         os.makedirs(Parm.DOWNLOAD_DIR, exist_ok=True)
         all_downloaded_files = {}
         max_selenium_retries = Parm.MAX_SELENIUM_RETRIES
@@ -128,11 +130,10 @@ class ReportDownloader:
                         counter = 0
                         while True:
                             date_range_str = ""
-                            downloaded_file = ""
                             counter += 1
                             try:
                                 if segment not in downloaded_files:
-                                    downloaded_files[segment] = ""
+                                    downloaded_files[segment] = []
                                 dropdown = WebDriverWait(cls.driver, 10).until(
                                     EC.presence_of_element_located((By.XPATH, item['segment']['element'])))
                                 cls.highlight_element(dropdown)
@@ -148,16 +149,13 @@ class ReportDownloader:
                                     select.select_by_visible_text(item['P&L']['values'][0])
                                     logger.info(f"Selected {item['P&L']['element']} in dropdown.")
 
-                                date_range_str = ""
-
                                 date_range = WebDriverWait(cls.driver, 10).until(
                                     EC.element_to_be_clickable((By.XPATH, item['date_range'])))
                                 cls.highlight_element(date_range)
 
-                                date_range_str = date_range.get_attribute("value")
-                                date_range_str = f'{current_start.strftime("%Y-%m-%d")}{date_range_str[10:13]}{current_end.strftime("%Y-%m-%d")}'
-                                date_range.send_keys(Keys.CONTROL + "a")  # Select all text
-                                date_range.send_keys(Keys.DELETE)  # Delete selected text
+                                date_range_str = f'{current_start.strftime("%Y-%m-%d")} to {current_end.strftime("%Y-%m-%d")}'
+                                date_range.send_keys(Keys.CONTROL + "a")
+                                date_range.send_keys(Keys.DELETE)
                                 date_range.send_keys(date_range_str)
                                 date_range.send_keys(Keys.ENTER)
                                 logger.info(f"Applied date filter {date_range_str} for {segment}")
@@ -175,34 +173,22 @@ class ReportDownloader:
                                 if cls.check_for_error_text_js():
                                     break
 
-                                # Wait for the file to appear in the download directory
                                 downloaded_file = cls.wait_for_download()
-                                downloaded_files[segment] = downloaded_files[segment] + downloaded_file
-                                logger.info(f"Download completed for {segment} for {date_range_str}: {downloaded_file}")
+                                downloaded_files[segment].append(downloaded_file)
+                                logger.info(f"Download completed for {segment} ({date_range_str}): {downloaded_file}")
                                 break
                             except Exception as e:
                                 if counter > max_selenium_retries:
-                                    if item['P&L'] is not None:
-                                        logger.error(f"Dropdown selection failed for {item['P&L']['element']}: {e}")
-                                    logger.error(
-                                        f"Download failed for {segment} for {date_range_str}: {downloaded_file}")
+                                    logger.error(f"Download failed for {segment} ({date_range_str}): {e}")
                                     cls.failed_reports.append(f"{name} - {segment} - {date_range_str}")
                                     break
                     current_start = current_end + timedelta(days=1)
                 all_downloaded_files[name] = downloaded_files
-                logger.info(f'Downloaded files for {name}: {downloaded_files}')
             logger.info(f'Downloaded files for all segments: {all_downloaded_files}')
-
         except Exception as e:
             logger.error(f"Error while downloading reports: {e}")
-
         finally:
-            logger.info("All tasks completed!")
-
-            if cls.failed_reports:
-                logger.warning(f"All reports downloaded successfully, with the exception of: {cls.failed_reports}")
-            else:
-                logger.info("All reports downloaded successfully!")
+            return all_downloaded_files
 
     @classmethod
     def check_for_error_text_js(cls):
@@ -224,9 +210,9 @@ class ReportDownloader:
 
     @classmethod
     def login_download_reports(cls):
-        """Main function to test login and report downloads."""
-        # 🔹 Constants
+        """Login and download reports for multiple users, returning a dictionary of downloaded files."""
         cls.initialize()
+        user_downloads = {}
 
         for user, credential in Parm.USER_CREDENTIALS.items():
             cls.user = user
@@ -235,15 +221,16 @@ class ReportDownloader:
             try:
                 cls.login_kite()
                 logger.info("Login successful! Proceeding with downloads...")
-                cls.download_reports()
+                user_downloads[user] = cls.download_reports()  # Store downloaded files for each user
             finally:
-                if cls.driver is not None: cls.driver.quit()
+                if cls.driver is not None:
+                    cls.driver.quit()
 
-    @classmethod
+        return user_downloads  # Return dictionary of downloaded files per user
 
     @classmethod
     def initialize(cls):
-        DatabaseManager.initialize_parameters()
+
         cls.download_path = os.path.abspath(Parm.DOWNLOAD_DIR)
         delete_folder_contents(cls.download_path)
 
@@ -265,4 +252,5 @@ class ReportDownloader:
 
 
 if __name__ == "__main__":
-    ReportDownloader.login_download_reports()
+    downloaded_reports = ReportDownloader.login_download_reports()
+    print(downloaded_reports)  # Print downloaded files for debugging
