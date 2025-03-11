@@ -1,5 +1,5 @@
 from src.services.access_tokens import save_stock_list
-from src.core.db_manager import DbManager as Db
+from src.core.database_manager import DbManager as Db
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)

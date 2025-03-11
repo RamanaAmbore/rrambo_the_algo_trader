@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
-from src.core.db_manager import DbManager
+from src.core.database_manager import DbManager
 from src.utils.date_time_utils import today_indian
 
 from src.utils.logger import get_logger

@@ -9,7 +9,7 @@ from market_ticker import MarketTicker
 from src.models.algo_schedule import AlgoScheduleTime
 from sync_data import sync_all
 from src.utils.date_time_utils import current_time_indian
-from src.core.db_manager import DbManager as Db
+from src.core.database_manager import DbManager as Db
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)

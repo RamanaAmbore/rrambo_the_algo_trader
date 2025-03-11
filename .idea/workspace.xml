@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructure directories">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="db_manager is cleaned up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/db_connect.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/db_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/db_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/get_stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/get_stock_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/parm_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/parameter_table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/parm_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/parm_table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_profit_loss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_tradebook.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/threads/download_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/download_reports.py" afterDir="false" />
@@ -21,7 +17,6 @@
       <change beforePath="$PROJECT_DIR$/src/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/sync_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/thread_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/threads/upload_reports.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/upload_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/logger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +71,7 @@
     "Python.broker_connection.executor": "Run",
     "Python.cipher_utils.executor": "Debug",
     "Python.database.executor": "Run",
+    "Python.database_manager.executor": "Run",
     "Python.date_time_utils.executor": "Debug",
     "Python.db_conn.executor": "Run",
     "Python.db_connect.executor": "Run",
@@ -128,7 +124,7 @@
       <recent name="D:\rrambo_trader_new\threads" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.db_manager">
+  <component name="RunManager" selected="Python.database_manager">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -143,6 +139,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/.venv/Scripts/python.exe" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="database_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/core" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\core\database_manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -173,29 +191,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="db_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/core" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\core\db_manager.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for src.core.db_manager.test_sync_session" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for src.core.database_manager.test_sync_session" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -206,7 +202,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;src.core.db_manager.test_sync_session&quot;" />
+      <option name="_new_target" value="&quot;src.core.database_manager.test_sync_session&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -236,24 +232,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/src/core/db_manager.py&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/src/core/database_manager.py&quot;" />
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
+      <item itemvalue="Python.database_manager" />
       <item itemvalue="Python.date_time_utils" />
-      <item itemvalue="Python.db_manager" />
-      <item itemvalue="Python tests.Python tests for src.core.db_manager.test_sync_session" />
+      <item itemvalue="Python tests.Python tests for src.core.database_manager.test_sync_session" />
       <item itemvalue="Python tests.Python tests for tests.utils.test_utils.test_delete_folder_contents" />
       <item itemvalue="Python tests.Python" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.db_manager" />
+        <item itemvalue="Python.database_manager" />
         <item itemvalue="Python.date_time_utils" />
         <item itemvalue="Python tests.Python" />
-        <item itemvalue="Python tests.Python tests for src.core.db_manager.test_sync_session" />
+        <item itemvalue="Python tests.Python tests for src.core.database_manager.test_sync_session" />
         <item itemvalue="Python tests.Python tests for tests.utils.test_utils.test_delete_folder_contents" />
       </list>
     </recent_temporary>
@@ -610,11 +606,18 @@
       <option name="project" value="LOCAL" />
       <updated>1741701222207</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="db_manager is cleaned up">
+      <option name="closed" value="true" />
+      <created>1741703351035</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1741703351035</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Changed market_hours table to algo_scheule tabel to use it for multiple threads" />
     <MESSAGE value="download reports from console using selenium" />
     <MESSAGE value="download folder fix for firexfox selenium" />
     <MESSAGE value="code cleanup and robust logging for download_reports.py" />
@@ -639,7 +642,8 @@
     <MESSAGE value="converted ReportDownloader into a class" />
     <MESSAGE value="added delete feature to download folder" />
     <MESSAGE value="restructure directories" />
-    <option name="LAST_COMMIT_MESSAGE" value="restructure directories" />
+    <MESSAGE value="db_manager is cleaned up" />
+    <option name="LAST_COMMIT_MESSAGE" value="db_manager is cleaned up" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

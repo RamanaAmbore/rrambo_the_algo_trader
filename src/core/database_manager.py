@@ -14,7 +14,7 @@ from src.utils.parameter_manager import ParameterManager as Parameters
 logger = get_logger(__name__)  # Initialize logger
 
 
-class DbConnect:
+class DatabaseManager:
     """Database Utility Class for handling both Sync and Async database connections."""
     _initialized = False
     _engine = _async_engine = _sync_session = _async_session = None
@@ -73,12 +73,13 @@ class DbConnect:
         Base.metadata.create_all(cls._engine)
 
     @classmethod
-    def initialize_parameters(cls) -> None:
+    def initialize_parameters(cls,refresh=False) -> None:
         """Initialize parameters from database."""
-        with cls.get_sync_session() as session:
-            Parameters.refresh_parameters(session.query(ParameterTable).all())
-            logger.info('Parameters are refreshed from database')
-            session.commit()
+        if refresh:
+            with cls.get_sync_session() as session:
+                Parameters.refresh_parameters(records=session.query(ParameterTable).all(),refresh=refresh)
+                logger.info('Parameters are refreshed from database')
+                session.commit()
 
     @classmethod
     def get_sync_session(cls) -> Session:
@@ -127,7 +128,7 @@ class DbConnect:
 async def test_async_session():
     """Test async session functionality."""
     try:
-        async for session in DbConnect.get_async_session():
+        async for session in DatabaseManager.get_async_session():
             result = await session.execute(text("SELECT 1"))
             logger.info(f"Async session test result: {result.scalar()}")
     except Exception as e:
@@ -137,7 +138,7 @@ async def test_async_session():
 def test_sync_session():
     """Test sync session functionality."""
     try:
-        with DbConnect.get_sync_session() as session:
+        with DatabaseManager.get_sync_session() as session:
             result = session.execute(text("SELECT 1"))
             logger.info(f"Sync session test result: {result.scalar()}")
     except Exception as e:
@@ -153,17 +154,17 @@ async def main():
         logger.info("Testing asynchronous session...")
         await test_async_session()
 
-        logger.info(f"Connection test status: {DbConnect.test_connection()}")
+        logger.info(f"Connection test status: {DatabaseManager.test_connection()}")
 
     except Exception as e:
         logger.error(f"Main test failed: {e}")
     finally:
-        await DbConnect.cleanup()
+        await DatabaseManager.cleanup()
 
 
 # Initialize database and parameters on import
-DbConnect.initialize()
-DbConnect.initialize_parameters()
+DatabaseManager.initialize()
+DatabaseManager.initialize_parameters(refresh=True)
 
 if __name__ == "__main__":
     asyncio.run(main())

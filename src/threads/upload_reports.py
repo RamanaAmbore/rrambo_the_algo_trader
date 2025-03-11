@@ -9,7 +9,7 @@ from src.models import ReportLedgerEntries
 from src.models import ReportProfitLoss
 from src.models import ReportTradebook
 from src.utils.date_time_utils import INDIAN_TIMEZONE
-from src.core.db_manager import DbManager
+from src.core.database_manager import DbManager
 from src.utils.logger import get_logger
 from src.utils.parameter_manager import ParameterManager as Parm
 
