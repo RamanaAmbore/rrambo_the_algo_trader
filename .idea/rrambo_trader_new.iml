@@ -8,4 +8,7 @@
     <orderEntry type="jdk" jdkName="Python 3.11 virtualenv at D:\rrambo_trader_new\.venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="TestRunnerService">
+    <option name="PROJECT_TEST_RUNNER" value="Unittests" />
+  </component>
 </module>

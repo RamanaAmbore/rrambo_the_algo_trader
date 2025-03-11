@@ -1,10 +1,10 @@
 from functools import wraps
 
-from utils.logger import get_logger
+from src.utils.logger import get_logger
 from kiteconnect.exceptions import TokenException
 
-from utils.parms import sc
-from utils.kite_api_login import ZerodhaKite
+from src.utils import sc
+from src.utils import ZerodhaKite
 
 logger = get_logger(__name__)
 

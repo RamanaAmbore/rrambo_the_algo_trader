@@ -21,3 +21,4 @@ dash-bootstrap-components~=1.7.1
 pandas~=2.2.3
 selenium~=4.28.1
 webdriver-manager~=4.0.2
+cryptography~=44.0.1
