@@ -24,7 +24,7 @@ class BrokerAccounts(Base):
     # Relationships
     access_tokens = relationship("AccessTokens", back_populates="broker_account")
     holdings = relationship("Holdings", back_populates="broker_account")
-    parm_table = relationship("ParmTable", back_populates="broker_account")
+    parameter_table = relationship("ParameterTable", back_populates="broker_account")
     backtest_results = relationship("BacktestResults", back_populates="broker_account")
     option_greeks = relationship("OptionGreeks", back_populates="broker_account")
     report_ledger_entries = relationship("ReportLedgerEntries", back_populates="broker_account")

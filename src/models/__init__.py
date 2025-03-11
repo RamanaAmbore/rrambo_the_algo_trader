@@ -15,7 +15,7 @@ from .report_profit_loss import ReportProfitLoss
 from .report_ledger_entries import ReportLedgerEntries
 from .watchlists import Watchlists
 from .watchlist_instruments import WatchlistInstruments
-from .parm_table import ParmTable
+from .parameter_table import ParameterTable
 from .refresh_flags import RefreshFlags
 from .broker_accounts import BrokerAccounts
 

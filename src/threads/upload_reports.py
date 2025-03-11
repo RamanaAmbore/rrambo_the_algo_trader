@@ -9,9 +9,9 @@ from src.models import ReportLedgerEntries
 from src.models import ReportProfitLoss
 from src.models import ReportTradebook
 from src.utils.date_time_utils import INDIAN_TIMEZONE
-from src.core.db_connect import DbConnect
+from src.core.db_manager import DbManager
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager
+from src.utils.parameter_manager import ParameterManager as Parm
 
 logger = get_logger(__name__)
 
@@ -26,7 +26,7 @@ class ReportUploader:
     }
 
     def __init__(self):
-        self.db = DbConnect()
+        self.db = DbManager()
 
     @staticmethod
     def to_ist(timestamp) -> Optional[pd.Timestamp]:
@@ -54,7 +54,7 @@ class ReportUploader:
 
     def process_tradebook(self, row: pd.Series, existing_records: set) -> Optional[ReportTradebook]:
         """Process tradebook record."""
-        if not ParameterManager.DOWNLOAD_TRADEBOOK or row["trade_id"] in existing_records:
+        if not Parm.DOWNLOAD_TRADEBOOK or row["trade_id"] in existing_records:
             return None
 
         return ReportTradebook(
@@ -77,7 +77,7 @@ class ReportUploader:
     @staticmethod
     def process_pnl(row: pd.Series, existing_records: set) -> Optional[ReportProfitLoss]:
         """Process P&L record."""
-        if not ParameterManager.DOWNLOAD_PNL or (row["Symbol"], row["ISIN"]) in existing_records:
+        if not Parm.DOWNLOAD_PNL or (row["Symbol"], row["ISIN"]) in existing_records:
             return None
 
         return ReportProfitLoss(
@@ -98,7 +98,7 @@ class ReportUploader:
     @staticmethod
     def process_ledger(row: pd.Series, existing_records: set) -> Optional[ReportLedgerEntries]:
         """Process ledger record."""
-        if not ParameterManager.DOWNLOAD_LEDGER or (
+        if not Parm.DOWNLOAD_LEDGER or (
             row['particulars'], row['posting_date'], row['cost_center'],
             row['voucher_type'], row['debit'], row['credit'], row['net_balance']
         ) in existing_records:
@@ -156,9 +156,9 @@ def main():
     try:
         logger.info("Starting report upload process...")
         uploader = ReportUploader()
-        uploader.process_directory(ParameterManager.DOWNLOAD_DIR, "report_tradebook")
-        uploader.process_directory(ParameterManager.DOWNLOAD_DIR, "pnl")
-        uploader.process_directory(ParameterManager.DOWNLOAD_DIR, "ledger")
+        uploader.process_directory(Parm.DOWNLOAD_DIR, "report_tradebook")
+        uploader.process_directory(Parm.DOWNLOAD_DIR, "pnl")
+        uploader.process_directory(Parm.DOWNLOAD_DIR, "ledger")
         logger.info("Report upload process completed")
     except Exception as e:
         logger.error(f"Main process failed: {e}")

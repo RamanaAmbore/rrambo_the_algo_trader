@@ -11,16 +11,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
-from src.core.db_connect import DbConnect
+from src.core.db_manager import DbManager
 from src.utils.date_time_utils import today_indian
 
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager, sc
+from src.utils.parameter_manager import ParameterManager as Parm, sc
 from src.utils.utils import generate_totp, delete_folder_contents
 
 logger = get_logger(__name__)  # Initialize logger
 
-DbConnect.initialize_parameters()
+DbManager.initialize_parameters()
 class ReportDownloader:
     driver = None
     report_start_date = None
@@ -109,9 +109,9 @@ class ReportDownloader:
     @classmethod
     def download_reports(cls):
         """Downloads reports from Zerodha Console."""
-        os.makedirs(ParameterManager.DOWNLOAD_DIR, exist_ok=True)
+        os.makedirs(Parm.DOWNLOAD_DIR, exist_ok=True)
         all_downloaded_files = {}
-        max_selenium_retries = ParameterManager.MAX_SELENIUM_RETRIES
+        max_selenium_retries = Parm.MAX_SELENIUM_RETRIES
         try:
             for name, item in sc.DOWNLOAD_REPORTS.items():
                 if not cls.download_flags.get(name, False):
@@ -170,7 +170,7 @@ class ReportDownloader:
                                 download_csv_link = WebDriverWait(cls.driver, 10).until(
                                     EC.element_to_be_clickable((By.XPATH, item['href'])))
                                 cls.highlight_element(download_csv_link)
-                                cls.files_in_dir = set(os.listdir(ParameterManager.DOWNLOAD_DIR))
+                                cls.files_in_dir = set(os.listdir(Parm.DOWNLOAD_DIR))
                                 download_csv_link.click()
                                 time.sleep(1)
                                 if cls.check_for_error_text_js():
@@ -216,7 +216,7 @@ class ReportDownloader:
     def wait_for_download(cls, timeout=60):
         end_time = time.time() + timeout
         while time.time() < end_time:
-            new_files = set(os.listdir(ParameterManager.DOWNLOAD_DIR)) - cls.files_in_dir
+            new_files = set(os.listdir(Parm.DOWNLOAD_DIR)) - cls.files_in_dir
             for file in new_files:
                 if not (file.endswith(".crdownload") or file.endswith(".part")):
                     return file
@@ -229,7 +229,7 @@ class ReportDownloader:
         # 🔹 Constants
         cls.initialize()
 
-        for user, credential in ParameterManager.USER_CREDENTIALS.items():
+        for user, credential in Parm.USER_CREDENTIALS.items():
             cls.user = user
             cls.credential = credential
             cls.setup_driver()
@@ -244,21 +244,21 @@ class ReportDownloader:
 
     @classmethod
     def initialize(cls):
-        DbConnect.initialize_parameters()
-        cls.download_path = os.path.abspath(ParameterManager.DOWNLOAD_DIR)
+        DbManager.initialize_parameters()
+        cls.download_path = os.path.abspath(Parm.DOWNLOAD_DIR)
         delete_folder_contents(cls.download_path)
 
-        cls.report_start_date = ParameterManager.REPORT_START_DATE
+        cls.report_start_date = Parm.REPORT_START_DATE
         if cls.report_start_date is None:
-            cls.report_start_date = today_indian() - timedelta(ParameterManager.REPORT_LOOKBACK_DAYS)
+            cls.report_start_date = today_indian() - timedelta(Parm.REPORT_LOOKBACK_DAYS)
         else:
             cls.report_start_date = datetime(int(cls.report_start_date[:4]), int(cls.report_start_date[5:7]),
                                              int(cls.report_start_date[9:])).date()
         cls.report_end_date = today_indian()
 
-        cls.download_flags = {"DOWNLOAD_TRADEBOOK": ParameterManager.DOWNLOAD_TRADEBOOK,
-                              "DOWNLOAD_PNL": ParameterManager.DOWNLOAD_PNL,
-                              "DOWNLOAD_LEDGER": ParameterManager.DOWNLOAD_LEDGER}
+        cls.download_flags = {"DOWNLOAD_TRADEBOOK": Parm.DOWNLOAD_TRADEBOOK,
+                              "DOWNLOAD_PNL": Parm.DOWNLOAD_PNL,
+                              "DOWNLOAD_LEDGER": Parm.DOWNLOAD_LEDGER}
 
         logger.info(f'Report start date: {cls.report_start_date}')
         logger.info(f'Report end date: {cls.report_end_date}')

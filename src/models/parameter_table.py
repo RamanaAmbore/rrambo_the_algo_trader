@@ -13,9 +13,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class ParmTable(Base):
+class ParameterTable(Base):
     """Model for storing system and account-specific parameters."""
-    __tablename__ = 'parm_table'
+    __tablename__ = 'parameter_table'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
@@ -27,10 +27,10 @@ class ParmTable(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    broker_account = relationship("BrokerAccounts", back_populates="parm_table")
+    broker_account = relationship("BrokerAccounts", back_populates="parameter_table")
     __table_args__ = (
-        UniqueConstraint('account', 'parameter', name='uq_account_parm_table'),
-        Index('idx_account_parameter', 'account', 'parameter'),
+        UniqueConstraint('account', 'parameter', name='uq_account_parameter_table'),
+        Index('parameter_table1', 'account', 'parameter'),
         Index('idx_parameter_lookup', 'parameter'),
         CheckConstraint("parameter IS NOT NULL",
                         name="check_value_or_notes_not_null"),
@@ -43,18 +43,18 @@ class ParmTable(Base):
                 f"warning_error={self.warning_error})>")
 
 
-def get_parameter(session, parameter: str, account: Optional[str] = None) -> Optional['ParmTable']:
+def get_parameter(session, parameter: str, account: Optional[str] = None) -> Optional['ParameterTable']:
     """Get parameter value for given parameter name and optional account."""
-    return session.query(ParmTable).filter(
-        ParmTable.parameter == parameter,
-        ParmTable.account == account
+    return session.query(ParameterTable).filter(
+        ParameterTable.parameter == parameter,
+        ParameterTable.account == account
     ).first()
 
 
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
-        table = ParmTable.__table__
+        table = ParameterTable.__table__
         for record in DEFAULT_PARAMETERS:
             exists = connection.execute(
                 select(table).where(
@@ -70,7 +70,7 @@ def initialize_default_records(connection):
         raise
 
 
-@event.listens_for(ParmTable.__table__, 'after_create')
+@event.listens_for(ParameterTable.__table__, 'after_create')
 def insert_default_records(target, connection, **kwargs):
     """Insert default records after table creation."""
     initialize_default_records(connection)

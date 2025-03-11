@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from src.core.db_connect import DbConnect as Db
+from src.core.db_manager import DbManager as Db
 from src.models import ReportTradebook
 from src.utils.logger import get_logger
 

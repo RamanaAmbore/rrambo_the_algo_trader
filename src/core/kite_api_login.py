@@ -4,9 +4,9 @@ import requests
 from kiteconnect import KiteConnect
 
 from src.services.access_tokens import get_stored_access_tokens
-from src.core.db_connect import DbConnect
+from src.core.db_manager import DbManager
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager
+from src.utils.parameter_manager import ParameterManager as Parm
 from src.utils.parameter_manager import sc
 from src.utils.utils import generate_totp
 
@@ -18,13 +18,13 @@ class ZerodhaKite:
 
     _lock = threading.Lock()
     _access_tokens = None
-    username = ParameterManager.USERS[0]
-    _password = ParameterManager.USER_CREDENTIALS[username]['PASSWORD']
-    api_key = ParameterManager.USER_CREDENTIALS[username]["API_KEY"]
-    _api_secret = ParameterManager.USER_CREDENTIALS[username]["API_SECRET"]
-    totp_token = ParameterManager.USER_CREDENTIALS[username]['TOTP_TOKEN']
-    login_url = ParameterManager.LOGIN_URL
-    twofa_url = ParameterManager.TWOFA_URL
+    username = Parm.USERS[0]
+    _password = Parm.USER_CREDENTIALS[username]['PASSWORD']
+    api_key = Parm.USER_CREDENTIALS[username]["API_KEY"]
+    _api_secret = Parm.USER_CREDENTIALS[username]["API_SECRET"]
+    totp_token = Parm.USER_CREDENTIALS[username]['TOTP_TOKEN']
+    login_url = Parm.LOGIN_URL
+    twofa_url = Parm.TWOFA_URL
 
     kite = None
 
@@ -48,7 +48,7 @@ class ZerodhaKite:
             if not test_conn and cls.kite:
                 return
 
-            stored_token = get_stored_access_tokens(DbConnect)
+            stored_token = get_stored_access_tokens(DbManager)
             if stored_token:
                 cls._access_tokens = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
@@ -119,7 +119,7 @@ class ZerodhaKite:
             cls.kite.set_access_tokens(cls._access_tokens)
 
             # Store the new access token
-            cls._db_token.check_update_access_tokens(cls._access_tokens, DbConnect)
+            cls._db_token.check_update_access_tokens(cls._access_tokens, DbManager)
             logger.info("Access token successfully generated and stored.")
         except Exception as e:
             logger.error(f"Failed to generate access token: {e}")
