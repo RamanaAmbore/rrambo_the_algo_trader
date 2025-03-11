@@ -11,7 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
-from src.core.database_manager import DbManager
+from src.core.database_manager import DatabaseManager
 from src.utils.date_time_utils import today_indian
 
 from src.utils.logger import get_logger
@@ -20,7 +20,6 @@ from src.utils.utils import generate_totp, delete_folder_contents
 
 logger = get_logger(__name__)  # Initialize logger
 
-DbManager.initialize_parameters()
 class ReportDownloader:
     driver = None
     report_start_date = None
@@ -244,7 +243,7 @@ class ReportDownloader:
 
     @classmethod
     def initialize(cls):
-        DbManager.initialize_parameters()
+        DatabaseManager.initialize_parameters()
         cls.download_path = os.path.abspath(Parm.DOWNLOAD_DIR)
         delete_folder_contents(cls.download_path)
 

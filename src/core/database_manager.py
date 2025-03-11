@@ -164,7 +164,7 @@ async def main():
 
 # Initialize database and parameters on import
 DatabaseManager.initialize()
-DatabaseManager.initialize_parameters(refresh=True)
+DatabaseManager.initialize_parameters()
 
 if __name__ == "__main__":
     asyncio.run(main())

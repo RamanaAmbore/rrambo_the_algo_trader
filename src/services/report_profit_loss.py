@@ -1,7 +1,7 @@
 from sqlalchemy import select
 
 from src.models import ReportProfitLoss
-from src.core.database_manager import DbManager as Db
+from src.core.database_manager import DatabaseManager as Db
 
 
 def exists(symbol: str, isin: str):

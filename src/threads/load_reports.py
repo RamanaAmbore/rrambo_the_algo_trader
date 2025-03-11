@@ -10,7 +10,7 @@ from src.models.report_profit_loss import ReportProfitLoss
 from src.models.report_tradebook import ReportTradebook  # Removed TradeTypeEnum import
 from src.utils.parameter_manager import ParameterManager as Parm, sc
 from src.utils.date_time_utils import INDIAN_TIMEZONE
-from src.core.database_manager import DbManager as Db
+from src.core.database_manager import DatabaseManager as Db
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)  # Initialize logger
