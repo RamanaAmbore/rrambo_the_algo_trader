@@ -161,6 +161,9 @@ class ReportDownloader:
                                 logger.error(f"Download failed for {segment} ({date_range_str}): {e}")
                                 cls.failed_reports.append(f"{name} - {segment} - {date_range_str}")
 
+                                if counter == max_selenium_retries:
+                                    raise
+
                     current_start = current_end + timedelta(days=1)
                 all_downloaded_files[name] = downloaded_files
             logger.info(f'Downloaded files for all segments: {all_downloaded_files}')
