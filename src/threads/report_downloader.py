@@ -72,17 +72,17 @@ class ReportDownloader:
             userid_field = cls.driver.find_element(By.ID, "userid")
             cls.highlight_element(userid_field)
             userid_field.send_keys(cls.user)
-            logger.info("Entered User ID.")
+            logger.info(f"Entered User ID for {cls.user}")
 
             password_field = cls.driver.find_element(By.ID, "password")
             cls.highlight_element(password_field)
             password_field.send_keys(cls.credential['PASSWORD'])
-            logger.info("Entered Password.")
+            logger.info(f"Entered Password for {cls.user}")
 
             login_button = cls.driver.find_element(By.XPATH, '//button[@type="submit"]')
             cls.highlight_element(login_button)
             login_button.click()
-            logger.info("Submitted login credentials.")
+            logger.info(f"Submitted login credentials for {cls.user}")
 
             # Wait for TOTP field
             WebDriverWait(cls.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//input[@type='number']")))
@@ -106,8 +106,9 @@ class ReportDownloader:
                     raise ValueError(f"TOTP Authentication Failed for user: {cls.user}")
 
         except Exception as e:
-            logger.error(f"Login Failed for user{cls.user} with exception: {e}")
-            raise
+            msg = f"Login Failed for user{cls.user} with exception: {e}"
+            logger.error(msg)
+            raise Exception(msg)
 
     @classmethod
     def download_reports(cls):
@@ -115,64 +116,57 @@ class ReportDownloader:
         os.makedirs(Parm.DOWNLOAD_DIR, exist_ok=True)
         all_downloaded_files = {}
         max_selenium_retries = Parm.MAX_SELENIUM_RETRIES
-        try:
-            for name, item in sc.DOWNLOAD_REPORTS.items():
-                if not cls.download_flags.get(name, False):
-                    continue
 
-                logger.info(f"Downloading: {name}")
-                cls.driver.get(item['url'])
-                WebDriverWait(cls.driver, 5).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-                downloaded_files = {}
-                current_start = cls.report_start_date
-                while current_start < cls.report_end_date:
-                    current_end = min(current_start + timedelta(days=364), cls.report_end_date)
+        for name, item in sc.DOWNLOAD_REPORTS.items():
+            if not cls.download_flags.get(name, False):
+                continue
 
-                    for segment in item['segment']['values']:  # Select both segments
+            logger.info(f"Downloading: {name}")
+            cls.driver.get(item['url'])
+            WebDriverWait(cls.driver, 5).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+            downloaded_files = {}
+            current_start = cls.report_start_date
+            while current_start < cls.report_end_date:
+                current_end = min(current_start + timedelta(days=364), cls.report_end_date)
 
-                        for counter in range(1, max_selenium_retries + 1):
-                            date_range_str = ""
-                            try:
-                                cls.select_segement(downloaded_files, item, segment)
+                for segment in item['segment']['values']:  # Select both segments
 
-                                cls.select_pnl_element(item)
+                    for counter in range(1, max_selenium_retries + 1):
+                        date_range_str = ""
+                        try:
+                            cls.select_segement(downloaded_files, item, segment)
 
-                                date_range_str = cls.enter_date_range(current_end, current_start, item,
-                                                                      segment)
+                            cls.select_pnl_element(item)
 
-                                arrow_button = WebDriverWait(cls.driver, 10).until(
-                                    EC.element_to_be_clickable((By.XPATH, item['button'])))
-                                cls.highlight_element(arrow_button)
-                                arrow_button.click()
-                                download_csv_link = WebDriverWait(cls.driver, 10).until(
-                                    EC.element_to_be_clickable((By.XPATH, item['href'])))
-                                cls.highlight_element(download_csv_link)
-                                cls.files_in_dir = set(os.listdir(Parm.DOWNLOAD_DIR))
-                                download_csv_link.click()
-                                time.sleep(1)
-                                if cls.check_for_error_text_js():
-                                    break
+                            date_range_str = cls.enter_date_range(current_end, current_start, item, segment)
 
-                                downloaded_file = cls.wait_for_download()
-                                downloaded_files[segment].append(downloaded_file)
-                                logger.info(f"Download completed for {segment} ({date_range_str}): {downloaded_file}")
+                            arrow_button = WebDriverWait(cls.driver, 10).until(
+                                EC.element_to_be_clickable((By.XPATH, item['button'])))
+                            cls.highlight_element(arrow_button)
+                            arrow_button.click()
+                            if cls.check_for_error_text_js():
                                 break
-                            except Exception as e:
-                                logger.error(f"Download failed for {segment} ({date_range_str}): {e}")
-                                cls.failed_reports.append(f"{name} - {segment} - {date_range_str}")
+                            download_csv_link = WebDriverWait(cls.driver, 15).until(
+                                EC.element_to_be_clickable((By.XPATH, item['href'])))
+                            cls.highlight_element(download_csv_link)
+                            cls.files_in_dir = set(os.listdir(Parm.DOWNLOAD_DIR))
+                            download_csv_link.click()
+                            time.sleep(1)
 
-                                if counter == max_selenium_retries:
-                                    raise
+                            downloaded_file = cls.wait_for_download()
+                            downloaded_files[segment].append(downloaded_file)
+                            logger.info(f"Download completed for {segment} ({date_range_str}): {downloaded_file}")
+                            break
+                        except Exception as e:
+                            logger.error(f"Download failed for {name} {cls.user} - {segment} - ({date_range_str})")
 
-                    current_start = current_end + timedelta(days=1)
-                all_downloaded_files[name] = downloaded_files
-            logger.info(f'Downloaded files for all segments: {all_downloaded_files}')
-        except Exception as e:
-            logger.error(f"Error while downloading reports: {e}")
-        finally:
-            if not all_downloaded_files:
-                logger.info("No reports were downloaded.")
-            return all_downloaded_files
+                current_start = current_end + timedelta(days=1)
+            all_downloaded_files[name] = downloaded_files
+        logger.info(f'Downloaded files for {cls.user} all segments: {all_downloaded_files}')
+
+        if not all_downloaded_files:
+            logger.warning("No reports were downloaded.")
+        return all_downloaded_files
 
     @classmethod
     def enter_date_range(cls, current_end, current_start, item, segment):
@@ -211,9 +205,15 @@ class ReportDownloader:
     @classmethod
     def check_for_error_text_js(cls):
         """Returns True if 'something went wrong' or 'empty' is present anywhere in the page source."""
-        """Returns True if 'something went wrong' or 'empty' is present anywhere in the page body."""
-        body_text = cls.driver.find_element(By.TAG_NAME, "body").text
-        return "something went wrong" in body_text or "Report's empty" in body_text
+
+        result = cls.driver.execute_script(
+            "return document.body.innerText.includes('something went wrong') || "
+            "document.body.innerText.includes(\"Report's empty\") || "
+            "document.body.innerText.includes(\"Console under maintenance\") ;"
+        )
+        if result:
+            logger.warning('Report is empty or something went wrong')
+        return result
 
     @classmethod
     def wait_for_download(cls, timeout=60):
@@ -237,7 +237,7 @@ class ReportDownloader:
             cls.setup_driver()
             try:
                 cls.login_kite()
-                logger.info("Login successful! Proceeding with downloads...")
+                logger.info("Proceeding with downloads for user {cls.user}...")
                 user_downloads[user] = cls.download_reports()  # Store downloaded files for each user
             finally:
                 if cls.driver is not None:
