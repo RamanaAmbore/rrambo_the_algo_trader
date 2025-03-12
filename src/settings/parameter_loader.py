@@ -85,10 +85,10 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
     {'account': None, 'parameter': 'MAX_SELENIUM_RETRIES', 'value': '3'},
     {'account': None, 'parameter': 'DB_DEBUG', 'value': 'True'},
     {'account': None, 'parameter': 'DOWNLOAD_TRADEBOOK', 'value': 'True'},
-    {'account': None, 'parameter': 'DOWNLOAD_PNL', 'value': 'False'},
-    {'account': None, 'parameter': 'DOWNLOAD_LEDGER', 'value': 'False'},
+    {'account': None, 'parameter': 'DOWNLOAD_PNL', 'value': 'True'},
+    {'account': None, 'parameter': 'DOWNLOAD_LEDGER', 'value': 'True'},
     {'account': None, 'parameter': 'DOWNLOAD_DIR', 'value': r'D:/rrambo_trader_new/data'},
-    {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2025-01-01'},
+    {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2024-01-01'},
     {'account': None, 'parameter': 'REPORT_LOOKBACK_DAYS', 'value': '30'}, ]
 
 DEFAULT_WATCHLISTS = [{'watchlist': 'STOCKS'}, {'watchlist': 'STOCKS-TURNAROUND'}, {'watchlist': 'OPTIONS'},

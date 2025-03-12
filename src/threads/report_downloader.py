@@ -211,11 +211,9 @@ class ReportDownloader:
     @classmethod
     def check_for_error_text_js(cls):
         """Returns True if 'something went wrong' or 'empty' is present anywhere in the page source."""
-        return cls.driver.execute_script("""
-            return [...document.querySelectorAll('*')].some(el => 
-                el.innerText.includes('something went wrong') || el.innerText.includes("Report's empty")
-            );
-        """)
+        """Returns True if 'something went wrong' or 'empty' is present anywhere in the page body."""
+        body_text = cls.driver.find_element(By.TAG_NAME, "body").text
+        return "something went wrong" in body_text or "Report's empty" in body_text
 
     @classmethod
     def wait_for_download(cls, timeout=60):
