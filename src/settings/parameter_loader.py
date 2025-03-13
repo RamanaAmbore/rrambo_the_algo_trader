@@ -74,6 +74,8 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
     {'account': None, 'parameter': 'TWOFA_URL', 'value': r'https://kite.zerodha.com/api/twofa'},
     {'account': None, 'parameter': 'INSTRUMENTS_URL', 'value': r'https://api.kite.trade/instruments'},
     {'account': None, 'parameter': 'REDIRECT_URL', 'value': r'http://localhost:8080/apis/broker/login/zerodha'},
+    {'account': None, 'parameter': 'KITE_URL', 'value': r'https://kite.zerodha.com/'},
+
 
     # Database Configuration
     {'account': None, 'parameter': 'SQLITE_DB', 'value': 'False'},

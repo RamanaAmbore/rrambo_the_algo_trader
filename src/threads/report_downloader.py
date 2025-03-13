@@ -11,9 +11,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
+
 from src.core.database_manager import DatabaseManager as Db
 from src.utils.date_time_utils import today_indian
-
 from src.utils.logger import get_logger
 from src.utils.parameter_manager import ParameterManager as Parm, sc
 from src.utils.utils import generate_totp, delete_folder_contents
@@ -65,7 +65,7 @@ class ReportDownloader:
         """Automates Zerodha Kite login using Selenium (Firefox)."""
         logger.info("🔹 Logging into Zerodha Kite...")
 
-        cls.driver.get("https://kite.zerodha.com/")
+        cls.driver.get(Parm.KITE_URL)
         WebDriverWait(cls.driver, 5).until(EC.presence_of_element_located((By.ID, "userid")))
 
         try:
@@ -134,7 +134,7 @@ class ReportDownloader:
                     for counter in range(1, max_selenium_retries + 1):
                         date_range_str = ""
                         try:
-                            cls.select_segement(downloaded_files, item, segment)
+                            cls.select_segment(downloaded_files, item, segment)
 
                             cls.select_pnl_element(item)
 
@@ -157,7 +157,7 @@ class ReportDownloader:
                             downloaded_files[segment].append(downloaded_file)
                             logger.info(f"Download completed for {segment} ({date_range_str}): {downloaded_file}")
                             break
-                        except Exception as e:
+                        except Exception:
                             logger.error(f"Download failed for {name} {cls.user} - {segment} - ({date_range_str})")
 
                 current_start = current_end + timedelta(days=1)
@@ -192,7 +192,7 @@ class ReportDownloader:
             logger.info(f"Selected {item['P&L']['element']} in dropdown.")
 
     @classmethod
-    def select_segement(cls, downloaded_files, item, segment):
+    def select_segment(cls, downloaded_files, item, segment):
         if segment not in downloaded_files:
             downloaded_files[segment] = []
         dropdown = WebDriverWait(cls.driver, 10).until(

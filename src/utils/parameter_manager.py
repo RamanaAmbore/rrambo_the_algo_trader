@@ -76,6 +76,7 @@ class ParameterManager:
     REPORT_LOOKBACK_DAYS: Optional[int] = 0
     USERS: list = []
     MAX_SELENIUM_RETRIES=0
+    KITE_URL=''
 
     @classmethod
     def refresh_parameters(cls, records=None, refresh=False) -> None:
