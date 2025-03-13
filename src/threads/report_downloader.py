@@ -63,7 +63,7 @@ class ReportDownloader:
     @classmethod
     def login_kite(cls):
         """Automates Zerodha Kite login using Selenium (Firefox)."""
-        logger.info("🔹 Logging into Zerodha Kite...")
+        logger.info("Logging into Zerodha Kite for user {cls.user}...")
 
         cls.driver.get(Parm.KITE_URL)
         WebDriverWait(cls.driver, 5).until(EC.presence_of_element_located((By.ID, "userid")))
@@ -91,19 +91,19 @@ class ReportDownloader:
 
             for attempt in range(sc.MAX_TOTP_CONN_RETRY_COUNT):
                 ztotp = generate_totp(cls.credential['TOTP_TOKEN'])
-                logger.info(f"🔹 Generated TOTP: {ztotp}")
+                logger.info(f"Generated TOTP: {ztotp}")
                 totp_field.send_keys(ztotp)
                 # Wait for dashboard URL change
                 WebDriverWait(cls.driver, 3).until(lambda d: "dashboard" in d.current_url)
 
                 if "dashboard" in cls.driver.current_url:
-                    logger.info(f"Login Successful for user: {cls.user}")
+                    logger.info(f"Login Successful for user {cls.user}")
                     return
                 else:
                     logger.warning(
                         f"Invalid TOTP! Retrying for user: {cls.user} (Attempt {attempt + 1}/{sc.MAX_TOTP_CONN_RETRY_COUNT})")
                 if attempt == sc.MAX_TOTP_CONN_RETRY_COUNT - 1:
-                    raise ValueError(f"TOTP Authentication Failed for user: {cls.user}")
+                    raise ValueError(f"TOTP Authentication Failed for user {cls.user}")
 
         except Exception as e:
             msg = f"Login Failed for user{cls.user} with exception: {e}"

@@ -8,6 +8,10 @@ os.makedirs(os.path.dirname(Parm.DEBUG_LOG_FILE), exist_ok=True)
 
 logger = None
 
+import sys
+
+sys.stdout.reconfigure(encoding='utf-8')
+
 
 def get_logger(name="app_logger"):
     """Returns a configured logger instance."""
