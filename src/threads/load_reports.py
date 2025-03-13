@@ -87,7 +87,7 @@ async def load_data(file_path: str, model, prefix):
                                               unrealized_pnl_pct=row["Unrealized P&L Pct."], ))
 
 
-            elif Parm.DOWNLOAD_LEDGER and model == ReportLedgerEntries and (
+            elif Parm.LEDGER and model == ReportLedgerEntries and (
                     row['particulars'], row['posting_date'], row['cost_center'], row['voucher_type'], row['debit'],
                     row['credit'], row['net_balance']) not in existing_records:
                 new_records.append(ReportLedgerEntries(particulars=row['particulars'],

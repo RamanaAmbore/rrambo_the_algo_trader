@@ -11,22 +11,25 @@ from src.models import ReportTradebook
 from src.utils.date_time_utils import INDIAN_TIMEZONE
 from src.core.database_manager import DatabaseManager
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager as Parm
+from src.utils.parameter_manager import ParameterManager as Parms
 
 logger = get_logger(__name__)
 
 
 class ReportUploader:
-    """Handles report file processing and database uploads."""
-    
-    MODEL_MAPPING: Dict[str, Type] = {
-        "report_tradebook": ReportTradebook,
-        "pnl": ReportProfitLoss,
-        "ledger": ReportLedgerEntries
-    }
+    _initialized = False
 
-    def __init__(self):
-        self.db = DatabaseManager()
+    @classmethod
+    def __initialize(cls):
+        """Handles report file processing and database uploads."""
+    
+        MODEL_MAPPING: Dict[str, Type] = {
+            "report_tradebook": ReportTradebook,
+            "pnl": ReportProfitLoss,
+            "ledger": ReportLedgerEntries
+        }
+
+    db = DatabaseManager()
 
     @staticmethod
     def to_ist(timestamp) -> Optional[pd.Timestamp]:
@@ -34,7 +37,9 @@ class ReportUploader:
         if pd.isna(timestamp) or timestamp is None:
             return None
         ts = pd.to_datetime(timestamp)
-        return ts.tz_localize("UTC").tz_convert(INDIAN_TIMEZONE) if ts.tzinfo is None else ts.astimezone(INDIAN_TIMEZONE)
+        return ts.tz_localize("UTC").tz_convert(INDIAN_TIMEZONE) if ts.tzinfo is None else ts.astimezone(
+            INDIAN_TIMEZONE)
+
     @staticmethod
     def read_file(file_path: str) -> Optional[pd.DataFrame]:
         """Read CSV or Excel file into DataFrame."""
@@ -52,9 +57,10 @@ class ReportUploader:
             logger.error(f"Error reading file {file_path}: {e}")
             return None
 
-    def process_tradebook(self, row: pd.Series, existing_records: set) -> Optional[ReportTradebook]:
+    @classmethod
+    def process_tradebook(cls, row: pd.Series, existing_records: set) -> Optional[ReportTradebook]:
         """Process tradebook record."""
-        if not Parm.DOWNLOAD_TRADEBOOK or row["trade_id"] in existing_records:
+        if not Parms.TRADEBOOK or row["trade_id"] in existing_records:
             return None
 
         return ReportTradebook(
@@ -69,15 +75,16 @@ class ReportUploader:
             auction=row.get("auction", False),
             quantity=row["quantity"],
             price=row["price"],
-            trade_date=self.to_ist(row["trade_date"]),
-            order_execution_time=self.to_ist(row["order_execution_time"]),
-            expiry_date=self.to_ist(row.get("expiry_date")),
+            trade_date=cls.to_ist(row["trade_date"]),
+            order_execution_time=cls.to_ist(row["order_execution_time"]),
+            expiry_date=cls.to_ist(row.get("expiry_date")),
             instrument_type="Options" if row.get("expiry_date") else "Equity"
         )
+
     @staticmethod
     def process_pnl(row: pd.Series, existing_records: set) -> Optional[ReportProfitLoss]:
         """Process P&L record."""
-        if not Parm.DOWNLOAD_PNL or (row["Symbol"], row["ISIN"]) in existing_records:
+        if not Parms.PNL or (row["Symbol"], row["ISIN"]) in existing_records:
             return None
 
         return ReportProfitLoss(
@@ -95,12 +102,13 @@ class ReportUploader:
             unrealized_pnl=row["Unrealized P&L"],
             unrealized_pnl_pct=row["Unrealized P&L Pct."]
         )
+
     @staticmethod
     def process_ledger(row: pd.Series, existing_records: set) -> Optional[ReportLedgerEntries]:
         """Process ledger record."""
-        if not Parm.DOWNLOAD_LEDGER or (
-            row['particulars'], row['posting_date'], row['cost_center'],
-            row['voucher_type'], row['debit'], row['credit'], row['net_balance']
+        if not Parms.LEDGER or (
+                row['particulars'], row['posting_date'], row['cost_center'],
+                row['voucher_type'], row['debit'], row['credit'], row['net_balance']
         ) in existing_records:
             return None
 
@@ -115,54 +123,58 @@ class ReportUploader:
             source="BATCH"
         )
 
-    def load_data(self, file_path: str, model_type: str) -> None:
+    @classmethod
+    def load_data(cls, file_path: str, model_type: str) -> None:
         """Load data from file into database."""
-        df = self.read_file(file_path)
+        df = cls.read_file(file_path)
         if df is None or df.empty:
             return
 
         if model_type == 'pnl':
-            df = self.prepare_pnl_data(df)
+            df = cls.prepare_pnl_data(df)
 
         df = df.fillna("")
-        model = self.MODEL_MAPPING[model_type]
-        
-        with self.db.get_sync_session() as session:
+        model = cls.MODEL_MAPPING[model_type]
+
+        with cls.db.get_sync_session() as session:
             existing_records = model.get_existing_records_sync(session)
-            processor = getattr(self, f"process_{model_type}")
+            processor = getattr(cls, f"process_{model_type}")
             new_records = [
                 record for record in (
-                    processor(row, existing_records) 
+                    processor(row, existing_records)
                     for _, row in df.iterrows()
-                ) 
+                )
                 if record is not None
             ]
-            
+
             if new_records:
                 model.bulk_insert_sync(session, new_records)
                 logger.info(f"✅ Inserted {len(new_records)} new records into {model.__tablename__}")
 
-    def process_directory(self, directory: str, prefix: str) -> None:
+    @classmethod
+    def process_directory(cls, directory: str, prefix: str) -> None:
         """Process all matching files in directory."""
         if not os.path.exists(directory):
             logger.error(f"Directory not found: {directory}")
             return
 
         for file_path in glob.glob(os.path.join(directory, f"{prefix}*.csv")):
-            self.load_data(file_path, prefix)
+            cls.load_data(file_path, prefix)
 
-def main():
-    """Main function to process reports."""
-    try:
-        logger.info("Starting report upload process...")
-        uploader = ReportUploader()
-        uploader.process_directory(Parm.DOWNLOAD_DIR, "report_tradebook")
-        uploader.process_directory(Parm.DOWNLOAD_DIR, "pnl")
-        uploader.process_directory(Parm.DOWNLOAD_DIR, "ledger")
-        logger.info("Report upload process completed")
-    except Exception as e:
-        logger.error(f"Main process failed: {e}")
-        raise
+    @classmethod
+    def upload_report(cls):
+        """Main function to process reports."""
+        try:
+            logger.info("Starting report upload process...")
+            uploader = ReportUploader()
+            uploader.process_directory(Parms.DOWNLOAD_DIR, "report_tradebook")
+            uploader.process_directory(Parms.DOWNLOAD_DIR, "pnl")
+            uploader.process_directory(Parms.DOWNLOAD_DIR, "ledger")
+            logger.info("Report upload process completed")
+        except Exception as e:
+            logger.error(f"Main process failed: {e}")
+            raise
+
 
 if __name__ == "__main__":
-    main()
+    ReportUploader.upload_report()
