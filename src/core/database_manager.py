@@ -2,7 +2,7 @@ import asyncio
 from pathlib import Path
 
 from sqlalchemy import create_engine, text
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from sqlalchemy_utils import database_exists, create_database
 
@@ -17,7 +17,7 @@ logger = get_logger(__name__)  # Initialize logger
 class DatabaseManager:
     """Database Utility Class for handling both Sync and Async database connections."""
     _initialized = False
-    _engine = _async_engine = _sync_session = _async_session = None
+    _engine = _async_engine = _sync_session_maker = _async_session_maker = None
     DB_URL = DB_ASYNC_URL = None
     _records = None
 
@@ -60,10 +60,10 @@ class DatabaseManager:
         cls._engine = create_engine(cls.DB_URL, echo=Parms.DB_DEBUG)
         cls._async_engine = create_async_engine(cls.DB_ASYNC_URL, echo=Parms.DB_DEBUG, future=True)
 
-        cls._sync_session = scoped_session(
-            sessionmaker(bind=cls._engine, autocommit=False, autoflush=False, expire_on_commit=False)
-        )
-        cls._async_session = sessionmaker(bind=cls._async_engine, class_=AsyncSession, expire_on_commit=False)
+        cls._sync_session_maker = sessionmaker(bind=cls._engine, autocommit=False, autoflush=False,
+                                               expire_on_commit=False)
+        cls._async_session_maker = async_sessionmaker(bind=cls._async_engine, class_=AsyncSession,
+                                                      expire_on_commit=False)
 
     @classmethod
     def _setup_database_tables(cls) -> None:
@@ -90,15 +90,23 @@ class DatabaseManager:
         if not cls._initialized:
             cls.initialize()
             cls.initialize_parameters()
-        return cls._sync_session()
+        return cls._sync_session_maker()
 
     @classmethod
     async def get_async_session(cls):
         """Get an asynchronous database session."""
         if not cls._initialized:
             cls.initialize()
-        async with cls._async_session() as session:
+        async with cls._async_session_maker() as session:
             yield session
+
+    @classmethod
+    async def get_session_maker(cls, async_mode=False):
+        """Get sync or async session based on flag."""
+        if async_mode:
+            async for session in cls.get_async_session():
+                return session
+        return cls.get_sync_session()
 
     @classmethod
     def test_connection(cls) -> bool:

@@ -17,7 +17,7 @@ async def insert_result(result_data, sync=False):
     :param result_data: Dictionary containing backtest result data
     :return: The inserted `BacktestResults` object
     """
-    with Db.get_session(sync) as session:
+    with Db.get_session_maker(sync) as session:
         new_result = BacktestResults(**result_data)  # Create an instance with provided data
         session.add(new_result)  # Add the new record to the session
         await session.commit()  # Commit the transaction to the database
@@ -36,7 +36,7 @@ async def get_all_results(account,sync=False):
     :param account: Optional account ID to filter results
     :return: List of backtest results matching the criteria
     """
-    with Db.get_session(sync) as session:
+    with Db.get_session_maker(sync) as session:
         query = select(BacktestResults).order_by(BacktestResults.start_date.desc())  # Sort results by latest start_date
         if account:
             query = query.where(BacktestResults.account.is_(account))

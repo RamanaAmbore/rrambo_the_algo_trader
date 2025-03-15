@@ -68,9 +68,9 @@ class ParameterManager:
     ACCESS_TOKEN_VALIDITY: Optional[int] = 0
 
     # Download Configuration
-    TRADEBOOK: Optional[bool] = True
-    PNL: Optional[bool] = True
-    LEDGER: Optional[bool] = True
+    REFRESH_TRADEBOOK: Optional[bool] = True
+    REFRESH_PNL: Optional[bool] = True
+    REFRESH_LEDGER: Optional[bool] = True
     DOWNLOAD_DIR: Optional[str] = ''
     REPORT_START_DATE: Optional[datetime] = ''
     REPORT_LOOKBACK_DAYS: Optional[int] = 0

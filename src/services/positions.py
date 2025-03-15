@@ -16,7 +16,7 @@ async def get_all_results(account, sync=False):
     Returns:
         list: List of all backtest results for the specified account ID.
     """
-    with Db.get_session(sync) as session:
+    with Db.get_session_maker(sync) as session:
         result = await session.execute(select(Positions).where(Positions.account.is_(account)))
         return result.scalars().all()
 

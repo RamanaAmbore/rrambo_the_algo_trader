@@ -16,7 +16,7 @@ async def get_all_results(account, sync=False):
     :param account: User account ID (default: from environment)
     :return: List of all orders for the given account
     """
-    with Db.get_session(sync) as session:
+    with Db.get_session_maker(sync) as session:
         result = await session.execute(select(Orders).where(Orders.account.is_(account)))
         return result.scalars().all()
 

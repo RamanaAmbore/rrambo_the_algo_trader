@@ -1,35 +1,45 @@
-import glob
-import os
 from math import nan
 from typing import Type, Dict, Optional
 
 import pandas as pd
 
-from src.models import ReportLedgerEntries
-from src.models import ReportProfitLoss
-from src.models import ReportTradebook
+from src.core.database_manager import DatabaseManager as Db
+from src.services import report_ledger_entries
+from src.services import report_profit_loss
+from src.services import report_tradebook
 from src.utils.date_time_utils import INDIAN_TIMEZONE
-from src.core.database_manager import DatabaseManager
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager as Parms
+from src.utils.parameter_manager import ParameterManager as Parms, sc
+from src.utils.utils import read_files_by_regex_patterns
 
 logger = get_logger(__name__)
 
 
 class ReportUploader:
     _initialized = False
+    _refresh_reports = None
+    file_xref = None
 
     @classmethod
-    def __initialize(cls):
+    def __initialize(cls, refresh=False):
         """Handles report file processing and database uploads."""
-    
-        MODEL_MAPPING: Dict[str, Type] = {
-            "report_tradebook": ReportTradebook,
-            "pnl": ReportProfitLoss,
-            "ledger": ReportLedgerEntries
-        }
 
-    db = DatabaseManager()
+        if cls._initialized and not refresh:
+            return
+
+        cls.refresh_reports = {"tradebook": Parms.REFRESH_TRADEBOOK,
+                               "pnl": Parms.REFRESH_PNL,
+                               "ledger": Parms.REFRESH_LEDGER}
+
+        file_regex_pattern = {"tradebook": sc.REPORTS_PARM['TRADEBOOK']['file_regex'],
+                              "pnl": sc.REPORTS_PARM['PNL']['file_regex'],
+                              "ledger": sc.REPORTS_PARM['LEDGER']['file_regex']}
+        regex_xref = {}
+        for key, val in file_regex_pattern.items():
+            if cls.refresh_reports[key]:
+                regex_xref[key] = file_regex_pattern[key]
+
+        cls.file_xref = read_files_by_regex_patterns(Parms.DOWNLOAD_DIR, regex_xref)
 
     @staticmethod
     def to_ist(timestamp) -> Optional[pd.Timestamp]:
@@ -39,23 +49,6 @@ class ReportUploader:
         ts = pd.to_datetime(timestamp)
         return ts.tz_localize("UTC").tz_convert(INDIAN_TIMEZONE) if ts.tzinfo is None else ts.astimezone(
             INDIAN_TIMEZONE)
-
-    @staticmethod
-    def read_file(file_path: str) -> Optional[pd.DataFrame]:
-        """Read CSV or Excel file into DataFrame."""
-        if not os.path.exists(file_path):
-            logger.error(f"File not found: {file_path}")
-            return None
-
-        try:
-            if file_path.endswith(".csv"):
-                return pd.read_csv(file_path)
-            elif file_path.endswith(".xlsx"):
-                return pd.read_excel(file_path)
-            return None
-        except Exception as e:
-            logger.error(f"Error reading file {file_path}: {e}")
-            return None
 
     @classmethod
     def process_tradebook(cls, row: pd.Series, existing_records: set) -> Optional[ReportTradebook]:
@@ -124,52 +117,47 @@ class ReportUploader:
         )
 
     @classmethod
-    def load_data(cls, file_path: str, model_type: str) -> None:
-        """Load data from file into database."""
-        df = cls.read_file(file_path)
-        if df is None or df.empty:
-            return
-
-        if model_type == 'pnl':
-            df = cls.prepare_pnl_data(df)
-
-        df = df.fillna("")
-        model = cls.MODEL_MAPPING[model_type]
-
-        with cls.db.get_sync_session() as session:
-            existing_records = model.get_existing_records_sync(session)
-            processor = getattr(cls, f"process_{model_type}")
-            new_records = [
-                record for record in (
-                    processor(row, existing_records)
-                    for _, row in df.iterrows()
-                )
-                if record is not None
-            ]
-
-            if new_records:
-                model.bulk_insert_sync(session, new_records)
-                logger.info(f"✅ Inserted {len(new_records)} new records into {model.__tablename__}")
-
-    @classmethod
-    def process_directory(cls, directory: str, prefix: str) -> None:
-        """Process all matching files in directory."""
-        if not os.path.exists(directory):
-            logger.error(f"Directory not found: {directory}")
-            return
-
-        for file_path in glob.glob(os.path.join(directory, f"{prefix}*.csv")):
-            cls.load_data(file_path, prefix)
-
-    @classmethod
-    def upload_report(cls):
+    def upload_reports(cls):
         """Main function to process reports."""
+        cls.__initialize()
         try:
             logger.info("Starting report upload process...")
-            uploader = ReportUploader()
+            for report, files in cls.file_xref.items():
+                if report == 'TRADEBOOK':
+                    existing_records = report_tradebook.get_existing_records()
+                elif report == 'PNL':
+                    existing_records = report_profit_loss.get_existing_records()
+                elif report == 'LEDGER':
+                    existing_records = report_ledger_entries.get_existing_records()
+
+                for file_details in files:
+                    match_groups = file_details['match_groups']
+                    df = file_details['content']
+                    if df is None or df.empty:
+                        return
+
+                    if report == 'pnl':
+                        header_row_idx = df[df["Unnamed: 1"] == "Symbol"].index[0]
+                        df.columns = df.iloc[header_row_idx]
+                        df = df.iloc[header_row_idx + 1:].reset_index(drop=True)
+
+                    df = df.fillna("")
+
+                    with Db.get_sync_session() as session:
+                        existing_records = model.get_existing_records_sync(session)
+                        processor = getattr(cls, f"process_{model_type}")
+                        new_records = [
+                            record for record in (
+                                processor(row, existing_records)
+                                for _, row in df.iterrows()
+                            )
+                            if record is not None
+                        ]
+
+                        if new_records:
+                            model.bulk_insert_sync(session, new_records)
+                            logger.info(f"✅ Inserted {len(new_records)} new records into {model.__tablename__}")
             uploader.process_directory(Parms.DOWNLOAD_DIR, "report_tradebook")
-            uploader.process_directory(Parms.DOWNLOAD_DIR, "pnl")
-            uploader.process_directory(Parms.DOWNLOAD_DIR, "ledger")
             logger.info("Report upload process completed")
         except Exception as e:
             logger.error(f"Main process failed: {e}")
@@ -177,4 +165,4 @@ class ReportUploader:
 
 
 if __name__ == "__main__":
-    ReportUploader.upload_report()
+    ReportUploader.upload_reports()

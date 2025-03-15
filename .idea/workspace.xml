@@ -4,11 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="db_manager is cleaned up">
-      <change afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="report parameters renamed">
+      <change afterPath="$PROJECT_DIR$/src/services/base_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/download_reports.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/option_greeks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/option_strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/parm_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/parm_table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/refresh_flags.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_ledger_entries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_profit_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_tradebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/constants.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/parameter_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/parameter_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/parameter_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/parameter_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,12 +50,12 @@
     &quot;assignee&quot;: &quot;RamanaAmbore&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/RamanaAmbore/rrambo_the_algo_trader.git",
-    "accountId": "133c0936-69df-4e62-a0d4-e917fd314179"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RamanaAmbore/rrambo_the_algo_trader.git&quot;,
+    &quot;accountId&quot;: &quot;133c0936-69df-4e62-a0d4-e917fd314179&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -63,6 +82,7 @@
     "Python.broker_connection.executor": "Run",
     "Python.cipher_utils.executor": "Debug",
     "Python.database.executor": "Run",
+    "Python.database_manager (1).executor": "Run",
     "Python.database_manager.executor": "Run",
     "Python.date_time_utils.executor": "Debug",
     "Python.db_conn.executor": "Run",
@@ -92,6 +112,7 @@
     "Python.report_downloader (1).executor": "Run",
     "Python.report_downloader (2).executor": "Run",
     "Python.report_downloader.executor": "Run",
+    "Python.report_uploader.executor": "Debug",
     "Python.settings_loader.executor": "Run",
     "Python.settings_loader_new.executor": "Run",
     "Python.sync_data.executor": "Run",
@@ -120,7 +141,7 @@
       <recent name="D:\rrambo_trader_new\settings" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.report_downloader (2)">
+  <component name="RunManager" selected="Python.database_manager (1)">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -143,7 +164,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="database_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="database_manager (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -156,7 +177,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\core\database_manager.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/database_manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -179,28 +200,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/report_donwloader.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="report_downloader (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/core" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/report_downloader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -253,21 +252,43 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="report_uploader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/report_uploader.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.Python" />
-      <item itemvalue="Python.database_manager" />
+      <item itemvalue="Python.database_manager (1)" />
+      <item itemvalue="Python.report_uploader" />
       <item itemvalue="Python.report_donwloader" />
       <item itemvalue="Python.report_downloader" />
-      <item itemvalue="Python.report_downloader (1)" />
       <item itemvalue="Python.report_downloader (2)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.database_manager (1)" />
+        <item itemvalue="Python.report_uploader" />
         <item itemvalue="Python.report_downloader (2)" />
-        <item itemvalue="Python.report_donwloader" />
-        <item itemvalue="Python.report_downloader (1)" />
         <item itemvalue="Python.report_downloader" />
-        <item itemvalue="Python.database_manager" />
+        <item itemvalue="Python.report_donwloader" />
       </list>
     </recent_temporary>
   </component>
@@ -286,46 +307,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00001" summary="initial commit">
-      <option name="closed" value="true" />
-      <created>1740013070734</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1740013070734</updated>
-    </task>
-    <task id="LOCAL-00002" summary="added code to auth folder for login, totp and session management">
-      <option name="closed" value="true" />
-      <created>1740013284481</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1740013284482</updated>
-    </task>
-    <task id="LOCAL-00003" summary="added database related code to update and retrieve access token">
-      <option name="closed" value="true" />
-      <created>1740137807565</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1740137807565</updated>
-    </task>
-    <task id="LOCAL-00004" summary="added database related code to update and retrieve access token">
-      <option name="closed" value="true" />
-      <created>1740145970898</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1740145970898</updated>
-    </task>
-    <task id="LOCAL-00005" summary="sqlalchemy models created. kite connection, socket connection with market hours and token exception is updated. thread to close and open the conneciton is implemented">
-      <option name="closed" value="true" />
-      <created>1740548964153</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1740548964153</updated>
     </task>
     <task id="LOCAL-00006" summary="changes for socket and log">
       <option name="closed" value="true" />
@@ -647,18 +628,82 @@
       <option name="project" value="LOCAL" />
       <updated>1741704698533</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="db_manager is cleaned up">
+      <option name="closed" value="true" />
+      <created>1741706697346</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1741706697346</updated>
+    </task>
+    <task id="LOCAL-00047" summary="performance improvement for report_downloader, return values fo successfully downloaded files">
+      <option name="closed" value="true" />
+      <created>1741710945208</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1741710945208</updated>
+    </task>
+    <task id="LOCAL-00048" summary="bug fix in exception handling for report_downloader.py">
+      <option name="closed" value="true" />
+      <created>1741751781456</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1741751781456</updated>
+    </task>
+    <task id="LOCAL-00049" summary="bug fix in check_for_error_text">
+      <option name="closed" value="true" />
+      <created>1741753273821</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1741753273821</updated>
+    </task>
+    <task id="LOCAL-00050" summary="bug fix in exceptio handling in download failure">
+      <option name="closed" value="true" />
+      <created>1741820189934</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1741820189934</updated>
+    </task>
+    <task id="LOCAL-00051" summary="externalize url in report_downloader.py">
+      <option name="closed" value="true" />
+      <created>1741855869418</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1741855869418</updated>
+    </task>
+    <task id="LOCAL-00052" summary="added list_files_regex_patterns function to utils">
+      <option name="closed" value="true" />
+      <created>1741862317789</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1741862317789</updated>
+    </task>
+    <task id="LOCAL-00053" summary="fix for unicode display on sys.out console">
+      <option name="closed" value="true" />
+      <created>1741867949714</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1741867949714</updated>
+    </task>
+    <task id="LOCAL-00054" summary="report parameters renamed">
+      <option name="closed" value="true" />
+      <created>1741882798732</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1741882798732</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="download reports from console using selenium" />
-    <MESSAGE value="download folder fix for firexfox selenium" />
-    <MESSAGE value="code cleanup and robust logging for download_reports.py" />
-    <MESSAGE value="downlod_reports.py is fully tested. .env is updtaed for parameters" />
-    <MESSAGE value="upload_reports created. trades, profit_loss, ledger_entry models created/updated" />
-    <MESSAGE value="load_reports.py is tested executing successfully. Need to clean up the code" />
-    <MESSAGE value="sync_data.py is updated and tested" />
-    <MESSAGE value="added account_id to models and made changes to rest of the work. code executed successfully" />
     <MESSAGE value="based code before fixing foreign key issues" />
     <MESSAGE value="foreign key issues are fixed" />
     <MESSAGE value="parameter_loader tested successfully" />
@@ -676,7 +721,15 @@
     <MESSAGE value="added delete feature to download folder" />
     <MESSAGE value="restructure directories" />
     <MESSAGE value="db_manager is cleaned up" />
-    <option name="LAST_COMMIT_MESSAGE" value="db_manager is cleaned up" />
+    <MESSAGE value="performance improvement for report_downloader, return values fo successfully downloaded files" />
+    <MESSAGE value="bug fix in exception handling for report_downloader.py" />
+    <MESSAGE value="bug fix in check_for_error_text" />
+    <MESSAGE value="bug fix in exceptio handling in download failure" />
+    <MESSAGE value="externalize url in report_downloader.py" />
+    <MESSAGE value="added list_files_regex_patterns function to utils" />
+    <MESSAGE value="fix for unicode display on sys.out console" />
+    <MESSAGE value="report parameters renamed" />
+    <option name="LAST_COMMIT_MESSAGE" value="report parameters renamed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -687,9 +740,19 @@
           <option name="timeStamp" value="171" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/utils/date_time_utils.py</url>
-          <line>3</line>
-          <option name="timeStamp" value="248" />
+          <url>file://$PROJECT_DIR$/src/threads/report_downloader.py</url>
+          <line>146</line>
+          <option name="timeStamp" value="255" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/threads/report_downloader.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="269" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
+          <line>143</line>
+          <option name="timeStamp" value="279" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

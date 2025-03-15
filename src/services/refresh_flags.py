@@ -6,7 +6,7 @@ def get_setting(sync=False):
     Fetch a setting value by key from the database.
     If account is provided, fetch account-specific settings first, else fallback to global settings.
     """
-    with Db.get_session(sync) as session:
+    with Db.get_session_maker(sync) as session:
         result = session.query(RefreshFlags.thread_name, RefreshFlags.value).filter(RefreshFlags.value.is_(True)).order_by(
             RefreshFlags.account.desc()).all()
         return result
@@ -14,7 +14,7 @@ def get_setting(sync=False):
 
 def set_setting(key: str, value: bool, account: str, notes: str = None):
     """Insert or update a setting value for a given account."""
-    with Db.get_session(sync) as session:
+    with Db.get_session_maker(sync) as session:
         record = session.query(RefreshFlags).filter(RefreshFlags.thread_name.is_(key),
                                                     RefreshFlags.account.is_(account)).first()
         if record:

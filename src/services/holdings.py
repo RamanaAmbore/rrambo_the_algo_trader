@@ -31,6 +31,6 @@ async def get_all_holdings(sync=False):
     :param session: SQLAlchemy async session for database queries
     :return: List of all holdings
     """
-    with Db.get_session(sync) as session:
+    with Db.get_session_maker(sync) as session:
         result = await session.execute(select(Holdings))
         return result.scalars().all()

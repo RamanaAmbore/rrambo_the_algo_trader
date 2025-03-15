@@ -88,9 +88,9 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
 
     {'account': None, 'parameter': 'DB_DEBUG', 'value': 'True'},
 
-    {'account': None, 'parameter': 'TRADEBOOK', 'value': 'False'},
-    {'account': None, 'parameter': 'PNL', 'value': 'False'},
-    {'account': None, 'parameter': 'LEDGER', 'value': 'True'},
+    {'account': None, 'parameter': 'REFRESH_TRADEBOOK', 'value': 'True'},
+    {'account': None, 'parameter': 'REFRESH_PNL', 'value': 'True'},
+    {'account': None, 'parameter': 'REFRESH_LEDGER', 'value': 'True'},
 
     {'account': None, 'parameter': 'DOWNLOAD_DIR', 'value': r'D:/rrambo_trader_new/data'},
     {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2024-01-01'},
