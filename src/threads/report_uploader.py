@@ -1,12 +1,11 @@
 from math import nan
-from typing import Type, Dict, Optional
+from typing import Optional
 
 import pandas as pd
 
 from src.core.database_manager import DatabaseManager as Db
-from src.services import report_ledger_entries
-from src.services import report_profit_loss
-from src.services import report_tradebook
+from src.services import report_profit_loss_service
+from src.services import report_tradebook_service
 from src.utils.date_time_utils import INDIAN_TIMEZONE
 from src.utils.logger import get_logger
 from src.utils.parameter_manager import ParameterManager as Parms, sc

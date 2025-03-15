@@ -1,11 +1,15 @@
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
+from win32comext.shell.demos.IActiveDesktop import existing_item
+
 from src.core.database_manager import DatabaseManager as Db
 from src.models.report_tradebook import ReportTradebook
 from src.services.base_service import BaseService
+from src.services.parm_table import fetch_all_records
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
+
 
 class ReportTradebookService(BaseService):
     """Service class for handling ReportTradebook database operations."""
@@ -14,32 +18,13 @@ class ReportTradebookService(BaseService):
         super().__init__(ReportTradebook)
 
     @classmethod
-    def get_existing_records(cls):
-        """Fetch all existing trade records as a set of tuples."""
-        with Db.get_session() as session:
-            result = session.execute(
-                select(
-                    ReportTradebook.trade_id,
-                    ReportTradebook.timestamp,
-                    ReportTradebook.symbol,
-                    ReportTradebook.quantity,
-                    ReportTradebook.buy_price,
-                    ReportTradebook.sell_price,
-                    ReportTradebook.buy_value,
-                    ReportTradebook.sell_value,
-                    ReportTradebook.realized_pnl
-                )
-            )
-            return {row for row in result.fetchall()}  # Convert to a set for fast lookups
-
-    @classmethod
-    def insert_trade(cls, trade_data):
+    async def insert_trade(cls, trade_data):
         """Insert a single trade record if the trade_id does not already exist."""
+        existing_records = fetch_all_records()
         trade_dict = trade_data.to_dict()  # Convert Pandas Series to dict
         trade_id = trade_dict["trade_id"]
 
         with Db.get_session() as session:
-            existing_records = cls.get_existing_records()
             existing_trade_ids = {record[0] for record in existing_records}  # Extract trade_id from records
 
             if trade_id not in existing_trade_ids:
@@ -96,4 +81,3 @@ class ReportTradebookService(BaseService):
             record.warning_error = True
             record.notes = "; ".join(warning_messages)
             logger.warning(f"Data corrections for record {record.trade_id}: {'; '.join(warning_messages)}")
-

@@ -1,15 +1,18 @@
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.ext.asyncio import AsyncSession
-from src.models.report_ledger_entries import ReportLedgerEntries
+
 from src.core.database_manager import DatabaseManager as Db
+from src.models.report_ledger_entries import ReportLedgerEntries
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
-class LedgerEntriesService:
+class ReportLedgerEntriesService:
     """Service class for managing ledger entries."""
+
+    def __init__(self):
+        super().__init__(ReportLedgerEntries)
 
     @staticmethod
     async def get_existing_records(async_mode=True):
@@ -30,7 +33,7 @@ class LedgerEntriesService:
         Session = Db.get_session(async_mode)
         async with Session() as session:
             try:
-                LedgerEntriesService.validate_and_clean(record)
+                ReportLedgerEntriesService.validate_and_clean(record)
 
                 # Check if the record exists
                 existing_entry = await session.execute(select(ReportLedgerEntries).where(
@@ -62,7 +65,7 @@ class LedgerEntriesService:
                 new_records = []
 
                 for record in records:
-                    LedgerEntriesService.validate_and_clean(record)
+                    ReportLedgerEntriesService.validate_and_clean(record)
 
                     # Check if the record exists before adding
                     existing_entry = await session.execute(select(ReportLedgerEntries).where(

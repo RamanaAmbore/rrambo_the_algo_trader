@@ -8,8 +8,11 @@ from src.utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-class ProfitLossService:
+class ReportProfitLossService:
     """Service for managing ReportProfitLoss records."""
+
+    def __init__(self):
+        super().__init__(ReportProfitLoss)
 
     @staticmethod
     def _validate_and_clean(record: ReportProfitLoss):
@@ -58,13 +61,13 @@ class ProfitLossService:
         """
         with Db.get_session(async_mode) as session:
             try:
-                if ProfitLossService._record_exists(
-                    session, record_data["account"], record_data["symbol"], record_data["timestamp"]
+                if ReportProfitLossService._record_exists(
+                        session, record_data["account"], record_data["symbol"], record_data["timestamp"]
                 ):
                     logger.info(f"Skipped duplicate record: {record_data}")
                     return None
 
-                record = ProfitLossService._validate_and_clean(ReportProfitLoss(**record_data))
+                record = ReportProfitLossService._validate_and_clean(ReportProfitLoss(**record_data))
                 session.add(record)
                 session.commit()
                 logger.info(f"Inserted record: {record}")
@@ -97,9 +100,9 @@ class ProfitLossService:
             try:
                 for i in range(0, len(records), chunk_size):
                     batch = [
-                        ProfitLossService._validate_and_clean(ReportProfitLoss(**record_data))
-                        for record_data in records[i : i + chunk_size]
-                        if not ProfitLossService._record_exists(
+                        ReportProfitLossService._validate_and_clean(ReportProfitLoss(**record_data))
+                        for record_data in records[i: i + chunk_size]
+                        if not ReportProfitLossService._record_exists(
                             session, record_data["account"], record_data["symbol"], record_data["timestamp"]
                         )
                     ]
