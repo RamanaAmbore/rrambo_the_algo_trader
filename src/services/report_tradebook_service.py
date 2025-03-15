@@ -1,6 +1,4 @@
-from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
-from win32comext.shell.demos.IActiveDesktop import existing_item
 
 from src.core.database_manager import DatabaseManager as Db
 from src.models.report_tradebook import ReportTradebook
@@ -24,7 +22,7 @@ class ReportTradebookService(BaseService):
         trade_dict = trade_data.to_dict()  # Convert Pandas Series to dict
         trade_id = trade_dict["trade_id"]
 
-        with Db.get_session() as session:
+        with Db.get_async_session() as session:
             existing_trade_ids = {record[0] for record in existing_records}  # Extract trade_id from records
 
             if trade_id not in existing_trade_ids:
@@ -44,8 +42,8 @@ class ReportTradebookService(BaseService):
             logger.info("No records to insert.")
             return
 
-        with Db.get_session() as session:
-            existing_records = cls.get_existing_records()
+        with Db.get_async_session() as session:
+            existing_records = fetch_all_records()
             existing_trade_ids = {record[0] for record in existing_records}  # Extract trade_id from records
 
             # Filter out duplicates

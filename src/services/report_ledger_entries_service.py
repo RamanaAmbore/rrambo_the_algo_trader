@@ -1,3 +1,4 @@
+import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
@@ -113,3 +114,45 @@ class ReportLedgerEntriesService:
             record.warning_error = True
             record.notes = "; ".join(warning_messages)
             logger.warning(f"Data corrections for record {record}: {'; '.join(warning_messages)}")
+
+
+@staticmethod
+def bulk_insert_dataframe(record_df: pd.DataFrame, async_mode: bool = False, chunk_size=1000):
+    """
+    Bulk inserts records if they do not already exist.
+    :param record_df: Pandas DataFrame with columns matching ReportProfitLoss.
+    :param async_mode: Boolean flag to determine async or sync session.
+    :param chunk_size: Number of records per batch insert.
+    :return: Number of records successfully inserted.
+    """
+    if not isinstance(record_df, pd.DataFrame):
+        logger.error("Expected a Pandas DataFrame.")
+        return 0
+
+    records = record_df.to_dict(orient="records")
+    total_inserted = 0
+
+    with Db.get_session(async_mode) as session:
+        try:
+            for i in range(0, len(records), chunk_size):
+                batch = [
+                    ReportLedgerEntriesService._validate_and_clean(ReportLedgerEntriesService(**record_data))
+                    for record_data in records[i: i + chunk_size]
+                    if not ReportLedgerEntriesService._record_exists(
+                        session, record_data["account"], record_data["symbol"], record_data["timestamp"]
+                    )
+                ]
+
+                if batch:
+                    session.bulk_save_objects(batch)
+                    session.commit()
+                    total_inserted += len(batch)
+                    logger.info(f"Inserted batch {i // chunk_size + 1}: {len(batch)} records")
+            return total_inserted
+        except IntegrityError as e:
+            session.rollback()
+            logger.error(f"Bulk insert failed: {e.orig}")
+        except Exception as e:
+            session.rollback()
+            logger.error(f"Unexpected error during bulk insert: {e}")
+        return total_inserted

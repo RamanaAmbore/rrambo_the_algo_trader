@@ -4,8 +4,9 @@ from typing import Optional
 import pandas as pd
 
 from src.core.database_manager import DatabaseManager as Db
-from src.services import report_profit_loss_service
-from src.services import report_tradebook_service
+from src.services.report_profit_loss_service import ReportProfitLossService
+from src.services.report_tradebook_service import ReportTradebookService
+from src.services.report_profit_loss_service import ReportProfitLossService
 from src.utils.date_time_utils import INDIAN_TIMEZONE
 from src.utils.logger import get_logger
 from src.utils.parameter_manager import ParameterManager as Parms, sc
@@ -123,11 +124,11 @@ class ReportUploader:
             logger.info("Starting report upload process...")
             for report, files in cls.file_xref.items():
                 if report == 'TRADEBOOK':
-                    existing_records = report_tradebook.get_existing_records()
+                    existing_records = ReportTradebookService.bulk_insert_records()
                 elif report == 'PNL':
-                    existing_records = report_profit_loss.get_existing_records()
+                    existing_records = ReportProfitLossService.bulk_insert_records()
                 elif report == 'LEDGER':
-                    existing_records = report_ledger_entries.get_existing_records()
+                    existing_records = ReportProfitLossService.get_existing_records()
 
                 for file_details in files:
                     match_groups = file_details['match_groups']
