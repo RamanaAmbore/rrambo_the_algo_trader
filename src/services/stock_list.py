@@ -8,7 +8,7 @@ from src.utils.date_time_utils import timestamp_indian
 from src.utils import DbConnect as Db
 
 def save_stock_list(sync=False):
-    with Db.get_session_maker(sync) as session:
+    with Db.get_session(sync) as session:
         last_update = session.query(StockList).order_by(StockList.last_updated.desc()).first()
         if last_update and (datetime.date.today() - last_update.last_updated).days < 7:
             session.close()

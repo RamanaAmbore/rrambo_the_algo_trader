@@ -56,7 +56,7 @@ class ProfitLossService:
         :param async_mode: Boolean flag to determine async or sync session.
         :return: Newly inserted record or None if skipped.
         """
-        with Db.get_session_maker(async_mode) as session:
+        with Db.get_session(async_mode) as session:
             try:
                 if ProfitLossService._record_exists(
                     session, record_data["account"], record_data["symbol"], record_data["timestamp"]
@@ -93,7 +93,7 @@ class ProfitLossService:
         records = record_df.to_dict(orient="records")
         total_inserted = 0
 
-        with Db.get_session_maker(async_mode) as session:
+        with Db.get_session(async_mode) as session:
             try:
                 for i in range(0, len(records), chunk_size):
                     batch = [
@@ -128,7 +128,7 @@ class ProfitLossService:
         :param async_mode: Boolean flag to determine async or sync session.
         :return: List of matching ReportProfitLoss records.
         """
-        with Db.get_session_maker(async_mode) as session:
+        with Db.get_session(async_mode) as session:
             try:
                 query = session.query(ReportProfitLoss)
 

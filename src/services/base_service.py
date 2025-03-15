@@ -27,7 +27,7 @@ class BaseService:
         """Fetch all records from the model."""
         await cls.validate_model_name()
 
-        async with Db.get_session_maker(async_mode) as session:
+        async with Db.get_session(async_mode) as session:
             result = await session.execute(select(cls.model)) if async_mode else session.execute(select(cls.model))
             return result.scalars().all()
 
@@ -36,7 +36,7 @@ class BaseService:
         """Fetch a record by its primary key."""
         await cls.validate_model_name()
 
-        async with Db.get_session_maker(async_mode) as session:
+        async with Db.get_session(async_mode) as session:
             query = select(cls.model).where(cls.model.id == record_id)
             result = await session.execute(query) if async_mode else session.execute(query)
             return result.scalars().first()
@@ -60,7 +60,7 @@ class BaseService:
 
         record_obj = cls.model(**record)  # Convert dictionary to model instance
 
-        async with Db.get_session_maker(async_mode) as session:
+        async with Db.get_session(async_mode) as session:
             try:
                 session.add(record_obj)
                 if async_mode:
@@ -92,7 +92,7 @@ class BaseService:
 
         record_objs = [cls.model(**record) for record in records]  # Convert dictionaries to model instances
 
-        async with Db.get_session_maker(async_mode) as session:
+        async with Db.get_session(async_mode) as session:
             try:
                 session.add_all(record_objs)
                 if async_mode:
@@ -117,7 +117,7 @@ class BaseService:
         """
         await cls.validate_model_name()
 
-        async with Db.get_session_maker(async_mode) as session:
+        async with Db.get_session(async_mode) as session:
             query = select(*[getattr(cls.model, field) for field in unique_fields])
             result = await session.execute(query) if async_mode else session.execute(query)
             return {tuple(row) for row in result.fetchall()}
@@ -133,7 +133,7 @@ class BaseService:
         """
         await cls.validate_model_name()
 
-        async with Db.get_session_maker(async_mode) as session:
+        async with Db.get_session(async_mode) as session:
             record = await cls.get_by_id(record_id, async_mode)
             if not record:
                 logger.warning(f"Record with id {record_id} not found.")

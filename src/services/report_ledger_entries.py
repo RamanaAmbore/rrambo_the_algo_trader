@@ -14,7 +14,7 @@ class LedgerEntriesService:
     @staticmethod
     async def get_existing_records(async_mode=True):
         """Fetch all existing ledger entries as a set of tuples."""
-        Session = Db.get_session_maker(async_mode)
+        Session = Db.get_session(async_mode)
         async with Session() as session:
             result = await session.execute(select(
                 ReportLedgerEntries.particulars, ReportLedgerEntries.posting_date,
@@ -27,7 +27,7 @@ class LedgerEntriesService:
     @staticmethod
     async def insert_ledger_entry(record, async_mode=True):
         """Insert a single ledger entry if it doesn't already exist."""
-        Session = Db.get_session_maker(async_mode)
+        Session = Db.get_session(async_mode)
         async with Session() as session:
             try:
                 LedgerEntriesService.validate_and_clean(record)
@@ -56,7 +56,7 @@ class LedgerEntriesService:
     @staticmethod
     async def bulk_insert_ledger_entries(records, async_mode=True):
         """Bulk insert multiple ledger entries, skipping duplicates efficiently."""
-        Session = Db.get_session_maker(async_mode)
+        Session = Db.get_session(async_mode)
         async with Session() as session:
             try:
                 new_records = []

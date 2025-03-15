@@ -7,7 +7,7 @@ from src.utils import to_decimal
 
 async def get_all_results(account, sync=False):
     """Fetch all backtest results asynchronously."""
-    with Db.get_session_maker(sync) as session:
+    with Db.get_session(sync) as session:
         result = await session.execute(select(OptionStrategies).where(OptionStrategies.account.is_(account)))
         return result.scalars().all()
 

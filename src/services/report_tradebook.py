@@ -16,7 +16,7 @@ class ReportTradebookService(BaseService):
     @classmethod
     def get_existing_records(cls):
         """Fetch all existing trade records as a set of tuples."""
-        with Db.get_session_maker() as session:
+        with Db.get_session() as session:
             result = session.execute(
                 select(
                     ReportTradebook.trade_id,
@@ -38,7 +38,7 @@ class ReportTradebookService(BaseService):
         trade_dict = trade_data.to_dict()  # Convert Pandas Series to dict
         trade_id = trade_dict["trade_id"]
 
-        with Db.get_session_maker() as session:
+        with Db.get_session() as session:
             existing_records = cls.get_existing_records()
             existing_trade_ids = {record[0] for record in existing_records}  # Extract trade_id from records
 
@@ -59,7 +59,7 @@ class ReportTradebookService(BaseService):
             logger.info("No records to insert.")
             return
 
-        with Db.get_session_maker() as session:
+        with Db.get_session() as session:
             existing_records = cls.get_existing_records()
             existing_trade_ids = {record[0] for record in existing_records}  # Extract trade_id from records
 

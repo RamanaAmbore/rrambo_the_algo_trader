@@ -4,7 +4,7 @@ import contextvars  # Context management for async sessions
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
 from src.models import ParameterTable
@@ -21,7 +21,7 @@ async_session_context = contextvars.ContextVar("async_session_context", default=
 class DatabaseManager:
     """Database Utility Class for handling both Sync and Async database connections."""
     _initialized = False
-    _engine = _async_engine = _sync_session_maker = _async_session_maker = None
+    _engine = _async_engine = _sync_session_factory = _async_session_factory = None
     DB_URL = DB_ASYNC_URL = None
     _records = None
 
@@ -68,22 +68,25 @@ class DatabaseManager:
                                     pool_timeout=30,
                                     pool_recycle=1800)
 
-        cls._async_engine = create_async_engine(cls.DB_ASYNC_URL,
-                                                echo=Parms.DB_DEBUG,
-                                                future=True,
-                                                pool_size=10,
-                                                max_overflow=5,
-                                                pool_timeout=30,
-                                                pool_recycle=1800)
+        cls._async_engine = create_async_engine(
+            cls.DB_ASYNC_URL,
+            echo=Parms.DB_DEBUG,
+            future=True,
+            pool_size=10,
+            max_overflow=5,
+            pool_timeout=30,
+            pool_recycle=1800)
 
-        cls._sync_session_maker = sessionmaker(bind=cls._engine,
-                                               autocommit=False,
-                                               autoflush=False,
-                                               expire_on_commit=False)
+        cls._sync_session_factory = scoped_session(sessionmaker(
+            bind=cls._engine,
+            autocommit=False,
+            autoflush=False,
+            expire_on_commit=False))
 
-        cls._async_session_maker = async_sessionmaker(bind=cls._async_engine,
-                                                      class_=AsyncSession,
-                                                      expire_on_commit=False)
+        cls._async_session_factory = async_sessionmaker(
+            bind=cls._async_engine,
+            class_=AsyncSession,
+            expire_on_commit=False)
 
     @classmethod
     def _setup_database_tables(cls) -> None:
@@ -110,7 +113,7 @@ class DatabaseManager:
         if not cls._initialized:
             cls.initialize()
             cls.initialize_parameters()
-        return cls._sync_session_maker()
+        return cls._sync_session_factory()
 
     @classmethod
     async def get_async_session(cls) -> AsyncSession:
@@ -120,7 +123,7 @@ class DatabaseManager:
 
         session = async_session_context.get()
         if session is None:
-            session = cls._async_session_maker()
+            session = cls._async_session_factory()
             async_session_context.set(session)
 
         return session
@@ -134,7 +137,7 @@ class DatabaseManager:
             async_session_context.set(None)
 
     @classmethod
-    async def get_session_maker(cls, async_mode=False):
+    async def get_session(cls, async_mode=False):
         """Get a sync or async session based on the flag."""
         if async_mode:
             return await cls.get_async_session()
@@ -205,7 +208,6 @@ async def main():
         logger.error(f"Main test failed: {e}")
     finally:
         await DatabaseManager.cleanup()
-
 
 # Initialize database and Parameters on import
 DatabaseManager.initialize()
