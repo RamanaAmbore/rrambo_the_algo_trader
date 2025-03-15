@@ -1,9 +1,10 @@
 import asyncio
 from pathlib import Path
+import contextvars  # Context management for async sessions
 
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from sqlalchemy.orm import scoped_session, sessionmaker, Session
+from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy_utils import database_exists, create_database
 
 from src.models import ParameterTable
@@ -12,6 +13,9 @@ from src.utils.logger import get_logger
 from src.utils.parameter_manager import ParameterManager as Parms
 
 logger = get_logger(__name__)  # Initialize logger
+
+# Create an async context variable for session management
+async_session_context = contextvars.ContextVar("async_session_context", default=None)
 
 
 class DatabaseManager:
@@ -31,7 +35,7 @@ class DatabaseManager:
             cls._initialize_engines_and_sessions()
             cls._setup_database_tables()
             cls._initialized = True
-            logger.info("Database and Parms initialized successfully")
+            logger.info("Database and Parameters initialized successfully")
         except Exception as e:
             logger.error(f"Database initialization failed: {e}")
             raise
@@ -56,13 +60,29 @@ class DatabaseManager:
 
     @classmethod
     def _initialize_engines_and_sessions(cls) -> None:
-        """Initialize database engines and sessions."""
-        cls._engine = create_engine(cls.DB_URL, echo=Parms.DB_DEBUG)
-        cls._async_engine = create_async_engine(cls.DB_ASYNC_URL, echo=Parms.DB_DEBUG, future=True)
+        """Initialize database engines and session factories."""
+        cls._engine = create_engine(cls.DB_URL,
+                                    echo=Parms.DB_DEBUG,
+                                    pool_size=10,
+                                    max_overflow=5,
+                                    pool_timeout=30,
+                                    pool_recycle=1800)
 
-        cls._sync_session_maker = sessionmaker(bind=cls._engine, autocommit=False, autoflush=False,
+        cls._async_engine = create_async_engine(cls.DB_ASYNC_URL,
+                                                echo=Parms.DB_DEBUG,
+                                                future=True,
+                                                pool_size=10,
+                                                max_overflow=5,
+                                                pool_timeout=30,
+                                                pool_recycle=1800)
+
+        cls._sync_session_maker = sessionmaker(bind=cls._engine,
+                                               autocommit=False,
+                                               autoflush=False,
                                                expire_on_commit=False)
-        cls._async_session_maker = async_sessionmaker(bind=cls._async_engine, class_=AsyncSession,
+
+        cls._async_session_maker = async_sessionmaker(bind=cls._async_engine,
+                                                      class_=AsyncSession,
                                                       expire_on_commit=False)
 
     @classmethod
@@ -75,13 +95,13 @@ class DatabaseManager:
 
     @classmethod
     def initialize_parameters(cls, refresh=False) -> None:
-        """Initialize Parms from database."""
+        """Initialize Parameters from the database."""
         if cls._records and not refresh:
             return
         with cls.get_sync_session() as session:
             cls._records = session.query(ParameterTable).all()
             Parms.refresh_parameters(records=cls._records, refresh=refresh)
-            logger.info('Parms are refreshed from database')
+            logger.info('Parameters refreshed from database')
             session.commit()
 
     @classmethod
@@ -93,19 +113,31 @@ class DatabaseManager:
         return cls._sync_session_maker()
 
     @classmethod
-    async def get_async_session(cls):
-        """Get an asynchronous database session."""
+    async def get_async_session(cls) -> AsyncSession:
+        """Get an asynchronous database session with task-local storage."""
         if not cls._initialized:
             cls.initialize()
-        async with cls._async_session_maker() as session:
-            yield session
+
+        session = async_session_context.get()
+        if session is None:
+            session = cls._async_session_maker()
+            async_session_context.set(session)
+
+        return session
+
+    @classmethod
+    async def cleanup_async_session(cls) -> None:
+        """Cleanup the async session for the current task."""
+        session = async_session_context.get()
+        if session:
+            await session.close()
+            async_session_context.set(None)
 
     @classmethod
     async def get_session_maker(cls, async_mode=False):
-        """Get sync or async session based on flag."""
+        """Get a sync or async session based on the flag."""
         if async_mode:
-            async for session in cls.get_async_session():
-                return session
+            return await cls.get_async_session()
         return cls.get_sync_session()
 
     @classmethod
@@ -126,6 +158,7 @@ class DatabaseManager:
     async def cleanup(cls) -> None:
         """Cleanup database connections."""
         try:
+            await cls.cleanup_async_session()
             if cls._engine:
                 cls._engine.dispose()
             if cls._async_engine:
@@ -139,9 +172,10 @@ class DatabaseManager:
 async def test_async_session():
     """Test async session functionality."""
     try:
-        async for session in DatabaseManager.get_async_session():
-            result = await session.execute(text("SELECT 1"))
-            logger.info(f"Async session test result: {result.scalar()}")
+        session = await DatabaseManager.get_async_session()
+        result = await session.execute(text("SELECT 1"))
+        logger.info(f"Async session test result: {result.scalar()}")
+        await DatabaseManager.cleanup_async_session()
     except Exception as e:
         logger.error(f"Async session test failed: {e}")
 
@@ -173,7 +207,7 @@ async def main():
         await DatabaseManager.cleanup()
 
 
-# Initialize database and Parms on import
+# Initialize database and Parameters on import
 DatabaseManager.initialize()
 DatabaseManager.initialize_parameters()
 
