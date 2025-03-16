@@ -49,7 +49,7 @@ class ReportUploader:
                 "ledger": ReportLedgerEntriesService
             }
 
-            all_files = os.listdir(Parms.DOWNLOAD_DIR)
+            all_files = sorted(os.listdir(Parms.DOWNLOAD_DIR),key=lambda x: x.replace('.csv','').replace('xlsx',''))
             tasks = []
 
             for key, pattern in regex_patterns.items():
@@ -65,7 +65,7 @@ class ReportUploader:
                         file_extension = match.groups()[-1]
                         data_df = read_file_content(os.path.join(Parms.DOWNLOAD_DIR, file_name), file_extension)
 
-                        data_df = data_df.applymap(lambda x: None if pd.isna(x) else x)
+                        data_df = data_df.map(lambda x: None if pd.isna(x) else x)
 
                         if data_df is None or data_df.empty:
                             logger.warning(f"No data in {file_name}")
@@ -83,8 +83,8 @@ class ReportUploader:
                         data_df = data_df.assign(account=match.group(2))
                         data_df.columns = (
                             data_df.columns.str.lower()
-                            .str.replace(r".", "")
-                            .str.replace(r"&", "n")
+                            .str.replace(".", "", regex=False)
+                            .str.replace("&", "n", regex=False)
                             .str.replace(r"[ &]+", "_", regex=True)
                         )
                         data_records = pd.concat([data_records, data_df], ignore_index=True)

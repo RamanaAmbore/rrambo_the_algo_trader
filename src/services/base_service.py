@@ -1,8 +1,8 @@
 from typing import TypeVar, List, Set, Tuple, Any, Dict, Union
+
 import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
-
 from sqlalchemy.exc import IntegrityError
 
 from src.core.database_manager import DatabaseManager as Db
@@ -67,28 +67,6 @@ class BaseService:
         return None  # Explicitly return None on failure
 
     @classmethod
-    async def bulk_insert_records(cls, model, records: Union[List[Dict[str, Any]], pd.DataFrame]) -> None:
-        """Bulk insert multiple records into the database."""
-        cls.validate_model_name(model)
-
-        if isinstance(records, pd.DataFrame):
-            records = records.to_dict(orient="records")
-
-        record_objs = [model(**record) for record in records]
-
-        async with Db.get_async_session() as session:
-            try:
-                session.add_all(record_objs)
-                await session.commit()
-                logger.info(f"Inserted {len(records)} records successfully.")
-            except IntegrityError as e:
-                await session.rollback()
-                logger.error(f"Integrity error in bulk record insertion: {e}")
-            except Exception as e:
-                await session.rollback()
-                logger.error(f"Unexpected error in bulk record insertion: {e}")
-
-    @classmethod
     async def get_existing_records(cls, model, unique_fields: List[str]) -> Set[Tuple[Any, ...]]:
         """Fetch existing records as a set of tuples based on unique fields."""
         cls.validate_model_name(model)
@@ -117,8 +95,9 @@ class BaseService:
             except Exception as e:
                 await session.rollback()
                 logger.error(f"Error updating record {record_id}: {e}")
+
     @classmethod
-    async def bulk_insert_report_records(cls, model, data_records: pd.DataFrame | List[Dict[str, Any]]):
+    async def insert_report_records(cls, model, query, data_records: pd.DataFrame):
         """Bulk insert multiple trade records, skipping duplicates."""
 
         if isinstance(data_records, pd.DataFrame):
@@ -128,7 +107,7 @@ class BaseService:
             return
 
         async with Db.get_async_session() as session:
-            query = select(model.trade_id)
+
             existing_trade_ids = {row[0] for row in (await session.execute(query)).all()}
 
             new_trades = [trade for trade in data_records if trade["trade_id"] not in existing_trade_ids]

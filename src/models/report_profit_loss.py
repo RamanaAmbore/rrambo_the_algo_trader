@@ -27,8 +27,8 @@ class ReportProfitLoss(Base):
     realized_pnl = Column(Numeric(12, 2), nullable=False)
     realized_pnl_pct = Column(Numeric(12, 2), nullable=False)
     previous_closing_price = Column(Numeric(10, 2), nullable=True)
-    open_quantity = Column(Integer, nullable=False, default=0)
-    open_quantity_type = Column(String(5), nullable=False)
+    open_quantity = Column(Integer, nullable=True, default=0)
+    open_quantity_type = Column(String(5), nullable=True)
     open_value = Column(Numeric(12, 2), nullable=False)
     unrealized_pnl = Column(Numeric(12, 2), nullable=False)
     unrealized_pnl_pct = Column(Numeric(12, 2), nullable=False)
@@ -47,8 +47,8 @@ class ReportProfitLoss(Base):
         CheckConstraint("sell_value >= 0", name="check_sell_value_non_negative"),
         CheckConstraint("open_quantity >= 0", name="check_open_quantity_non_negative"),
         CheckConstraint(f"open_quantity_type IN {tuple(QUANTITY_TYPES)}", name="check_quantity_type_valid"),
-        UniqueConstraint('account', 'symbol', name='uq_account_symbol'),
-        Index("idx_account_symbol7", "account", "symbol"),
+        UniqueConstraint("account", "symbol", 'isin', 'quantity', 'buy_value', 'sell_value', name='uq_account_symbol'),
+        Index("idx_account_symbol7", "account", "symbol", 'isin', 'quantity', 'buy_value', 'sell_value'),
         Index("idx_symbol4", "symbol"),
         Index("idx_isin1", "isin"),
         Index("idx_timestamp", "timestamp"),

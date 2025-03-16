@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, String, Numeric, Integer, select, DateTime, text, Boolean, ForeignKey, Enum,
-                        CheckConstraint, Index)
+                        CheckConstraint, Index, UniqueConstraint)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import relationship
 from src.utils.date_time_utils import timestamp_indian
@@ -16,11 +16,11 @@ class ReportLedgerEntries(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     particulars = Column(String(255), nullable=False)
-    posting_date = Column(DateTime(timezone=True), nullable=False)
+    posting_date = Column(DateTime(timezone=True), nullable=True)
     cost_center = Column(String(20), nullable=True)
-    voucher_type = Column(String(20), nullable=False)
-    debit = Column(Numeric(10, 2), default=0.00)
-    credit = Column(Numeric(10, 2), default=0.00)
+    voucher_type = Column(String(20), nullable=True)
+    debit = Column(Numeric(10, 2), default=0.00, nullable=True)
+    credit = Column(Numeric(10, 2), default=0.00, nullable=True)
     net_balance = Column(Numeric(15, 2), default=0.00)
     source = Column(Enum(Source), nullable=True, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
@@ -33,6 +33,10 @@ class ReportLedgerEntries(Base):
 
     __table_args__ = (CheckConstraint("debit >= 0", name="check_debit_non_negative"),
                       CheckConstraint("credit >= 0", name="check_credit_non_negative"),
+                      UniqueConstraint('account', 'particulars', 'posting_date', 'cost_center',
+                                       'voucher_type', 'debit', 'credit', 'net_balance', name='uq_account_symbol3'),
+                      Index("idx_account_symbol8", 'account', 'particulars', 'posting_date',
+                            'cost_center', 'voucher_type', 'debit', 'credit', 'net_balance'),
                       Index("idx_account_date1", "account", "posting_date"),
                       Index("idx_voucher_type", "voucher_type"),)
 
