@@ -50,35 +50,51 @@ class ReportUploader:
             }
 
             all_files = os.listdir(Parms.DOWNLOAD_DIR)
+            tasks = []
 
             for key, pattern in regex_patterns.items():
                 if not refresh_reports[key]:
                     continue
 
                 compiled_pattern = re.compile(pattern)
-                data_records = pd.DataFrame()  # Initialize as empty DataFrame
+                data_records = pd.DataFrame()
 
                 for file_name in all_files:
                     match = compiled_pattern.match(file_name)
                     if match:
-                        file_extension = match.groups()[-1]  # Last group is extension
-                        file_content = read_file_content(os.path.join(Parms.DOWNLOAD_DIR, file_name), file_extension)
+                        file_extension = match.groups()[-1]
+                        data_df = read_file_content(os.path.join(Parms.DOWNLOAD_DIR, file_name), file_extension)
+                        data_df.columns = (
+                            data_df.columns.str.lower()
+                            .str.replace(r"[ &]+", "_", regex=True)
+                        )
+                        data_df = data_df.applymap(lambda x: None if pd.isna(x) else x)
 
-                        if isinstance(file_content, pd.DataFrame):
-                            file_content = file_content.assign(account=match.group(2))
+                        if data_df is None or data_df.empty:
+                            logger.warning(f"No data in {file_name}")
+                            continue
 
-                        data_records = pd.concat([data_records, file_content], ignore_index=True)
+                        if key == 'pnl':
+                            try:
+                                header_row_idx = data_df[data_df["Unnamed: 1"] == "Symbol"].index[0]
+                                data_df.columns = data_df.iloc[header_row_idx]
+                                data_df = data_df.iloc[header_row_idx + 1:].reset_index(drop=True)
+                            except IndexError:
+                                logger.warning(f"Header row missing in {file_name}")
+                                continue
+
+                        data_df = data_df.assign(account=match.group(2))
+                        data_records = pd.concat([data_records, data_df], ignore_index=True)
 
                 if not data_records.empty:
                     service = service_xref[key]
-                    await service.bulk_insert_report_records(data_records)
-                    logger.info(f"Uploaded {len(data_records)} records for {key}.")
-                else:
-                    logger.info(f"No new records found for {key}.")
+                    tasks.append(service.bulk_insert_report_records(data_records))
 
+            await asyncio.gather(*tasks)
             logger.info("Report upload process completed")
-        except Exception:
-            logger.exception("Main process failed")
+
+        except Exception as e:
+            logger.exception(f"Main process failed: {e}")
             raise
 
 

@@ -27,10 +27,10 @@ class ReportTradebookService(BaseService):
     def validate_clean_records(cls, data_records: pd.DataFrame) -> pd.DataFrame:
         """Cleans and validates trade records before inserting into the database."""
 
-        # Replace NaN values with None
-        for col in ["isin", "series"]:
-            if col in data_records:
-                data_records[col] = data_records[col].apply(lambda x: None if pd.isna(x) else x)
+        # # Replace NaN values with None
+        # for col in ["isin", "series"]:
+        #     if col in data_records:
+        #         data_records[col] = data_records[col].apply(lambda x: None if pd.isna(x) else x)
 
         # Convert date columns with timezone
         for col, fmt, return_date in [

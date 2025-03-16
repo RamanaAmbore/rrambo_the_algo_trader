@@ -16,7 +16,7 @@ class ReportLedgerEntries(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     particulars = Column(String(255), nullable=False)
-    posting_date = Column(String(10), nullable=True)
+    posting_date = Column(DateTime(timezone=True), nullable=False)
     cost_center = Column(String(20), nullable=True)
     voucher_type = Column(String(20), nullable=False)
     debit = Column(Numeric(10, 2), default=0.00)
