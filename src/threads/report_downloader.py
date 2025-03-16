@@ -15,7 +15,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 from src.core.database_manager import DatabaseManager as Db
 from src.utils.date_time_utils import today_indian
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager as Parm, sc
+from src.settings.parameter_manager import ParameterManager as Parm, sc
 from src.utils.utils import generate_totp, delete_folder_contents
 
 logger = get_logger(__name__)  # Initialize logger
@@ -138,13 +138,13 @@ class ReportDownloader:
 
                             cls.select_pnl_element(item)
 
-                            date_range_str = cls.enter_date_range(current_end, current_start, item, segment)
+                            date_range_str = cls.enter_date_range(current_start, current_end, item, segment)
 
                             arrow_button = WebDriverWait(cls.driver, 10).until(
                                 EC.element_to_be_clickable((By.XPATH, item['button'])))
                             cls.highlight_element(arrow_button)
                             arrow_button.click()
-                            if cls.check_for_error_text_js():
+                            if cls.check_for_error_text_js(current_start.strftime("%Y-%m-%d")):
                                 break
                             download_csv_link = WebDriverWait(cls.driver, 15).until(
                                 EC.element_to_be_clickable((By.XPATH, item['href'])))
@@ -169,7 +169,7 @@ class ReportDownloader:
         return all_downloaded_files
 
     @classmethod
-    def enter_date_range(cls, current_end, current_start, item, segment):
+    def enter_date_range(cls, current_start, current_end, item, segment):
         date_range = WebDriverWait(cls.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, item['date_range'])))
         cls.highlight_element(date_range)
@@ -203,14 +203,11 @@ class ReportDownloader:
         logger.info(f"Selected {segment} in dropdown.")
 
     @classmethod
-    def check_for_error_text_js(cls):
+    def check_for_error_text_js(cls, current_start_str):
         """Returns True if 'something went wrong' or 'empty' is present anywhere in the page source."""
 
-        result = cls.driver.execute_script(
-            "return document.body.innerText.includes('something went wrong') || "
-            "document.body.innerText.includes(\"Report's empty\") || "
-            "document.body.innerText.includes(\"Console under maintenance\") ;"
-        )
+        result = not cls.driver.execute_script(f"return document.body.innerText.includes('{current_start_str}');")
+
         if result:
             logger.warning('Report is empty or something went wrong')
         return result
@@ -260,8 +257,8 @@ class ReportDownloader:
         cls.report_end_date = today_indian()
 
         cls.refresh_reports = {"TRADEBOOK": Parm.REFRESH_TRADEBOOK,
-                              "PNL": Parm.REFRESH_PNL,
-                              "LEDGER": Parm.REFRESH_LEDGER}
+                               "PNL": Parm.REFRESH_PNL,
+                               "LEDGER": Parm.REFRESH_LEDGER}
 
         logger.info(f'Report start date: {cls.report_start_date}')
         logger.info(f'Report end date: {cls.report_end_date}')

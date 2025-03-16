@@ -6,8 +6,8 @@ from kiteconnect import KiteConnect
 from src.services.access_tokens import get_stored_access_tokens
 from src.core.database_manager import DatabaseManager
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager as Parm
-from src.utils.parameter_manager import sc
+from src.settings.parameter_manager import ParameterManager as Parm
+from src.settings.parameter_manager import sc
 from src.utils.utils import generate_totp
 
 logger = get_logger(__name__)

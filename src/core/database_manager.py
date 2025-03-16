@@ -11,7 +11,7 @@ from sqlalchemy_utils import database_exists, create_database
 from src.models import ParameterTable
 from src.models.base import Base
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager as Parms
+from src.settings.parameter_manager import ParameterManager as Parms
 
 logger = get_logger(__name__)  # Initialize logger
 

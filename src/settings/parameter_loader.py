@@ -93,7 +93,7 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
     {'account': None, 'parameter': 'REFRESH_LEDGER', 'value': 'True'},
 
     {'account': None, 'parameter': 'DOWNLOAD_DIR', 'value': r'D:/rrambo_trader_new/data'},
-    {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2024-01-01'},
+    {'account': None, 'parameter': 'REPORT_START_DATE', 'value': '2015-01-01'},
     {'account': None, 'parameter': 'REPORT_LOOKBACK_DAYS', 'value': '30'}, ]
 
 DEFAULT_WATCHLISTS = [{'watchlist': 'STOCKS'}, {'watchlist': 'STOCKS-TURNAROUND'}, {'watchlist': 'OPTIONS'},

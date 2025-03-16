@@ -8,7 +8,7 @@ from src.services.report_ledger_entries_service import ReportLedgerEntriesServic
 from src.services.report_profit_loss_service import ReportProfitLossService
 from src.services.report_tradebook_service import ReportTradebookService
 from src.utils.logger import get_logger
-from src.utils.parameter_manager import ParameterManager as Parms, sc
+from src.settings.parameter_manager import ParameterManager as Parms, sc
 from src.utils.utils import read_file_content
 
 logger = get_logger(__name__)
