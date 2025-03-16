@@ -65,7 +65,7 @@ class ReportUploader:
                         file_content = read_file_content(os.path.join(Parms.DOWNLOAD_DIR, file_name), file_extension)
 
                         if isinstance(file_content, pd.DataFrame):
-                            file_content = file_content.assign(account=match.group(1))
+                            file_content = file_content.assign(account=match.group(2))
 
                         data_records = pd.concat([data_records, file_content], ignore_index=True)
 

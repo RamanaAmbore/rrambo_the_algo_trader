@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, String, Numeric, Integer, DateTime, text, Boolean, 
+    Column, String, Numeric, Integer, DateTime, text, Boolean,
     BigInteger, ForeignKey, Enum, CheckConstraint, Index, UniqueConstraint
 )
 from sqlalchemy.orm import relationship
@@ -10,8 +10,8 @@ from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
-TRADE_TYPES = ["BUY", "SELL"]
-SEGMENTS = ["EQUITY", "FO", "CD", "CO"]
+TRADE_TYPES = ["buy", "sell"]
+SEGMENTS = ["EQ", "FO", "CD", "CO"]
 
 
 
@@ -27,7 +27,7 @@ class ReportTradebook(Base):
     isin = Column(String(12), nullable=True)
     exchange = Column(String(10), nullable=False)
     segment = Column(String(10), nullable=False)
-    series = Column(String(5), nullable=False)
+    series = Column(String(5), nullable=True)
     trade_type = Column(String(4), nullable=False)
     auction = Column(Boolean, default=False)
     quantity = Column(Integer, nullable=False)

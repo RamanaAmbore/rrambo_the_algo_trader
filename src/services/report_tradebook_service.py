@@ -1,20 +1,8 @@
-from typing import Any, Dict, List
-
+from typing import Any, Dict, List, Union
 import pandas as pd
-
-from src.utils.logger import get_logger
-
-logger = get_logger(__name__)
-
-from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.future import select
-
-from src.core.database_manager import DatabaseManager as Db
 from src.models.report_tradebook import ReportTradebook
 from src.services.base_service import BaseService
-from src.utils.logger import get_logger
-
-logger = get_logger(__name__)
+from src.utils.date_time_utils import convert_to_timezone
 
 
 class ReportTradebookService(BaseService):
@@ -23,27 +11,37 @@ class ReportTradebookService(BaseService):
     model = ReportTradebook
 
     @classmethod
-    async def bulk_insert_report_records(cls, trade_records: pd.DataFrame | List[Dict[str, Any]]):
+    async def bulk_insert_report_records(cls, data_records: Union[pd.DataFrame, List[Dict[str, Any]]]):
         """Bulk insert multiple trade records, skipping duplicates."""
-        if isinstance(trade_records, pd.DataFrame):
-            trade_records = trade_records.to_dict(orient="records")
-        if not trade_records:
-            logger.info("No records to insert.")
-            return
 
-        async with Db.get_async_session() as session:
-            query = select(cls.model.trade_id)
-            existing_trade_ids = {row[0] for row in (await session.execute(query)).all()}
+        # Convert list of dicts to DataFrame if necessary
+        if isinstance(data_records, list):
+            data_records = pd.DataFrame(data_records)
 
-            new_trades = [trade for trade in trade_records if trade["trade_id"] not in existing_trade_ids]
+        data_records = cls.validate_clean_records(data_records)
 
-            if new_trades:
-                stmt = insert(cls.model).values(new_trades)
-                stmt = stmt.on_conflict_do_nothing(index_elements=["trade_id"])
-                await session.execute(stmt)
-                await session.commit()
-                logger.info(f"Bulk inserted {len(new_trades)} trade records.")
-            else:
-                logger.info("No new trades to insert.")
+        # Call the parent's bulk insert method correctly
+        await super().bulk_insert_report_records(cls.model, data_records)
 
+    @classmethod
+    def validate_clean_records(cls, data_records: pd.DataFrame) -> pd.DataFrame:
+        """Cleans and validates trade records before inserting into the database."""
+
+        # Replace NaN values with None
+        for col in ["isin", "series"]:
+            if col in data_records:
+                data_records[col] = data_records[col].apply(lambda x: None if pd.isna(x) else x)
+
+        # Convert date columns with timezone
+        for col, fmt, return_date in [
+            ("trade_date", "%Y-%m-%d", True),
+            ("order_execution_time", "%Y-%m-%dT%H:%M:%S", None),
+            ("expiry_date", "%Y-%m-%d", True),
+        ]:
+            if col in data_records:
+                data_records[col] = data_records[col].apply(
+                    lambda x: convert_to_timezone(x, format=fmt, return_date=return_date) if pd.notna(x) else None
+                )
+
+        return data_records
 

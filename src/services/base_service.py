@@ -1,6 +1,8 @@
 from typing import TypeVar, List, Set, Tuple, Any, Dict, Union
 import pandas as pd
 from sqlalchemy import select
+from sqlalchemy.dialects.postgresql import insert
+
 from sqlalchemy.exc import IntegrityError
 
 from src.core.database_manager import DatabaseManager as Db
@@ -115,3 +117,27 @@ class BaseService:
             except Exception as e:
                 await session.rollback()
                 logger.error(f"Error updating record {record_id}: {e}")
+    @classmethod
+    async def bulk_insert_report_records(cls, model, data_records: pd.DataFrame | List[Dict[str, Any]]):
+        """Bulk insert multiple trade records, skipping duplicates."""
+
+        if isinstance(data_records, pd.DataFrame):
+            data_records = data_records.to_dict(orient="records")
+        if not data_records:
+            logger.info("No records to insert.")
+            return
+
+        async with Db.get_async_session() as session:
+            query = select(model.trade_id)
+            existing_trade_ids = {row[0] for row in (await session.execute(query)).all()}
+
+            new_trades = [trade for trade in data_records if trade["trade_id"] not in existing_trade_ids]
+
+            if new_trades:
+                stmt = insert(model).values(new_trades)
+                stmt = stmt.on_conflict_do_nothing(index_elements=["trade_id"])
+                await session.execute(stmt)
+                await session.commit()
+                logger.info(f"Bulk inserted {len(new_trades)} trade records.")
+            else:
+                logger.info("No new trades to insert.")

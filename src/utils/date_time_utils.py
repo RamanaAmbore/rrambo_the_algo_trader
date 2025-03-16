@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 from src.utils.parameter_manager import sc  # Importing timezone settings
 from src.utils.logger import get_logger
 
-logger  = get_logger(__name__)
+logger = get_logger(__name__)
 
 # Define constants for timezones
 EST_ZONE = ZoneInfo(sc.EST_TIMEZONE)
@@ -27,7 +27,7 @@ def timestamp_indian():
 
 def today_local():
     """Returns today's date in the local timezone."""
-    return datetime.today().date()  # Uses system's local timezone
+    return datetime.now().date()  # Uses system's local timezone
 
 
 def today_est():
@@ -49,6 +49,15 @@ def current_time_est():
 
 def current_time_indian():
     return datetime.now(tz=INDIAN_TIMEZONE).time()
+
+
+def convert_to_timezone(date_str, format='%Y-%m-%d', return_date=True, tz=INDIAN_TIMEZONE):
+    try:
+        dt = datetime.strptime(date_str, format).replace(tzinfo=tz)  # Assign the correct timezone
+        return dt if return_date is None else (dt.date() if return_date else dt.time())
+    except Exception:
+        logger.warning(f"Invalid date format: {date_str}")
+        return None
 
 
 # Test Code in __main__
