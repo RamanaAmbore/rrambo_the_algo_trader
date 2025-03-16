@@ -1,4 +1,5 @@
 import asyncio
+from contextlib import asynccontextmanager
 from pathlib import Path
 import contextvars  # Context management for async sessions
 
@@ -116,17 +117,17 @@ class DatabaseManager:
         return cls._sync_session_factory()
 
     @classmethod
-    async def get_async_session(cls) -> AsyncSession:
-        """Get an asynchronous database session with task-local storage."""
+    @asynccontextmanager
+    async def get_async_session(cls):
+        """Get an async session using a proper async context manager."""
         if not cls._initialized:
             cls.initialize()
 
-        session = async_session_context.get()
-        if session is None:
-            session = cls._async_session_factory()
-            async_session_context.set(session)
-
-        return session
+        session = cls._async_session_factory()
+        try:
+            yield session  # ✅ Allows usage with `async with`
+        finally:
+            await session.close()  # ✅ Ensures session is closed properly
 
     @classmethod
     async def cleanup_async_session(cls) -> None:
@@ -173,12 +174,11 @@ class DatabaseManager:
 
 
 async def test_async_session():
-    """Test async session functionality."""
+    """Test async session functionality using a context manager."""
     try:
-        session = await DatabaseManager.get_async_session()
-        result = await session.execute(text("SELECT 1"))
-        logger.info(f"Async session test result: {result.scalar()}")
-        await DatabaseManager.cleanup_async_session()
+        async with DatabaseManager.get_async_session() as session:
+            result = await session.execute(text("SELECT 1"))
+            logger.info(f"Async session test result: {result.scalar()}")
     except Exception as e:
         logger.error(f"Async session test failed: {e}")
 

@@ -1,6 +1,6 @@
 import logging
 
-from src.utils import DbConnect as Db
+from src.core.database_manager import DatabaseManager as Db
 from src.models import ParameterTable
 
 logger = logging.getLogger(__name__)

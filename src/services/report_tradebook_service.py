@@ -1,9 +1,17 @@
+from typing import Any, Dict, List
+
+import pandas as pd
+
+from src.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.future import select
 
 from src.core.database_manager import DatabaseManager as Db
 from src.models.report_tradebook import ReportTradebook
 from src.services.base_service import BaseService
-from src.services.parm_table import fetch_all_records
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -12,48 +20,48 @@ logger = get_logger(__name__)
 class ReportTradebookService(BaseService):
     """Service class for handling ReportTradebook database operations."""
 
-    def __init__(self):
-        super().__init__(ReportTradebook)
+    model = ReportTradebook
 
     @classmethod
-    async def insert_trade(cls, trade_data):
+    async def insert_trade(cls, trade_data: pd.Series | Dict[str, Any]):
         """Insert a single trade record if the trade_id does not already exist."""
-        existing_records = fetch_all_records()
-        trade_dict = trade_data.to_dict()  # Convert Pandas Series to dict
+        trade_dict = trade_data.to_dict() if isinstance(trade_data, pd.Series) else trade_data
         trade_id = trade_dict["trade_id"]
 
-        with Db.get_async_session() as session:
-            existing_trade_ids = {record[0] for record in existing_records}  # Extract trade_id from records
+        async with Db.get_async_session() as session:
+            query = select(cls.model.trade_id).where(cls.model.trade_id == trade_id)
+            existing_trade = await session.execute(query)
+            existing_trade = existing_trade.scalar_one_or_none()
 
-            if trade_id not in existing_trade_ids:
-                trade_record = ReportTradebook(**trade_dict)
+            if not existing_trade:
+                trade_record = cls.model(**trade_dict)
                 cls.validate_and_clean(trade_record)
                 session.add(trade_record)
-                session.commit()
+                await session.commit()
                 logger.info(f"Inserted new trade record: {trade_id}")
             else:
                 logger.info(f"Trade ID {trade_id} already exists. Skipping insert.")
 
     @classmethod
-    def bulk_insert_trades(cls, trade_records):
+    async def bulk_insert_trades(cls, trade_records: pd.DataFrame | List[Dict[str, Any]]):
         """Bulk insert multiple trade records, skipping duplicates."""
-        trade_list = trade_records.to_dict(orient="records")  # Convert DataFrame to list of dicts
-        if not trade_list:
+        if isinstance(trade_records, pd.DataFrame):
+            trade_records = trade_records.to_dict(orient="records")
+        if not trade_records:
             logger.info("No records to insert.")
             return
 
-        with Db.get_async_session() as session:
-            existing_records = fetch_all_records()
-            existing_trade_ids = {record[0] for record in existing_records}  # Extract trade_id from records
+        async with Db.get_async_session() as session:
+            query = select(cls.model.trade_id)
+            existing_trade_ids = {row[0] for row in (await session.execute(query)).all()}
 
-            # Filter out duplicates
-            new_trades = [trade for trade in trade_list if trade["trade_id"] not in existing_trade_ids]
+            new_trades = [trade for trade in trade_records if trade["trade_id"] not in existing_trade_ids]
 
             if new_trades:
-                stmt = insert(ReportTradebook).values(new_trades)
-                stmt = stmt.on_conflict_do_nothing(index_elements=["trade_id"])  # Avoid duplicate inserts
-                session.execute(stmt)
-                session.commit()
+                stmt = insert(cls.model).values(new_trades)
+                stmt = stmt.on_conflict_do_nothing(index_elements=["trade_id"])
+                await session.execute(stmt)
+                await session.commit()
                 logger.info(f"Bulk inserted {len(new_trades)} trade records.")
             else:
                 logger.info("No new trades to insert.")
@@ -62,16 +70,16 @@ class ReportTradebookService(BaseService):
     def validate_and_clean(cls, record):
         """Validate and clean trade data before insertion."""
         warning_messages = []
-        if record.buy_value == "":
+        if not record.buy_value:
             record.buy_value = 0.0
             warning_messages.append("Buy value was empty, set to 0.0")
-        if record.sell_value == "":
+        if not record.sell_value:
             record.sell_value = 0.0
             warning_messages.append("Sell value was empty, set to 0.0")
-        if record.realized_pnl == "":
+        if not record.realized_pnl:
             record.realized_pnl = 0.0
             warning_messages.append("Realized P&L was empty, set to 0.0")
-        if record.timestamp == "":
+        if not record.timestamp:
             record.timestamp = None
             warning_messages.append("Timestamp was empty, set to None")
 
