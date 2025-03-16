@@ -17,7 +17,7 @@ class StockList(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    trading_symbol = Column(String(20), nullable=False)
+    symbol = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False, unique=True)
     exchange = Column(String(10), nullable=False)  # NSE/BSE
     isin = Column(String(12), nullable=True)
@@ -36,13 +36,13 @@ class StockList(Base):
     broker_account = relationship("BrokerAccounts", back_populates="stock_list")
 
     __table_args__ = (
-        Index("idx_trading_symbol6", "trading_symbol"),
+        Index("idx_symbol6", "symbol"),
         Index("idx_instrument_token", "instrument_token"),
-        Index("idx_account_symbol1", "account", "trading_symbol"),
+        Index("idx_account_symbol1", "account", "symbol"),
     )
 
     def __repr__(self):
-        return (f"<StockList(id={self.id}, trading_symbol='{self.trading_symbol}', "
+        return (f"<StockList(id={self.id}, symbol='{self.symbol}', "
                 f"instrument_token={self.instrument_token}, exchange='{self.exchange}', "
                 f"lot_size={self.lot_size}, is_tradable={self.is_tradable}, "
                 f"source='{self.source}', timestamp={self.timestamp})>")

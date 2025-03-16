@@ -20,7 +20,7 @@ class Positions(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    trading_symbol = Column(String(20), nullable=False, index=True)
+    symbol = Column(String(20), nullable=False, index=True)
     exchange = Column(String(10), nullable=False)
     instrument_token = Column(Integer, nullable=False)
     product = Column(String(10), nullable=False)
@@ -47,13 +47,13 @@ class Positions(Base):
         CheckConstraint(f"product IN {tuple(PRODUCT_TYPES)}", name="check_valid_product"),
         CheckConstraint("multiplier > 0", name="check_multiplier_positive"),
         CheckConstraint("margin_used >= 0", name="check_margin_non_negative"),
-        Index("idx_account_symbol3", "account", "trading_symbol"),
+        Index("idx_account_symbol3", "account", "symbol"),
         Index("idx_instrument1", "instrument_token"),
         Index("idx_active_positions", "account", "quantity", "position_type"),
     )
 
     def __repr__(self):
-        return (f"<Positions(id={self.id}, trading_symbol='{self.trading_symbol}', "
+        return (f"<Positions(id={self.id}, symbol='{self.symbol}', "
                 f"position_type='{self.position_type}', quantity={self.quantity}, "
                 f"average_price={self.average_price}, unrealized_pnl={self.unrealized_pnl}, "
                 f"total_pnl={self.total_pnl}, source='{self.source}')>")

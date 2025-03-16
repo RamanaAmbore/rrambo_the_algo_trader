@@ -49,7 +49,7 @@ class ReportProfitLoss(Base):
         CheckConstraint(f"open_quantity_type IN {tuple(QUANTITY_TYPES)}", name="check_quantity_type_valid"),
         UniqueConstraint('account', 'symbol', name='uq_account_symbol'),
         Index("idx_account_symbol7", "account", "symbol"),
-        Index("idx_symbol2", "symbol"),
+        Index("idx_symbol4", "symbol"),
         Index("idx_isin1", "isin"),
         Index("idx_timestamp", "timestamp"),
     )

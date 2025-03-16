@@ -65,18 +65,13 @@ class ReportUploader:
                         file_content = read_file_content(os.path.join(Parms.DOWNLOAD_DIR, file_name), file_extension)
 
                         if isinstance(file_content, pd.DataFrame):
-                            file_content = file_content.assign(
-                                file_name=file_name,
-                                account=match.group(1),
-                                type=file_extension
-                            )
+                            file_content = file_content.assign(account=match.group(1))
 
                         data_records = pd.concat([data_records, file_content], ignore_index=True)
 
-                service = service_xref[key]
-
                 if not data_records.empty:
-                    await service.bulk_insert_trades(data_records)
+                    service = service_xref[key]
+                    await service.bulk_insert_report_records(data_records)
                     logger.info(f"Uploaded {len(data_records)} records for {key}.")
                 else:
                     logger.info(f"No new records found for {key}.")

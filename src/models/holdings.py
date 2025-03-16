@@ -15,7 +15,7 @@ class Holdings(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    trading_symbol = Column(String(20), nullable=False)
+    symbol = Column(String(20), nullable=False)
     exchange = Column(String(10), nullable=False)
     quantity = Column(Integer, nullable=False)
     average_price = Column(DECIMAL(10, 2), nullable=False)
@@ -34,12 +34,12 @@ class Holdings(Base):
         CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
         CheckConstraint("average_price >= 0", name="check_avg_price_non_negative"),
         CheckConstraint("current_price >= 0", name="check_current_price_non_negative"),
-        UniqueConstraint('account', 'trading_symbol', name='uq_account_symbol1'),
-        Index("idx_account_symbol", "account", "trading_symbol"),
-        Index("idx_trading_symbol1", "trading_symbol"),
+        UniqueConstraint('account', 'symbol', name='uq_account_symbol1'),
+        Index("idx_account_symbol", "account", "symbol"),
+        Index("idx_symbol1", "symbol"),
     )
 
     def __repr__(self):
         return (f"<Holdings(id={self.id}, account='{self.account}', "
-                f"trading_symbol='{self.trading_symbol}', exchange='{self.exchange}', "
+                f"symbol='{self.symbol}', exchange='{self.exchange}', "
                 f"quantity={self.quantity}, avg_price={self.average_price})>")

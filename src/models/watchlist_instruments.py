@@ -15,7 +15,7 @@ class WatchlistInstruments(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), ForeignKey("watchlists.watchlist", ondelete="CASCADE"), nullable=False)
-    trading_symbol = Column(String(20), nullable=False)
+    symbol = Column(String(20), nullable=False)
     exchange = Column(String(10), nullable=False)
     instrument_token = Column(Integer, nullable=False)
     source = Column(Enum(Source), nullable=True, server_default="MANUAL")
@@ -27,14 +27,14 @@ class WatchlistInstruments(Base):
     watchlist_rel = relationship("Watchlists", back_populates="watchlist_instruments")
 
     __table_args__ = (
-        UniqueConstraint('watchlist', 'trading_symbol', 'exchange', name='uq_watchlist_instrument'),
+        UniqueConstraint('watchlist', 'symbol', 'exchange', name='uq_watchlist_instrument'),
         Index("idx_watchlist", "watchlist"),
         Index("idx_instrument", "instrument_token"),
-        Index("idx_symbol", "trading_symbol"),
-        Index("idx_symbol_exchange", "trading_symbol", "exchange"),
+        Index("idx_symbol", "symbol"),
+        Index("idx_symbol_exchange", "symbol", "exchange"),
     )
 
     def __repr__(self):
         return (f"<WatchlistInstruments(id={self.id}, watchlist='{self.watchlist}', "
-                f"trading_symbol='{self.trading_symbol}', exchange='{self.exchange}', "
+                f"symbol='{self.symbol}', exchange='{self.exchange}', "
                 f"instrument_token={self.instrument_token})>")  # Simplified repr

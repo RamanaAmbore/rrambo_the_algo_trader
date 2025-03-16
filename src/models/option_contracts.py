@@ -22,7 +22,7 @@ class OptionContracts(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     instrument_token = Column(Integer, unique=True, nullable=False)
-    trading_symbol = Column(String(20), nullable=False)
+    symbol = Column(String(20), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=False)
     strike_price = Column(DECIMAL(10, 2), nullable=False)
     option_type = Column(String(10), nullable=False)
@@ -42,11 +42,11 @@ class OptionContracts(Base):
                       CheckConstraint("tick_size > 0", name="check_tick_size_positive"),
                       CheckConstraint("option_type IN ('CE', 'PE')", name="check_option_type_valid"),
                       Index("idx_expiry_strike", "expiry_date", "strike_price"),
-                      Index("idx_trading_symbol2", "trading_symbol"),)
+                      Index("idx_symbol2", "symbol"),)
 
     def __repr__(self):
         return (f"<OptionContract(id={self.id}, account='{self.account}', "
-                f"instrument_token={self.instrument_token}, trading_symbol='{self.trading_symbol}', "
+                f"instrument_token={self.instrument_token}, symbol='{self.symbol}', "
                 f"expiry_date={self.expiry_date}, strike_price={self.strike_price}, "
                 f"option_type='{self.option_type}', lot_size={self.lot_size}, "
                 f"tick_size={self.tick_size}, source='{self.source}', timestamp={self.timestamp}, "
