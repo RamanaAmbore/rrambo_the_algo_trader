@@ -2,6 +2,7 @@ import os
 import time
 from datetime import timedelta, datetime
 
+import pyperclip
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -138,13 +139,15 @@ class ReportDownloader:
 
                             cls.select_pnl_element(item)
 
-                            date_range_str = cls.enter_date_range(current_start, current_end, item, segment)
+                            date_range_str, txt = cls.enter_date_range(current_start, current_end, item, segment)
+                            if date_range_str!= txt or cls.check_for_error_text_js():
+                                break
 
                             arrow_button = WebDriverWait(cls.driver, 10).until(
                                 EC.element_to_be_clickable((By.XPATH, item['button'])))
                             cls.highlight_element(arrow_button)
                             arrow_button.click()
-                            if cls.check_for_error_text_js(current_start.strftime("%Y-%m-%d")):
+                            if cls.check_for_error_text_js():
                                 break
                             download_csv_link = WebDriverWait(cls.driver, 15).until(
                                 EC.element_to_be_clickable((By.XPATH, item['href'])))
@@ -178,8 +181,15 @@ class ReportDownloader:
         date_range.send_keys(Keys.DELETE)
         date_range.send_keys(date_range_str)
         date_range.send_keys(Keys.ENTER)
+        time.sleep(1)
+        date_range = WebDriverWait(cls.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, item['date_range'])))
+        date_range.send_keys(Keys.CONTROL + "a")
+        date_range.send_keys(Keys.CONTROL + "c")
+        text= pyperclip.paste()
         logger.info(f"Applied date filter {date_range_str} for {segment}")
-        return date_range_str
+
+        return date_range_str, text
 
     @classmethod
     def select_pnl_element(cls, item):
@@ -203,11 +213,14 @@ class ReportDownloader:
         logger.info(f"Selected {segment} in dropdown.")
 
     @classmethod
-    def check_for_error_text_js(cls, current_start_str):
+    def check_for_error_text_js(cls):
         """Returns True if 'something went wrong' or 'empty' is present anywhere in the page source."""
 
-        result = not cls.driver.execute_script(f"return document.body.innerText.includes('{current_start_str}');")
-
+        result = cls.driver.execute_script(
+            "return document.body.innerText.includes('something went wrong') || "
+            "document.body.innerText.includes(\"Report's empty\") || "
+            "document.body.innerText.includes(\"Console under maintenance\") ;"
+        )
         if result:
             logger.warning('Report is empty or something went wrong')
         return result

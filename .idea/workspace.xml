@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="fully working code for report download and upload functions">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="moved parameter_manager to settings folder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/parameter_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/parameter_loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/market_ticker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/threads/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/date_time_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/date_time_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/parameter_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/parameter_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -294,14 +286,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00017" summary="upload_reports created. trades, profit_loss, ledger_entry models created/updated">
-      <option name="closed" value="true" />
-      <created>1741036294946</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1741036294946</updated>
     </task>
     <task id="LOCAL-00018" summary="load_reports.py is tested executing successfully. Need to clean up the code">
       <option name="closed" value="true" />
@@ -687,11 +671,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742146280491</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="moved parameter_manager to settings folder">
+      <option name="closed" value="true" />
+      <created>1742150901359</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1742150901364</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added exceptions to default data load into tables" />
     <MESSAGE value="db_connect cleaned up" />
     <MESSAGE value="made fetch_parms.py thread safe" />
     <MESSAGE value="code cleanup for download_reports" />
@@ -716,7 +707,8 @@
     <MESSAGE value="changes related to report_uploader" />
     <MESSAGE value="fixed column related issues in report uploader" />
     <MESSAGE value="fully working code for report download and upload functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="fully working code for report download and upload functions" />
+    <MESSAGE value="moved parameter_manager to settings folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved parameter_manager to settings folder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -748,8 +740,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/threads/report_downloader.py</url>
-          <line>179</line>
-          <option name="timeStamp" value="330" />
+          <line>149</line>
+          <option name="timeStamp" value="331" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
