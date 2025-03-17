@@ -1,30 +1,34 @@
-from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, Integer, event, UniqueConstraint, Index
+from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, Integer, event, UniqueConstraint, Index, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
+
+from src.settings.parameter_loader import Source, DEFAULT_ALGO_SCHEDULE_RECORDS
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source, DEFAULT_ALGO_SCHEDULE_RECORDS
 
 logger = get_logger(__name__)
 
 
 class AlgoSchedule(Base):
     """Stores schedule definitions that can be referenced by other tables."""
-    __tablename__ = "algo_schedule"
+    __tablename__ = "algo_schedules"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(20), nullable=False, unique=True)  # Unique constraint for referential integrity
     is_active = Column(Boolean, nullable=False, default=True)
-    source = Column(Enum(Source), nullable=True, server_default="MANUAL")
+    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_schedule_time = relationship("AlgoScheduleTime", back_populates="algo_schedule")
-    algo_thread_status = relationship("AlgoThreadStatus", back_populates="algo_schedule")
-    algo_thread_schedule_xref = relationship("AlgoThreadScheduleXref", back_populates="algo_schedule", cascade="all, delete-orphan")
+    algo_schedule_time = relationship("AlgoScheduleTime", back_populates="algo_schedules")
+    algo_thread_status = relationship("AlgoThreadStatus", back_populates="algo_schedules")
+    algo_thread_schedule_xref = relationship("AlgoThreadScheduleXref", back_populates="algo_schedules",
+                                             cascade="all, delete-orphan")
 
     __table_args__ = (
         UniqueConstraint('schedule', name='uq_schedule'),
@@ -43,7 +47,7 @@ def initialize_default_records(connection):
         table = AlgoSchedule.__table__
         for record in DEFAULT_ALGO_SCHEDULE_RECORDS:
             exists = connection.execute(select(table.c.schedule).where(
-                table.c.schedule == record['schedule'])).scalar() is not None
+                table.c.schedule == record['schedule'])).scalar_one_or_none() is not None
 
             if not exists:
                 connection.execute(table.insert(), record)

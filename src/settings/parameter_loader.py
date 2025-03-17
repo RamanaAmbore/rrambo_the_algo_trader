@@ -22,6 +22,13 @@ class Source(enum.Enum):
     FRONTEND = 'FRONTEND'
     CODE = 'CODE'
 
+class ThreadStatusEnum(enum.Enum):
+    STARTED = "started"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    RESTARTED = "restarted"
+
+
 
 DEFAULT_ACCESS_TOKENS = [{'account': 'ZG0790', 'token': ''}, {'account': 'ZJ6294', 'token': None}]
 
@@ -98,3 +105,5 @@ DEFAULT_PARAMETERS = [  # Zerodha Credentials
 
 DEFAULT_WATCHLISTS = [{'watchlist': 'STOCKS'}, {'watchlist': 'STOCKS-TURNAROUND'}, {'watchlist': 'OPTIONS'},
                       {'watchlist': 'POSITION-WATCHLIST'}, {'watchlist': 'HOLDING-WATCHLIST'}]
+
+

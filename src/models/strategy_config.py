@@ -1,12 +1,13 @@
 from sqlalchemy import (
-    Column, Integer, String, DateTime, JSON, text, Boolean, 
+    Column, Integer, String, DateTime, JSON, text, Boolean,
     ForeignKey, Enum, Index
 )
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
@@ -18,9 +19,9 @@ class StrategyConfig(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     strategy_name = Column(String(50), unique=True, nullable=False)
     parameters = Column(JSON, nullable=False)
-    source = Column(Enum(Source), nullable=True, server_default="MANUAL")
+    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                      server_default=text("CURRENT_TIMESTAMP"))
+                       server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

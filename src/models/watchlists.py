@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, DateTime, text, Boolean, Index, Enum, UniqueConstraint, event, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
+
 from src.settings.parameter_loader import Source, DEFAULT_WATCHLISTS
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
@@ -13,9 +14,9 @@ class Watchlists(Base):
     """Model for storing user watchlists."""
     __tablename__ = "watchlists"
 
-    id = Column(Integer, primary_key=True,  autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), unique=True)
-    source = Column(Enum(Source), nullable=True, server_default="MANUAL")
+    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
@@ -35,7 +36,8 @@ def initialize_default_records(connection):
         table = Watchlists.__table__
         for record in DEFAULT_WATCHLISTS:
             exists = connection.execute(
-                select(table.c.watchlist).where(table.c.watchlist == record['watchlist'])).scalar() is not None
+                select(table.c.watchlist).where(
+                    table.c.watchlist == record['watchlist'])).scalar_one_or_none() is not None
 
             if not exists:
                 connection.execute(table.insert(), record)

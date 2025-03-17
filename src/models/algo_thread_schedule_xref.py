@@ -1,9 +1,11 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum, Boolean, text, event, UniqueConstraint, Index
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum, Boolean, text, event, UniqueConstraint, \
+    Index, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
+
+from src.settings.parameter_loader import Source, DEFAULT_THREAD_SCHEDULE_XREF
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
-from src.settings.parameter_loader import Source, DEFAULT_THREAD_SCHEDULE_XREF
 from .base import Base
 
 logger = get_logger(__name__)
@@ -15,16 +17,18 @@ class AlgoThreadScheduleXref(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(50), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
-    schedule = Column(String(20), ForeignKey("algo_schedule.schedule", ondelete="CASCADE"), nullable=False)
-    source = Column(Enum(Source), nullable=True, server_default="MANUAL")
+    schedule = Column(String(20), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                      server_default=text("CURRENT_TIMESTAMP"))
+                       server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 
     # Relationships
     algo_thread = relationship("AlgoThreads", back_populates="algo_thread_schedule_xref")
-    algo_schedule = relationship("AlgoSchedule", back_populates="algo_thread_schedule_xref")
+    algo_schedules = relationship("AlgoSchedule", back_populates="algo_thread_schedule_xref")
 
     __table_args__ = (
         UniqueConstraint('thread', 'schedule', name='uq_thread_schedule'),
@@ -46,7 +50,7 @@ def initialize_default_records(connection):
                     table.c.thread == record['thread'],
                     table.c.schedule == record['schedule']
                 )
-            ).scalar() is not None
+            ).scalar_one_or_none() is not None
 
             if not exists:
                 connection.execute(table.insert(), record)

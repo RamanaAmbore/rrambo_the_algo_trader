@@ -2,10 +2,11 @@ from sqlalchemy import (Column, String, Numeric, Integer, select, DateTime, text
                         CheckConstraint, Index, UniqueConstraint)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
@@ -22,7 +23,7 @@ class ReportLedgerEntries(Base):
     debit = Column(Numeric(10, 2), default=0.00, nullable=True)
     credit = Column(Numeric(10, 2), default=0.00, nullable=True)
     net_balance = Column(Numeric(15, 2), default=0.00)
-    source = Column(Enum(Source), nullable=True, server_default="REPORTS")
+    source = Column(Enum(Source), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)

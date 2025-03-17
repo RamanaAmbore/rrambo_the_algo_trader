@@ -178,7 +178,7 @@ async def test_async_session():
     try:
         async with DatabaseManager.get_async_session() as session:
             result = await session.execute(text("SELECT 1"))
-            logger.info(f"Async session test result: {result.scalar()}")
+            logger.info(f"Async session test result: {result.scalar_one_or_none()}")
     except Exception as e:
         logger.error(f"Async session test failed: {e}")
 
@@ -188,7 +188,7 @@ def test_sync_session():
     try:
         with DatabaseManager.get_sync_session() as session:
             result = session.execute(text("SELECT 1"))
-            logger.info(f"Sync session test result: {result.scalar()}")
+            logger.info(f"Sync session test result: {result.scalar_one_or_none()}")
     except Exception as e:
         logger.error(f"Sync session test failed: {e}")
 

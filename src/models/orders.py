@@ -1,10 +1,11 @@
 from sqlalchemy import Column, String, Integer, Numeric, Boolean, DateTime, JSON, text, ForeignKey, Enum, \
-    CheckConstraint, Index
+    CheckConstraint, Index, func
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
@@ -73,11 +74,13 @@ class Orders(Base):
     meta = Column(JSON, nullable=True)  # Any additional order metadata (JSON format)
     tag = Column(String(20), nullable=True)  # Custom order tag (if any)
     guid = Column(String(100), nullable=True)  # Unique identifier for the order request
-    source = Column(Enum(Source), nullable=True, server_default="API")  # Token source (e.g., API)
+    source = Column(Enum(Source), nullable=False, server_default="API")  # Token source (e.g., API)
 
     # Logging and tracking
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

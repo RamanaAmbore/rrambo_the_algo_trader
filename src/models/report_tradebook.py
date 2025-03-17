@@ -3,16 +3,16 @@ from sqlalchemy import (
     BigInteger, ForeignKey, Enum, CheckConstraint, Index, UniqueConstraint
 )
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
 TRADE_TYPES = ["buy", "sell"]
 SEGMENTS = ["EQ", "FO", "CD", "CO"]
-
 
 
 class ReportTradebook(Base):
@@ -35,9 +35,9 @@ class ReportTradebook(Base):
     trade_date = Column(DateTime(timezone=True), nullable=False)
     order_execution_time = Column(DateTime(timezone=True), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=True)
-    source = Column(Enum(Source), nullable=True, server_default="REPORTS")
+    source = Column(Enum(Source), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                      server_default=text("CURRENT_TIMESTAMP"))
+                       server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

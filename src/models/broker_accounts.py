@@ -1,10 +1,11 @@
-from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, event, Index, UniqueConstraint
+from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, event, Index, UniqueConstraint, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
+
+from src.settings.parameter_loader import Source, DEFAULT_BROKER_ACCOUNTS
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source, DEFAULT_BROKER_ACCOUNTS
 
 logger = get_logger(__name__)
 
@@ -15,9 +16,11 @@ class BrokerAccounts(Base):
 
     account = Column(String(10), primary_key=True)
     broker_name = Column(String(20), nullable=False)
-    source = Column(Enum(Source), nullable=True, server_default="MANUAL")
+    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                      server_default=text("CURRENT_TIMESTAMP"))
+                       server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 
@@ -59,7 +62,7 @@ def initialize_default_records(connection):
                 select(table.c.account).where(
                     table.c.account == record['account']
                 )
-            ).scalar() is not None
+            ).scalar_one_or_none() is not None
 
             if not exists:
                 connection.execute(table.insert(), record)

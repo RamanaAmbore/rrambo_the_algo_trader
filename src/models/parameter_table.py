@@ -1,7 +1,7 @@
 from typing import Optional
 
 from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Enum, Index, Boolean, event,
-                        CheckConstraint)
+                        CheckConstraint, func)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
@@ -22,7 +22,9 @@ class ParameterTable(Base):
     parameter = Column(String(50), nullable=False)
     value = Column(String(255), nullable=True)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian)
-    source = Column(Enum(Source), nullable=False, server_default="MANUAL")
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
+    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 
@@ -61,7 +63,7 @@ def initialize_default_records(connection):
                     table.c.parameter == record['parameter'],
                     table.c.account == record.get('account')
                 )
-            ).scalar() is not None
+            ).scalar_one_or_none() is not None
 
             if not exists:
                 connection.execute(table.insert(), record)

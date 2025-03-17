@@ -1,12 +1,13 @@
 from sqlalchemy import (
-    Column, Integer, DateTime, DECIMAL, ForeignKey, text, 
-    String, Boolean, Enum, CheckConstraint, Index
+    Column, Integer, DateTime, DECIMAL, ForeignKey, text,
+    String, Boolean, Enum, CheckConstraint, Index, func
 )
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
@@ -18,15 +19,17 @@ class OptionGreeks(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     instrument_token = Column(Integer, ForeignKey("option_contracts.instrument_token", ondelete="CASCADE"),
-                            nullable=False)
+                              nullable=False)
     delta = Column(DECIMAL(10, 4), nullable=True)  # Higher precision for Greeks
     theta = Column(DECIMAL(10, 4), nullable=True)
     vega = Column(DECIMAL(10, 4), nullable=True)
     gamma = Column(DECIMAL(10, 4), nullable=True)
     iv = Column(DECIMAL(10, 2), nullable=True)  # IV typically has 2 decimal places
-    source = Column(Enum(Source), nullable=True, server_default="API")
+    source = Column(Enum(Source), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                      server_default=text("CURRENT_TIMESTAMP"))
+                       server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

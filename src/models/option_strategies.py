@@ -1,10 +1,11 @@
 from sqlalchemy import (Column, Integer, String, DateTime, DECIMAL, JSON, Boolean, text, ForeignKey, Enum,
-                        CheckConstraint, Index)
+                        CheckConstraint, Index, func)
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
@@ -20,9 +21,11 @@ class OptionStrategies(Base):
     max_profit = Column(DECIMAL(12, 2), nullable=True)
     max_loss = Column(DECIMAL(12, 2), nullable=True)
     breakeven_points = Column(JSON, nullable=True)
-    source = Column(Enum(Source), nullable=True, server_default="MANUAL")
+    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

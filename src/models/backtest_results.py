@@ -1,10 +1,11 @@
 from sqlalchemy import Column, Integer, DateTime, ForeignKey, DECIMAL, text, String, Boolean, Index, CheckConstraint, \
-    Enum
+    Enum, func
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
@@ -35,10 +36,11 @@ class BacktestResults(Base):
     win_rate = Column(DECIMAL(6, 3), nullable=True)  # Win rate percentage (allowing up to 100.000%)
 
     # Metadata
-    source = Column(Enum(Source), nullable=True, server_default="CODE")  # Token source (e.g., API)
+    source = Column(Enum(Source), nullable=False, server_default="CODE")  # Token source (e.g., API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
-
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     # Error/warning tracking
     warning_error = Column(Boolean, nullable=False, default=False)  # Whether backtest encountered warnings/errors
     notes = Column(String(255), nullable=True)  # Additional messages or error details

@@ -1,12 +1,13 @@
 from sqlalchemy import (
-    Column, String, Integer, DateTime, text, Boolean, 
+    Column, String, Integer, DateTime, text, Boolean,
     ForeignKey, Enum, Index, Numeric
 )
 from sqlalchemy.orm import relationship
+
+from src.settings.parameter_loader import Source
 from src.utils.date_time_utils import timestamp_indian
 from src.utils.logger import get_logger
 from .base import Base
-from src.settings.parameter_loader import Source
 
 logger = get_logger(__name__)
 
@@ -26,9 +27,9 @@ class StockList(Base):
     expiry = Column(DateTime(timezone=True), nullable=True)  # For F&O instruments
     strike_price = Column(Numeric(10, 2), nullable=True)  # For options
     is_tradable = Column(Boolean, nullable=False, default=True)
-    source = Column(Enum(Source), nullable=True, server_default="API")
+    source = Column(Enum(Source), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                      server_default=text("CURRENT_TIMESTAMP"))
+                       server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 
