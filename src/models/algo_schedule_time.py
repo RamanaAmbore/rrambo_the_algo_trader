@@ -32,7 +32,7 @@ class AlgoScheduleTime(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_schedules = relationship("AlgoSchedule", back_populates="algo_schedule_time")
+    algo_schedules = relationship("AlgoSchedules", back_populates="algo_schedule_time")
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),

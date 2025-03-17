@@ -1,6 +1,6 @@
 from .access_tokens import AccessTokens
 from .backtest_results import BacktestResults
-from .algo_schedules import AlgoSchedule
+from .algo_schedules import AlgoSchedules
 from .algo_schedule_time import AlgoScheduleTime
 from .option_contracts import OptionContracts
 from .option_greeks import OptionGreeks

@@ -36,11 +36,10 @@ class AlgoThreadStatus(Base):
     # Relationships
     algo_thread = relationship("AlgoThreads", back_populates="algo_thread_status")
     broker_account = relationship("BrokerAccounts", back_populates="algo_thread_status")
-    algo_schedules = relationship("AlgoSchedule", back_populates="algo_thread_status")
+    algo_schedules = relationship("AlgoSchedules", back_populates="algo_thread_status")
 
     __table_args__ = (
         UniqueConstraint('thread', 'account', 'timestamp', name='uq_algo_thread_account'),
-        Index('idx_active_threads', 'thread_status', 'next_run'),
         Index('idx_thread_status', 'thread', 'thread_status'),
     )
 

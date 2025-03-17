@@ -7,6 +7,7 @@ if you need to delete the tables:
 drop table  access_tokens cascade;
 drop table  backtest_results cascade;
 drop table  algo_schedule_time cascade;
+drop table  algo_schedules cascade;
 drop table  option_contracts cascade;
 drop table  option_greeks cascade;
 drop table  option_strategies cascade;

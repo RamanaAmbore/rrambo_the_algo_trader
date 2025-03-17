@@ -28,7 +28,7 @@ class AlgoThreadScheduleXref(Base):
 
     # Relationships
     algo_thread = relationship("AlgoThreads", back_populates="algo_thread_schedule_xref")
-    algo_schedules = relationship("AlgoSchedule", back_populates="algo_thread_schedule_xref")
+    algo_schedules = relationship("AlgoSchedules", back_populates="algo_thread_schedule_xref")
 
     __table_args__ = (
         UniqueConstraint('thread', 'schedule', name='uq_thread_schedule'),
