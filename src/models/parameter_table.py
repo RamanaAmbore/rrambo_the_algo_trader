@@ -1,7 +1,7 @@
 from typing import Optional
 
 from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Enum, Index, Boolean, event,
-                        CheckConstraint, func)
+                        CheckConstraint, func, text)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
@@ -21,7 +21,7 @@ class ParameterTable(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     parameter = Column(String(50), nullable=False)
     value = Column(String(255), nullable=True)
-    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian)
+    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)

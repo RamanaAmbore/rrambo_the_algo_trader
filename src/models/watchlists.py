@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, text, Boolean, Index, Enum, UniqueConstraint, event, Integer
+from sqlalchemy import Column, String, DateTime, text, Boolean, Index, Enum, UniqueConstraint, event, Integer, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
@@ -19,6 +19,8 @@ class Watchlists(Base):
     source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

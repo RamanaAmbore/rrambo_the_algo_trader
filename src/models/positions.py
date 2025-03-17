@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, String, Integer, DateTime, text, Boolean,
-    ForeignKey, Enum, Index, Numeric, CheckConstraint
+    ForeignKey, Enum, Index, Numeric, CheckConstraint, func
 )
 from sqlalchemy.orm import relationship
 
@@ -37,6 +37,8 @@ class Positions(Base):
     source = Column(Enum(Source), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

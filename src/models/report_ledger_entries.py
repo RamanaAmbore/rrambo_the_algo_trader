@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, String, Numeric, Integer, select, DateTime, text, Boolean, ForeignKey, Enum,
-                        CheckConstraint, Index, UniqueConstraint)
+                        CheckConstraint, Index, UniqueConstraint, func)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import relationship
 
@@ -26,6 +26,8 @@ class ReportLedgerEntries(Base):
     source = Column(Enum(Source), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 

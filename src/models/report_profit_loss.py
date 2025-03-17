@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, String, Numeric, Integer, DateTime, text, Boolean,
-    ForeignKey, Enum, CheckConstraint, Index, UniqueConstraint
+    ForeignKey, Enum, CheckConstraint, Index, UniqueConstraint, func
 )
 from sqlalchemy.orm import relationship
 
@@ -36,6 +36,8 @@ class ReportProfitLoss(Base):
     source = Column(Enum(Source), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 
