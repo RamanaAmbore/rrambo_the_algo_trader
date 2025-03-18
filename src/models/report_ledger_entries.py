@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import relationship
 
 from src.settings.parameter_loader import Source
-from src.utils.date_time_utils import timestamp_indian
-from src.utils.logger import get_logger
+from src.helpers.date_time_utils import timestamp_indian
+from src.helpers.logger import get_logger
 from .base import Base
 
 logger = get_logger(__name__)

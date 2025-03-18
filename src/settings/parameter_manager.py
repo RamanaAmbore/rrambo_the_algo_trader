@@ -8,7 +8,7 @@ from typing import Dict, Any, Optional
 import yaml
 from dotenv import load_dotenv
 
-from src.utils.cipher_utils import decrypt_text
+from src.helpers.cipher_utils import decrypt_text
 
 load_dotenv()
 
@@ -34,11 +34,11 @@ except Exception as e:
 
 class ParameterManager:
     """Environment configuration and parameter management."""
-    
+
     # Thread safety lock
     _lock = threading.Lock()
     _initialized = False
-    
+
     # Database Configuration
     SQLITE_DB: bool = os.getenv("SQLITE_DB", "True").lower() == "true"
     SQLITE_PATH: str = os.getenv("SQLITE_PATH", "database.db")
@@ -66,6 +66,7 @@ class ParameterManager:
     INSTRUMENT_URL: Optional[str] = ''
     REDIRECT_URL: Optional[str] = ''
     ACCESS_TOKEN_VALIDITY: Optional[int] = 0
+    TEST_MODE: bool = False
 
     # Download Configuration
     REFRESH_TRADEBOOK: Optional[bool] = True
@@ -75,8 +76,9 @@ class ParameterManager:
     REPORT_START_DATE: Optional[datetime] = ''
     REPORT_LOOKBACK_DAYS: Optional[int] = 0
     USERS: list = []
-    MAX_SELENIUM_RETRIES=0
-    KITE_URL=''
+    MAX_RETRIES = 0
+    RETRY_DELAY = 0
+    KITE_URL = ''
 
     @classmethod
     def refresh_parameters(cls, records=None, refresh=False) -> None:
@@ -86,7 +88,7 @@ class ParameterManager:
                 if not cls._initialized or refresh:
                     if records is None:
                         return
-                        
+
                     temp_credentials = {}
                     for record in records:
                         account = None if record.account is None else record.account.strip()
@@ -106,7 +108,7 @@ class ParameterManager:
                                 setattr(cls, parameter, int(value))
                             else:
                                 setattr(cls, parameter, value)
-                    
+
                     cls.USER_CREDENTIALS = temp_credentials
                     cls.USERS = list(cls.USER_CREDENTIALS.keys())
                     cls._initialized = True

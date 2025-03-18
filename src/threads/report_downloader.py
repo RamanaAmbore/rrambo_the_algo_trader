@@ -14,9 +14,9 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 from src.core.database_manager import DatabaseManager as Db
 from src.settings.parameter_manager import ParameterManager as Parm, sc
-from src.utils.date_time_utils import today_indian
-from src.utils.logger import get_logger
-from src.utils.utils import generate_totp, delete_folder_contents
+from src.helpers.date_time_utils import today_indian
+from src.helpers.logger import get_logger
+from src.helpers.utils import generate_totp, delete_folder_contents
 
 logger = get_logger(__name__)  # Initialize logger
 Db.initialize_parameters()
@@ -153,7 +153,7 @@ class ReportDownloader:
         """Downloads reports from Zerodha Console and returns a dictionary of downloaded files."""
         os.makedirs(Parm.DOWNLOAD_DIR, exist_ok=True)
         all_downloaded_files = {}
-        max_selenium_retries = Parm.MAX_SELENIUM_RETRIES
+        max_retries = Parm.MAX_RETRIES
 
         for name, item in sc.REPORTS_PARM.items():
             if not cls.refresh_reports.get(name, False):
@@ -169,7 +169,7 @@ class ReportDownloader:
 
                 for segment in item['segment']['values']:  # Select both segments
 
-                    for counter in range(1, max_selenium_retries + 1):
+                    for counter in range(1, max_retries + 1):
                         date_range_str = ""
                         try:
                             cls.select_segment(downloaded_files, item, segment)

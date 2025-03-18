@@ -4,8 +4,8 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, text
 
 from src.models import StockList
-from src.utils.date_time_utils import timestamp_indian
-from src.utils import DbConnect as Db
+from src.helpers.date_time_utils import timestamp_indian
+from src.helpers import DbConnect as Db
 
 def save_stock_list(sync=False):
     with Db.get_session(sync) as session:

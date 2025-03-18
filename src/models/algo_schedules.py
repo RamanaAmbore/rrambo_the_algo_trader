@@ -2,9 +2,9 @@ from sqlalchemy import Column, String, DateTime, text, Enum, Integer, event, Uni
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_ALGO_SCHEDULE_RECORDS
-from src.utils.date_time_utils import timestamp_indian
-from src.utils.logger import get_logger
+from src.settings.parameter_loader import Source, DEFAULT_ALGO_SCHEDULES
+from src.helpers.date_time_utils import timestamp_indian
+from src.helpers.logger import get_logger
 from .base import Base
 
 logger = get_logger(__name__)
@@ -45,7 +45,7 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = AlgoSchedules.__table__
-        for record in DEFAULT_ALGO_SCHEDULE_RECORDS:
+        for record in DEFAULT_ALGO_SCHEDULES:
             exists = connection.execute(select(table.c.schedule).where(
                 table.c.schedule == record['schedule'])).scalar_one_or_none() is not None
 

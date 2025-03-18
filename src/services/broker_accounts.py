@@ -1,5 +1,5 @@
 from src.models import BrokerAccounts
-from src.utils import DbConnect as Db
+from src.helpers import DbConnect as Db
 
 
 def insert_account(account_data, sync=True):

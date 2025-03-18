@@ -2,7 +2,7 @@ from sqlalchemy import select
 
 from src.models import Orders
 
-from src.utils import DbConnect as Db
+from src.helpers import DbConnect as Db
 # def timestamp_indian():
 #     """Returns the current timestamp (Indian timezone adjustment can be handled externally)."""
 #     return datetime.now()

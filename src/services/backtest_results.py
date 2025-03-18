@@ -2,7 +2,7 @@
 from sqlalchemy import select
 
 from src.models import BacktestResults
-from src.utils import DbConnect as Db
+from src.helpers import DbConnect as Db
 
 
 async def insert_result(result_data, sync=False):

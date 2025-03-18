@@ -4,9 +4,9 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, WeekdayEnum, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
-from src.utils.date_time_utils import timestamp_indian
-from src.utils.logger import get_logger
+from src.settings.parameter_loader import Source, Weekday, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
+from src.helpers.date_time_utils import timestamp_indian
+from src.helpers.logger import get_logger
 from .base import Base
 
 logger = get_logger(__name__)
@@ -19,7 +19,7 @@ class AlgoScheduleTime(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(20), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
     market_date = Column(Date, nullable=True)
-    weekday = Column(Enum(WeekdayEnum), nullable=True)
+    weekday = Column(Enum(Weekday), nullable=True)
     start_time = Column(Time, nullable=True)
     end_time = Column(Time, nullable=True)
     is_market_open = Column(Boolean, nullable=False, default=True)

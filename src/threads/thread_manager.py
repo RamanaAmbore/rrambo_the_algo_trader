@@ -6,7 +6,7 @@ from datetime import datetime
 from src.database import engine
 from src.models.algo_thread_status import AlgoThreadStatus
 from src.models.algo_thread_schedule_xref import AlgoThreadScheduleXref
-from src.utils.logger import get_logger
+from src.helpers.logger import get_logger
 
 logger = get_logger(__name__)
 Session = sessionmaker(bind=engine)

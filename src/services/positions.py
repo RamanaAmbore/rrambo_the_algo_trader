@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.models import Positions
 # Custom utilities
-from src.utils import DbConnect as Db
+from src.helpers import DbConnect as Db
 
 async def get_all_results(account, sync=False):
     """

@@ -7,7 +7,7 @@ from src.models.holdings import Holdings
 from src.models.orders import Orders
 from src.models.positions import Positions
 from src.core.database_manager import DatabaseManager as Db
-from src.utils.logger import get_logger
+from src.helpers.logger import get_logger
 from src.core.kite_api_login import ZerodhaKite
 
 logger = get_logger(__name__)

@@ -7,9 +7,9 @@ import pandas as pd
 from src.services.report_ledger_entries_service import ReportLedgerEntriesService
 from src.services.report_profit_loss_service import ReportProfitLossService
 from src.services.report_tradebook_service import ReportTradebookService
-from src.utils.logger import get_logger
+from src.helpers.logger import get_logger
 from src.settings.parameter_manager import ParameterManager as Parms, sc
-from src.utils.utils import read_file_content
+from src.helpers.utils import read_file_content
 
 logger = get_logger(__name__)
 
@@ -90,7 +90,7 @@ class ReportUploader:
                         data_records = pd.concat([data_records, data_df], ignore_index=True)
 
                 if not data_records.empty:
-                    service = service_xref[key]
+                    service = service_xref[key]()
                     tasks.append(service.bulk_insert_report_records(data_records))
 
             await asyncio.gather(*tasks)

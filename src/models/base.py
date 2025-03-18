@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 
-from src.utils.logger import get_logger
+from src.helpers.logger import get_logger
 
 """
 if you need to delete the tables:

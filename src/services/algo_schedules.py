@@ -5,11 +5,11 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from src.models.algo_schedule_time import AlgoScheduleTime
-from src.utils import today_indian
-from src.utils.logger import get_logger
-from src.settings.parameter_loader import DEFAULT_ALGO_SCHEDULE_RECORDS
-from src.utils import sc
-from src.utils import DbConnect as Db
+from src.helpers.date_time_utils import today_indian
+from src.helpers.logger import get_logger
+from src.settings.parameter_loader import DEFAULT_ALGO_SCHEDULES
+from src.settings.parameter_manager import sc
+from src.core.database_manager import DatabaseManager as Db
 
 logger = get_logger(__name__)
 
@@ -27,24 +27,27 @@ def get_market_hours_for_today(account):
             logger.info(f"Checking for MARKET hours for {today} with acc_id {acc_id}")
 
             query = select(AlgoScheduleTime).where(AlgoScheduleTime.market_date.is_(today),
-                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account.is_(
-                    acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
+                                                   AlgoScheduleTime.thread_name.is_(market),
+                                                   AlgoScheduleTime.account.is_(
+                                                       acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
 
             logger.info(f"Checking default weekday MARKET hours for {weekday} with acc_id {acc_id}")
             query = select(AlgoScheduleTime).where(AlgoScheduleTime.weekday.is_(weekday),
-                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account.is_(
-                    acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
+                                                   AlgoScheduleTime.thread_name.is_(market),
+                                                   AlgoScheduleTime.account.is_(
+                                                       acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
 
             logger.info(f"Checking for GLOBAL default MARKET hours with acc_id {acc_id}")
             query = select(AlgoScheduleTime).where(AlgoScheduleTime.weekday.is_("GLOBAL"),
-                                                AlgoScheduleTime.thread_name.is_(market), AlgoScheduleTime.account.is_(
-                    acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
+                                                   AlgoScheduleTime.thread_name.is_(market),
+                                                   AlgoScheduleTime.account.is_(
+                                                       acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
@@ -65,9 +68,10 @@ def get_batch_schedules(session: Session, account, batch_type=None):
     for acc_id in [account, None]:
         logger.info(f"Checking batch schedules of type {batch_type} for {today} with account {acc_id}")
 
-        query = select(AlgoScheduleTime).where(AlgoScheduleTime.market_date.is_(today), AlgoScheduleTime.thread_name.is_(market),
-                                            AlgoScheduleTime.account.is_(
-                                                acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
+        query = select(AlgoScheduleTime).where(AlgoScheduleTime.market_date.is_(today),
+                                               AlgoScheduleTime.thread_name.is_(market),
+                                               AlgoScheduleTime.account.is_(
+                                                   acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
 
         if batch_type:
             query = query.where(AlgoScheduleTime.thread_name.in_(batch_type))
@@ -92,11 +96,10 @@ def ensure_default_records():
 
         if not existing:
             try:
-                for record in DEFAULT_ALGO_SCHEDULE_RECORDS:
+                for record in DEFAULT_ALGO_SCHEDULES:
                     session.add(AlgoScheduleTime(**record))
                 session.commit()
                 logger.info("Default market hours inserted manually")
             except Exception as e:
                 logger.error(f"Error inserting default records: {e}")
                 session.rollback()
-

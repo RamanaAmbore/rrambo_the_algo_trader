@@ -2,7 +2,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from src.settings.parameter_manager import sc  # Importing timezone settings
-from src.utils.logger import get_logger
+from src.helpers.logger import get_logger
 
 logger = get_logger(__name__)
 

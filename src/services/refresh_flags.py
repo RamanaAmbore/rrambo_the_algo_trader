@@ -1,6 +1,6 @@
 from src.models import RefreshFlags
 
-from src.utils import DbConnect as Db
+from src.helpers import DbConnect as Db
 def get_setting(sync=False):
     """
     Fetch a setting value by key from the database.
