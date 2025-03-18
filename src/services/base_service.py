@@ -37,24 +37,29 @@ class BaseService:
             return result.scalars().first()
 
     async def insert_record(self, record: Union[Dict[str, Any], pd.Series]):
-        """Insert a single record and return it."""
+        """Insert a single record and return its ID."""
         if isinstance(record, pd.Series):
             record = record.to_dict()
 
-        record_obj = self.model(**record)
         async with Db.get_async_session() as session:
             try:
-                session.add(record_obj)
+                stmt = insert(self.model).values(record).returning(self.model.id)  # Fetch ID
+                result = await session.execute(stmt)
+                inserted_id = result.scalar_one()  # Extract inserted ID
                 await session.commit()
-                logger.info(f"Inserted record: {record_obj}")
-                return record_obj
+
+                logger.info(f"Inserted record with ID: {inserted_id}")
+                return inserted_id  # Return the ID instead of the whole object
+
             except IntegrityError as e:
                 await session.rollback()
                 logger.error(f"Integrity error inserting record: {e}")
+
             except Exception as e:
                 await session.rollback()
                 logger.error(f"Unexpected error inserting record: {e}")
-        return None
+
+        return None  # Return None if insert fails
 
     async def get_existing_records(self, unique_fields: List[str]) -> Set[Tuple[Any, ...]]:
         """Fetch existing records as a set of tuples based on unique fields."""

@@ -16,7 +16,7 @@ class ReportProfitLossService(BaseService):
     """Service class for handling ReportProfitLoss database operations."""
 
     def __init__(self):
-        super().__init__()
+        super().__init__(model)
 
     async def bulk_insert_report_records(self, records_df: pd.DataFrame):
         """Bulk insert multiple trade records, skipping duplicates."""

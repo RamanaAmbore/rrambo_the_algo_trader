@@ -25,7 +25,7 @@ class Source(enum.Enum):
 
 
 class ThreadStatus(enum.Enum):
-    RUNNING = "RUNNING"
+    IN_PROGRESS = "IN_RPOGRESS"
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
     RESTARTED = "RESTARTED"
@@ -38,7 +38,7 @@ class Account(enum.Enum):
 
 class Schedule(enum.Enum):
     MARKET = 'MARKET'
-    PRE_MARKET = 'PRE-MARKET'
+    PRE_MARKET = 'PRE_MARKET'
 
 
 class Thread(enum.Enum):
