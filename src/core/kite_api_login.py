@@ -7,7 +7,7 @@ from src.services.access_tokens import get_stored_access_tokens
 from src.core.database_manager import DatabaseManager
 from src.helpers.logger import get_logger
 from src.settings.parameter_manager import ParameterManager as Parm
-from src.settings.parameter_manager import sc
+from src.settings.parameter_manager import const
 from src.helpers.utils import generate_totp
 
 logger = get_logger(__name__)
@@ -78,7 +78,7 @@ class ZerodhaKite:
             raise
 
         # Step 2: Perform TOTP authentication
-        for attempt in range(sc.MAX_TOTP_CONN_RETRY_COUNT):
+        for attempt in range(const.MAX_TOTP_CONN_RETRY_COUNT):
             try:
                 totp_pin = generate_totp()
                 response = session.post(cls.twofa_url, data={"user_id": cls.username, "request_id": request_id,
@@ -87,8 +87,8 @@ class ZerodhaKite:
                 logger.info("TOTP authentication successful.")
                 break
             except Exception as e:
-                logger.warning(f"TOTP attempt {attempt + 1} of {sc.MAX_TOTP_CONN_RETRY_COUNT} failed: {e}...")
-                if attempt == sc.MAX_TOTP_CONN_RETRY_COUNT - 1:
+                logger.warning(f"TOTP attempt {attempt + 1} of {const.MAX_TOTP_CONN_RETRY_COUNT} failed: {e}...")
+                if attempt == const.MAX_TOTP_CONN_RETRY_COUNT - 1:
                     logger.error("TOTP authentication failed after multiple attempts.")
                     raise
 

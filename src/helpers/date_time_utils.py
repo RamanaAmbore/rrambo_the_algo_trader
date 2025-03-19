@@ -1,14 +1,14 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from src.settings.parameter_manager import sc  # Importing timezone settings
+from src.settings.parameter_manager import const  # Importing timezone settings
 from src.helpers.logger import get_logger
 
 logger = get_logger(__name__)
 
 # Define constants for timezones
-EST_ZONE = ZoneInfo(sc.EST_TIMEZONE)
-INDIAN_TIMEZONE = ZoneInfo(sc.INDIAN_TIMEZONE)
+EST_ZONE = ZoneInfo(const.EST_TIMEZONE)
+INDIAN_TIMEZONE = ZoneInfo(const.INDIAN_TIMEZONE)
 
 
 # Helper functions for direct use

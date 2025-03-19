@@ -6,21 +6,6 @@ from src.services.algo_thread_status_service import AlgoThreadStatusService
 from src.settings.parameter_loader import ThreadStatus, Schedule, Source
 from src.settings.parameter_manager import ParameterManager as Parms
 
-update_record = {
-    "thread": "market_data_fetcher",
-    "account": "ACC12345",
-    "schedule": "daily_run",
-    "thread_status": "FAILED",  # Updating status after multiple failures
-    "last_run": "2025-03-18 12:00:00",
-    "next_run": "2025-03-18 16:00:00",
-    "run_count": 3,
-    "error_count": 3,  # Increased due to retries
-    "source": "API",
-    "upd_timestamp": "2025-03-18 12:15:00",
-    "warning_error": True,
-    "notes": "Thread failed after 3 retries"
-}
-
 
 async def insert_thread_status(thread_name):
     """Update the thread status in the database."""

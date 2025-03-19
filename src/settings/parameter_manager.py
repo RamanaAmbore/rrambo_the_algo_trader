@@ -25,8 +25,7 @@ def load_yaml(file_name: str) -> dict:
 
 
 try:
-    constants = SimpleNamespace(**load_yaml("constants.yaml"))
-    sc = SimpleNamespace(**constants.source)
+    const = SimpleNamespace(**load_yaml("constants.yaml"))
 except Exception as e:
     print(f"Failed to load constants: {e}")
     raise
@@ -40,25 +39,24 @@ class ParameterManager:
     _initialized = False
 
     # Database Configuration
-    SQLITE_DB: bool = os.getenv("SQLITE_DB", "True").lower() == "true"
-    SQLITE_PATH: str = os.getenv("SQLITE_PATH", "database.db")
+    SQLITE_DB: bool = os.getenv("SQLITE_DB").lower() == "true"
+    SQLITE_PATH: str = os.getenv("SQLITE_PATH")
     POSTGRES_URL: Optional[str] = os.getenv("POSTGRES_URL")
-    DROP_TABLES: bool = os.getenv("DROP_TABLES", "True").lower() == "true"
+    DROP_TABLES: bool = os.getenv("DROP_TABLES").lower() == "true"
     DB_DEBUG: bool = os.getenv('DB_DEBUG', 'false').lower() == 'true'
 
     # Logging Configuration
-    DEBUG_LOG_FILE: str = os.getenv("DEBUG_LOG_FILE", "logs/debug.log")
-    ERROR_LOG_FILE: str = os.getenv("ERROR_LOG_FILE", "logs/error.log")
-    CONSOLE_LOG_LEVEL: str = os.getenv("CONSOLE_LOG_LEVEL", "DEBUG")
-    FILE_LOG_LEVEL: str = os.getenv("FILE_LOG_LEVEL", "DEBUG")
-    ERROR_LOG_LEVEL: str = os.getenv("ERROR_LOG_LEVEL", "ERROR")
+    DEBUG_LOG_FILE: str = os.getenv("DEBUG_LOG_FILE")
+    ERROR_LOG_FILE: str = os.getenv("ERROR_LOG_FILE")
+    CONSOLE_LOG_LEVEL: str = os.getenv("CONSOLE_LOG_LEVEL")
+    FILE_LOG_LEVEL: str = os.getenv("FILE_LOG_LEVEL")
+    ERROR_LOG_LEVEL: str = os.getenv("ERROR_LOG_LEVEL")
 
     # Security Configuration
-    ENCRYPTION_KEY: str = os.getenv('ENCRYPTION_KEY', '')
+    ENCRYPTION_KEY: str = os.getenv('ENCRYPTION_KEY')
 
     # Dynamic Parameters
     USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
-    INSTRUMENT_TOKEN: Optional[str] = ''
     DATA_FETCH_INTERVAL: Optional[int] = 0
     BASE_URL: Optional[str] = ''
     LOGIN_URL: Optional[str] = ''
@@ -79,6 +77,10 @@ class ParameterManager:
     MAX_RETRIES = 0
     RETRY_DELAY = 0
     KITE_URL = ''
+
+    MAX_TOTP_CONN_RETRY_COUNT = 0
+    MAX_KITE_CONN_RETRY_COUNT = 0
+    MAX_SOCKET_RECONNECT_ATTEMPTS = 0
 
     @classmethod
     def refresh_parameters(cls, records=None, refresh=False) -> None:

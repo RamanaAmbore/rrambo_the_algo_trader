@@ -16,7 +16,7 @@ class AlgoSchedules(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(20), nullable=False, unique=True)  # Unique constraint for referential integrity
-    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
+    source = Column(Enum(Source), nullable=False, default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

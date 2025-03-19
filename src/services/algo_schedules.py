@@ -8,7 +8,7 @@ from src.models.algo_schedule_time import AlgoScheduleTime
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.settings.parameter_loader import DEFAULT_ALGO_SCHEDULES
-from src.settings.parameter_manager import sc, ParameterManager as Parms
+from src.settings.parameter_manager import const, ParameterManager as Parms
 from src.core.database_manager import DatabaseManager as Db
 
 logger = get_logger(__name__)
@@ -19,7 +19,7 @@ market = "MARKET"
 def get_market_hours_for_today(account):
     """Retrieve today's market hours with a fallback mechanism."""
 
-    today = datetime.now(tz=ZoneInfo(sc.INDIAN_TIMEZONE)).date()
+    today = datetime.now(tz=ZoneInfo(const.INDIAN_TIMEZONE)).date()
     weekday = today.strftime("%A")
 
     for acc_id in [account, None]:  # Try account-specific first, then global

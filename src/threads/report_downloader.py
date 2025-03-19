@@ -13,7 +13,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 from src.core.database_manager import DatabaseManager as Db
-from src.settings.parameter_manager import ParameterManager as Parm, sc
+from src.settings.parameter_manager import ParameterManager as Parm, const
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp, delete_folder_contents
@@ -90,7 +90,7 @@ class ReportDownloader:
             totp_field = cls.driver.find_element(By.XPATH, "//input[@type='number']")
             cls.highlight_element(totp_field)
 
-            for attempt in range(sc.MAX_TOTP_CONN_RETRY_COUNT):
+            for attempt in range(const.MAX_TOTP_CONN_RETRY_COUNT):
                 ztotp = generate_totp(cls.credential['TOTP_TOKEN'])
                 logger.info(f"Generated TOTP: {ztotp}")
                 totp_field.send_keys(ztotp)
@@ -102,8 +102,8 @@ class ReportDownloader:
                     return
                 else:
                     logger.warning(
-                        f"Invalid TOTP! Retrying for user: {cls.user} (Attempt {attempt + 1}/{sc.MAX_TOTP_CONN_RETRY_COUNT})")
-                if attempt == sc.MAX_TOTP_CONN_RETRY_COUNT - 1:
+                        f"Invalid TOTP! Retrying for user: {cls.user} (Attempt {attempt + 1}/{const.MAX_TOTP_CONN_RETRY_COUNT})")
+                if attempt == const.MAX_TOTP_CONN_RETRY_COUNT - 1:
                     raise ValueError(f"TOTP Authentication Failed for user {cls.user}")
 
         except Exception as e:
@@ -125,7 +125,7 @@ class ReportDownloader:
         return False
 
     @classmethod
-    def wait_for_download_link(cls, item, date_range_str):
+    def wait_for_download_link(cls, item):
         time.sleep(1)
         if cls.check_for_error_text_js():
             return None
@@ -155,7 +155,7 @@ class ReportDownloader:
         all_downloaded_files = {}
         max_retries = Parm.MAX_RETRIES
 
-        for name, item in sc.REPORTS_PARM.items():
+        for name, item in const.REPORTS_PARM.items():
             if not cls.refresh_reports.get(name, False):
                 continue
 

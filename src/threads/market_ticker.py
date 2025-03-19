@@ -4,7 +4,7 @@ import time
 from kiteconnect import KiteTicker
 
 from src.models.algo_schedules import AlgoScheduleTime
-from src.settings.parameter_manager import sc
+from src.settings.parameter_manager import const
 from src.helpers.date_time_utils import today_indian, current_time_indian
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.logger import get_logger
@@ -17,7 +17,7 @@ class MarketTicker(threading.Thread):
     _lock = threading.Lock()
     _initialized = False
     instrument_tokens = set()
-    MAX_RECONNECT_ATTEMPTS = int(sc.MAX_SOCKET_RECONNECT_ATTEMPTS)
+    MAX_RECONNECT_ATTEMPTS = int(const.MAX_SOCKET_RECONNECT_ATTEMPTS)
     RECONNECT_BACKOFF = 5  # Seconds, exponential backoff can be implemented
 
 

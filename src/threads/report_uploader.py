@@ -8,7 +8,7 @@ from src.services.report_ledger_entries_service import ReportLedgerEntriesServic
 from src.services.report_profit_loss_service import ReportProfitLossService
 from src.services.report_tradebook_service import ReportTradebookService
 from src.helpers.logger import get_logger
-from src.settings.parameter_manager import ParameterManager as Parms, sc
+from src.settings.parameter_manager import ParameterManager as Parms, const
 from src.helpers.utils import read_file_content
 
 logger = get_logger(__name__)
@@ -38,9 +38,9 @@ class ReportUploader:
             }
 
             regex_patterns = {
-                "tradebook": sc.REPORTS_PARM["TRADEBOOK"]["file_regex"],
-                "pnl": sc.REPORTS_PARM["PNL"]["file_regex"],
-                "ledger": sc.REPORTS_PARM["LEDGER"]["file_regex"]
+                "tradebook": const.REPORTS_PARM["TRADEBOOK"]["file_regex"],
+                "pnl": const.REPORTS_PARM["PNL"]["file_regex"],
+                "ledger": const.REPORTS_PARM["LEDGER"]["file_regex"]
             }
 
             service_xref = {
