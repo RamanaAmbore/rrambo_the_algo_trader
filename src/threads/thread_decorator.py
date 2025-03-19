@@ -42,18 +42,19 @@ async def insert_thread_status(thread_name):
     return record_id
 
 
-async def update_thread_status(record_id, thread_status):
+async def update_thread_status(record_id, thread_status=ThreadStatus.IN_PROGRESS, run_count=1, error_count=0):
     """Update the thread status in the database."""
     # Define Indian timezone (IST)
 
-    record_id = await AlgoThreadStatusService().update_record(record_id,
-                                                              {
-                                                                  "run_count": 1,
-                                                                  "error_count": 0,
-                                                                  "timestamp": timestamp_indian,
-                                                                  "upd_timestamp": timestamp_indian,
-                                                                  "notes": "Thread started successfully"
-                                                              })
+    return await AlgoThreadStatusService().update_record(record_id,
+                                                         {
+                                                             "thread_status": thread_status,
+                                                             "run_count": run_count,
+                                                             "error_count": error_count,
+                                                             "timestamp": timestamp_indian,
+                                                             "upd_timestamp": timestamp_indian,
+                                                             "notes": "Thread started successfully"
+                                                         })
 
 
 def run_in_thread_with_status(thread_name, retries=Parms.MAX_RETRIES, delay=Parms.RETRY_DELAY):
@@ -62,20 +63,21 @@ def run_in_thread_with_status(thread_name, retries=Parms.MAX_RETRIES, delay=Parm
     def decorator(func):
         def wrapper(*args, **kwargs):
             def target():
-                attempt = 0
+                attempt = 1
                 insert_thread_status(thread_name)
 
-                while attempt < retries:
+                while attempt <= retries:
                     try:
                         func(*args, **kwargs)
-                        update_thread_status(thread_name, "SUCCESS")
+                        update_thread_status(thread_name, ThreadStatus.COMPLETED)
                         return  # Exit if successful
                     except Exception as e:
                         attempt += 1
                         print(f"[{thread_name}] Error: {e}. Retrying {attempt}/{retries}...")
                         time.sleep(delay)
 
-                update_thread_status(thread_name, "FAILED")  # Mark as FAILED after retries
+                    update_thread_status(thread_name, thread_status=ThreadStatus.FAILED, run_count=attempt,
+                                         error_count=attempt - 1)  # Mark as FAILED after retries
 
             thread = threading.Thread(target=target, name=thread_name, daemon=True)
             thread.start()

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, event, Index, UniqueConstraint, func
+from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, event, Index, UniqueConstraint, func, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
@@ -13,15 +13,14 @@ logger = get_logger(__name__)
 class BrokerAccounts(Base):
     """Model for storing broker account details."""
     __tablename__ = "broker_accounts"
-
-    account = Column(String(10), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    account = Column(String(10), nullable=False)
     broker_name = Column(String(20), nullable=False)
     source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
-    warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 
     # Relationships

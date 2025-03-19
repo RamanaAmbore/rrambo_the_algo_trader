@@ -27,7 +27,6 @@ class Holdings(Base):
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
-    warning_error = Column(Boolean, nullable=False, default=False)
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
