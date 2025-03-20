@@ -2,8 +2,8 @@ import os
 
 from cryptography.fernet import Fernet
 from dotenv import load_dotenv
-
-load_dotenv()
+from pathlib import Path
+load_dotenv(Path('src/settings/.env'))
 
 f = Fernet(os.getenv('ENCRYPTION_KEY'))
 
