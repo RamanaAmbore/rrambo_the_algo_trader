@@ -5,10 +5,9 @@ from typing import Dict, Any
 
 from dotenv import load_dotenv
 
-from src.helpers.cipher_utils import decrypt_text
 from src.helpers.utils import parse_value
 
-load_dotenv('src/settings/environment_manager')
+load_dotenv()
 
 # Thread safety lock
 _lock = threading.Lock()

@@ -4,46 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="reorg of constants and parameters">
-      <change afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/environment_manager" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructured settings code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/cipher_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/cipher_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/date_time_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/date_time_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/logger.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/access_tokens.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_schedule_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_schedules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_thread_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_thread_status.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_threads.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/backtest_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_contracts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_greeks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_strategies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/parameter_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/parameter_table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/refresh_flags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_ledger_entries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_profit_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_tradebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/strategy_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/strategy_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist_instruments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlists.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/algo_schedules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/constants.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/parameter_loader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/environment_manager" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/settings/parameter_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/parameter_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/thread_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/thread_decorator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,9 +118,9 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new\src\settings" />
+      <recent name="D:\rrambo_trader_new" />
       <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\src" />
-      <recent name="D:\rrambo_trader_new" />
       <recent name="D:\rrambo_trader_new\tests\utils" />
     </key>
   </component>
@@ -325,14 +290,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00027" summary="code cleanup for models">
-      <option name="closed" value="true" />
-      <created>1741456112508</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1741456112508</updated>
     </task>
     <task id="LOCAL-00028" summary="code cleanup for models">
       <option name="closed" value="true" />
@@ -718,11 +675,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742401682073</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="restructured settings code">
+      <option name="closed" value="true" />
+      <created>1742489285383</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1742489285383</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="performance improvement for report_downloader, return values fo successfully downloaded files" />
     <MESSAGE value="bug fix in exception handling for report_downloader.py" />
     <MESSAGE value="bug fix in check_for_error_text" />
     <MESSAGE value="bug fix in exceptio handling in download failure" />
@@ -747,7 +711,8 @@
     <MESSAGE value="Thread related changes-1" />
     <MESSAGE value="added missing id, removed error_or_warning" />
     <MESSAGE value="reorg of constants and parameters" />
-    <option name="LAST_COMMIT_MESSAGE" value="reorg of constants and parameters" />
+    <MESSAGE value="restructured settings code" />
+    <option name="LAST_COMMIT_MESSAGE" value="restructured settings code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -791,6 +756,16 @@
           <url>file://$PROJECT_DIR$/src/models/algo_schedule_time.py</url>
           <line>51</line>
           <option name="timeStamp" value="364" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/helpers/cipher_utils.py</url>
+          <line>7</line>
+          <option name="timeStamp" value="368" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/settings/constants_manager.py</url>
+          <line>10</line>
+          <option name="timeStamp" value="371" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
