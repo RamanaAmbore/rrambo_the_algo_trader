@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, DateTime, text, Index, Enum, Uni
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_ALGO_THREADS
+from src.settings.constants_manager import Source, DEFAULT_ALGO_THREADS, Thread
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -15,7 +15,7 @@ class AlgoThreads(Base):
     __tablename__ = "algo_threads"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(String(50), nullable=False, unique=True)  # Changed length to match ThreadStatus
+    thread = Column(Enum(Thread), nullable=False, unique=True)  # Changed length to match ThreadStatus
     source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

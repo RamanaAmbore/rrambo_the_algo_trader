@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, event, Ind
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_BROKER_ACCOUNTS
+from src.settings.constants_manager import Source, DEFAULT_BROKER_ACCOUNTS,Account
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -15,6 +15,7 @@ class BrokerAccounts(Base):
     __tablename__ = "broker_accounts"
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), nullable=False)
+
     broker_name = Column(String(20), nullable=False)
     source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

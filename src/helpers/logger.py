@@ -2,7 +2,7 @@ import logging
 import os
 import queue
 from logging.handlers import QueueHandler, QueueListener
-from src.settings.parameter_manager import ParameterManager as Parm
+from src.settings.parameter_manager import parms as Parm
 
 # Ensure log directory exists
 os.makedirs(os.path.dirname(Parm.DEBUG_LOG_FILE), exist_ok=True)

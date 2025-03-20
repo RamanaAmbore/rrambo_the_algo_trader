@@ -9,9 +9,9 @@ from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
 from src.helpers.logger import get_logger
-from src.models import ParameterTable
+from src.models import ParameterTable, BrokerAccounts
 from src.models.base import Base
-from src.settings.parameter_manager import ParameterManager as Parms
+from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)  # Initialize logger
 
@@ -44,8 +44,8 @@ class DatabaseManager:
     @classmethod
     def _setup_database_urls(cls) -> None:
         """Setup database URLs based on configuration."""
-        if Parms.SQLITE_DB:
-            db_path = Path(Parms.SQLITE_PATH)
+        if parms.SQLITE_DB:
+            db_path = Path(parms.SQLITE_PATH)
             cls.DB_URL = f"sqlite:///{db_path}"
             cls.DB_ASYNC_URL = f"sqlite+aiosqlite:///{db_path}"
             db_path.parent.mkdir(parents=True, exist_ok=True)
@@ -53,8 +53,8 @@ class DatabaseManager:
                 db_path.touch()
                 logger.info(f"Created new SQLite database at {db_path}")
         else:
-            cls.DB_URL = f"postgresql://{Parms.POSTGRES_URL}"
-            cls.DB_ASYNC_URL = f"postgresql+asyncpg://{Parms.POSTGRES_URL}"
+            cls.DB_URL = f"postgresql://{parms.POSTGRES_URL}"
+            cls.DB_ASYNC_URL = f"postgresql+asyncpg://{parms.POSTGRES_URL}"
             if not database_exists(cls.DB_URL):
                 create_database(cls.DB_URL)
                 logger.info("Created new PostgreSQL database")
@@ -63,7 +63,7 @@ class DatabaseManager:
     def _initialize_engines_and_sessions(cls) -> None:
         """Initialize database engines and session factories."""
         cls._engine = create_engine(cls.DB_URL,
-                                    echo=Parms.DB_DEBUG,
+                                    echo=parms.DB_DEBUG,
                                     pool_size=10,
                                     max_overflow=5,
                                     pool_timeout=30,
@@ -71,7 +71,7 @@ class DatabaseManager:
 
         cls._async_engine = create_async_engine(
             cls.DB_ASYNC_URL,
-            echo=Parms.DB_DEBUG,
+            echo=parms.DB_DEBUG,
             future=True,
             pool_size=10,
             max_overflow=5,
@@ -93,7 +93,7 @@ class DatabaseManager:
     def _setup_database_tables(cls) -> None:
         """Setup database tables."""
         Base.metadata.reflect(cls._engine)
-        if Parms.DROP_TABLES:
+        if parms.DROP_TABLES:
             Base.metadata.drop_all(cls._engine)
         Base.metadata.create_all(cls._engine)
 
@@ -104,9 +104,16 @@ class DatabaseManager:
             return
         with cls.get_sync_session() as session:
             cls._records = session.query(ParameterTable).all()
-            Parms.refresh_parameters(records=cls._records, refresh=refresh)
+            parms.refresh_parameters(records=cls._records, refresh=refresh)
             logger.info('Parameters refreshed from database')
-            session.commit()
+
+    @classmethod
+    def initialize_credentials(cls, refresh=False) -> None:
+        with cls.get_sync_session() as session:
+            cls._credentials = session.query(BrokerAccounts).all()
+            parms.refresh_credentials(account=parms.DEFAULT_ACCOUNT, records=cls._credentials, refresh=refresh)
+            logger.info('Credentials refreshed from database')
+
 
     @classmethod
     def get_sync_session(cls) -> Session:
@@ -212,6 +219,7 @@ async def main():
 # Initialize database and Parameters on import
 DatabaseManager.initialize()
 DatabaseManager.initialize_parameters()
+DatabaseManager.initialize_credentials()
 
 if __name__ == "__main__":
     asyncio.run(main())

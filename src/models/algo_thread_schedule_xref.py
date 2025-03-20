@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum, Bool
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_THREAD_SCHEDULE_XREF
+from src.settings.constants_manager import Source, DEFAULT_THREAD_SCHEDULE_XREF, Schedule, Thread
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -16,8 +16,8 @@ class AlgoThreadScheduleXref(Base):
     __tablename__ = "algo_thread_schedule_xref"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(String(50), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
-    schedule = Column(String(20), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    thread = Column(Enum(Thread), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
+    schedule = Column(Enum(Schedule), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
     source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

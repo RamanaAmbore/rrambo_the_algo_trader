@@ -5,7 +5,7 @@ from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, For
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_PARAMETERS
+from src.settings.constants_manager import Source, DEFAULT_PARAMETERS, Type
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -21,6 +21,8 @@ class ParameterTable(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     parameter = Column(String(50), nullable=False)
     value = Column(String(255), nullable=True)
+    type = Column(Enum(Type), nullable=True)
+    encrypted = Column(Boolean, nullable=True)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))

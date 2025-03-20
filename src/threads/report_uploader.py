@@ -8,7 +8,8 @@ from src.services.report_ledger_entries_service import ReportLedgerEntriesServic
 from src.services.report_profit_loss_service import ReportProfitLossService
 from src.services.report_tradebook_service import ReportTradebookService
 from src.helpers.logger import get_logger
-from src.settings.parameter_manager import ParameterManager as Parms, const
+from src.settings.parameter_manager import parms
+from src.settings import constants_manager as const
 from src.helpers.utils import read_file_content
 
 logger = get_logger(__name__)
@@ -32,9 +33,9 @@ class ReportUploader:
             cls.__initialize()  # Ensure one-time setup
 
             refresh_reports = {
-                "tradebook": Parms.REFRESH_TRADEBOOK,
-                "pnl": Parms.REFRESH_PNL,
-                "ledger": Parms.REFRESH_LEDGER
+                "tradebook": parms.REFRESH_TRADEBOOK,
+                "pnl": parms.REFRESH_PNL,
+                "ledger": parms.REFRESH_LEDGER
             }
 
             regex_patterns = {
@@ -49,7 +50,7 @@ class ReportUploader:
                 "ledger": ReportLedgerEntriesService
             }
 
-            all_files = sorted(os.listdir(Parms.DOWNLOAD_DIR),key=lambda x: x.replace('.csv','').replace('xlsx',''))
+            all_files = sorted(os.listdir(parms.DOWNLOAD_DIR), key=lambda x: x.replace('.csv', '').replace('xlsx', ''))
             tasks = []
 
             for key, pattern in regex_patterns.items():
@@ -63,7 +64,7 @@ class ReportUploader:
                     match = compiled_pattern.match(file_name)
                     if match:
                         file_extension = match.groups()[-1]
-                        data_df = read_file_content(os.path.join(Parms.DOWNLOAD_DIR, file_name), file_extension)
+                        data_df = read_file_content(os.path.join(parms.DOWNLOAD_DIR, file_name), file_extension)
 
                         data_df = data_df.map(lambda x: None if pd.isna(x) else x)
 

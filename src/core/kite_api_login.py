@@ -6,8 +6,8 @@ from kiteconnect import KiteConnect
 from src.services.access_tokens import get_stored_access_tokens
 from src.core.database_manager import DatabaseManager
 from src.helpers.logger import get_logger
-from src.settings.parameter_manager import ParameterManager as Parm
-from src.settings.parameter_manager import const
+from src.settings.parameter_manager import parms
+from src.settings import constants_manager as const
 from src.helpers.utils import generate_totp
 
 logger = get_logger(__name__)
@@ -18,13 +18,13 @@ class ZerodhaKite:
 
     _lock = threading.Lock()
     _access_tokens = None
-    username = Parm.USERS[0]
-    _password = Parm.USER_CREDENTIALS[username]['PASSWORD']
-    api_key = Parm.USER_CREDENTIALS[username]["API_KEY"]
-    _api_secret = Parm.USER_CREDENTIALS[username]["API_SECRET"]
-    totp_token = Parm.USER_CREDENTIALS[username]['TOTP_TOKEN']
-    login_url = Parm.LOGIN_URL
-    twofa_url = Parm.TWOFA_URL
+    username = parms.USERS[0]
+    _password = parms.USER_CREDENTIALS[username]['PASSWORD']
+    api_key = parms.USER_CREDENTIALS[username]["API_KEY"]
+    _api_secret = parms.USER_CREDENTIALS[username]["API_SECRET"]
+    totp_token = parms.USER_CREDENTIALS[username]['TOTP_TOKEN']
+    login_url = parms.LOGIN_URL
+    twofa_url = parms.TWOFA_URL
 
     kite = None
 

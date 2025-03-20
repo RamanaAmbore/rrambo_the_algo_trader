@@ -13,7 +13,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 from src.core.database_manager import DatabaseManager as Db
-from src.settings.parameter_manager import ParameterManager as Parm, const
+from src.settings.parameter_manager import parms
+from src.settings import constants_manager as const
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp, delete_folder_contents
@@ -66,7 +67,7 @@ class ReportDownloader:
         """Automates Zerodha Kite login using Selenium (Firefox)."""
         logger.info(f"Logging into Zerodha Kite for user {cls.user}...")
 
-        cls.driver.get(Parm.KITE_URL)
+        cls.driver.get(parms.KITE_URL)
         WebDriverWait(cls.driver, 5).until(EC.presence_of_element_located((By.ID, "userid")))
 
         try:
@@ -139,7 +140,7 @@ class ReportDownloader:
     def wait_for_download(cls, timeout=60):
         end_time = time.time() + timeout
         while time.time() < end_time:
-            new_files = set(os.listdir(Parm.DOWNLOAD_DIR)) - cls.files_in_dir
+            new_files = set(os.listdir(parms.DOWNLOAD_DIR)) - cls.files_in_dir
             if bool(new_files):
                 for file in new_files:
                     if not (file.endswith(".crdownload") or file.endswith(".part")):
@@ -151,9 +152,9 @@ class ReportDownloader:
     @classmethod
     def download_reports(cls):
         """Downloads reports from Zerodha Console and returns a dictionary of downloaded files."""
-        os.makedirs(Parm.DOWNLOAD_DIR, exist_ok=True)
+        os.makedirs(parms.DOWNLOAD_DIR, exist_ok=True)
         all_downloaded_files = {}
-        max_retries = Parm.MAX_RETRIES
+        max_retries = parms.MAX_RETRIES
 
         for name, item in const.REPORTS_PARM.items():
             if not cls.refresh_reports.get(name, False):
@@ -188,7 +189,7 @@ class ReportDownloader:
                                 break
 
                             cls.highlight_element(download_csv_link)
-                            cls.files_in_dir = set(os.listdir(Parm.DOWNLOAD_DIR))
+                            cls.files_in_dir = set(os.listdir(parms.DOWNLOAD_DIR))
                             time.sleep(5)
                             download_csv_link.click()
                             time.sleep(5)
@@ -248,7 +249,7 @@ class ReportDownloader:
         cls.initialize()
         user_downloads = {}
 
-        for user, credential in Parm.USER_CREDENTIALS.items():
+        for user, credential in parms.USER_CREDENTIALS.items():
             cls.user = user
             cls.credential = credential
             cls.setup_driver()
@@ -265,20 +266,20 @@ class ReportDownloader:
     @classmethod
     def initialize(cls):
 
-        cls.download_path = os.path.abspath(Parm.DOWNLOAD_DIR)
+        cls.download_path = os.path.abspath(parms.DOWNLOAD_DIR)
         delete_folder_contents(cls.download_path)
 
-        cls.report_start_date = Parm.REPORT_START_DATE
+        cls.report_start_date = parms.REPORT_START_DATE
         if cls.report_start_date is None:
-            cls.report_start_date = today_indian() - timedelta(Parm.REPORT_LOOKBACK_DAYS)
+            cls.report_start_date = today_indian() - timedelta(parms.REPORT_LOOKBACK_DAYS)
         else:
             cls.report_start_date = datetime(int(cls.report_start_date[:4]), int(cls.report_start_date[5:7]),
                                              int(cls.report_start_date[8:])).date()
         cls.report_end_date = today_indian()
 
-        cls.refresh_reports = {"TRADEBOOK": Parm.REFRESH_TRADEBOOK,
-                               "PNL": Parm.REFRESH_PNL,
-                               "LEDGER": Parm.REFRESH_LEDGER}
+        cls.refresh_reports = {"TRADEBOOK": parms.REFRESH_TRADEBOOK,
+                               "PNL": parms.REFRESH_PNL,
+                               "LEDGER": parms.REFRESH_LEDGER}
 
         logger.info(f'Report start date: {cls.report_start_date}')
         logger.info(f'Report end date: {cls.report_end_date}')

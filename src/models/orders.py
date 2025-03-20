@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, Numeric, Boolean, DateTime, JSON
     CheckConstraint, Index, func
 from sqlalchemy.orm import relationship
 
-from src.settings.parameter_loader import Source
+from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base

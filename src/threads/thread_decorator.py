@@ -3,8 +3,8 @@ import time
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.services.algo_thread_status_service import AlgoThreadStatusService
-from src.settings.parameter_loader import ThreadStatus, Schedule, Source
-from src.settings.parameter_manager import ParameterManager as Parms
+from src.settings.constants_manager import ThreadStatus, Schedule, Source
+from src.settings.parameter_manager import parms
 
 
 async def insert_thread_status(thread_name):
@@ -42,7 +42,7 @@ async def update_thread_status(record_id, thread_status=ThreadStatus.IN_PROGRESS
                                                          })
 
 
-def run_in_thread_with_status(thread_name, retries=Parms.MAX_RETRIES, delay=Parms.RETRY_DELAY):
+def run_in_thread_with_status(thread_name, retries=parms.MAX_RETRIES, delay=parms.RETRY_DELAY):
     """Decorator to run a function in a separate thread and update its status in the DB."""
 
     def decorator(func):

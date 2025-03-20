@@ -4,7 +4,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 
-from src.settings.parameter_loader import Source, ThreadStatus
+from src.settings.constants_manager import Source, ThreadStatus, Schedule, Thread
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -17,9 +17,9 @@ class AlgoThreadStatus(Base):
     __tablename__ = "algo_thread_status"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(String(50), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
+    thread = Column(Enum(Thread), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    schedule = Column(String(20), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(Enum(Schedule), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
     thread_status = Column(Enum(ThreadStatus), nullable=False, default=ThreadStatus.IN_PROGRESS)
     run_count = Column(Integer, nullable=False, default=0)
     error_count = Column(Integer, nullable=False, default=0)

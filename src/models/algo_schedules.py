@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, DateTime, text, Enum, Integer, event, Uni
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_ALGO_SCHEDULES
+from src.settings.constants_manager import Source, DEFAULT_ALGO_SCHEDULES, Schedule
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -15,7 +15,7 @@ class AlgoSchedules(Base):
     __tablename__ = "algo_schedules"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    schedule = Column(String(20), nullable=False, unique=True)  # Unique constraint for referential integrity
+    schedule = Column(Enum(Schedule), nullable=False, unique=True)  # Unique constraint for referential integrity
     source = Column(Enum(Source), nullable=False, default=Source.MANUAL.name)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

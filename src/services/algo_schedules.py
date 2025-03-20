@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 from src.models.algo_schedule_time import AlgoScheduleTime
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
-from src.settings.parameter_loader import DEFAULT_ALGO_SCHEDULES
-from src.settings.parameter_manager import const, ParameterManager as Parms
+from src.settings.constants_manager import DEFAULT_ALGO_SCHEDULES
+from src.settings.parameter_manager import const, parms
 from src.core.database_manager import DatabaseManager as Db
 
 logger = get_logger(__name__)
@@ -91,7 +91,7 @@ def ensure_default_records():
     """Manually ensure default records exist."""
     with Db.get_sync_session() as session:
         existing = session.query(AlgoScheduleTime).filter(
-            AlgoScheduleTime.weekday.in_(["GLOBAL", Parms.SATURDAY, Parms.SUNDAY])
+            AlgoScheduleTime.weekday.in_(["GLOBAL", parms.SATURDAY, parms.SUNDAY])
         ).all()
 
         if not existing:

@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, DateTime, text, Boolean, Integer, Foreign
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_ACCESS_TOKENS
+from src.settings.constants_manager import Source, DEFAULT_ACCESS_TOKENS
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base

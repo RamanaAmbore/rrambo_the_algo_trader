@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, DateTime, text, Boolean, Index, Enum, Uni
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, DEFAULT_WATCHLISTS
+from src.settings.constants_manager import Source, DEFAULT_WATCHLISTS
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base

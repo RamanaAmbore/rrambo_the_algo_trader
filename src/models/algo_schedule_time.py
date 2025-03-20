@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.parameter_loader import Source, Weekday, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
+from src.settings.constants_manager import Source, Weekday, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS, Schedule
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -17,7 +17,7 @@ class AlgoScheduleTime(Base):
     __tablename__ = "algo_schedule_time"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    schedule = Column(String(20), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(Enum(Schedule), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
     market_date = Column(Date, nullable=True)
     weekday = Column(Enum(Weekday), nullable=True)
     start_time = Column(Time, nullable=True)
