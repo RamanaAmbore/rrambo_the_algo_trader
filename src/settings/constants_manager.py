@@ -81,7 +81,7 @@ class ThreadStatus(enum.Enum):
     RESTARTED = "RESTARTED"
 
 
-class Account(enum.Enum):
+class Account():
     ACCOUNT1 = 'ZG0790'
     ACCOUNT2 = 'ZJ6924'
 
@@ -152,7 +152,7 @@ DEFAULT_PARAMETERS = tuple([{'parameter': key, 'value': val} for key, val in dot
     {'account': Account.ACCOUNT1, 'parameter': 'TOTP_TOKEN',
      'value': encrypt_text(os.getenv('ACCOUNT1_TOTP_TOKEN')), 'encrypted': True, },
     {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_API_TOKEN',
-     'value': encrypt_text(os.getenv('TWILIO_API_TOKEN')), 'encrypted': True, },
+     'value': encrypt_text(os.getenv('ACCOUNT1_TWILIO_API_TOKEN')), 'encrypted': True, },
 
     {'account': Account.ACCOUNT2, 'parameter': 'API_KEY', 'value': os.getenv('ACCOUNT2_API_KEY'), 'encrypted': True, },
     {'account': Account.ACCOUNT2, 'parameter': 'API_SECRET', 'value': os.getenv('ACCOUNT2_API_SECRET'),
@@ -161,5 +161,5 @@ DEFAULT_PARAMETERS = tuple([{'parameter': key, 'value': val} for key, val in dot
      'encrypted': True, },
     {'account': Account.ACCOUNT2, 'parameter': 'TOTP_TOKEN',
      'value': encrypt_text(os.getenv('ACCOUNT2_TOTP_TOKEN')), 'encrypted': True, },
-    {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_API_TOKEN',
+    {'account': Account.ACCOUNT1, 'parameter': 'ACCOUNT2_TWILIO_API_TOKEN',
      'value': None, 'encrypted': True, }])
