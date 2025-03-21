@@ -21,7 +21,7 @@ class OptionStrategies(Base):
     max_profit = Column(DECIMAL(12, 2), nullable=True)
     max_loss = Column(DECIMAL(12, 2), nullable=True)
     breakeven_points = Column(JSON, nullable=True)
-    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
+    source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

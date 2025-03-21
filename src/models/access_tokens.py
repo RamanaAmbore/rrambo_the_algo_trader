@@ -18,7 +18,7 @@ class AccessTokens(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False)
     token = Column(String(255), nullable=True)
-    source = Column(Enum(Source), nullable=False, server_default=Source.API.name)
+    source = Column(String(50), nullable=False, server_default=Source.API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

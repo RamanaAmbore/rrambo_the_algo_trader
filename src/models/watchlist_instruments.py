@@ -19,7 +19,7 @@ class WatchlistInstruments(Base):
     symbol = Column(String(20), nullable=False)
     exchange = Column(String(10), nullable=False)
     instrument_token = Column(Integer, nullable=False)
-    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
+    source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

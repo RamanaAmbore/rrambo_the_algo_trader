@@ -25,7 +25,7 @@ class OptionGreeks(Base):
     vega = Column(DECIMAL(10, 4), nullable=True)
     gamma = Column(DECIMAL(10, 4), nullable=True)
     iv = Column(DECIMAL(10, 2), nullable=True)  # IV typically has 2 decimal places
-    source = Column(Enum(Source), nullable=False, server_default="API")
+    source = Column(String(50), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

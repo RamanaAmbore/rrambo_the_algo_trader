@@ -17,13 +17,13 @@ class AlgoScheduleTime(Base):
     __tablename__ = "algo_schedule_time"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    schedule = Column(Enum(Schedule), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(10), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
     market_date = Column(Date, nullable=True)
-    weekday = Column(Enum(Weekday), nullable=True)
+    weekday = Column(String(10), nullable=True)
     start_time = Column(Time, nullable=True)
     end_time = Column(Time, nullable=True)
     is_market_open = Column(Boolean, nullable=False, default=True)
-    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
+    source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

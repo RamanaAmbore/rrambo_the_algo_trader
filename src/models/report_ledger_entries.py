@@ -23,7 +23,7 @@ class ReportLedgerEntries(Base):
     debit = Column(Numeric(10, 2), default=0.00, nullable=True)
     credit = Column(Numeric(10, 2), default=0.00, nullable=True)
     net_balance = Column(Numeric(15, 2), default=0.00)
-    source = Column(Enum(Source), nullable=False, server_default="REPORTS")
+    source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

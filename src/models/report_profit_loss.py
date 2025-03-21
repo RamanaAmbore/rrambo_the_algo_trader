@@ -33,7 +33,7 @@ class ReportProfitLoss(Base):
     open_value = Column(Numeric(12, 2), nullable=False)
     unrealized_pnl = Column(Numeric(12, 2), nullable=False)
     unrealized_pnl_pct = Column(Numeric(12, 2), nullable=False)
-    source = Column(Enum(Source), nullable=False, server_default="REPORTS")
+    source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

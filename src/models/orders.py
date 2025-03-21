@@ -74,7 +74,7 @@ class Orders(Base):
     meta = Column(JSON, nullable=True)  # Any additional order metadata (JSON format)
     tag = Column(String(20), nullable=True)  # Custom order tag (if any)
     guid = Column(String(100), nullable=True)  # Unique identifier for the order request
-    source = Column(Enum(Source), nullable=False, server_default="API")  # Token source (e.g., API)
+    source = Column(String(50), nullable=False, server_default="API")  # Token source (e.g., API)
 
     # Logging and tracking
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

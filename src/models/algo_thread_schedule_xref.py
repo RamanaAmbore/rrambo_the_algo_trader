@@ -16,9 +16,9 @@ class AlgoThreadScheduleXref(Base):
     __tablename__ = "algo_thread_schedule_xref"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(Enum(Thread), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
-    schedule = Column(Enum(Schedule), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
-    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
+    thread = Column(String(30), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(10), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

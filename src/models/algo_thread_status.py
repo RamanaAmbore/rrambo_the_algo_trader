@@ -17,13 +17,13 @@ class AlgoThreadStatus(Base):
     __tablename__ = "algo_thread_status"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(Enum(Thread), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
+    thread = Column(String(30), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    schedule = Column(Enum(Schedule), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
-    thread_status = Column(Enum(ThreadStatus), nullable=False, default=ThreadStatus.IN_PROGRESS)
+    schedule = Column(String(10), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    thread_status = Column(String(20), nullable=False, default=ThreadStatus.IN_PROGRESS)
     run_count = Column(Integer, nullable=False, default=0)
     error_count = Column(Integer, nullable=False, default=0)
-    source = Column(Enum(Source), nullable=False, server_default="API")
+    source = Column(String(50), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

@@ -36,7 +36,7 @@ class BacktestResults(Base):
     win_rate = Column(DECIMAL(6, 3), nullable=True)  # Win rate percentage (allowing up to 100.000%)
 
     # Metadata
-    source = Column(Enum(Source), nullable=False, server_default="CODE")  # Token source (e.g., API)
+    source = Column(String(50), nullable=False, server_default="CODE")  # Token source (e.g., API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

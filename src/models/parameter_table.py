@@ -21,12 +21,12 @@ class ParameterTable(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     parameter = Column(String(50), nullable=False)
     value = Column(String(255), nullable=True)
-    type = Column(Enum(Type), nullable=True)
+    type = Column(String(10), nullable=True)
     encrypted = Column(Boolean, nullable=True)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
-    source = Column(Enum(Source), nullable=False, server_default=Source.MANUAL.name)
+    source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
