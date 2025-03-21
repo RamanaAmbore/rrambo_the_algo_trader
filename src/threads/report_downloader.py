@@ -13,11 +13,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 from src.core.database_manager import DatabaseManager as Db
-from src.settings.parameter_manager import parms
-from src.settings import constants_manager as const
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp, delete_folder_contents
+from src.settings import constants_manager as const
+from src.settings.parameter_manager import parms, USER_CREDENTIALS
 
 logger = get_logger(__name__)  # Initialize logger
 Db.initialize_parameters()
@@ -91,7 +91,7 @@ class ReportDownloader:
             totp_field = cls.driver.find_element(By.XPATH, "//input[@type='number']")
             cls.highlight_element(totp_field)
 
-            for attempt in range(const.MAX_TOTP_CONN_RETRY_COUNT):
+            for attempt in range(parms.MAX_TOTP_CONN_RETRY_COUNT):
                 ztotp = generate_totp(cls.credential['TOTP_TOKEN'])
                 logger.info(f"Generated TOTP: {ztotp}")
                 totp_field.send_keys(ztotp)
@@ -103,8 +103,8 @@ class ReportDownloader:
                     return
                 else:
                     logger.warning(
-                        f"Invalid TOTP! Retrying for user: {cls.user} (Attempt {attempt + 1}/{const.MAX_TOTP_CONN_RETRY_COUNT})")
-                if attempt == const.MAX_TOTP_CONN_RETRY_COUNT - 1:
+                        f"Invalid TOTP! Retrying for user: {cls.user} (Attempt {attempt + 1}/{parms.MAX_TOTP_CONN_RETRY_COUNT})")
+                if attempt == parms.MAX_TOTP_CONN_RETRY_COUNT - 1:
                     raise ValueError(f"TOTP Authentication Failed for user {cls.user}")
 
         except Exception as e:
@@ -140,7 +140,7 @@ class ReportDownloader:
     def wait_for_download(cls, timeout=60):
         end_time = time.time() + timeout
         while time.time() < end_time:
-            new_files = set(os.listdir(parms.DOWNLOAD_DIR)) - cls.files_in_dir
+            new_files = set(os.listdir(parms.REPORT_DOWNLOAD_DIR)) - cls.files_in_dir
             if bool(new_files):
                 for file in new_files:
                     if not (file.endswith(".crdownload") or file.endswith(".part")):
@@ -152,11 +152,11 @@ class ReportDownloader:
     @classmethod
     def download_reports(cls):
         """Downloads reports from Zerodha Console and returns a dictionary of downloaded files."""
-        os.makedirs(parms.DOWNLOAD_DIR, exist_ok=True)
+        os.makedirs(parms.REPORT_DOWNLOAD_DIR, exist_ok=True)
         all_downloaded_files = {}
         max_retries = parms.MAX_RETRIES
 
-        for name, item in const.REPORTS_PARM.items():
+        for name, item in const.REPORT.items():
             if not cls.refresh_reports.get(name, False):
                 continue
 
@@ -184,12 +184,12 @@ class ReportDownloader:
                             cls.highlight_element(arrow_button)
                             arrow_button.click()
 
-                            download_csv_link = cls.wait_for_download_link(item, date_range_str)
+                            download_csv_link = cls.wait_for_download_link(item)
                             if download_csv_link is None:
                                 break
 
                             cls.highlight_element(download_csv_link)
-                            cls.files_in_dir = set(os.listdir(parms.DOWNLOAD_DIR))
+                            cls.files_in_dir = set(os.listdir(parms.REPORT_DOWNLOAD_DIR))
                             time.sleep(5)
                             download_csv_link.click()
                             time.sleep(5)
@@ -249,7 +249,7 @@ class ReportDownloader:
         cls.initialize()
         user_downloads = {}
 
-        for user, credential in parms.USER_CREDENTIALS.items():
+        for user, credential in USER_CREDENTIALS.items():
             cls.user = user
             cls.credential = credential
             cls.setup_driver()
@@ -266,8 +266,9 @@ class ReportDownloader:
     @classmethod
     def initialize(cls):
 
-        cls.download_path = os.path.abspath(parms.DOWNLOAD_DIR)
-        delete_folder_contents(cls.download_path)
+        cls.download_path = os.path.abspath(parms.REPORT_DOWNLOAD_DIR)
+        if parms.DELETE_REPORTS_BEFORE_REFRESH:
+            delete_folder_contents(cls.download_path)
 
         cls.report_start_date = parms.REPORT_START_DATE
         if cls.report_start_date is None:

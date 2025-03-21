@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructured settings code">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructured settings code-4">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/environment_manager" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/settings/parameter_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/parameter_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +98,7 @@
     "Python.report_downloader (1).executor": "Run",
     "Python.report_downloader (2).executor": "Run",
     "Python.report_downloader.executor": "Run",
-    "Python.report_uploader.executor": "Debug",
+    "Python.report_uploader.executor": "Run",
     "Python.settings_loader.executor": "Run",
     "Python.settings_loader_new.executor": "Run",
     "Python.sync_data.executor": "Run",
@@ -117,14 +121,14 @@
       <recent name="D:\rrambo_trader_new" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\rrambo_trader_new\src\settings" />
+      <recent name="D:\rrambo_trader_new\data" />
       <recent name="D:\rrambo_trader_new" />
+      <recent name="D:\rrambo_trader_new\src\settings" />
       <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\src" />
-      <recent name="D:\rrambo_trader_new\tests\utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.database_manager (1)">
+  <component name="RunManager" selected="Python.report_uploader">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -267,11 +271,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.report_uploader" />
+        <item itemvalue="Python.report_downloader (2)" />
         <item itemvalue="Python.database_manager (1)" />
         <item itemvalue="Python.thread_decorator" />
         <item itemvalue="Python.algo_thread_status" />
-        <item itemvalue="Python.report_downloader (2)" />
-        <item itemvalue="Python.report_uploader" />
       </list>
     </recent_temporary>
   </component>
@@ -290,46 +294,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00028" summary="code cleanup for models">
-      <option name="closed" value="true" />
-      <created>1741456675866</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1741456675866</updated>
-    </task>
-    <task id="LOCAL-00029" summary="code cleanup for models">
-      <option name="closed" value="true" />
-      <created>1741457063837</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1741457063837</updated>
-    </task>
-    <task id="LOCAL-00030" summary="changed account_id to account">
-      <option name="closed" value="true" />
-      <created>1741457178629</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1741457178629</updated>
-    </task>
-    <task id="LOCAL-00031" summary="new tables added. default data load into the tables is standardized">
-      <option name="closed" value="true" />
-      <created>1741517702572</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1741517702572</updated>
-    </task>
-    <task id="LOCAL-00032" summary="new tables added. default data load into the tables is standardized">
-      <option name="closed" value="true" />
-      <created>1741517729015</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1741517729015</updated>
     </task>
     <task id="LOCAL-00033" summary="added encryption and decryption of add sensitive data in the database">
       <option name="closed" value="true" />
@@ -683,13 +647,50 @@
       <option name="project" value="LOCAL" />
       <updated>1742489285383</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="restructured settings code-2">
+      <option name="closed" value="true" />
+      <created>1742491082594</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1742491082594</updated>
+    </task>
+    <task id="LOCAL-00078" summary="restructured settings code-2">
+      <option name="closed" value="true" />
+      <created>1742492510665</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1742492510665</updated>
+    </task>
+    <task id="LOCAL-00079" summary="restructured settings code-2">
+      <option name="closed" value="true" />
+      <created>1742493359965</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1742493359965</updated>
+    </task>
+    <task id="LOCAL-00080" summary="restructured settings code-3">
+      <option name="closed" value="true" />
+      <created>1742519761196</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1742519761196</updated>
+    </task>
+    <task id="LOCAL-00081" summary="restructured settings code-4">
+      <option name="closed" value="true" />
+      <created>1742530298699</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1742530298699</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bug fix in exception handling for report_downloader.py" />
-    <MESSAGE value="bug fix in check_for_error_text" />
-    <MESSAGE value="bug fix in exceptio handling in download failure" />
     <MESSAGE value="externalize url in report_downloader.py" />
     <MESSAGE value="added list_files_regex_patterns function to utils" />
     <MESSAGE value="fix for unicode display on sys.out console" />
@@ -712,7 +713,10 @@
     <MESSAGE value="added missing id, removed error_or_warning" />
     <MESSAGE value="reorg of constants and parameters" />
     <MESSAGE value="restructured settings code" />
-    <option name="LAST_COMMIT_MESSAGE" value="restructured settings code" />
+    <MESSAGE value="restructured settings code-2" />
+    <MESSAGE value="restructured settings code-3" />
+    <MESSAGE value="restructured settings code-4" />
+    <option name="LAST_COMMIT_MESSAGE" value="restructured settings code-4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -743,29 +747,24 @@
           <option name="timeStamp" value="320" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/report_downloader.py</url>
-          <line>184</line>
-          <option name="timeStamp" value="358" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/threads/thread_decorator.py</url>
           <line>51</line>
           <option name="timeStamp" value="360" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/models/algo_schedule_time.py</url>
-          <line>51</line>
-          <option name="timeStamp" value="364" />
+          <url>file://$PROJECT_DIR$/src/threads/report_downloader.py</url>
+          <line>177</line>
+          <option name="timeStamp" value="388" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/helpers/cipher_utils.py</url>
-          <line>7</line>
-          <option name="timeStamp" value="368" />
+          <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
+          <line>68</line>
+          <option name="timeStamp" value="389" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/settings/constants_manager.py</url>
-          <line>10</line>
-          <option name="timeStamp" value="371" />
+          <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
+          <line>66</line>
+          <option name="timeStamp" value="390" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

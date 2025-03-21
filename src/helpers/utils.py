@@ -43,9 +43,9 @@ def read_file_content(file_path, file_extension):
             with open(file_path, "r", encoding="utf-8") as f:
                 return f.read()
         elif file_extension == "csv":
-            return pd.read_csv(file_path).to_string(index=False)  # Convert DataFrame to string
+            return pd.read_csv(file_path)  # Convert DataFrame to string
         elif file_extension == "xlsx":
-            return pd.read_excel(file_path).to_string(index=False)  # Convert DataFrame to string
+            return pd.read_excel(file_path)  # Convert DataFrame to string
         else:
             print(f"Unsupported file format: {file_extension}")
             return ""

@@ -39,9 +39,9 @@ class ReportUploader:
             }
 
             regex_patterns = {
-                "tradebook": const.REPORTS_PARM["TRADEBOOK"]["file_regex"],
-                "pnl": const.REPORTS_PARM["PNL"]["file_regex"],
-                "ledger": const.REPORTS_PARM["LEDGER"]["file_regex"]
+                "tradebook": const.REPORT["TRADEBOOK"]["file_regex"],
+                "pnl": const.REPORT["PNL"]["file_regex"],
+                "ledger": const.REPORT["LEDGER"]["file_regex"]
             }
 
             service_xref = {
@@ -50,7 +50,7 @@ class ReportUploader:
                 "ledger": ReportLedgerEntriesService
             }
 
-            all_files = sorted(os.listdir(parms.DOWNLOAD_DIR), key=lambda x: x.replace('.csv', '').replace('xlsx', ''))
+            all_files = sorted(os.listdir(parms.REPORT_DOWNLOAD_DIR), key=lambda x: x.replace('.csv', '').replace('xlsx', ''))
             tasks = []
 
             for key, pattern in regex_patterns.items():
@@ -64,9 +64,9 @@ class ReportUploader:
                     match = compiled_pattern.match(file_name)
                     if match:
                         file_extension = match.groups()[-1]
-                        data_df = read_file_content(os.path.join(parms.DOWNLOAD_DIR, file_name), file_extension)
-
-                        data_df = data_df.map(lambda x: None if pd.isna(x) else x)
+                        data_df = read_file_content(os.path.join(parms.REPORT_DOWNLOAD_DIR, file_name), file_extension)
+                        print(data_df)
+                        data_df = data_df.applymap(lambda x: None if pd.isna(x) else x)
 
                         if data_df is None or data_df.empty:
                             logger.warning(f"No data in {file_name}")
