@@ -11,7 +11,7 @@ from sqlalchemy_utils import database_exists, create_database
 from src.helpers.logger import get_logger
 from src.models import ParameterTable, BrokerAccounts
 from src.models.base import Base
-from src.settings.parameter_manager import parms
+from src.settings.parameter_manager import parms, refresh_parameters
 
 logger = get_logger(__name__)  # Initialize logger
 
@@ -104,15 +104,8 @@ class DatabaseManager:
             return
         with cls.get_sync_session() as session:
             cls._records = session.query(ParameterTable).all()
-            parms.refresh_parameters(records=cls._records, refresh=refresh)
+            refresh_parameters(records=cls._records, refresh=refresh)
             logger.info('Parameters refreshed from database')
-
-    @classmethod
-    def initialize_credentials(cls, refresh=False) -> None:
-        with cls.get_sync_session() as session:
-            cls._credentials = session.query(BrokerAccounts).all()
-            parms.refresh_credentials(account=parms.DEFAULT_ACCOUNT, records=cls._credentials, refresh=refresh)
-            logger.info('Credentials refreshed from database')
 
 
     @classmethod
@@ -219,7 +212,6 @@ async def main():
 # Initialize database and Parameters on import
 DatabaseManager.initialize()
 DatabaseManager.initialize_parameters()
-DatabaseManager.initialize_credentials()
 
 if __name__ == "__main__":
     asyncio.run(main())

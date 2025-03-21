@@ -3,7 +3,7 @@ import threading
 from types import SimpleNamespace
 from typing import Dict, Any
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 
 from src.helpers.utils import parse_value
 
@@ -13,30 +13,8 @@ load_dotenv()
 _lock = threading.Lock()
 
 # Database Configuration
-try:
-    parms = SimpleNamespace(
-        SQLITE_DB=os.getenv("SQLITE_DB").lower() == "true",
-        SQLITE_PATH=os.getenv("SQLITE_PATH"),
-        POSTGRES_URL=os.getenv("POSTGRES_URL"),
-        DROP_TABLES=os.getenv("DROP_TABLES").lower() == "true",
-        DB_DEBUG=os.getenv('DB_DEBUG').lower() == 'true',
-
-        # Logging Configuration
-        DEBUG_LOG_FILE=os.getenv("DEBUG_LOG_FILE"),
-        ERROR_LOG_FILE=os.getenv("ERROR_LOG_FILE"),
-        CONSOLE_LOG_LEVEL=os.getenv("CONSOLE_LOG_LEVEL"),
-        FILE_LOG_LEVEL=os.getenv("FILE_LOG_LEVEL"),
-        ERROR_LOG_LEVEL=os.getenv("ERROR_LOG_LEVEL"),
-
-        # Security Configuration
-        ENCRYPTION_KEY=os.getenv('ENCRYPTION_KEY'),
-
-        # Dynamic Parameters
-        DEFAULT_ACCOUNT=os.getenv('DEFAULT_ACCOUNT'),
-    )
-except Exception as e:
-    print(f"Error initializing configuration parameters: {e}")
-    raise SystemExit(1)  # Immediately exit the script on failure
+env_vars = {k: parse_value(v) for k, v in dotenv_values().items()}
+parms = SimpleNamespace(**env_vars)
 
 USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
 
@@ -50,9 +28,9 @@ def refresh_parameters(records, refresh=False) -> None:
                 return
             for record in records:
                 account = None if record.account is None else record.account.strip()
-                value = parse_value(value, record_type)
                 parameter = None if record.parameter is None else record.parameter.strip()
                 record_type = None if record.type is None else record.type.strip()
+                value = parse_value(record.value, record_type)
 
                 if account not in USER_CREDENTIALS:
                     USER_CREDENTIALS[account] = {}
