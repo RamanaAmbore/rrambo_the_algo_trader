@@ -1,12 +1,9 @@
 import pandas as pd
-from sqlalchemy import insert
-from sqlalchemy.dialects.postgresql import insert
 
-from src.core.database_manager import DatabaseManager as Db
-from src.models import ReportLedgerEntries
-from src.services.base_service import BaseService
 from src.helpers.date_time_utils import convert_to_timezone
 from src.helpers.logger import get_logger
+from src.models import ReportLedgerEntries
+from src.services.base_service import BaseService
 
 logger = get_logger(__name__)
 
@@ -19,7 +16,7 @@ class ReportLedgerEntriesService(BaseService):
     def __init__(self):
         super().__init__(model)
 
-    async def bulk_insert_report_records(self, records_df: pd.DataFrame):
+    async def insert_report_records(self, records_df: pd.DataFrame):
         """Bulk insert multiple trade records, skipping duplicates."""
         if records_df.empty:
             logger.info("No valid records to process.")
@@ -30,19 +27,16 @@ class ReportLedgerEntriesService(BaseService):
 
         records = self.validate_clean_records(records_df)[list(valid_columns)].to_dict(orient="records")
 
-        async with Db.get_async_session() as session:
-            stmt = insert(self.model).values(records)
-            stmt = stmt.on_conflict_do_nothing(index_elements=['account',
-                                                               'particulars',
-                                                               'posting_date',
-                                                               'cost_center',
-                                                               'voucher_type',
-                                                               'debit',
-                                                               'credit',
-                                                               'net_balance'])
-            await session.execute(stmt)
-            await session.commit()
-            logger.info(f"Bulk processed {len(records)} records.")
+        await self.bulk_insert_records(records=records, index_elements=['account',
+                                                                        'particulars',
+                                                                        'posting_date',
+                                                                        'cost_center',
+                                                                        'voucher_type',
+                                                                        'debit',
+                                                                        'credit',
+                                                                        'net_balance'])
+
+        logger.info(f"Bulk processed {len(records)} records.")
 
     @staticmethod
     def validate_clean_records(data_records: pd.DataFrame) -> pd.DataFrame:

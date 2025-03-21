@@ -3,7 +3,7 @@ from typing import List, Set, Tuple, Any, Dict, Union
 import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.logger import get_logger
@@ -85,23 +85,47 @@ class BaseService:
                 await session.rollback()
                 logger.error(f"Error updating record {record_id}: {e}")
 
-    async def insert_report_records(self, query, data_records: pd.DataFrame):
-        """Bulk insert multiple trade records, skipping duplicates."""
-        if isinstance(data_records, pd.DataFrame):
-            data_records = data_records.to_dict(orient="records")
-        if not data_records:
-            logger.info("No records to insert.")
+
+    async def bulk_insert_records(self, query=None, records=None, index_elements=None, batch_size=500):
+        """
+        Performs bulk insert while ignoring duplicates.
+
+        :param query: SQLAlchemy query to fetch records if records are not provided.
+        :param records: List of dictionaries representing records to insert.
+        :param index_elements: List of columns for conflict resolution.
+        :param batch_size: Number of records to insert per batch (default: 100).
+        """
+
+        if (query is None) == (records is None):
+            logger.info("Either provide `query` or `records`, not both or neither.")
             return
 
-        async with Db.get_async_session() as session:
-            existing_trade_ids = {row[0] for row in (await session.execute(query)).all()}
-            new_trades = [trade for trade in data_records if trade["trade_id"] not in existing_trade_ids]
+        if isinstance(records, pd.DataFrame):
+            records = records.to_dict(orient="records")
 
-            if new_trades:
-                stmt = insert(self.model).values(new_trades)
-                stmt = stmt.on_conflict_do_nothing(index_elements=["trade_id"])
-                await session.execute(stmt)
-                await session.commit()
-                logger.info(f"Bulk inserted {len(new_trades)} trade records.")
-            else:
-                logger.info("No new trades to insert.")
+        try:
+            async with Db.get_async_session() as session:
+                # Fetch records if query is provided
+                if query is not None:
+                    result = await session.execute(query)
+                    records = [row._asdict() for row in result.mappings().all()]  # Convert result to list of dicts
+
+                if not records:
+                    logger.warning("No records to insert.")
+                    return
+
+                for i in range(0, len(records), batch_size):
+                    batch = records[i: i + batch_size]  # Process in chunks
+
+                    stmt = insert(self.model).values(batch)
+                    if index_elements:
+                        stmt = stmt.on_conflict_do_nothing(index_elements=index_elements)  # Ignore duplicates
+
+                    await session.execute(stmt)
+                    await session.commit()
+
+                    logger.info(f"Bulk inserted {len(batch)} records into {self.model}")
+
+        except SQLAlchemyError as e:
+            logger.exception(f"Bulk insert failed: {e}")
+            raise

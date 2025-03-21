@@ -23,7 +23,7 @@ class ReportTradebook(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     trade_id = Column(BigInteger, nullable=False)
     order_id = Column(BigInteger, nullable=False)
-    symbol = Column(String(20), nullable=False)
+    symbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     exchange = Column(String(10), nullable=False)
     segment = Column(String(10), nullable=False)

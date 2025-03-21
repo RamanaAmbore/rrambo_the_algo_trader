@@ -18,7 +18,7 @@ class StockList(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    symbol = Column(String(20), nullable=False)
+    symbol = Column(String(50), nullable=False)
     instrument_token = Column(Integer, nullable=False, unique=True)
     exchange = Column(String(10), nullable=False)  # NSE/BSE
     isin = Column(String(12), nullable=True)

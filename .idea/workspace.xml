@@ -4,14 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructured settings code-4">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="utils read_file_content fixed in file_uploader">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/parameter_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/parameter_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_profit_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_tradebook.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist_instruments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/base_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/base_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_ledger_entries_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_ledger_entries_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_profit_loss_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_profit_loss_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_tradebook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_tradebook_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -294,14 +301,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00033" summary="added encryption and decryption of add sensitive data in the database">
-      <option name="closed" value="true" />
-      <created>1741524550955</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1741524550955</updated>
     </task>
     <task id="LOCAL-00034" summary="changed DbConnection to DBConect">
       <option name="closed" value="true" />
@@ -687,11 +686,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742530298699</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="utils read_file_content fixed in file_uploader">
+      <option name="closed" value="true" />
+      <created>1742584892600</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1742584892600</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="externalize url in report_downloader.py" />
     <MESSAGE value="added list_files_regex_patterns function to utils" />
     <MESSAGE value="fix for unicode display on sys.out console" />
     <MESSAGE value="report parameters renamed" />
@@ -716,7 +722,8 @@
     <MESSAGE value="restructured settings code-2" />
     <MESSAGE value="restructured settings code-3" />
     <MESSAGE value="restructured settings code-4" />
-    <option name="LAST_COMMIT_MESSAGE" value="restructured settings code-4" />
+    <MESSAGE value="utils read_file_content fixed in file_uploader" />
+    <option name="LAST_COMMIT_MESSAGE" value="utils read_file_content fixed in file_uploader" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -738,12 +745,12 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/services/report_ledger_entries_service.py</url>
-          <line>27</line>
+          <line>24</line>
           <option name="timeStamp" value="319" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
-          <line>53</line>
+          <line>54</line>
           <option name="timeStamp" value="320" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -757,14 +764,24 @@
           <option name="timeStamp" value="388" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
-          <line>68</line>
-          <option name="timeStamp" value="389" />
+          <url>file://$PROJECT_DIR$/src/services/report_profit_loss_service.py</url>
+          <line>19</line>
+          <option name="timeStamp" value="393" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
-          <line>66</line>
-          <option name="timeStamp" value="390" />
+          <line>100</line>
+          <option name="timeStamp" value="395" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/base_service.py</url>
+          <line>126</line>
+          <option name="timeStamp" value="397" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/base_service.py</url>
+          <line>129</line>
+          <option name="timeStamp" value="398" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

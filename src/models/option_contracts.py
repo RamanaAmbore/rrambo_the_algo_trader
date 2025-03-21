@@ -24,7 +24,7 @@ class OptionContracts(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     instrument_token = Column(Integer, unique=True, nullable=False)
-    symbol = Column(String(20), nullable=False)
+    symbol = Column(String(50), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=False)
     strike_price = Column(DECIMAL(10, 2), nullable=False)
     option_type = Column(String(10), nullable=False)

@@ -11,6 +11,7 @@ from src.helpers.logger import get_logger
 from src.settings.parameter_manager import parms
 from src.settings import constants_manager as const
 from src.helpers.utils import read_file_content
+from sqlalchemy.exc import SQLAlchemyError
 
 logger = get_logger(__name__)
 
@@ -65,8 +66,7 @@ class ReportUploader:
                     if match:
                         file_extension = match.groups()[-1]
                         data_df = read_file_content(os.path.join(parms.REPORT_DOWNLOAD_DIR, file_name), file_extension)
-                        print(data_df)
-                        data_df = data_df.applymap(lambda x: None if pd.isna(x) else x)
+                        data_df = data_df.map(lambda x: None if pd.isna(x) else x)
 
                         if data_df is None or data_df.empty:
                             logger.warning(f"No data in {file_name}")
@@ -92,7 +92,7 @@ class ReportUploader:
 
                 if not data_records.empty:
                     service = service_xref[key]()
-                    tasks.append(service.bulk_insert_report_records(data_records))
+                    tasks.append(service.insert_report_records(data_records))
 
             await asyncio.gather(*tasks)
             logger.info("Report upload process completed")

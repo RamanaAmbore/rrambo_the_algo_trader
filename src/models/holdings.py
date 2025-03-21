@@ -16,7 +16,7 @@ class Holdings(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    symbol = Column(String(20), nullable=False)
+    symbol = Column(String(50), nullable=False)
     exchange = Column(String(10), nullable=False)
     quantity = Column(Integer, nullable=False)
     average_price = Column(DECIMAL(10, 2), nullable=False)

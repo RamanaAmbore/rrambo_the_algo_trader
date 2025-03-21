@@ -21,7 +21,7 @@ class Positions(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    symbol = Column(String(20), nullable=False, index=True)
+    symbol = Column(String(50), nullable=False, index=True)
     exchange = Column(String(10), nullable=False)
     instrument_token = Column(Integer, nullable=False)
     product = Column(String(10), nullable=False)

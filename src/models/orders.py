@@ -51,7 +51,7 @@ class Orders(Base):
     variety = Column(String(10), nullable=False)  # Order variety (e.g., "regular", "bo", "co")
     modified = Column(Boolean, default=False)  # Whether order was modified
     exchange = Column(String(10), nullable=False)  # Exchange (NSE/BSE)
-    tradingsymbol = Column(String(20), nullable=False)  # Trading symbol (stock/future/option)
+    tradingsymbol = Column(String(50), nullable=False)  # Trading symbol (stock/future/option)
     instrument_token = Column(Integer, nullable=False)  # Instrument token for the order
     order_type = Column(String(10), nullable=False)  # Order type (LIMIT, MARKET, SL, SLM)
     transaction_type = Column(String(10), nullable=False)  # Buy/Sell

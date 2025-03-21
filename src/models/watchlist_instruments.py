@@ -16,7 +16,7 @@ class WatchlistInstruments(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), ForeignKey("watchlists.watchlist", ondelete="CASCADE"), nullable=False)
-    symbol = Column(String(20), nullable=False)
+    symbol = Column(String(50), nullable=False)
     exchange = Column(String(10), nullable=False)
     instrument_token = Column(Integer, nullable=False)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
