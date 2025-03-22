@@ -38,4 +38,4 @@ class ReportProfitLossService(BaseService):
         return data_records
 
 
-report_profitLoss_service = ReportProfitLossService()
+report_profit_loss_service = ReportProfitLossService()

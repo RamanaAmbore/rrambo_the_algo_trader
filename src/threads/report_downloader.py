@@ -183,7 +183,7 @@ class ReportDownloader:
                                 EC.element_to_be_clickable((By.XPATH, item['button'])))
                             cls.highlight_element(arrow_button)
                             arrow_button.click()
-
+                            time.sleep(10)
                             download_csv_link = cls.wait_for_download_link(item)
                             if download_csv_link is None:
                                 break
