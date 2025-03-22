@@ -35,7 +35,7 @@ class ServiceStockList(ServiceBase):
         df["expiry"] = df["expiry"].astype(str).replace("NaT", "")
         df["lot_size"] = df["lot_size"].astype(int)
         df["tick_size"] = df["tick_size"].astype(float)  # Decimal-compatible type
-        df["last_price"] = df["tick_size"].astype(float)  # Decimal-compatible type
+        df["last_price"] = df["last_price"].astype(float)  # Decimal-compatible type
         df["strike"] = df["strike"].astype(float)  # Decimal-compatible type
         return df
 
