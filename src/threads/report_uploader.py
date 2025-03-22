@@ -4,14 +4,13 @@ import re
 
 import pandas as pd
 
-from src.services.report_ledger_entries_service import ReportLedgerEntriesService
-from src.services.report_profit_loss_service import ReportProfitLossService
-from src.services.report_tradebook_service import ReportTradebookService
 from src.helpers.logger import get_logger
-from src.settings.parameter_manager import parms
-from src.settings import constants_manager as const
 from src.helpers.utils import read_file_content
-from sqlalchemy.exc import SQLAlchemyError
+from src.services import report_profit_loss_service
+from src.services.report_ledger_entries_service import report_ledger_entry_service
+from src.services.report_tradebook_service import report_tradebook_service
+from src.settings import constants_manager as const
+from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
 
@@ -46,12 +45,13 @@ class ReportUploader:
             }
 
             service_xref = {
-                "tradebook": ReportTradebookService,
-                "pnl": ReportProfitLossService,
-                "ledger": ReportLedgerEntriesService
+                "tradebook": report_tradebook_service,
+                "pnl": report_profit_loss_service,
+                "ledger": report_ledger_entry_service
             }
 
-            all_files = sorted(os.listdir(parms.REPORT_DOWNLOAD_DIR), key=lambda x: x.replace('.csv', '').replace('xlsx', ''))
+            all_files = sorted(os.listdir(parms.REPORT_DOWNLOAD_DIR),
+                               key=lambda x: x.replace('.csv', '').replace('xlsx', ''))
             tasks = []
 
             for key, pattern in regex_patterns.items():
@@ -91,7 +91,7 @@ class ReportUploader:
                         data_records = pd.concat([data_records, data_df], ignore_index=True)
 
                 if not data_records.empty:
-                    service = service_xref[key]()
+                    service = service_xref[key]
                     tasks.append(service.insert_report_records(data_records))
 
             await asyncio.gather(*tasks)

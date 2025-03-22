@@ -4,11 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="fix for code compilation issues with access token code">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="fix for code compilation issues with access token code -1">
+      <change afterPath="$PROJECT_DIR$/src/core/kite_get_api_keys.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/access_token_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/cipher_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/cipher_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/get_stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/get_stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_get_access_token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/access_tokens.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_ledger_entries_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_ledger_entries_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_profit_loss_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_profit_loss_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/report_tradebook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_tradebook_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/market_ticker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/sync_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +88,7 @@
     "Python.kite_api_login.executor": "Debug",
     "Python.kite_connect (1).executor": "Debug",
     "Python.kite_connection_new.executor": "Debug",
+    "Python.kite_get_access_token.executor": "Run",
     "Python.load_reports (1).executor": "Run",
     "Python.load_reports.executor": "Run",
     "Python.logger.executor": "Run",
@@ -124,7 +133,7 @@
       <recent name="D:\rrambo_trader_new\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.kite_api_login">
+  <component name="RunManager" selected="Python.kite_get_access_token">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -169,7 +178,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="kite_api_login" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="kite_get_access_token" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -182,7 +191,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/kite_api_login.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\core\kite_get_access_token.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -259,7 +268,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
-      <item itemvalue="Python.kite_api_login" />
+      <item itemvalue="Python.kite_get_access_token" />
       <item itemvalue="Python.thread_decorator" />
       <item itemvalue="Python.database_manager (1)" />
       <item itemvalue="Python.report_downloader (2)" />
@@ -267,7 +276,7 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.kite_api_login" />
+        <item itemvalue="Python.kite_get_access_token" />
         <item itemvalue="Python.report_downloader (2)" />
         <item itemvalue="Python.report_uploader" />
         <item itemvalue="Python.database_manager (1)" />
@@ -290,14 +299,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00036" summary="db_connect cleaned up">
-      <option name="closed" value="true" />
-      <created>1741529030777</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1741529030777</updated>
     </task>
     <task id="LOCAL-00037" summary="made fetch_parms.py thread safe">
       <option name="closed" value="true" />
@@ -683,11 +684,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742616985835</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="fix for code compilation issues with access token code -1">
+      <option name="closed" value="true" />
+      <created>1742623311300</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1742623311300</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="report parameters renamed" />
     <MESSAGE value="restructured service classes" />
     <MESSAGE value="made database manager work with threads" />
     <MESSAGE value="logger changed to usq queues. services changed to inherit base service" />
@@ -712,7 +720,8 @@
     <MESSAGE value="utils read_file_content fixed in file_uploader" />
     <MESSAGE value="code cleanup for bulk csv data insert" />
     <MESSAGE value="fix for code compilation issues with access token code" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix for code compilation issues with access token code" />
+    <MESSAGE value="fix for code compilation issues with access token code -1" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix for code compilation issues with access token code -1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -768,19 +777,19 @@
           <option name="timeStamp" value="398" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
-          <line>67</line>
-          <option name="timeStamp" value="402" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
+          <url>file://$PROJECT_DIR$/src/core/kite_get_access_token.py</url>
           <line>132</line>
           <option name="timeStamp" value="403" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
-          <line>50</line>
-          <option name="timeStamp" value="405" />
+          <url>file://$PROJECT_DIR$/src/core/kite_get_access_token.py</url>
+          <line>104</line>
+          <option name="timeStamp" value="408" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/core/kite_get_access_token.py</url>
+          <line>113</line>
+          <option name="timeStamp" value="409" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

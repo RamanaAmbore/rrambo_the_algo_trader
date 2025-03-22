@@ -2,12 +2,10 @@ import threading
 
 import requests
 from kiteconnect import KiteConnect
-from src.services.access_tokens import    AccessTokens
 
-from src.core.database_manager import DatabaseManager
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp
-from src.services.access_tokens import get_stored_access_tokens
+from src.services.access_token_service import access_token_service
 from src.settings.parameter_manager import parms, USER_CREDENTIALS
 
 logger = get_logger(__name__)
@@ -18,13 +16,14 @@ class ZerodhaKite:
 
     _lock = threading.Lock()
     _access_tokens = None
-    username = parms.DEFAULT_ACCOUNT
-    _password = USER_CREDENTIALS[username]['PASSWORD']
-    api_key = USER_CREDENTIALS[username]["API_KEY"]
-    _api_secret = USER_CREDENTIALS[username]["API_SECRET"]
-    totp_token = USER_CREDENTIALS[username]['TOTP_TOKEN']
+    account = parms.DEFAULT_ACCOUNT
+    _password = USER_CREDENTIALS[account]['PASSWORD']
+    api_key = USER_CREDENTIALS[account]["API_KEY"]
+    _api_secret = USER_CREDENTIALS[account]["API_SECRET"]
+    totp_token = USER_CREDENTIALS[account]['TOTP_TOKEN']
     login_url = parms.LOGIN_URL
     twofa_url = parms.TWOFA_URL
+    id = None
 
     kite = None
 
@@ -48,7 +47,7 @@ class ZerodhaKite:
             if not test_conn and cls.kite:
                 return
 
-            stored_token = get_stored_access_tokens(cls.username)
+            stored_token, cls.id = access_token_service.get_stored_access_token(cls.account)
             if stored_token:
                 cls._access_tokens = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
@@ -69,7 +68,7 @@ class ZerodhaKite:
 
         # Step 1: Perform initial login
         try:
-            response = session.post(cls.login_url, data={"user_id": cls.username, "password": cls._password})
+            response = session.post(cls.login_url, data={"user_id": cls.account, "password": cls._password})
             response.raise_for_status()
             request_id = response.json()["data"]["request_id"]
             logger.info(f"Login successful, Request ID: {request_id}")
@@ -81,7 +80,7 @@ class ZerodhaKite:
         for attempt in range(parms.MAX_TOTP_CONN_RETRY_COUNT):
             try:
                 totp_pin = generate_totp(cls.totp_token)
-                response = session.post(cls.twofa_url, data={"user_id": cls.username, "request_id": request_id,
+                response = session.post(cls.twofa_url, data={"user_id": cls.account, "request_id": request_id,
                                                              "twofa_value": totp_pin, "twofa_type": "totp"}, )
                 response.raise_for_status()
                 logger.info("TOTP authentication successful.")
@@ -114,15 +113,15 @@ class ZerodhaKite:
         try:
             kite = KiteConnect(api_key=cls.api_key)
             session_data = kite.generate_session(request_token, api_secret=cls._api_secret)
-            cls._access_tokens = session_data["access_tokens"]
+            cls._access_token = session_data["access_token"]
             cls.kite = kite
-            cls.kite.set_access_tokens(cls._access_tokens)
+            cls.kite.set_access_token(cls._access_token)
 
             # Store the new access token
-            AccessTokens.check_update_access_tokens(cls._access_tokens, DatabaseManager)
+            access_token_service.check_update_access_token(cls._access_token, cls.account)
             logger.info("Access token successfully generated and stored.")
         except Exception as e:
-            logger.error(f"Failed to generate access token: {e}")
+            logger.error(f"Failed to generate access token for account {cls.account}: {e}")
             raise
 
 

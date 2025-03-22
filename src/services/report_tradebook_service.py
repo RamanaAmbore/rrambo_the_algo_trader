@@ -50,3 +50,6 @@ class ReportTradebookService(BaseService):
                 )
 
         return data_records
+
+
+report_tradebook_service = ReportTradebookService()

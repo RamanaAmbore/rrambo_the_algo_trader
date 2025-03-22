@@ -26,14 +26,16 @@ class ReportProfitLossService(BaseService):
         records = self.validate_clean_records(records_df)[list(valid_columns)].to_dict(orient="records")
 
         await self.bulk_insert_records(records=records, index_elements=["account",
-                                                               "symbol",
-                                                               "isin",
-                                                               "quantity",
-                                                               "buy_value",
-                                                               "sell_value"])
-
+                                                                        "symbol",
+                                                                        "isin",
+                                                                        "quantity",
+                                                                        "buy_value",
+                                                                        "sell_value"])
 
     @staticmethod
     def validate_clean_records(data_records: pd.DataFrame) -> pd.DataFrame:
         """Cleans and validates trade records before inserting into the database."""
         return data_records
+
+
+report_profitLoss_service = ReportProfitLossService()

@@ -10,7 +10,7 @@ logger = get_logger(__name__)
 model = ReportLedgerEntries
 
 
-class ReportLedgerEntriesService(BaseService):
+class ReportLedgerEntryService(BaseService):
     """Service class for handling ReportTradebook database operations."""
 
     def __init__(self):
@@ -50,3 +50,6 @@ class ReportLedgerEntriesService(BaseService):
                 )
 
         return data_records
+
+
+report_ledger_entry_service = ReportLedgerEntryService()
