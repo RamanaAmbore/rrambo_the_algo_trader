@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="code cleanup for bulk csv data insert">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="fix for code compilation issues with access token code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/access_tokens.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/cipher_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/cipher_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +77,7 @@
     "Python.download_reports (1).executor": "Debug",
     "Python.download_reports.executor": "Run",
     "Python.fetch_parms (1).executor": "Run",
-    "Python.kite_api_login.executor": "Run",
+    "Python.kite_api_login.executor": "Debug",
     "Python.kite_connect (1).executor": "Debug",
     "Python.kite_connection_new.executor": "Debug",
     "Python.load_reports (1).executor": "Run",
@@ -292,14 +290,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00035" summary="added exceptions to default data load into tables">
-      <option name="closed" value="true" />
-      <created>1741526758308</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1741526758308</updated>
     </task>
     <task id="LOCAL-00036" summary="db_connect cleaned up">
       <option name="closed" value="true" />
@@ -685,11 +675,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742592555062</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="fix for code compilation issues with access token code">
+      <option name="closed" value="true" />
+      <created>1742616985835</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1742616985835</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix for unicode display on sys.out console" />
     <MESSAGE value="report parameters renamed" />
     <MESSAGE value="restructured service classes" />
     <MESSAGE value="made database manager work with threads" />
@@ -714,7 +711,8 @@
     <MESSAGE value="restructured settings code-4" />
     <MESSAGE value="utils read_file_content fixed in file_uploader" />
     <MESSAGE value="code cleanup for bulk csv data insert" />
-    <option name="LAST_COMMIT_MESSAGE" value="code cleanup for bulk csv data insert" />
+    <MESSAGE value="fix for code compilation issues with access token code" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix for code compilation issues with access token code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -768,6 +766,21 @@
           <url>file://$PROJECT_DIR$/src/services/base_service.py</url>
           <line>129</line>
           <option name="timeStamp" value="398" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
+          <line>67</line>
+          <option name="timeStamp" value="402" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
+          <line>132</line>
+          <option name="timeStamp" value="403" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/core/kite_api_login.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="405" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

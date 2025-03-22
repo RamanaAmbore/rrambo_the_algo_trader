@@ -87,7 +87,7 @@ Thread = SimpleNamespace(
 
 # Default configurations
 DEFAULT_ACCESS_TOKENS = (
-    {'account': Account.ACCOUNT1, 'token': ''},
+    {'account': Account.ACCOUNT1, 'token': None},
     {'account': Account.ACCOUNT2, 'token': None}
 )
 

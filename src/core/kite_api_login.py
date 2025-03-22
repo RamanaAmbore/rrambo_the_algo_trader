@@ -2,13 +2,13 @@ import threading
 
 import requests
 from kiteconnect import KiteConnect
+from src.services.access_tokens import    AccessTokens
 
-from src.services.access_tokens import get_stored_access_tokens
 from src.core.database_manager import DatabaseManager
 from src.helpers.logger import get_logger
-from src.settings.parameter_manager import parms, USER_CREDENTIALS
-from src.settings import constants_manager as const
 from src.helpers.utils import generate_totp
+from src.services.access_tokens import get_stored_access_tokens
+from src.settings.parameter_manager import parms, USER_CREDENTIALS
 
 logger = get_logger(__name__)
 
@@ -48,7 +48,7 @@ class ZerodhaKite:
             if not test_conn and cls.kite:
                 return
 
-            stored_token = get_stored_access_tokens(DatabaseManager)
+            stored_token = get_stored_access_tokens(cls.username)
             if stored_token:
                 cls._access_tokens = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
@@ -78,17 +78,17 @@ class ZerodhaKite:
             raise
 
         # Step 2: Perform TOTP authentication
-        for attempt in range(const.MAX_TOTP_CONN_RETRY_COUNT):
+        for attempt in range(parms.MAX_TOTP_CONN_RETRY_COUNT):
             try:
-                totp_pin = generate_totp()
+                totp_pin = generate_totp(cls.totp_token)
                 response = session.post(cls.twofa_url, data={"user_id": cls.username, "request_id": request_id,
                                                              "twofa_value": totp_pin, "twofa_type": "totp"}, )
                 response.raise_for_status()
                 logger.info("TOTP authentication successful.")
                 break
             except Exception as e:
-                logger.warning(f"TOTP attempt {attempt + 1} of {const.MAX_TOTP_CONN_RETRY_COUNT} failed: {e}...")
-                if attempt == const.MAX_TOTP_CONN_RETRY_COUNT - 1:
+                logger.warning(f"TOTP attempt {attempt + 1} of {parms.MAX_TOTP_CONN_RETRY_COUNT} failed: {e}...")
+                if attempt == parms.MAX_TOTP_CONN_RETRY_COUNT - 1:
                     logger.error("TOTP authentication failed after multiple attempts.")
                     raise
 
@@ -119,7 +119,7 @@ class ZerodhaKite:
             cls.kite.set_access_tokens(cls._access_tokens)
 
             # Store the new access token
-            cls._db_token.check_update_access_tokens(cls._access_tokens, DatabaseManager)
+            AccessTokens.check_update_access_tokens(cls._access_tokens, DatabaseManager)
             logger.info("Access token successfully generated and stored.")
         except Exception as e:
             logger.error(f"Failed to generate access token: {e}")
