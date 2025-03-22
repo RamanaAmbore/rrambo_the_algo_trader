@@ -102,12 +102,10 @@ class Orders(Base):
                       Index("idx_instrument2", "instrument_token"),)
 
     def __repr__(self):
-        """
-        Returns a string representation of the order for debugging.
-        """
         return (f"<Orders(id={self.id}, order_id={self.order_id}, tradingsymbol={self.tradingsymbol}, "
                 f"status={self.status}, quantity={self.quantity}, price={self.price}, "
                 f"filled_quantity={self.filled_quantity}, pending_quantity={self.pending_quantity}, "
                 f"exchange='{self.exchange}', transaction_type='{self.transaction_type}', "
                 f"order_type='{self.order_type}', validity='{self.validity}', modified={self.modified}, "
-                f"source='{self.source}', warning_error={self.warning_error})>")
+                f"source='{self.source}')>")
+
