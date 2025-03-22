@@ -6,9 +6,9 @@ import pandas as pd
 
 from src.helpers.logger import get_logger
 from src.helpers.utils import read_file_content
-from src.services.report_profit_loss_service import report_profit_loss_service
-from src.services.report_ledger_entries_service import report_ledger_entry_service
-from src.services.report_tradebook_service import report_tradebook_service
+from src.services.service_report_profit_loss import service_report_profit_loss
+from src.services.service_report_ledger_entry import report_ledger_entry_service
+from src.services.service_report_tradebook import service_report_tradebook
 from src.settings import constants_manager as const
 from src.settings.parameter_manager import parms
 
@@ -45,8 +45,8 @@ class ReportUploader:
             }
 
             service_xref = {
-                "tradebook": report_tradebook_service,
-                "pnl": report_profit_loss_service,
+                "tradebook": service_report_tradebook,
+                "pnl": service_report_profit_loss,
                 "ledger": report_ledger_entry_service
             }
 

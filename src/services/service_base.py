@@ -1,7 +1,7 @@
 from typing import List, Set, Tuple, Any, Dict, Union
 
 import pandas as pd
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
@@ -11,7 +11,7 @@ from src.helpers.logger import get_logger
 logger = get_logger(__name__)
 
 
-class BaseService:
+class ServiceBase:
     """Generic service class providing common database operations for both async and sync modes."""
 
     def __init__(self, model):
@@ -28,6 +28,12 @@ class BaseService:
         async with Db.get_async_session() as session:
             result = await session.execute(select(self.model))
             return result.scalars().all()
+
+    async def delete_all_records(self):
+        """Delete all records from the model."""
+        async with Db.get_async_session() as session:
+            await session.execute(delete(self.model))
+            await session.commit()
 
     async def get_by_id(self, record_id: Any):
         """Fetch a record by its primary key."""

@@ -2,14 +2,14 @@ import pandas as pd
 
 from src.helpers.logger import get_logger
 from src.models import ReportProfitLoss
-from src.services.base_service import BaseService
+from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
 model = ReportProfitLoss
 
 
-class ReportProfitLossService(BaseService):
+class ServiceReportProfitLoss(ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
     def __init__(self):
@@ -38,4 +38,4 @@ class ReportProfitLossService(BaseService):
         return data_records
 
 
-report_profit_loss_service = ReportProfitLossService()
+service_report_profit_loss = ServiceReportProfitLoss()

@@ -8,7 +8,7 @@ from src.settings.parameter_manager import const
 from src.helpers.date_time_utils import today_indian, current_time_indian
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.logger import get_logger
-from src.core.kite_get_access_token import ZerodhaKite
+from src.core.zerodha_kite_connect import ZerodhaKiteConnect
 
 logger = get_logger(__name__)
 
@@ -37,7 +37,7 @@ class MarketTicker(threading.Thread):
                 self.start()
                 self._initialized = True
 
-                self.kite_conn = ZerodhaKite
+                self.kite_conn = ZerodhaKiteConnect
                 self.kite_conn.get_kite_conn()
                 self.socket_conn = None
                 self.running = True
@@ -46,7 +46,7 @@ class MarketTicker(threading.Thread):
                 self.reconnect_attempts = 0
 
     def init_ticker_state(self):
-        self.kite_conn = ZerodhaKite
+        self.kite_conn = ZerodhaKiteConnect
         self.kite_conn.get_kite_conn()
         self.socket_conn = None
         self.running = True

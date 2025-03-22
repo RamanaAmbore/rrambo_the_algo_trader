@@ -2,7 +2,7 @@ import threading
 import time
 
 from src.helpers.date_time_utils import timestamp_indian
-from src.services.algo_thread_status_service import AlgoThreadStatusService
+from src.services.algo_thread_status_service import AlgoThreadStatusServiceBase
 from src.settings.constants_manager import ThreadStatus, Schedule, Source
 from src.settings.parameter_manager import parms
 
@@ -11,7 +11,7 @@ async def insert_thread_status(thread_name):
     """Update the thread status in the database."""
     # Define Indian timezone (IST)
 
-    record_id = await AlgoThreadStatusService().insert_record(
+    record_id = await AlgoThreadStatusServiceBase().insert_record(
         {
             "thread": thread_name,
             "schedule": Schedule.PRE_MARKET,
@@ -31,8 +31,8 @@ async def update_thread_status(record_id, thread_status=ThreadStatus.IN_PROGRESS
     """Update the thread status in the database."""
     # Define Indian timezone (IST)
 
-    return await AlgoThreadStatusService().update_record(record_id,
-                                                         {
+    return await AlgoThreadStatusServiceBase().update_record(record_id,
+                                                             {
                                                              "thread_status": thread_status,
                                                              "run_count": run_count,
                                                              "error_count": error_count,

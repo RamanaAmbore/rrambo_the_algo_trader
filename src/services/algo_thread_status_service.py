@@ -1,13 +1,13 @@
 from src.helpers.logger import get_logger
 from src.models import AlgoThreadStatus
-from src.services.base_service import BaseService
+from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
 model = AlgoThreadStatus
 
 
-class AlgoThreadStatusService(BaseService):
+class AlgoThreadStatusServiceBase(ServiceBase):
     """Service class for handling ReportTradebook database operations."""
 
     def __init__(self):

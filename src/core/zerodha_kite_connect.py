@@ -5,13 +5,13 @@ from kiteconnect import KiteConnect
 
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp
-from src.services.access_token_service import access_token_service
+from src.services.service_access_token import service_access_token
 from src.settings.parameter_manager import parms, ACCOUNT_CREDENTIALS
 
 logger = get_logger(__name__)
 
 
-class ZerodhaKite:
+class ZerodhaKiteConnect:
     """Handles Kite API authentication and access token management."""
 
     _lock = threading.Lock()
@@ -47,7 +47,7 @@ class ZerodhaKite:
             if not test_conn and cls.kite:
                 return
 
-            stored_token, cls.id = access_token_service.get_stored_access_token(cls.account)
+            stored_token, cls.id = service_access_token.get_stored_access_token(cls.account)
             if stored_token:
                 cls._access_tokens = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
@@ -118,7 +118,7 @@ class ZerodhaKite:
             cls.kite.set_access_token(cls._access_token)
 
             # Store the new access token
-            access_token_service.check_update_access_token(cls._access_token, cls.account)
+            service_access_token.check_update_access_token(cls._access_token, cls.account)
             logger.info("Access token successfully generated and stored.")
         except Exception as e:
             logger.error(f"Failed to generate access token for account {cls.account}: {e}")
@@ -126,7 +126,7 @@ class ZerodhaKite:
 
 
 # Initialize singleton instance
-ZerodhaKite.get_kite_conn(test_conn=True)
+ZerodhaKiteConnect.get_kite_conn(test_conn=True)
 
 if __name__ == "__main__":
-    logger.info(f"Kite connection initialized: {ZerodhaKite.kite}")
+    logger.info(f"Kite connection initialized: {ZerodhaKiteConnect.kite}")

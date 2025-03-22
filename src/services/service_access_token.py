@@ -1,17 +1,15 @@
 from datetime import timedelta
-from typing import Optional, Any
-
-from sqlalchemy import Column
+from typing import Any
 
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.cipher_utils import encrypt_text, decrypt_text
 from src.helpers.date_time_utils import timestamp_indian
 from src.models.access_tokens import AccessTokens, logger
+from src.services.service_base import ServiceBase  # Assuming BaseService exists
 from src.settings.parameter_manager import parms
-from src.services.base_service import BaseService  # Assuming BaseService exists
 
 
-class AccessTokenService(BaseService):
+class ServiceAccessToken(ServiceBase):
     """Service class for handling AccessTokens database operations."""
 
     model = AccessTokens  # Assign model at the class level
@@ -66,5 +64,5 @@ class AccessTokenService(BaseService):
 
 
 # Create a Singleton Instance
-access_token_service = AccessTokenService()
+service_access_token = ServiceAccessToken()
 
