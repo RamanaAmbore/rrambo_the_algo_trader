@@ -17,7 +17,7 @@ from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp, delete_folder_contents
 from src.settings import constants_manager as const
-from src.settings.parameter_manager import parms, USER_CREDENTIALS
+from src.settings.parameter_manager import parms, ACCOUNT_CREDENTIALS
 
 logger = get_logger(__name__)  # Initialize logger
 Db.initialize_parameters()
@@ -27,7 +27,7 @@ class ReportDownloader:
     driver = None
     report_start_date = None
     report_end_date = None
-    user = None
+    account = None
     credential = None
     failed_reports = []  # Track failed downloads
     download_path = None
@@ -41,6 +41,9 @@ class ReportDownloader:
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         options.add_argument("--disable-gpu")
+
+        if not parms.SELENIUM_DEBUG:
+            options.add_argument("--headless")  # Run in headless mode when debugging is disabled
 
         # Set Download Preferences
 
@@ -60,12 +63,13 @@ class ReportDownloader:
     @classmethod
     def highlight_element(cls, element):
         """Highlight a Selenium WebElement for debugging."""
-        cls.driver.execute_script("arguments[0].style.border='3px solid red'", element)
+        if parms.SELENIUM_DEBUG:
+            cls.driver.execute_script("arguments[0].style.border='3px solid red'", element)
 
     @classmethod
     def login_kite(cls):
         """Automates Zerodha Kite login using Selenium (Firefox)."""
-        logger.info(f"Logging into Zerodha Kite for user {cls.user}...")
+        logger.info(f"Logging into Zerodha Kite for user {cls.account}...")
 
         cls.driver.get(parms.KITE_URL)
         WebDriverWait(cls.driver, 5).until(EC.presence_of_element_located((By.ID, "userid")))
@@ -73,18 +77,18 @@ class ReportDownloader:
         try:
             userid_field = cls.driver.find_element(By.ID, "userid")
             cls.highlight_element(userid_field)
-            userid_field.send_keys(cls.user)
-            logger.info(f"Entered User ID for {cls.user}")
+            userid_field.send_keys(cls.account)
+            logger.info(f"Entered User ID for {cls.account}")
 
             password_field = cls.driver.find_element(By.ID, "password")
             cls.highlight_element(password_field)
             password_field.send_keys(cls.credential['PASSWORD'])
-            logger.info(f"Entered Password for {cls.user}")
+            logger.info(f"Entered Password for {cls.account}")
 
             login_button = cls.driver.find_element(By.XPATH, '//button[@type="submit"]')
             cls.highlight_element(login_button)
             login_button.click()
-            logger.info(f"Submitted login credentials for {cls.user}")
+            logger.info(f"Submitted login credentials for {cls.account}")
 
             # Wait for TOTP field
             WebDriverWait(cls.driver, 10).until(EC.presence_of_element_located((By.XPATH, "//input[@type='number']")))
@@ -99,16 +103,16 @@ class ReportDownloader:
                 WebDriverWait(cls.driver, 3).until(lambda d: "dashboard" in d.current_url)
 
                 if "dashboard" in cls.driver.current_url:
-                    logger.info(f"Login Successful for user {cls.user}")
+                    logger.info(f"Login Successful for acount {cls.account}")
                     return
                 else:
                     logger.warning(
-                        f"Invalid TOTP! Retrying for user: {cls.user} (Attempt {attempt + 1}/{parms.MAX_TOTP_CONN_RETRY_COUNT})")
+                        f"Invalid TOTP! Retrying for account: {cls.account} (Attempt {attempt + 1}/{parms.MAX_TOTP_CONN_RETRY_COUNT})")
                 if attempt == parms.MAX_TOTP_CONN_RETRY_COUNT - 1:
-                    raise ValueError(f"TOTP Authentication Failed for user {cls.user}")
+                    raise ValueError(f"TOTP Authentication Failed for accunt {cls.account}")
 
         except Exception as e:
-            msg = f"Login Failed for user{cls.user} with exception: {e}"
+            msg = f"Login Failed for account {cls.account} with exception: {e}"
             logger.error(msg)
             raise Exception(msg)
 
@@ -199,11 +203,11 @@ class ReportDownloader:
                             logger.info(f"Download completed for {segment} ({date_range_str}): {downloaded_file}")
                             break
                         except Exception:
-                            logger.error(f"Download failed for {name} {cls.user} - {segment} - ({date_range_str})")
+                            logger.error(f"Download failed for {name} {cls.account} - {segment} - ({date_range_str})")
 
                 current_start = current_end + timedelta(days=1)
             all_downloaded_files[name] = downloaded_files
-        logger.info(f'Downloaded files for {cls.user} all segments: {all_downloaded_files}')
+        logger.info(f'Downloaded files for {cls.account} all segments: {all_downloaded_files}')
 
         if not all_downloaded_files:
             logger.warning("No reports were downloaded.")
@@ -249,19 +253,19 @@ class ReportDownloader:
         cls.initialize()
         user_downloads = {}
 
-        for user, credential in USER_CREDENTIALS.items():
-            cls.user = user
+        for account, credential in ACCOUNT_CREDENTIALS.items():
+            cls.account = account
             cls.credential = credential
             cls.setup_driver()
             try:
                 cls.login_kite()
-                logger.info(f"Proceeding with downloads for user {cls.user}...")
-                user_downloads[user] = cls.download_reports()  # Store downloaded files for each user
+                logger.info(f"Proceeding with downloads for account {cls.account}...")
+                user_downloads[account] = cls.download_reports()  # Store downloaded files for each account
             finally:
                 if cls.driver is not None:
                     cls.driver.quit()
 
-        return user_downloads  # Return dictionary of downloaded files per user
+        return user_downloads  # Return dictionary of downloaded files per account
 
     @classmethod
     def initialize(cls):
@@ -276,6 +280,7 @@ class ReportDownloader:
         else:
             cls.report_start_date = datetime(int(cls.report_start_date[:4]), int(cls.report_start_date[5:7]),
                                              int(cls.report_start_date[8:])).date()
+
         cls.report_end_date = today_indian()
 
         cls.refresh_reports = {"TRADEBOOK": parms.REFRESH_TRADEBOOK,

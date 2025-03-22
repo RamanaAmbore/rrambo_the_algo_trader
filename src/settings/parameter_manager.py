@@ -15,15 +15,15 @@ _lock = threading.Lock()
 env_vars = {k: parse_value(v) for k, v in dotenv_values().items()}
 parms = SimpleNamespace(**env_vars)
 
-USER_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
+ACCOUNT_CREDENTIALS: Dict[str, Dict[str, Any]] = {}
 
 
 def refresh_parameters(records, refresh=False) -> None:
     """Reset parameters from database records."""
-    global USER_CREDENTIALS
+    global ACCOUNT_CREDENTIALS
     with _lock:  # Thread-safe parameter updates
         try:
-            if USER_CREDENTIALS and not refresh:
+            if ACCOUNT_CREDENTIALS and not refresh:
                 return
             for record in records:
                 account = None if record.account is None else record.account.strip()
@@ -33,9 +33,9 @@ def refresh_parameters(records, refresh=False) -> None:
                 if account is None:
                     setattr(parms, parameter, value)
                     continue
-                if account not in USER_CREDENTIALS:
-                    USER_CREDENTIALS[account] = {}
-                USER_CREDENTIALS[account][parameter] = value
+                if account not in ACCOUNT_CREDENTIALS:
+                    ACCOUNT_CREDENTIALS[account] = {}
+                ACCOUNT_CREDENTIALS[account][parameter] = value
 
 
         except Exception as e:
@@ -46,7 +46,7 @@ def refresh_parameters(records, refresh=False) -> None:
 def get_credentials(user_id: str) -> Dict[str, Any]:
     """Get credentials for a specific user."""
     with _lock:  # Thread-safe credential access
-        if user_id not in USER_CREDENTIALS:
+        if user_id not in ACCOUNT_CREDENTIALS:
             raise KeyError(f"No credentials found for user {user_id}")
 
-        return dict(USER_CREDENTIALS[user_id])  # Return a deep copy
+        return dict(ACCOUNT_CREDENTIALS[user_id])  # Return a deep copy
