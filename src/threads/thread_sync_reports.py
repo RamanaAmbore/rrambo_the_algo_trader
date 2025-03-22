@@ -2,7 +2,7 @@ import asyncio
 import threading
 import time
 
-from src.threads.report_uploader import ReportUploader
+from src.threads.thread_report_uploader import ReportUploader
 
 
 class SyncReportsThread(threading.Thread):

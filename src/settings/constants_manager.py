@@ -37,7 +37,7 @@ REPORT = {
         "P&L": {
             "element": "//label[contains(text(), 'P&L')]/following-sibling::select",
             "values": ["Realised P&L"]
-            },
+        },
         "date_range": "//input[@placeholder='Select range']",
         "button": "//button[@class='btn-blue']",
         "href": "//div[contains(text(), 'Download')]",
@@ -136,7 +136,14 @@ DEFAULT_PARAMETERS = tuple(
          'encrypted': True},
         {'account': Account.ACCOUNT1, 'parameter': 'TOTP_TOKEN', 'value': os.getenv('ACCOUNT1_TOTP_TOKEN'),
          'encrypted': True},
+        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_SID', 'value': os.getenv('ACCOUNT1_TWILIO_SID'),
+         'encrypted': True},
         {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_API_TOKEN', 'value': os.getenv('ACCOUNT1_TWILIO_API_TOKEN'),
+         'encrypted': True},
+        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_PHONE', 'value': os.getenv('ACCOUNT1_TWILIO_PHONE'),
+         'encrypted': True},
+        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_ADMIN_PHONE',
+         'value': os.getenv('ACCOUNT1_TWILIO_ADMIN_PHONE'),
          'encrypted': True},
 
         {'account': Account.ACCOUNT2, 'parameter': 'API_KEY', 'value': os.getenv('ACCOUNT2_API_KEY'),
@@ -147,5 +154,14 @@ DEFAULT_PARAMETERS = tuple(
          'encrypted': True},
         {'account': Account.ACCOUNT2, 'parameter': 'TOTP_TOKEN', 'value': os.getenv('ACCOUNT2_TOTP_TOKEN'),
          'encrypted': True},
-        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_API_TOKEN', 'value': None, 'encrypted': True}
+
+        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_SID', 'value': None,
+         'encrypted': True},
+        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_API_TOKEN', 'value': None,
+         'encrypted': True},
+        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_PHONE', 'value': None,
+         'encrypted': True},
+        {'account': Account.ACCOUNT1, 'parameter': 'TWILIO_ADMIN_PHONE',
+         'value': None,
+         'encrypted': True},
     ])
