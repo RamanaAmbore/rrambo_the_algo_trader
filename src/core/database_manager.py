@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
 from src.helpers.logger import get_logger
-from src.models import ParameterTable, BrokerAccounts
+from src.models import ParameterTable
 from src.models.base import Base
 from src.settings.parameter_manager import parms, refresh_parameters
 

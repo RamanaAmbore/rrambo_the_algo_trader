@@ -32,7 +32,7 @@ class ReportDownloader:
     failed_reports = []  # Track failed downloads
     download_path = None
     refresh_reports = None
-    tokens = ['Something went wrong', "Report's empty", 'Console under maintenance']
+    tokens = ['Something went wrong', "Report's empty", 'Console under maintenance', 'too many']
 
     @classmethod
     def setup_driver(cls):
@@ -116,9 +116,9 @@ class ReportDownloader:
     def check_for_error_text_js(cls):
         """Returns True if 'something went wrong' or 'empty' is present anywhere in the page source."""
 
-        page_text = cls.driver.execute_script("return document.body.innerText;")
+        page_text = cls.driver.execute_script("return document.body.innerText;").lower()
 
-        results = [token in page_text for token in cls.tokens]
+        results = [token.lower() in page_text for token in cls.tokens]
 
         if any(results):
             logger.warning('Report is empty or something went wrong')

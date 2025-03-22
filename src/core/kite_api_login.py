@@ -18,7 +18,7 @@ class ZerodhaKite:
 
     _lock = threading.Lock()
     _access_tokens = None
-    username = parms.USERS[0]
+    username = parms.DEFAULT_ACCOUNT
     _password = USER_CREDENTIALS[username]['PASSWORD']
     api_key = USER_CREDENTIALS[username]["API_KEY"]
     _api_secret = USER_CREDENTIALS[username]["API_SECRET"]

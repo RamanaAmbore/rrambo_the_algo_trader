@@ -4,22 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="utils read_file_content fixed in file_uploader">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="code cleanup for bulk csv data insert">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_contracts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_profit_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_tradebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist_instruments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/base_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/base_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_ledger_entries_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_ledger_entries_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_profit_loss_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_profit_loss_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_tradebook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/report_tradebook_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/kite_api_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/kite_api_login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_downloader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +79,7 @@
     "Python.download_reports (1).executor": "Debug",
     "Python.download_reports.executor": "Run",
     "Python.fetch_parms (1).executor": "Run",
-    "Python.kite_api_login.executor": "Debug",
+    "Python.kite_api_login.executor": "Run",
     "Python.kite_connect (1).executor": "Debug",
     "Python.kite_connection_new.executor": "Debug",
     "Python.load_reports (1).executor": "Run",
@@ -105,7 +96,7 @@
     "Python.report_downloader (1).executor": "Run",
     "Python.report_downloader (2).executor": "Run",
     "Python.report_downloader.executor": "Run",
-    "Python.report_uploader.executor": "Run",
+    "Python.report_uploader.executor": "Debug",
     "Python.settings_loader.executor": "Run",
     "Python.settings_loader_new.executor": "Run",
     "Python.sync_data.executor": "Run",
@@ -135,7 +126,7 @@
       <recent name="D:\rrambo_trader_new\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.report_uploader">
+  <component name="RunManager" selected="Python.kite_api_login">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -158,28 +149,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="algo_thread_status" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/models" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/models/algo_thread_status.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="database_manager (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -194,6 +163,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/database_manager.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="kite_api_login" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/core" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/kite_api_login.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -270,7 +261,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
-      <item itemvalue="Python.algo_thread_status" />
+      <item itemvalue="Python.kite_api_login" />
       <item itemvalue="Python.thread_decorator" />
       <item itemvalue="Python.database_manager (1)" />
       <item itemvalue="Python.report_downloader (2)" />
@@ -278,11 +269,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.report_uploader" />
+        <item itemvalue="Python.kite_api_login" />
         <item itemvalue="Python.report_downloader (2)" />
+        <item itemvalue="Python.report_uploader" />
         <item itemvalue="Python.database_manager (1)" />
         <item itemvalue="Python.thread_decorator" />
-        <item itemvalue="Python.algo_thread_status" />
       </list>
     </recent_temporary>
   </component>
@@ -301,14 +292,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00034" summary="changed DbConnection to DBConect">
-      <option name="closed" value="true" />
-      <created>1741526590580</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1741526590580</updated>
     </task>
     <task id="LOCAL-00035" summary="added exceptions to default data load into tables">
       <option name="closed" value="true" />
@@ -694,11 +677,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742584892600</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="code cleanup for bulk csv data insert">
+      <option name="closed" value="true" />
+      <created>1742592555062</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1742592555062</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added list_files_regex_patterns function to utils" />
     <MESSAGE value="fix for unicode display on sys.out console" />
     <MESSAGE value="report parameters renamed" />
     <MESSAGE value="restructured service classes" />
@@ -723,7 +713,8 @@
     <MESSAGE value="restructured settings code-3" />
     <MESSAGE value="restructured settings code-4" />
     <MESSAGE value="utils read_file_content fixed in file_uploader" />
-    <option name="LAST_COMMIT_MESSAGE" value="utils read_file_content fixed in file_uploader" />
+    <MESSAGE value="code cleanup for bulk csv data insert" />
+    <option name="LAST_COMMIT_MESSAGE" value="code cleanup for bulk csv data insert" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -757,11 +748,6 @@
           <url>file://$PROJECT_DIR$/src/threads/thread_decorator.py</url>
           <line>51</line>
           <option name="timeStamp" value="360" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/report_downloader.py</url>
-          <line>177</line>
-          <option name="timeStamp" value="388" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/services/report_profit_loss_service.py</url>
