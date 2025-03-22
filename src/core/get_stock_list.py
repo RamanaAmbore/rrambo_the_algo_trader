@@ -8,20 +8,20 @@ logger = get_logger(__name__)
 def fetch_kite_stock_list():
     """
     Fetches the list of stocks from Zerodha Kite API.
-    Returns a list of dictionaries containing symbol, name, yahoo_ticker, and exchange.
+    Returns a list of dictionaries containing tradingsymbol, name, yahoo_ticker, and exchange.
     """
     kite = Db.get_sync_session()
     instruments = kite.instruments("NSE")
     stock_list = []
 
     for instrument in instruments:
-        symbol = instrument["tradingsymbol"]
-        name = instrument.get("name", symbol)
-        yahoo_ticker = f"{symbol}.NS"
+        tradingsymbol = instrument["tradingsymbol"]
+        name = instrument.get("name", tradingsymbol)
+        yahoo_ticker = f"{tradingsymbol}.NS"
         exchange = instrument["exchange"]
 
         stock_list.append({
-            "symbol": symbol,
+            "tradingsymbol": tradingsymbol,
             "name": name,
             "yahoo_ticker": yahoo_ticker,
             "exchange": exchange

@@ -32,8 +32,8 @@ def update_stock_list():
 
     stock_symbols = ["RELIANCE.NS", "TATAMOTORS.NS", "INFY.NS", "HDFCBANK.NS", "TCS.NS"]  # Replace with full list
     session.query(StockList).delete()
-    for symbol in stock_symbols:
-        session.add(StockList(symbol=symbol, name=symbol, last_updated=datetime.date.today()))
+    for tradingsymbol in stock_symbols:
+        session.add(StockList(tradingsymbol=tradingsymbol, name=tradingsymbol, last_updated=datetime.date.today()))
     session.commit()
     session.close()
 
@@ -43,7 +43,7 @@ update_stock_list()
 
 session = Session()
 stocks = session.query(StockList).all()
-stock_options = [{'label': stock.name, 'value': stock.symbol} for stock in stocks]
+stock_options = [{'label': stock.name, 'value': stock.tradingsymbol} for stock in stocks]
 session.close()
 
 app.layout = create_layout(stock_options)

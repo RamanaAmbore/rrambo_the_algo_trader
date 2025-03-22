@@ -1,10 +1,9 @@
-from sqlalchemy import (Column, Integer, String, DateTime, text, Boolean, Index, ForeignKey, Enum,
-                        UniqueConstraint, func)
+from sqlalchemy import (Column, Integer, String, DateTime, text, Index, ForeignKey, UniqueConstraint, func)
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
@@ -16,7 +15,7 @@ class WatchlistInstruments(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), ForeignKey("watchlists.watchlist", ondelete="CASCADE"), nullable=False)
-    symbol = Column(String(50), nullable=False)
+    tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(10), nullable=False)
     instrument_token = Column(Integer, nullable=False)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
@@ -29,14 +28,14 @@ class WatchlistInstruments(Base):
     watchlist_rel = relationship("Watchlists", back_populates="watchlist_instruments")
 
     __table_args__ = (
-        UniqueConstraint('watchlist', 'symbol', 'exchange', name='uq_watchlist_instrument'),
+        UniqueConstraint('watchlist', 'tradingsymbol', 'exchange', name='uq_watchlist_instrument'),
         Index("idx_watchlist", "watchlist"),
         Index("idx_instrument", "instrument_token"),
-        Index("idx_symbol", "symbol"),
-        Index("idx_symbol_exchange", "symbol", "exchange"),
+        Index("idx_symbol", "tradingsymbol"),
+        Index("idx_symbol_exchange", "tradingsymbol", "exchange"),
     )
 
     def __repr__(self):
         return (f"<WatchlistInstruments(id={self.id}, watchlist='{self.watchlist}', "
-                f"symbol='{self.symbol}', exchange='{self.exchange}', "
+                f"tradingsymbol='{self.tradingsymbol}', exchange='{self.exchange}', "
                 f"instrument_token={self.instrument_token})>")  # Simplified repr

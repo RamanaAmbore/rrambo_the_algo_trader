@@ -1,4 +1,4 @@
-from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKey, CheckConstraint,
+from sqlalchemy import (Column, Integer, String, DateTime, text, CheckConstraint,
                         Index, UniqueConstraint, func, Decimal)
 from sqlalchemy.orm import relationship
 
@@ -14,18 +14,14 @@ class Holdings(Base):
     __tablename__ = "holdings"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    tradingsymbol = Column(String(50), nullable=False)  # Stock tradingsymbol
-    exchange = Column(String(20), nullable=False)  # NSE/BSE
-    isin = Column(String(20), nullable=True)  # Unique ISIN for stock identification
-    quantity = Column(Integer, nullable=False)  # Number of shares held
-    t1_quantity = Column(Integer, nullable=True)  # Shares in T1 settlement (not yet delivered)
-    average_price = Column(Decimal(10, 2), nullable=False)  # Buy average price
-    last_price = Column(Decimal(10, 2), nullable=False)  # Latest market price
-    pnl = Column(Decimal(10, 2), nullable=True)  # Profit/Loss
-    close_price = Column(Decimal(10, 2), nullable=True)  # Previous day close price
-    collateral_quantity = Column(Integer, nullable=True, default=0)  # Pledged stocks
-    collateral_type = Column(String(20), nullable=True)  # Pledge type (e.g., 'collateral')
+    instrument_token = Column(Integer, nullable=False, index=True)  # Stock identifier
+    timestamp = Column(DateTime, nullable=False, index=True)  # Candle timestamp
+    interval = Column(String, nullable=False)  # 'minute', 'day', etc.
+    open = Column(Decimal(10, 2), nullable=False)
+    high = Column(Decimal(10, 2), nullable=False)
+    low = Column(Decimal(10, 2), nullable=False)
+    close = Column(Decimal(10, 2), nullable=False)
+    volume = Column(Integer, nullable=False)
     source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

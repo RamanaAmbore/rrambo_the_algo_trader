@@ -4,30 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="added additional parameters">
-      <change afterPath="$PROJECT_DIR$/src/services/service_stock_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/thread_scheduler.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/threads/thread_stock_list.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/threads/thread_sync_reports.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="updating models">
+      <change afterPath="$PROJECT_DIR$/src/models/historical_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/get_stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/get_stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/kite_get_access_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/zerodha_kite_connect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/kite_get_api_keys.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/zerodha_kite_fetch_keys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/report_ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_ledger_entries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_profit_loss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_tradebook.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/access_token_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_access_token.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/algo_thread_status_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/algo_thread_status_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/base_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_ledger_entries_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_report_ledger_entry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_profit_loss_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_report_profit_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/report_tradebook_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_report_tradebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/stock_list.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/market_ticker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/report_uploader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/report_uploader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/sync_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/thread_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/thread_decorator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/thread_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/thread_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist_instruments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_report_profit_loss.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,14 +304,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00040" summary="converted ReportDownloader into a class">
-      <option name="closed" value="true" />
-      <created>1741631249839</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1741631249839</updated>
     </task>
     <task id="LOCAL-00041" summary="added delete feature to download folder">
       <option name="closed" value="true" />
@@ -704,11 +689,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742646955220</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="updating models">
+      <option name="closed" value="true" />
+      <created>1742664115578</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1742664115578</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix compilation issues with class services" />
     <MESSAGE value="code restructuring for report_uploader" />
     <MESSAGE value="working code for report_tradebook_service" />
     <MESSAGE value="changes related to report_uploader" />
@@ -733,7 +725,8 @@
     <MESSAGE value="working code for kite connect" />
     <MESSAGE value="Report process, selenium and access token process working successfully" />
     <MESSAGE value="added additional parameters" />
-    <option name="LAST_COMMIT_MESSAGE" value="added additional parameters" />
+    <MESSAGE value="updating models" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating models" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

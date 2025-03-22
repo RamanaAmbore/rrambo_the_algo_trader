@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, String, Integer, DateTime, text, Boolean,
-    ForeignKey, Enum, Index, Numeric, CheckConstraint, func
+    ForeignKey, Enum, Index, Decimal, CheckConstraint, func
 )
 from sqlalchemy.orm import relationship
 
@@ -21,19 +21,25 @@ class Positions(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    symbol = Column(String(50), nullable=False, index=True)
-    exchange = Column(String(10), nullable=False)
-    instrument_token = Column(Integer, nullable=False)
-    product = Column(String(10), nullable=False)
-    position_type = Column(String(5), nullable=False)
-    quantity = Column(Integer, nullable=False, default=0)
-    average_price = Column(Numeric(10, 2), nullable=False, default=0)
-    last_price = Column(Numeric(10, 2), nullable=False, default=0)
-    unrealized_pnl = Column(Numeric(12, 2), nullable=False, default=0)
-    realized_pnl = Column(Numeric(12, 2), nullable=False, default=0)
-    total_pnl = Column(Numeric(12, 2), nullable=False, default=0)
-    multiplier = Column(Integer, nullable=False, default=1)
-    margin_used = Column(Numeric(12, 2), nullable=False, default=0)
+    tradingsymbol = Column(String(50), nullable=False)  # Stock symbol
+    exchange = Column(String(20), nullable=False)  # NSE/BSE
+    instrument_token = Column(Integer, nullable=False)  # Unique instrument identifier
+    quantity = Column(Integer, nullable=False, default=0)  # Current net position quantity
+    overnight_quantity = Column(Integer, nullable=False, default=0)  # Previous day position
+    buy_quantity = Column(Integer, nullable=False, default=0)  # Total buy quantity
+    sell_quantity = Column(Integer, nullable=False, default=0)  # Total sell quantity
+    buy_price = Column(Decimal(10, 2), nullable=False, default=0.00)  # Average buy price
+    sell_price = Column(Decimal(10, 2), nullable=False, default=0.00)  # Average sell price
+    buy_value = Column(Decimal(15, 2), nullable=False, default=0.00)  # Total buy value
+    sell_value = Column(Decimal(15, 2), nullable=False, default=0.00)  # Total sell value
+    pnl = Column(Decimal(10, 2), nullable=True)  # Profit/Loss
+    realised = Column(Decimal(10, 2), nullable=True)  # Realized profit/loss
+    unrealised = Column(Decimal(10, 2), nullable=True)  # Unrealized profit/loss
+    last_price = Column(Decimal(10, 2), nullable=False, default=0.00)  # Last market price
+    close_price = Column(Decimal(10, 2), nullable=True)  # Previous close price
+    product = Column(String(20), nullable=False)  # CNC/MIS/NRML (cash, intraday, margin)
+    overnight = Column(Boolean, nullable=False, default=False)  # True if carry forward position
+    multiplier = Column(Decimal(10, 2), nullable=False, default=1.00)  # Leverage multiplier
     source = Column(String(50), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -49,13 +55,13 @@ class Positions(Base):
         CheckConstraint(f"product IN {tuple(PRODUCT_TYPES)}", name="check_valid_product"),
         CheckConstraint("multiplier > 0", name="check_multiplier_positive"),
         CheckConstraint("margin_used >= 0", name="check_margin_non_negative"),
-        Index("idx_account_symbol3", "account", "symbol"),
+        Index("idx_account_symbol3", "account", "tradingsymbol"),
         Index("idx_instrument1", "instrument_token"),
         Index("idx_active_positions", "account", "quantity", "position_type"),
     )
 
     def __repr__(self):
-        return (f"<Positions(id={self.id}, symbol='{self.symbol}', "
+        return (f"<Positions(id={self.id}, tradingsymbol='{self.tradingsymbol}', "
                 f"position_type='{self.position_type}', quantity={self.quantity}, "
                 f"average_price={self.average_price}, unrealized_pnl={self.unrealized_pnl}, "
                 f"total_pnl={self.total_pnl}, source='{self.source}')>")

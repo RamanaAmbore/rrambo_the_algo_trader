@@ -1,10 +1,8 @@
 from sqlalchemy import (
-    Column, String, Numeric, Integer, DateTime, text, Boolean,
-    ForeignKey, Enum, CheckConstraint, Index, UniqueConstraint, func
+    Column, String, Decimal, Integer, DateTime, text, ForeignKey, CheckConstraint, Index, UniqueConstraint, func
 )
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -20,19 +18,19 @@ class ReportProfitLoss(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    symbol = Column(String(50), nullable=False)
+    tradingsymbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     quantity = Column(Integer, nullable=False)
-    buy_value = Column(Numeric(12, 2), nullable=False)
-    sell_value = Column(Numeric(12, 2), nullable=False)
-    realized_pnl = Column(Numeric(12, 2), nullable=False)
-    realized_pnl_pct = Column(Numeric(12, 2), nullable=False)
-    previous_closing_price = Column(Numeric(10, 2), nullable=True)
+    buy_value = Column(Decimal(12, 2), nullable=False)
+    sell_value = Column(Decimal(12, 2), nullable=False)
+    realized_pnl = Column(Decimal(12, 2), nullable=False)
+    realized_pnl_pct = Column(Decimal(12, 2), nullable=False)
+    previous_closing_price = Column(Decimal(10, 2), nullable=True)
     open_quantity = Column(Integer, nullable=True, default=0)
     open_quantity_type = Column(String(5), nullable=True)
-    open_value = Column(Numeric(12, 2), nullable=False)
-    unrealized_pnl = Column(Numeric(12, 2), nullable=False)
-    unrealized_pnl_pct = Column(Numeric(12, 2), nullable=False)
+    open_value = Column(Decimal(12, 2), nullable=False)
+    unrealized_pnl = Column(Decimal(12, 2), nullable=False)
+    unrealized_pnl_pct = Column(Decimal(12, 2), nullable=False)
     source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -49,14 +47,14 @@ class ReportProfitLoss(Base):
         CheckConstraint("sell_value >= 0", name="check_sell_value_non_negative"),
         CheckConstraint("open_quantity >= 0", name="check_open_quantity_non_negative"),
         CheckConstraint(f"open_quantity_type IN {tuple(QUANTITY_TYPES)}", name="check_quantity_type_valid"),
-        UniqueConstraint("account", "symbol", 'isin', 'quantity', 'buy_value', 'sell_value', name='uq_account_symbol'),
-        Index("idx_account_symbol7", "account", "symbol", 'isin', 'quantity', 'buy_value', 'sell_value'),
-        Index("idx_symbol4", "symbol"),
+        UniqueConstraint("account", "tradingsymbol", 'isin', 'quantity', 'buy_value', 'sell_value', name='uq_account_symbol'),
+        Index("idx_account_symbol7", "account", "tradingsymbol", 'isin', 'quantity', 'buy_value', 'sell_value'),
+        Index("idx_symbol4", "tradingsymbol"),
         Index("idx_isin1", "isin"),
         Index("idx_timestamp", "timestamp"),
     )
 
     def __repr__(self):
         return (f"<ReportProfitLoss(id={self.id}, account='{self.account}', "
-                f"symbol='{self.symbol}', quantity={self.quantity}, "
+                f"tradingsymbol='{self.tradingsymbol}', quantity={self.quantity}, "
                 f"realized_pnl={self.realized_pnl}, unrealized_pnl={self.unrealized_pnl})>")

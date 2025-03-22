@@ -26,7 +26,7 @@ class ServiceReportProfitLoss(ServiceBase):
         records = self.validate_clean_records(records_df)[list(valid_columns)].to_dict(orient="records")
 
         await self.bulk_insert_records(records=records, index_elements=["account",
-                                                                        "symbol",
+                                                                        "tradingsymbol",
                                                                         "isin",
                                                                         "quantity",
                                                                         "buy_value",

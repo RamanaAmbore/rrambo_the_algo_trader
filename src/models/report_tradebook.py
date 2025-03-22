@@ -1,10 +1,9 @@
 from sqlalchemy import (
-    Column, String, Numeric, Integer, DateTime, text, Boolean,
-    BigInteger, ForeignKey, Enum, CheckConstraint, Index, UniqueConstraint, func
+    Column, String, Decimal, Integer, DateTime, text, Boolean,
+    BigInteger, ForeignKey, CheckConstraint, Index, UniqueConstraint, func
 )
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -23,7 +22,7 @@ class ReportTradebook(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     trade_id = Column(BigInteger, nullable=False)
     order_id = Column(BigInteger, nullable=False)
-    symbol = Column(String(50), nullable=False)
+    tradingsymbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     exchange = Column(String(10), nullable=False)
     segment = Column(String(10), nullable=False)
@@ -31,7 +30,7 @@ class ReportTradebook(Base):
     trade_type = Column(String(4), nullable=False)
     auction = Column(Boolean, default=False)
     quantity = Column(Integer, nullable=False)
-    price = Column(Numeric(10, 2), nullable=False)
+    price = Column(Decimal(10, 2), nullable=False)
     trade_date = Column(DateTime(timezone=True), nullable=False)
     order_execution_time = Column(DateTime(timezone=True), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=True)
@@ -53,13 +52,13 @@ class ReportTradebook(Base):
         UniqueConstraint('account', 'trade_id', name='uq_trade_id1'),
         Index("idx_trade_id", "account", "trade_id"),
         Index("idx_order_id", "order_id"),
-        Index("idx_symbol3", "symbol"),
+        Index("idx_symbol3", "tradingsymbol"),
         Index("idx_isin2", "isin"),
         Index("idx_account_date", "account", "trade_date"),
-        Index("idx_symbol_date", "symbol", "trade_date"),
+        Index("idx_symbol_date", "tradingsymbol", "trade_date"),
     )
 
     def __repr__(self):
         return (f"<ReportTradebook(id={self.id}, trade_id={self.trade_id}, "
-                f"symbol='{self.symbol}', trade_type='{self.trade_type}', "
+                f"tradingsymbol='{self.tradingsymbol}', trade_type='{self.trade_type}', "
                 f"quantity={self.quantity}, price={self.price})>")

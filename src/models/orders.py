@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Numeric, Boolean, DateTime, JSON, text, ForeignKey, Enum, \
+from sqlalchemy import Column, String, Integer, Decimal, Boolean, DateTime, JSON, text, ForeignKey, Enum, \
     CheckConstraint, Index, func
 from sqlalchemy.orm import relationship
 
@@ -51,7 +51,7 @@ class Orders(Base):
     variety = Column(String(10), nullable=False)  # Order variety (e.g., "regular", "bo", "co")
     modified = Column(Boolean, default=False)  # Whether order was modified
     exchange = Column(String(10), nullable=False)  # Exchange (NSE/BSE)
-    tradingsymbol = Column(String(50), nullable=False)  # Trading symbol (stock/future/option)
+    tradingsymbol = Column(String(50), nullable=False)  # Trading tradingsymbol (stock/future/option)
     instrument_token = Column(Integer, nullable=False)  # Instrument token for the order
     order_type = Column(String(10), nullable=False)  # Order type (LIMIT, MARKET, SL, SLM)
     transaction_type = Column(String(10), nullable=False)  # Buy/Sell
@@ -62,9 +62,9 @@ class Orders(Base):
     # Price and quantity details
     quantity = Column(Integer, default=0)  # Total order quantity
     disclosed_quantity = Column(Integer, default=0)  # Disclosed quantity (visible to market)
-    price = Column(Numeric(10, 2), default=0)  # Order price
-    trigger_price = Column(Numeric(10, 2), default=0)  # Stop-loss trigger price
-    average_price = Column(Numeric(10, 2), default=0)  # Average execution price
+    price = Column(Decimal(10, 2), default=0)  # Order price
+    trigger_price = Column(Decimal(10, 2), default=0)  # Stop-loss trigger price
+    average_price = Column(Decimal(10, 2), default=0)  # Average execution price
     filled_quantity = Column(Integer, default=0)  # Quantity already executed
     pending_quantity = Column(Integer, default=0)  # Remaining quantity to be executed
     cancelled_quantity = Column(Integer, default=0)  # Quantity canceled

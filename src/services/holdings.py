@@ -15,7 +15,7 @@ def from_api_data(data):
     :return: `Holdings` instance
     """
     return Holdings(
-        symbol=data["tradingsymbol"],
+        tradingsymbol=data["tradingsymbol"],
         exchange=data["exchange"],
         quantity=int(data["quantity"]),
         average_price=to_decimal(data["average_price"]),

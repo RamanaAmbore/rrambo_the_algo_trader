@@ -1,9 +1,8 @@
-from sqlalchemy import (Column, String, Numeric, Integer, select, DateTime, text, Boolean, ForeignKey, Enum,
-                        CheckConstraint, Index, UniqueConstraint, func)
+from sqlalchemy import (Column, String, Decimal, Integer, select, DateTime, text, ForeignKey, CheckConstraint, Index,
+                        UniqueConstraint, func)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -20,9 +19,9 @@ class ReportLedgerEntries(Base):
     posting_date = Column(DateTime(timezone=True), nullable=True)
     cost_center = Column(String(20), nullable=True)
     voucher_type = Column(String(20), nullable=True)
-    debit = Column(Numeric(10, 2), default=0.00, nullable=True)
-    credit = Column(Numeric(10, 2), default=0.00, nullable=True)
-    net_balance = Column(Numeric(15, 2), default=0.00)
+    debit = Column(Decimal(10, 2), default=0.00, nullable=True)
+    credit = Column(Decimal(10, 2), default=0.00, nullable=True)
+    net_balance = Column(Decimal(15, 2), default=0.00)
     source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
