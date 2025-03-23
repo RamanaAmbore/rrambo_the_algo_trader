@@ -15,7 +15,7 @@ class ServiceStockList(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    async def bulk_insert_stocks(self, records_df: pd.DataFrame):
+    async def validate_insert_stocks(self, records_df: pd.DataFrame):
         """Bulk insert multiple trade records, skipping duplicates."""
 
         if records_df.empty:

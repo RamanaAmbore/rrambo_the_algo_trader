@@ -136,6 +136,7 @@ class ServiceBase:
                     stmt = insert(self.model).values(batch)
 
                     if index_elements:
+                        # Handle ON CONFLICT (either update or do nothing)
                         if update_on_conflict:
                             stmt = stmt.on_conflict_do_update(
                                 index_elements=index_elements,
@@ -143,6 +144,10 @@ class ServiceBase:
                             )
                         else:
                             stmt = stmt.on_conflict_do_nothing(index_elements=index_elements)
+                        await session.execute(stmt, batch)
+                    else:
+                        # Perform bulk insert if index_elements is empty
+                        await session.execute(self.model.__table__.insert(), batch)
 
                     await session.execute(stmt)
                     await session.commit()

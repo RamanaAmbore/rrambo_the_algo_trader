@@ -1,3 +1,5 @@
+from typing import Union, List
+
 import pandas as pd
 
 from src.helpers.date_time_utils import convert_to_timezone
@@ -16,11 +18,18 @@ class ServiceReportTradebook(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    async def insert_report_records(self, records_df: pd.DataFrame):
-        """Bulk insert multiple trade records, skipping duplicates."""
-        if records_df.empty:
-            logger.info("No valid records to process.")
+    async def validate_insert_holdings(self, records: Union[pd.DataFrame, List[dict]]):
+        """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
+
+        if not records or (isinstance(records, pd.DataFrame) and records.empty):
+            logger.info("No valid holding records to process.")
             return
+
+        # Convert list of dicts to DataFrame if needed
+        if isinstance(records, list):
+            records_df = pd.DataFrame(records)
+        else:
+            records_df = records
 
         table_columns = {c.name for c in self.model.__table__.columns}
         valid_columns = [c for c in records_df.columns if c in table_columns]

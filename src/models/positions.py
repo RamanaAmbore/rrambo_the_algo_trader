@@ -48,8 +48,6 @@ class Positions(Base):
     __table_args__ = (
         CheckConstraint(f"product IN {PRODUCT_TYPES}", name="check_valid_product"),
         CheckConstraint("multiplier > 0", name="check_multiplier_positive"),
-        CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
-        CheckConstraint("overnight_quantity >= 0", name="check_overnight_quantity_non_negative"),
         CheckConstraint("buy_quantity >= 0", name="check_buy_quantity_non_negative"),
         CheckConstraint("sell_quantity >= 0", name="check_sell_quantity_non_negative"),
         CheckConstraint("buy_price >= 0", name="check_buy_price_non_negative"),
