@@ -10,32 +10,26 @@ logger = get_logger(__name__)
 
 
 class WatchlistInstruments(Base):
-    """Mapping of instruments to watchlists."""
+    """Model for storing instruments in a watchlist."""
     __tablename__ = "watchlist_instruments"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), ForeignKey("watchlists.watchlist", ondelete="CASCADE"), nullable=False)
-    tradingsymbol = Column(String(50), nullable=False)
-    exchange = Column(String(10), nullable=False)
-    instrument_token = Column(Integer, nullable=False)
-    source = Column(String(50), nullable=False, server_default=Source.MANUAL)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    tradingsymbol = Column(String(50), ForeignKey("stocklists.tradingsymbol"), nullable=False)
+    instrument_token = Column(Integer, ForeignKey("stocklists.instrument_token"), nullable=False)
+    exchange = Column(String(20), ForeignKey("stocklists.exchange"), nullable=False)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
-    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
-                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
-    notes = Column(String(255), nullable=True)
+
+    __table_args__ = (
+        UniqueConstraint('watchlist', 'account', 'trading_symbol', 'instrument_token', 'exchange',
+                         name='uq_watchlist_instruments'),
+    )
 
     watchlist_rel = relationship("Watchlists", back_populates="watchlist_instruments")
 
-    __table_args__ = (
-        UniqueConstraint('watchlist', 'tradingsymbol', 'exchange', name='uq_watchlist_instrument'),
-        Index("idx_watchlist", "watchlist"),
-        Index("idx_instrument", "instrument_token"),
-        Index("idx_symbol", "tradingsymbol"),
-        Index("idx_symbol_exchange", "tradingsymbol", "exchange"),
-    )
-
     def __repr__(self):
-        return (f"<WatchlistInstruments(id={self.id}, watchlist='{self.watchlist}', "
-                f"tradingsymbol='{self.tradingsymbol}', exchange='{self.exchange}', "
-                f"instrument_token={self.instrument_token})>")  # Simplified repr
+        return f"<WatchlistInstrument(id={self.id}, watchlist='{self.watchlist}', " \
+               f"account='{self.account}', trading_symbol='{self.trading_symbol}', " \
+               f"instrument_token='{self.instrument_token}', exchange='{self.exchange}')>"

@@ -1,23 +1,23 @@
 import pandas as pd
 from src.helpers.logger import get_logger
-from src.models import Orders
+from src.models import Holdings
 from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
-model = Orders
+model = Holdings
 
 
-class ServiceOrders(ServiceBase):
-    """Service class for handling orders database operations."""
+class ServiceHoldings(ServiceBase):
+    """Service class for handling holdings database operations."""
 
     def __init__(self):
         super().__init__(model)
 
-    async def bulk_insert_orders(self, records_df: pd.DataFrame):
-        """Bulk insert orders data, skipping duplicates."""
+    async def bulk_insert_holdings(self, records_df: pd.DataFrame):
+        """Bulk insert holdings data, skipping duplicates."""
         if records_df.empty:
-            logger.info("No valid order records to process.")
+            logger.info("No valid holding records to process.")
             return
 
         await self.delete_all_records()
@@ -25,18 +25,19 @@ class ServiceOrders(ServiceBase):
         valid_columns = [c for c in records_df.columns if c in table_columns]
         records = self.validate_clean_records(records_df)[valid_columns].to_dict(orient="records")
 
-        await self.bulk_insert_records(records=records, index_elements=["order_id"])
+        await self.bulk_insert_records(records=records, index_elements=["account", "tradingsymbol"])
 
     @staticmethod
     def validate_clean_records(df: pd.DataFrame) -> pd.DataFrame:
-        """Cleans and validates order data before inserting into the database."""
+        """Cleans and validates holdings data before inserting into the database."""
         df["quantity"] = df["quantity"].astype(int)
-        df["price"] = df["price"].astype(float)
-        df["filled_quantity"] = df["filled_quantity"].fillna(0).astype(int)
-        df["pending_quantity"] = df["pending_quantity"].fillna(0).astype(int)
-        df["modified"] = df["modified"].astype(bool)
+        df["t1_quantity"] = df["t1_quantity"].fillna(0).astype(int)
+        df["average_price"] = df["average_price"].astype(float)
+        df["last_price"] = df["last_price"].astype(float)
+        df["pnl"] = df["pnl"].fillna(0).astype(float)
+        df["collateral_quantity"] = df["collateral_quantity"].fillna(0).astype(int)
         df["timestamp"] = pd.to_datetime(df["timestamp"])
         return df
 
 
-service_orders = ServiceOrders()
+service_holdings = ServiceHoldings()

@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, DateTime, text, Boolean, Index, Enum, UniqueConstraint, event, Integer, func
+from sqlalchemy import Column, String, DateTime, text, Boolean, Index, Enum, UniqueConstraint, event, Integer, func, \
+    ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
@@ -10,12 +11,14 @@ from .base import Base
 logger = get_logger(__name__)
 
 
+
 class Watchlists(Base):
     """Model for storing user watchlists."""
     __tablename__ = "watchlists"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    watchlist = Column(String(20), unique=True)
+    watchlist = Column(String(20), nullable=False)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -23,12 +26,15 @@ class Watchlists(Base):
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
-    __table_args__ = (UniqueConstraint('watchlist', name='uq_watchlist'), Index("idx_watchlist1", "watchlist"),)
+    __table_args__ = (
+        UniqueConstraint('watchlist', 'account', name='uq_watchlist_account'),
+        Index("idx_watchlist1", "watchlist"),
+    )
 
     watchlist_instruments = relationship("WatchlistInstruments", back_populates="watchlist_rel")
 
     def __repr__(self):
-        return f"<Watchlist(id={self.id}, watchlist='{self.watchlist}')>"
+        return f"<Watchlist(id={self.id}, watchlist='{self.watchlist}', account='{self.account}')>"
 
 
 def initialize_default_records(connection):
@@ -37,8 +43,10 @@ def initialize_default_records(connection):
         table = Watchlists.__table__
         for record in DEFAULT_WATCHLISTS:
             exists = connection.execute(
-                select(table.c.watchlist).where(
-                    table.c.watchlist == record['watchlist'])).scalar_one_or_none() is not None
+                select(table.c.watchlist, table.c.account).where(
+                    (table.c.watchlist == record['watchlist']) & (table.c.account == record.get('account'))
+                )
+            ).scalar_one_or_none() is not None
 
             if not exists:
                 connection.execute(table.insert(), record)
