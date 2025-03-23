@@ -61,13 +61,16 @@ def initialize_default_records(connection):
 
             if not exists:
                 connection.execute(table.insert(), record)
+        connection.commit()
+        logger.info('Default Schedule Time records inserted/updated')
     except SQLAlchemyError as e:
         logger.error(f"Error managing default Algo Schedule Time records: {e}")
         raise
 
 
 @event.listens_for(AlgoScheduleTime.__table__, 'after_create')
-def insert_default_records(target, connection, **kwargs):
+def ensure_default_records(target, connection, **kwargs):
     """Insert default records after table creation."""
+    logger.info('Event after_create triggered for Algo Schedule Time table')
     initialize_default_records(connection)
-    logger.info('Default Schedule Time records inserted after after_create event')
+

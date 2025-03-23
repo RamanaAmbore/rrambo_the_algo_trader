@@ -51,13 +51,16 @@ def initialize_default_records(connection):
 
             if not exists:
                 connection.execute(table.insert(), record)
+        connection.commit()
+        logger.info('Default Algo Schedule records inserted/updated')
     except Exception as e:
         logger.error(f"Error managing default Alog Schedule records: {e}")
         raise
 
 
 @event.listens_for(AlgoSchedules.__table__, 'after_create')
-def insert_default_records(target, connection, **kwargs):
+def ensure_default_records(target, connection, **kwargs):
     """Insert default records after table creation."""
+    logger.info('Event after_create triggered for Algo Schedule table')
     initialize_default_records(connection)
-    logger.info('Default Algo Schedule records inserted after after_create event')
+

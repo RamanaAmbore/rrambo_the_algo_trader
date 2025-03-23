@@ -120,8 +120,14 @@ DEFAULT_BROKER_ACCOUNTS = (
 )
 
 DEFAULT_WATCHLISTS = (
-    {'watchlist': 'STOCKS'}, {'watchlist': 'STOCKS-TURNAROUND'},
-    {'watchlist': 'OPTIONS'}, {'watchlist': 'POSITION-WATCHLIST'}, {'watchlist': 'HOLDING-WATCHLIST'}
+    {'watchlist': f'{Account.ACCOUNT1}_POSITIONS','account':Account.ACCOUNT1},
+    {'watchlist': f'{Account.ACCOUNT1}_HOLDINGS', 'account': Account.ACCOUNT1},
+    {'watchlist': f'{Account.ACCOUNT2}_POSITIONS', 'account': Account.ACCOUNT2},
+    {'watchlist': f'{Account.ACCOUNT2}_HOLDINGS', 'account': Account.ACCOUNT2},
+    {'watchlist': 'INDEX_MINI'},
+    {'watchlist': 'INDEX'},
+    {'watchlist': 'OPTION_STOCKS'},
+    {'watchlist': 'HOT_STOCKS'}, {'watchlist': 'TURNAROUND'}, {'watchlist': 'WATCHLIST'}
 )
 
 # Load environment variables from .env file
@@ -145,6 +151,4 @@ DEFAULT_PARAMETERS = tuple(
          'encrypted': True},
         {'account': Account.ACCOUNT2, 'parameter': 'TOTP_TOKEN', 'value': os.getenv('ACCOUNT2_TOTP_TOKEN'),
          'encrypted': True},
-
-
     ])

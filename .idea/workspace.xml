@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="thread code added to work with model and service classes -3. removed twilio">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="triggered database on_create function from database_manager">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_stock_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/algo_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_schedule_time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_schedules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/algo_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_threads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/parameter_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/parameter_table.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,73 +52,73 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for cipher_utils.test_cipher.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for db_connect.test_sync_session.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_utils_funcs.test_to_decimal.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for util_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in db_connect.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_utils_funcs.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Python.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SimpleDashboard.executor&quot;: &quot;Run&quot;,
-    &quot;Python.algo_thread_status.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.backend.executor&quot;: &quot;Run&quot;,
-    &quot;Python.broker_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.cipher_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.database.executor&quot;: &quot;Run&quot;,
-    &quot;Python.database_manager (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.database_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.date_time_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_conn.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connect.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_utils (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fetch_parms (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.kite_api_login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connect (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connection_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_get_access_token.executor&quot;: &quot;Run&quot;,
-    &quot;Python.load_reports (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.load_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.logger.executor&quot;: &quot;Run&quot;,
-    &quot;Python.login (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.login_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_monitor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.market_ticker (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_ticker.executor&quot;: &quot;Run&quot;,
-    &quot;Python.parameter_loader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_donwloader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_downloader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_downloader (2).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.report_downloader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_uploader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader_new.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_data.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.thread_decorator.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.thread_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_stock_list.executor&quot;: &quot;Run&quot;,
-    &quot;Python.zerodha_kite.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.zerodha_socket.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/rrambo_trader_new&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for cipher_utils.test_cipher.executor": "Run",
+    "Python tests.Python tests for db_connect.test_sync_session.executor": "Run",
+    "Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor": "Run",
+    "Python tests.Python tests for test_utils_funcs.test_to_decimal.executor": "Run",
+    "Python tests.Python tests for util_funcs.test_delete_folder_contents.executor": "Run",
+    "Python tests.Python tests in db_connect.py.executor": "Run",
+    "Python tests.Python tests in test_utils_funcs.py.executor": "Run",
+    "Python tests.Python.executor": "Run",
+    "Python.Python.executor": "Run",
+    "Python.SimpleDashboard.executor": "Run",
+    "Python.algo_thread_status.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.backend.executor": "Run",
+    "Python.broker_connection.executor": "Run",
+    "Python.cipher_utils.executor": "Debug",
+    "Python.database.executor": "Run",
+    "Python.database_manager (1).executor": "Run",
+    "Python.database_manager.executor": "Run",
+    "Python.date_time_utils.executor": "Debug",
+    "Python.db_conn.executor": "Run",
+    "Python.db_connect.executor": "Run",
+    "Python.db_connection (1).executor": "Run",
+    "Python.db_connection.executor": "Run",
+    "Python.db_manager.executor": "Run",
+    "Python.db_utils (1).executor": "Debug",
+    "Python.db_utils.executor": "Debug",
+    "Python.download_reports (1).executor": "Debug",
+    "Python.download_reports.executor": "Run",
+    "Python.fetch_parms (1).executor": "Run",
+    "Python.kite_api_login.executor": "Debug",
+    "Python.kite_connect (1).executor": "Debug",
+    "Python.kite_connection_new.executor": "Debug",
+    "Python.kite_get_access_token.executor": "Run",
+    "Python.load_reports (1).executor": "Run",
+    "Python.load_reports.executor": "Run",
+    "Python.logger.executor": "Run",
+    "Python.login (1).executor": "Run",
+    "Python.login.executor": "Debug",
+    "Python.login_new.executor": "Debug",
+    "Python.market_monitor.executor": "Run",
+    "Python.market_ticker (1).executor": "Debug",
+    "Python.market_ticker.executor": "Run",
+    "Python.parameter_loader (1).executor": "Run",
+    "Python.report_donwloader.executor": "Run",
+    "Python.report_downloader (1).executor": "Run",
+    "Python.report_downloader (2).executor": "Debug",
+    "Python.report_downloader.executor": "Run",
+    "Python.report_uploader.executor": "Run",
+    "Python.settings_loader.executor": "Run",
+    "Python.settings_loader_new.executor": "Run",
+    "Python.sync_data.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_db_utils.executor": "Debug",
+    "Python.thread_decorator.executor": "Debug",
+    "Python.thread_manager.executor": "Run",
+    "Python.thread_stock_list.executor": "Run",
+    "Python.zerodha_kite.executor": "Debug",
+    "Python.zerodha_socket.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/rrambo_trader_new",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new\services" />
@@ -293,14 +298,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00045" summary="db_manager is cleaned up">
-      <option name="closed" value="true" />
-      <created>1741704698533</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1741704698533</updated>
     </task>
     <task id="LOCAL-00046" summary="db_manager is cleaned up">
       <option name="closed" value="true" />
@@ -686,7 +683,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742719777618</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="triggered database on_create function from database_manager">
+      <option name="closed" value="true" />
+      <created>1742725553827</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1742725553827</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -711,7 +716,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="working code for report_tradebook_service" />
     <MESSAGE value="changes related to report_uploader" />
     <MESSAGE value="fixed column related issues in report uploader" />
     <MESSAGE value="fully working code for report download and upload functions" />
@@ -736,7 +740,8 @@
     <MESSAGE value="added additional parameters" />
     <MESSAGE value="updating models" />
     <MESSAGE value="thread code added to work with model and service classes -3. removed twilio" />
-    <option name="LAST_COMMIT_MESSAGE" value="thread code added to work with model and service classes -3. removed twilio" />
+    <MESSAGE value="triggered database on_create function from database_manager" />
+    <option name="LAST_COMMIT_MESSAGE" value="triggered database on_create function from database_manager" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -791,7 +796,17 @@
           <line>132</line>
           <option name="timeStamp" value="403" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/models/watchlists.py</url>
+          <line>41</line>
+          <option name="timeStamp" value="419" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="table" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

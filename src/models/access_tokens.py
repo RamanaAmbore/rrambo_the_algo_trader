@@ -45,13 +45,16 @@ def initialize_default_records(connection):
 
             if not exists:
                 connection.execute(table.insert(), record)
+        connection.commit()
+        logger.info('Default Access Token records inserted/updated')
     except Exception as e:
         logger.error(f"Error managing default access tokens: {e}")
         raise
 
 
 @event.listens_for(AccessTokens.__table__, 'after_create')
-def insert_default_records(target, connection, **kwargs):
+def ensure_default_records(target, connection, **kwargs):
     """Insert default records after table creation."""
+    logger.info('Event after_create triggered for Access Tokens table')
     initialize_default_records(connection)
-    logger.info('Default Access Token records inserted after after_create event')
+
