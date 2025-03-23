@@ -4,37 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="updating models">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="thread code added to work with model and service classes -3. removed twilio">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/access_tokens.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_schedules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_thread_status.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_thread_status.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_threads.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/backtest_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historical_data_daily.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/historical_data_daily.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historical_data_hourly.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/historical_data_hourly.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historical_data_minute.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/historical_data_minute.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/holdings_historical.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings_historical.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_contracts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_greeks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/option_strategies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/orders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/orders_historical.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/orders_historical.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/parameter_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/parameter_table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/positions_historical.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions_historical.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/refresh_flags.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/refresh_flags.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_ledger_entries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_profit_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/report_tradebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/stock_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/stock_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watchlist_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist_instruments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlists.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/logger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -318,14 +290,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00041" summary="added delete feature to download folder">
-      <option name="closed" value="true" />
-      <created>1741631783515</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1741631783515</updated>
     </task>
     <task id="LOCAL-00042" summary="restructure directories">
       <option name="closed" value="true" />
@@ -711,11 +675,18 @@
       <option name="project" value="LOCAL" />
       <updated>1742664115578</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="thread code added to work with model and service classes -3. removed twilio">
+      <option name="closed" value="true" />
+      <created>1742719342381</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1742719342381</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="code restructuring for report_uploader" />
     <MESSAGE value="working code for report_tradebook_service" />
     <MESSAGE value="changes related to report_uploader" />
     <MESSAGE value="fixed column related issues in report uploader" />
@@ -740,7 +711,8 @@
     <MESSAGE value="Report process, selenium and access token process working successfully" />
     <MESSAGE value="added additional parameters" />
     <MESSAGE value="updating models" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating models" />
+    <MESSAGE value="thread code added to work with model and service classes -3. removed twilio" />
+    <option name="LAST_COMMIT_MESSAGE" value="thread code added to work with model and service classes -3. removed twilio" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

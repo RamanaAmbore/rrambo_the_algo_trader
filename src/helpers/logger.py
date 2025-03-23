@@ -9,13 +9,13 @@ def send_twilio_alert(message):
     """Sends an alert via Twilio if an error occurs and TWILIO_ALERT is enabled."""
     if not parm.TWILIO_ALERT:
         return
-    try:
-        client = Client(parm.TWILIO_ACCOUNT_SID, parm.TWILIO_AUTH_TOKEN)
-        client.messages.create(
-            body=message,
-            from_=f'{parm.TWILIO_FROM_NUMBER}',
-            to=f'{parm.TWILIO_TO_NUMBER}'
-        )
+    # try:
+    #     client = Client(parm.TWILIO_ACCOUNT_SID, parm.TWILIO_AUTH_TOKEN)
+    #     client.messages.create(
+    #         body=message,
+    #         from_=f'{parm.TWILIO_FROM_NUMBER}',
+    #         to=f'{parm.TWILIO_TO_NUMBER}'
+    #     )
     except Exception as e:
         print(f"Failed to send Twilio alert: {e}")
 
