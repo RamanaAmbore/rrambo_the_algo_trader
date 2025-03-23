@@ -1,10 +1,10 @@
-from sqlalchemy import Column, String, DateTime, text, Boolean, Enum, event, Index, UniqueConstraint, func, Integer
+from sqlalchemy import Column, String, DateTime, text, event, Index, UniqueConstraint, func, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.constants_manager import Source, DEFAULT_BROKER_ACCOUNTS,Account
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import Source, DEFAULT_BROKER_ACCOUNTS
 from .base import Base
 
 logger = get_logger(__name__)

@@ -1,10 +1,10 @@
-from sqlalchemy import Column, String, DateTime, text, Enum, Integer, event, UniqueConstraint, Index, func
+from sqlalchemy import Column, String, DateTime, text, Integer, event, UniqueConstraint, Index, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.constants_manager import Source, DEFAULT_ALGO_SCHEDULES, Schedule
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import Source, DEFAULT_ALGO_SCHEDULES
 from .base import Base
 
 logger = get_logger(__name__)

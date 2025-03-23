@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, DateTime, ForeignKey, DECIMAL, text, String, Boolean, Index, CheckConstraint, \
-    Enum, func
+    func
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base

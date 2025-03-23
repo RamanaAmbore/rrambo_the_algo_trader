@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, String, Decimal, Integer, DateTime, text, Boolean,
+    Column, String, DECIMAL, Integer, DateTime, text, Boolean,
     BigInteger, ForeignKey, CheckConstraint, Index, UniqueConstraint, func
 )
 from sqlalchemy.orm import relationship
@@ -30,7 +30,7 @@ class ReportTradebook(Base):
     trade_type = Column(String(4), nullable=False)
     auction = Column(Boolean, default=False)
     quantity = Column(Integer, nullable=False)
-    price = Column(Decimal(10, 2), nullable=False)
+    price = Column(DECIMAL(10, 2), nullable=False)  # Corrected
     trade_date = Column(DateTime(timezone=True), nullable=False)
     order_execution_time = Column(DateTime(timezone=True), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=True)

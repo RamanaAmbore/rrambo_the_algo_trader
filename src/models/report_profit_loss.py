@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, String, Decimal, Integer, DateTime, text, ForeignKey, CheckConstraint, Index, UniqueConstraint, func
+    Column, String, DECIMAL, Integer, DateTime, text, ForeignKey, CheckConstraint, Index, UniqueConstraint, func
 )
 from sqlalchemy.orm import relationship
 
@@ -21,16 +21,16 @@ class ReportProfitLoss(Base):
     tradingsymbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     quantity = Column(Integer, nullable=False)
-    buy_value = Column(Decimal(12, 2), nullable=False)
-    sell_value = Column(Decimal(12, 2), nullable=False)
-    realized_pnl = Column(Decimal(12, 2), nullable=False)
-    realized_pnl_pct = Column(Decimal(12, 2), nullable=False)
-    previous_closing_price = Column(Decimal(10, 2), nullable=True)
+    buy_value = Column(DECIMAL(12, 2), nullable=False)  # Corrected
+    sell_value = Column(DECIMAL(12, 2), nullable=False)  # Corrected
+    realized_pnl = Column(DECIMAL(12, 2), nullable=False)  # Corrected
+    realized_pnl_pct = Column(DECIMAL(12, 2), nullable=False)  # Corrected
+    previous_closing_price = Column(DECIMAL(10, 2), nullable=True)  # Corrected
     open_quantity = Column(Integer, nullable=True, default=0)
     open_quantity_type = Column(String(5), nullable=True)
-    open_value = Column(Decimal(12, 2), nullable=False)
-    unrealized_pnl = Column(Decimal(12, 2), nullable=False)
-    unrealized_pnl_pct = Column(Decimal(12, 2), nullable=False)
+    open_value = Column(DECIMAL(12, 2), nullable=False)  # Corrected
+    unrealized_pnl = Column(DECIMAL(12, 2), nullable=False)  # Corrected
+    unrealized_pnl_pct = Column(DECIMAL(12, 2), nullable=False)  # Corrected
     source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

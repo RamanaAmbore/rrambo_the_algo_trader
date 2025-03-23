@@ -1,12 +1,12 @@
 from sqlalchemy import (
     Column, Integer, DateTime, String, Boolean, text,
-    ForeignKey, Enum, Index, UniqueConstraint, func
+    ForeignKey, Index, UniqueConstraint, func
 )
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)

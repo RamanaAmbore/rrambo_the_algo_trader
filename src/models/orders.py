@@ -1,5 +1,5 @@
-from sqlalchemy import Column, String, Integer, Decimal, Boolean, DateTime, JSON, text, ForeignKey, CheckConstraint, \
-    Index, func
+from sqlalchemy import (Column, Integer, String, DateTime, Boolean, JSON, ForeignKey,
+                        CheckConstraint, Index, func, text, DECIMAL)
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -8,7 +8,7 @@ from .base import Base
 
 logger = get_logger(__name__)
 
-# Enums for order fields
+# Constants for ENUM fields
 ORDER_STATUS = ["COMPLETE", "CANCELLED", "REJECTED", "PENDING", "OPEN"]
 ORDER_VARIETY = ["regular", "bo", "co"]
 ORDER_TYPE = ["MARKET", "LIMIT", "SL", "SLM"]
@@ -18,87 +18,86 @@ PRODUCT = ["MIS", "CNC", "NRML"]
 
 
 class Orders(Base):
-    """
-    Model to store order details as per Zerodha Kite API.
+    """Model to store order details as per Zerodha Kite API."""
 
-    This table captures all relevant details about an order, including
-    timestamps, order type, price, status, and other metadata.
-    """
     __tablename__ = "orders"
 
-    # Primary key: Unique identifier for each order entry
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    # Account and order identifiers
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    placed_by = Column(String(10), nullable=False)  # Who placed the order (User ID)
-    order_id = Column(String(20), nullable=False, unique=True)  # Unique order ID
-    exchange_order_id = Column(String(20), nullable=True)  # Exchange-specific order ID
-    parent_order_id = Column(String(20), nullable=True)  # Parent order ID (for multi-leg orders)
+    # Account & Order Identifiers
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False)
+    placed_by = Column(String(10), nullable=False)
+    order_id = Column(String(20), nullable=False, unique=True)
+    exchange_order_id = Column(String(20), nullable=True)
+    parent_order_id = Column(String(20), ForeignKey("orders.order_id", ondelete="SET NULL"), nullable=True)
 
-    # Order status tracking
-    status = Column(String(15), nullable=False)  # Current order status (e.g., "COMPLETE", "CANCELLED")
-    status_message = Column(String(255), nullable=True)  # Readable status message
-    status_message_raw = Column(String(255), nullable=True)  # Raw status message from API
+    # Order Status
+    status = Column(String(15), nullable=False)
+    status_message = Column(String(255), nullable=True)
+    status_message_raw = Column(String(255), nullable=True)
 
-    # Order timestamps
-    order_timestamp = Column(DateTime, nullable=False)  # Timestamp when order was placed
-    exchange_update_timestamp = Column(DateTime, nullable=True)  # Exchange update timestamp
-    exchange_timestamp = Column(DateTime, nullable=True)  # Exchange execution timestamp
+    # Timestamps
+    order_timestamp = Column(DateTime, nullable=False)
+    exchange_update_timestamp = Column(DateTime, nullable=True)
+    exchange_timestamp = Column(DateTime, nullable=True)
 
-    # Order details
-    variety = Column(String(10), nullable=False)  # Order variety (e.g., "regular", "bo", "co")
-    modified = Column(Boolean, default=False)  # Whether order was modified
-    exchange = Column(String(10), nullable=False)  # Exchange (NSE/BSE)
-    tradingsymbol = Column(String(50), nullable=False)  # Trading tradingsymbol (stock/future/option)
-    instrument_token = Column(Integer, nullable=False)  # Instrument token for the order
-    order_type = Column(String(10), nullable=False)  # Order type (LIMIT, MARKET, SL, SLM)
-    transaction_type = Column(String(10), nullable=False)  # Buy/Sell
-    validity = Column(String(10), nullable=False)  # Order validity (DAY, IOC)
-    validity_ttl = Column(Integer, default=0)  # TTL for validity (if applicable)
-    product = Column(String(10), nullable=False)  # Product type (MIS, CNC, NRML)
+    # Order Details
+    variety = Column(String(10), nullable=False)
+    modified = Column(Boolean, default=False)
+    exchange = Column(String(10), nullable=False)
+    tradingsymbol = Column(String(50), nullable=False)
+    instrument_token = Column(Integer, nullable=False)
+    order_type = Column(String(10), nullable=False)
+    transaction_type = Column(String(10), nullable=False)
+    validity = Column(String(10), nullable=False)
+    validity_ttl = Column(Integer, default=0)
+    product = Column(String(10), nullable=False)
 
-    # Price and quantity details
-    quantity = Column(Integer, default=0)  # Total order quantity
-    disclosed_quantity = Column(Integer, default=0)  # Disclosed quantity (visible to market)
-    price = Column(Decimal(10, 2), default=0)  # Order price
-    trigger_price = Column(Decimal(10, 2), default=0)  # Stop-loss trigger price
-    average_price = Column(Decimal(10, 2), default=0)  # Average execution price
-    filled_quantity = Column(Integer, default=0)  # Quantity already executed
-    pending_quantity = Column(Integer, default=0)  # Remaining quantity to be executed
-    cancelled_quantity = Column(Integer, default=0)  # Quantity canceled
-    market_protection = Column(Integer, default=0)  # Protection for market orders
+    # Price & Quantity
+    quantity = Column(Integer, nullable=False, default=0)
+    disclosed_quantity = Column(Integer, nullable=False, default=0)
+    price = Column(DECIMAL(12, 2), nullable=False, default=0)
+    trigger_price = Column(DECIMAL(12, 2), nullable=False, default=0)
+    average_price = Column(DECIMAL(12, 2), nullable=False, default=0)
+    filled_quantity = Column(Integer, nullable=False, default=0)
+    pending_quantity = Column(Integer, nullable=False, default=0)
+    cancelled_quantity = Column(Integer, nullable=False, default=0)
+    market_protection = Column(Integer, nullable=False, default=0)
 
-    # Additional metadata
-    meta = Column(JSON, nullable=True)  # Any additional order metadata (JSON format)
-    tag = Column(String(20), nullable=True)  # Custom order tag (if any)
-    guid = Column(String(100), nullable=True)  # Unique identifier for the order request
-    source = Column(String(50), nullable=False, server_default="API")  # Token source (e.g., API)
+    # Additional Metadata
+    meta = Column(JSON, nullable=True)
+    tag = Column(String(20), nullable=True)
+    guid = Column(String(100), nullable=True)
+    source = Column(String(50), nullable=False, server_default="API")
 
-    # Logging and tracking
+    # Logging & Tracking
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
-    # Relationship with BrokerAccounts model
+    # Relationships
     broker_account = relationship("BrokerAccounts", back_populates="orders")
+    parent_order = relationship("Orders", remote_side=[order_id])
 
-    __table_args__ = (CheckConstraint(f"status IN {tuple(ORDER_STATUS)}", name="check_valid_status"),
-                      CheckConstraint(f"variety IN {tuple(ORDER_VARIETY)}", name="check_valid_variety"),
-                      CheckConstraint(f"order_type IN {tuple(ORDER_TYPE)}", name="check_valid_order_type"),
-                      CheckConstraint(f"transaction_type IN {tuple(TRANSACTION_TYPE)}",
-                                      name="check_valid_transaction_type"),
-                      CheckConstraint(f"validity IN {tuple(VALIDITY)}", name="check_valid_validity"),
-                      CheckConstraint(f"product IN {tuple(PRODUCT)}", name="check_valid_product"),
-                      CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
-                      CheckConstraint("price >= 0", name="check_price_non_negative"),
-                      CheckConstraint("trigger_price >= 0", name="check_trigger_price_non_negative"),
-                      CheckConstraint("filled_quantity + pending_quantity + cancelled_quantity = quantity",
-                                      name="check_quantity_balance"), Index("idx_order_id1", "order_id"),
-                      Index("idx_account_timestamp2", "account", "timestamp"),
-                      Index("idx_instrument2", "instrument_token"),)
+    __table_args__ = (
+        CheckConstraint("status IN ('COMPLETE', 'CANCELLED', 'REJECTED', 'PENDING', 'OPEN')",
+                        name="check_valid_status"),
+        CheckConstraint("variety IN ('regular', 'bo', 'co')", name="check_valid_variety"),
+        CheckConstraint("order_type IN ('MARKET', 'LIMIT', 'SL', 'SLM')", name="check_valid_order_type"),
+        CheckConstraint("transaction_type IN ('BUY', 'SELL')", name="check_valid_transaction_type"),
+        CheckConstraint("validity IN ('DAY', 'IOC')", name="check_valid_validity"),
+        CheckConstraint("product IN ('MIS', 'CNC', 'NRML')", name="check_valid_product"),
+        CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
+        CheckConstraint("price >= 0", name="check_price_non_negative"),
+        CheckConstraint("trigger_price >= 0", name="check_trigger_price_non_negative"),
+        CheckConstraint("filled_quantity + pending_quantity + cancelled_quantity = quantity",
+                        name="check_quantity_balance"),
+        Index("idx_order_id1", "order_id"),
+        Index("idx_account_timestamp2", "account", "timestamp"),
+        Index("idx_instrument2", "instrument_token"),
+    )
 
     def __repr__(self):
         return (f"<Orders(id={self.id}, order_id={self.order_id}, tradingsymbol={self.tradingsymbol}, "
@@ -107,4 +106,3 @@ class Orders(Base):
                 f"exchange='{self.exchange}', transaction_type='{self.transaction_type}', "
                 f"order_type='{self.order_type}', validity='{self.validity}', modified={self.modified}, "
                 f"source='{self.source}')>")
-

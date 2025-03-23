@@ -1,11 +1,11 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Enum, Boolean, text, event, UniqueConstraint, \
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, text, event, UniqueConstraint, \
     Index, func
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.constants_manager import Source, DEFAULT_THREAD_SCHEDULE_XREF, Schedule, Thread
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import Source, DEFAULT_THREAD_SCHEDULE_XREF
 from .base import Base
 
 logger = get_logger(__name__)

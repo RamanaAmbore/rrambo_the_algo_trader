@@ -1,10 +1,9 @@
 from decimal import Decimal, ROUND_DOWN
 
-from sqlalchemy import (Column, Integer, String, DateTime, DECIMAL, text, Boolean, ForeignKey, Enum, CheckConstraint,
+from sqlalchemy import (Column, Integer, String, DateTime, DECIMAL, text, ForeignKey, CheckConstraint,
                         Index, func)
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base

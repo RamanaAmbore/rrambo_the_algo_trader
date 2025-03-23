@@ -1,13 +1,13 @@
 from typing import Optional
 
-from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Enum, Index, Boolean, event,
+from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Index, Boolean, event,
                         CheckConstraint, func, text)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
-from src.settings.constants_manager import Source, DEFAULT_PARAMETERS, Type
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import Source, DEFAULT_PARAMETERS
 from .base import Base
 
 logger = get_logger(__name__)

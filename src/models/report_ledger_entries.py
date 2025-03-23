@@ -1,5 +1,7 @@
-from sqlalchemy import (Column, String, Decimal, Integer, select, DateTime, text, ForeignKey, CheckConstraint, Index,
-                        UniqueConstraint, func)
+from sqlalchemy import (
+    Column, String, DECIMAL, Integer, select, DateTime, text, ForeignKey, CheckConstraint, Index,
+    UniqueConstraint, func
+)
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import relationship
 
@@ -19,9 +21,9 @@ class ReportLedgerEntries(Base):
     posting_date = Column(DateTime(timezone=True), nullable=True)
     cost_center = Column(String(20), nullable=True)
     voucher_type = Column(String(20), nullable=True)
-    debit = Column(Decimal(10, 2), default=0.00, nullable=True)
-    credit = Column(Decimal(10, 2), default=0.00, nullable=True)
-    net_balance = Column(Decimal(15, 2), default=0.00)
+    debit = Column(DECIMAL(10, 2), default=0.00, nullable=True)  # Corrected
+    credit = Column(DECIMAL(10, 2), default=0.00, nullable=True)  # Corrected
+    net_balance = Column(DECIMAL(15, 2), default=0.00)  # Corrected
     source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -32,21 +34,23 @@ class ReportLedgerEntries(Base):
     # Relationship with BrokerAccounts model
     broker_account = relationship("BrokerAccounts", back_populates="report_ledger_entries")
 
-    __table_args__ = (CheckConstraint("debit >= 0", name="check_debit_non_negative"),
-                      CheckConstraint("credit >= 0", name="check_credit_non_negative"),
-                      UniqueConstraint('account', 'particulars', 'posting_date', 'cost_center',
-                                       'voucher_type', 'debit', 'credit', 'net_balance', name='uq_account_symbol3'),
-                      Index("idx_account_symbol8", 'account', 'particulars', 'posting_date',
-                            'cost_center', 'voucher_type', 'debit', 'credit', 'net_balance'),
-                      Index("idx_account_date1", "account", "posting_date"),
-                      Index("idx_voucher_type", "voucher_type"),)
+    __table_args__ = (
+        CheckConstraint("debit >= 0", name="check_debit_non_negative"),
+        CheckConstraint("credit >= 0", name="check_credit_non_negative"),
+        UniqueConstraint('account', 'particulars', 'posting_date', 'cost_center',
+                         'voucher_type', 'debit', 'credit', 'net_balance', name='uq_account_symbol3'),
+        Index("idx_account_symbol8", 'account', 'particulars', 'posting_date',
+              'cost_center', 'voucher_type', 'debit', 'credit', 'net_balance'),
+        Index("idx_account_date1", "account", "posting_date"),
+        Index("idx_voucher_type", "voucher_type"),
+    )
 
     def __repr__(self):
         return (f"<LedgerEntry(id={self.id}, account='{self.account}', "
                 f"particulars='{self.particulars}', posting_date='{self.posting_date}', "
                 f"voucher_type='{self.voucher_type}', debit={self.debit}, credit={self.credit}, "
                 f"net_balance={self.net_balance}, source='{self.source}', timestamp={self.timestamp}, "
-                f"warning_error={self.warning_error}, notes='{self.notes}')>")
+                f"notes='{self.notes}')>")
 
     @classmethod
     async def get_existing_records(cls, session: AsyncSession):

@@ -11,7 +11,6 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-
 class Watchlists(Base):
     """Model for storing user watchlists."""
     __tablename__ = "watchlists"
@@ -46,12 +45,13 @@ def initialize_default_records(connection):
                 select(table.c.watchlist, table.c.account).where(
                     (table.c.watchlist == record['watchlist']) & (table.c.account == record.get('account'))
                 )
-            ).scalar_one_or_none() is not None
+            ).scalar_one_or_none()
 
-            if not exists:
+            if exists is None:  # Fixes the boolean check issue
                 connection.execute(table.insert(), record)
+
     except Exception as e:
-        logger.error(f"Error managing default Watchlist records: {e}")
+        logger.error(f"Error inserting default Watchlist records: {e}", exc_info=True)
         raise
 
 
@@ -60,3 +60,4 @@ def insert_default_records(target, connection, **kwargs):
     """Insert default records after table creation."""
     initialize_default_records(connection)
     logger.info('Default Watchlist records inserted after after_create event')
+

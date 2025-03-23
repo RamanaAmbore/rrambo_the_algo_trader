@@ -3,6 +3,7 @@ from sqlalchemy import (
     Index, UniqueConstraint, func, DECIMAL, ForeignKey
 )
 from sqlalchemy.orm import relationship
+
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
@@ -47,7 +48,7 @@ class Holdings(Base):
         CheckConstraint("close >= 0", name="check_close_non_negative"),
         CheckConstraint("source IN ('REPORTS', 'API', 'MANUAL')", name="check_source_valid"),
         UniqueConstraint('account', 'tradingsymbol', name='uq_account_symbol1'),
-        Index("idx_account_symbol", "account", "tradingsymbol"),
+        Index("idx_account_symbol1", "account", "tradingsymbol"),
         Index("idx_symbol1", "tradingsymbol"),
     )
 

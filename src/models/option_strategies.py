@@ -1,10 +1,10 @@
-from sqlalchemy import (Column, Integer, String, DateTime, DECIMAL, JSON, Boolean, text, ForeignKey, Enum,
-                        CheckConstraint, Index, func)
+from sqlalchemy import (Column, Integer, String, DateTime, DECIMAL, JSON, text, ForeignKey, CheckConstraint, Index,
+                        func)
 from sqlalchemy.orm import relationship
 
-from src.settings.constants_manager import Source
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
