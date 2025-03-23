@@ -1,14 +1,16 @@
-from typing import List, Set, Tuple, Any, Dict, Union, Optional
+from functools import wraps
+from typing import List, Set, Tuple, Any, Dict, Union, Optional, Callable
+
 import pandas as pd
 from sqlalchemy import select, delete
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.logger import get_logger
 
 logger = get_logger(__name__)
+
 
 class ServiceBase:
     """Generic service class providing common database operations."""
@@ -97,12 +99,12 @@ class ServiceBase:
                 raise
 
     async def bulk_insert_records(
-        self,
-        query=None,
-        records: Optional[Union[List[Dict[str, Any]], pd.DataFrame]] = None,
-        index_elements: Optional[List[str]] = None,
-        update_on_conflict: bool = False,
-        batch_size: int = 500
+            self,
+            query=None,
+            records: Optional[Union[List[Dict[str, Any]], pd.DataFrame]] = None,
+            index_elements: Optional[List[str]] = None,
+            update_on_conflict: bool = False,
+            batch_size: int = 500
     ) -> None:
         """
         Performs bulk insert while handling conflicts.
@@ -158,3 +160,20 @@ class ServiceBase:
                 await session.rollback()
                 logger.exception(f"Bulk insert failed: {e}")
                 raise
+
+
+def validate_cast_parameter(func: Callable):
+    """Decorator to validate and convert records before processing."""
+
+    @wraps(func)
+    async def wrapper(self, records: Union[pd.DataFrame, List[dict]], *args, **kwargs):
+        if not records or (isinstance(records, pd.DataFrame) and records.empty):
+            logger.info("No valid records to process.")
+            return
+
+        # Convert list of dicts to DataFrame if needed
+        records_df = pd.DataFrame(records) if isinstance(records, list) else records
+
+        return await func(self, records_df, *args, **kwargs)  # Call original function with DataFrame
+
+    return wrapper
