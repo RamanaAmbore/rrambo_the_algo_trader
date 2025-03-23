@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="thread code added to work with model and service classes -3. removed twilio">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/logger.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -290,14 +289,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00042" summary="restructure directories">
-      <option name="closed" value="true" />
-      <created>1741701222207</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1741701222207</updated>
     </task>
     <task id="LOCAL-00043" summary="db_manager is cleaned up">
       <option name="closed" value="true" />
@@ -683,7 +674,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742719342381</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="thread code added to work with model and service classes -3. removed twilio">
+      <option name="closed" value="true" />
+      <created>1742719675237</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1742719675237</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
