@@ -21,12 +21,11 @@ class ServiceStockList(ServiceBase):
         if records_df.empty:
             logger.info("No valid records to process.")
             return
-        await self.delete_all_records()
         table_columns = {c.name for c in self.model.__table__.columns}
         valid_columns = [c for c in records_df.columns if c in table_columns]
         records = self.validate_clean_records(records_df)[list(valid_columns)].to_dict(orient="records")
 
-        await self.bulk_insert_records(records=records, index_elements=["tradingsymbol"])
+        await self.bulk_insert_records(records=records, index_elements=["tradingsymbol"],update_on_conflict=True)
 
     @staticmethod
     def validate_clean_records(df: pd.DataFrame) -> pd.DataFrame:

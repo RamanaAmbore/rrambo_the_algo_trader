@@ -10,6 +10,14 @@ from sqlalchemy_utils import database_exists, create_database
 
 from src.helpers.logger import get_logger
 from src.models import ParameterTable
+from src.models import access_tokens
+from src.models import algo_schedule_time
+from src.models import algo_schedules
+from src.models import algo_thread_schedule_xref
+from src.models import algo_threads
+from src.models import broker_accounts
+from src.models import parameter_table
+from src.models import watchlists
 from src.models.base import Base
 from src.settings.parameter_manager import parms, refresh_parameters
 
@@ -96,6 +104,16 @@ class DatabaseManager:
         if parms.DROP_TABLES:
             Base.metadata.drop_all(cls._engine)
         Base.metadata.create_all(cls._engine)
+        # Manually initialize default records
+        with cls._engine.connect() as connection:
+            broker_accounts.initialize_default_records(connection)
+            access_tokens.initialize_default_records(connection)
+            algo_schedules.initialize_default_records(connection)
+            algo_schedule_time.initialize_default_records(connection)
+            algo_threads.initialize_default_records(connection)
+            algo_thread_schedule_xref.initialize_default_records(connection)
+            parameter_table.initialize_default_records(connection)
+            watchlists.initialize_default_records(connection)
 
     @classmethod
     def initialize_parameters(cls, refresh=False) -> None:
@@ -106,7 +124,6 @@ class DatabaseManager:
             cls._records = session.query(ParameterTable).all()
             refresh_parameters(records=cls._records, refresh=refresh)
             logger.info('Parameters refreshed from database')
-
 
     @classmethod
     def get_sync_session(cls) -> Session:
@@ -208,6 +225,7 @@ async def main():
         logger.error(f"Main test failed: {e}")
     finally:
         await DatabaseManager.cleanup()
+
 
 # Initialize database and Parameters on import
 DatabaseManager.initialize()
