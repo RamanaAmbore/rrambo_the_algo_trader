@@ -32,10 +32,10 @@ class ServiceBase:
             try:
                 await session.execute(delete(self.model))
                 await session.commit()
-                logger.info(f"Deleted all records from {self.model.__tablename__}")
+                logger.info(f"Deleted all records from {self.model.__tablename__} table")
             except SQLAlchemyError as e:
                 await session.rollback()
-                logger.error(f"Error deleting records from {self.model.__tablename__}: {e}")
+                logger.error(f"Error deleting records from {self.model.__tablename__} table: {e}")
                 raise
 
     async def get_by_id(self, record_id: Any) -> Optional[Any]:
@@ -146,13 +146,9 @@ class ServiceBase:
                             )
                         else:
                             stmt = stmt.on_conflict_do_nothing(index_elements=index_elements)
-                        await session.execute(stmt, batch)
-                    else:
-                        # Perform bulk insert if index_elements is empty
-                        await session.execute(self.model.__table__.insert(), batch)
 
-                    await session.execute(stmt)
-                    await session.commit()
+                    await session.execute(stmt)  # ✅ No redundant batch argument
+                    await session.commit()  # Commit after each batch
 
                     logger.info(f"Bulk inserted/updated {len(batch)} records into {self.model.__tablename__}")
 
@@ -172,8 +168,12 @@ def validate_cast_parameter(func: Callable):
             return
 
         # Convert list of dicts to DataFrame if needed
-        records_df = pd.DataFrame(records) if isinstance(records, list) else records
+        records = pd.DataFrame(records) if isinstance(records, list) else records
 
-        return await func(self, records_df, *args, **kwargs)  # Call original function with DataFrame
+        table_columns = {c.name for c in self.model.__table__.columns}
+        valid_columns = [c for c in records.columns if c in table_columns]
+        records = records[valid_columns]
+
+        return await func(self, records, *args, **kwargs)  # Call original function with DataFrame
 
     return wrapper

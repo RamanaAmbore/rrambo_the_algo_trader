@@ -1,8 +1,10 @@
+from typing import Union, List
+
 import pandas as pd
 
 from src.helpers.logger import get_logger
 from src.models import StockList
-from src.services.service_base import ServiceBase
+from src.services.service_base import ServiceBase, validate_cast_parameter
 
 logger = get_logger(__name__)
 
@@ -15,17 +17,13 @@ class ServiceStockList(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    async def validate_insert_stocks(self, records_df: pd.DataFrame):
+    @validate_cast_parameter
+    async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert multiple trade records, skipping duplicates."""
 
-        if records_df.empty:
-            logger.info("No valid records to process.")
-            return
-        table_columns = {c.name for c in self.model.__table__.columns}
-        valid_columns = [c for c in records_df.columns if c in table_columns]
-        records = self.validate_clean_records(records_df)[list(valid_columns)].to_dict(orient="records")
+        records = self.validate_clean_records(records).to_dict(orient="records")
 
-        await self.bulk_insert_records(records=records, index_elements=["tradingsymbol"],update_on_conflict=True)
+        await self.bulk_insert_records(records=records, index_elements=["tradingsymbol"], update_on_conflict=True)
 
     @staticmethod
     def validate_clean_records(df: pd.DataFrame) -> pd.DataFrame:

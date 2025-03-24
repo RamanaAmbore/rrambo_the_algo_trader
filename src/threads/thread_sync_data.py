@@ -1,7 +1,5 @@
 import asyncio
 
-import pandas as pd
-
 from src.core.report_downloader import ReportDownloader
 from src.core.report_uploader import ReportUploader
 from src.core.zerodha_kite_connect import ZerodhaKiteConnect
@@ -17,11 +15,11 @@ kite = ZerodhaKiteConnect.get_kite_conn()
 
 async def sync_stock_list():
     """Fetches stock list from Kite API without filtering and updates the database."""
-    logger.info("Fetching complete stock list from Kite API...")
     try:
-        instruments = await asyncio.to_thread(kite.instruments)  # Run in a separate thread
-        df = pd.DataFrame(instruments)
-        await service_stock_list.validate_insert_stocks(df)  # Async DB insert
+        logger.info("Fetching complete stock list from Kite API...")
+        records = await asyncio.to_thread(kite.instruments)  # Run in a separate thread
+
+        await service_stock_list.validate_insert_records(records)  # Async DB insert
         logger.info("Stock list successfully updated.")
     except Exception as e:
         logger.error(f"Error fetching stock list: {e}")
@@ -29,10 +27,10 @@ async def sync_stock_list():
 
 async def sync_stock_reports():
     """Downloads reports and updates the database."""
-    logger.info("Fetching reports from Zerodha Console...")
     try:
+        logger.info("Fetching reports from Zerodha Console...")
         await asyncio.to_thread(ReportDownloader.login_download_reports)  # Run in a separate thread
-        logger.info("Updating reports in the database...")
+
         await ReportUploader.upload_reports()  # Async upload
         logger.info("Reports successfully updated.")
     except Exception as e:
@@ -41,10 +39,11 @@ async def sync_stock_reports():
 
 async def sync_positions():
     """Fetches positions from Kite API and updates the database."""
-    logger.info("Fetching positions from Kite API...")
     try:
+        logger.info("Fetching positions from Kite API...")
         positions = await asyncio.to_thread(kite.positions)  # Fetch in a separate thread
         records = positions.get("day", []) + positions.get("net", [])
+
         await service_positions.validate_insert_records(records)  # Async DB insert
         logger.info("Positions successfully updated.")
     except Exception as e:
@@ -53,11 +52,11 @@ async def sync_positions():
 
 async def sync_holdings():
     """Fetches holdings from Kite API and updates the database."""
-    logger.info("Fetching holdings from Kite API...")
     try:
+        logger.info("Fetching holdings from Kite API...")
         records = await asyncio.to_thread(kite.holdings)  # Fetch in a separate thread
 
-        await service_holdings.bulk_insert_records(records)  # Async DB insert
+        await service_holdings.validate_insert_records(records)  # Async DB insert
         logger.info("Holdings successfully updated.")
     except Exception as e:
         logger.error(f"Error fetching holdings: {e}")
@@ -69,7 +68,7 @@ async def run():
         # sync_stock_reports(),
         # sync_stock_list(),
         # sync_holdings(),
-        sync_positions()
+        # sync_positions()
     )
 
 

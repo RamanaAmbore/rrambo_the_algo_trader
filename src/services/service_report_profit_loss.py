@@ -23,9 +23,7 @@ class ServiceReportProfitLoss(ServiceBase):
 
 
 
-        table_columns = {c.name for c in self.model.__table__.columns}
-        valid_columns = [c for c in records.columns if c in table_columns]
-        records = self.validate_clean_records(records)[list(valid_columns)].to_dict(orient="records")
+        records = self.validate_clean_records(records).to_dict(orient="records")
 
         await self.bulk_insert_records(records=records, index_elements=["account",
                                                                         "tradingsymbol",

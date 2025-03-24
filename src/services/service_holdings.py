@@ -18,15 +18,13 @@ class ServiceHoldings(ServiceBase):
         super().__init__(model)
 
     @validate_cast_parameter
-    async def bulk_insert_holdings(self, records: Union[pd.DataFrame, List[dict]]):
+    async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
+
 
         await self.delete_all_records()
 
-        table_columns = {c.name for c in self.model.__table__.columns}
-        valid_columns = [c for c in records.columns if c in table_columns]
-        records = self.validate_clean_records(records)[valid_columns].to_dict(orient="records")
-
+        records = self.validate_clean_records(records).to_dict(orient="records")
         await self.bulk_insert_records(records=records, index_elements=[])
 
     @staticmethod
