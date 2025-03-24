@@ -23,7 +23,7 @@ class ServiceStockList(ServiceBase):
 
         records = self.validate_clean_records(records).to_dict(orient="records")
 
-        await self.bulk_insert_records(records=records, index_elements=["tradingsymbol"], update_on_conflict=True)
+        await self.bulk_insert_records(records=records, index_elements=["tradingsymbol", 'exchange'], update_on_conflict=True)
 
     @staticmethod
     def validate_clean_records(df: pd.DataFrame) -> pd.DataFrame:

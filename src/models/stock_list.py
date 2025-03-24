@@ -1,19 +1,22 @@
 from sqlalchemy import (
-    Column, String, Integer, DateTime, Date, DECIMAL, text, Index, UniqueConstraint, func
+    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, ForeignKeyConstraint, func
 )
+from sqlalchemy.orm import relationship
+
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
 
 logger = get_logger(__name__)
 
+
 class StockList(Base):
     """Model to store stock listing information."""
     __tablename__ = "stock_list"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    tradingsymbol = Column(String(50), nullable=False)
     instrument_token = Column(Integer, nullable=False)
+    tradingsymbol = Column(String(50), nullable=False)
     exchange_token = Column(String(20), nullable=False)
     name = Column(String(50), nullable=False)
     segment = Column(String(50), nullable=False)
@@ -31,16 +34,22 @@ class StockList(Base):
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
+    # Relationships
+    positions = relationship("Positions", back_populates="stock", cascade="all, delete-orphan")
+    holdings = relationship("Holdings", back_populates="stock", cascade="all, delete-orphan")
+
     __table_args__ = (
-        UniqueConstraint("tradingsymbol", "instrument_token", "exchange", name="uq_stock_list"),
-        UniqueConstraint("tradingsymbol", name="uq_tradingsymbol"),
-        UniqueConstraint("instrument_token", name="uq_instrument_token"),
-        Index("idx_tradingsymbol", "tradingsymbol"),
-        Index("idx_instrument_token", "instrument_token"),
+        # Composite unique constraint (needed for FK in Positions)
+        UniqueConstraint("tradingsymbol", "exchange", name="uq_tradingsymbol"),
+
+        # Indexes for performance
+        Index("idx_tradingsymbol3", "tradingsymbol"),
+        Index("idx_instrument_token1", "instrument_token"),
     )
 
     def __repr__(self):
         return (f"<StockList(id={self.id}, tradingsymbol='{self.tradingsymbol}', "
                 f"instrument_token={self.instrument_token}, exchange='{self.exchange}', "
                 f"lot_size={self.lot_size}, source='{self.source}', timestamp={self.timestamp})>")
+
 

@@ -1,4 +1,6 @@
-from sqlalchemy import Column, String, DateTime, text, event, Index, UniqueConstraint, func, Integer
+from sqlalchemy import (
+    Column, String, DateTime, text, event, Index, UniqueConstraint, func, Integer
+)
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
@@ -13,9 +15,9 @@ logger = get_logger(__name__)
 class BrokerAccounts(Base):
     """Model for storing broker account details."""
     __tablename__ = "broker_accounts"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), nullable=False)
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    account = Column(String(10), nullable=False, unique=True)  # Unique account ID
     broker_name = Column(String(20), nullable=False)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
@@ -24,7 +26,7 @@ class BrokerAccounts(Base):
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
-    # Relationships
+    # Relationships with Foreign Keys
     access_tokens = relationship("AccessTokens", back_populates="broker_account", cascade="all, delete")
     holdings = relationship("Holdings", back_populates="broker_account", cascade="all, delete")
     parameter_table = relationship("ParameterTable", back_populates="broker_account", cascade="all, delete")
@@ -75,6 +77,6 @@ def initialize_default_records(connection):
 @event.listens_for(BrokerAccounts.__table__, 'after_create')
 def ensure_default_records(target, connection, **kwargs):
     """Insert default records after table creation."""
-    logger.info('Event after_create triggered for Broker Accunts table')
+    logger.info('Event after_create triggered for BrokerAccounts table')
     initialize_default_records(connection)
 
