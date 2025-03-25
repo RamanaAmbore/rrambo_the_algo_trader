@@ -36,7 +36,7 @@ class ServiceAccessToken(ServiceBase):
             logger.error(f"Error retrieving access token: {e}")
             raise
 
-        return None
+        return None, None
 
     def check_update_access_token(self, new_token: str, account: str) -> None:
         """
@@ -65,4 +65,3 @@ class ServiceAccessToken(ServiceBase):
 
 # Create a Singleton Instance
 service_access_token = ServiceAccessToken()
-

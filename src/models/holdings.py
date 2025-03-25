@@ -1,6 +1,6 @@
 from sqlalchemy import (
-    Column, Integer, String, DateTime, ForeignKey, CheckConstraint,
-    Index, UniqueConstraint, func, DECIMAL, text, ForeignKeyConstraint
+    Column, Integer, String, DateTime, ForeignKey, Index, UniqueConstraint, func, DECIMAL, text, ForeignKeyConstraint,
+    Boolean, CheckConstraint
 )
 from sqlalchemy.orm import relationship
 
@@ -18,21 +18,41 @@ class Holdings(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
-    # ForeignKey relationships
+    # Foreign Key relationships
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    tradingsymbol = Column(String(50),  nullable=False)
+    tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)  # NSE/BSE
     instrument_token = Column(Integer, nullable=False)  # Part of composite FK
 
     isin = Column(String(20), nullable=True)  # Unique ISIN for stock identification
-    quantity = Column(Integer, nullable=False)  # Number of shares held
-    t1_quantity = Column(Integer, nullable=True, default=0)  # T1 settlement shares
+    quantity = Column(Integer, nullable=False, default=0)  # Number of shares held
+    t1_quantity = Column(Integer, nullable=False, default=0)  # T1 settlement shares
     average_price = Column(DECIMAL(10, 2), nullable=False)  # Buy average price
     last_price = Column(DECIMAL(10, 2), nullable=False)  # Latest market price
     pnl = Column(DECIMAL(10, 2), nullable=True)  # Profit/Loss
     close_price = Column(DECIMAL(10, 2), nullable=True)  # Previous day close price
-    collateral_quantity = Column(Integer, nullable=True, default=0)  # Pledged stocks
-    collateral_type = Column(String(20), nullable=True)  # Pledge type (e.g., 'collateral')
+    collateral_quantity = Column(Integer, nullable=False, default=0)  # Pledged stocks
+    collateral_type = Column(String(20), nullable=False)  # Pledge type (e.g., 'collateral')
+
+    # New fields from API
+    authorised_date = Column(String(23), nullable=True)  # Date when collateral was approved
+    authorised_quantity = Column(Integer, nullable=False, default=0)  # Authorized pledge quantity
+    day_change = Column(DECIMAL(10, 2), nullable=False, default=0)  # Change in price today
+    day_change_percentage = Column(DECIMAL(10, 6), nullable=False, default=0)  # % change today
+    discrepancy = Column(Boolean, nullable=False, default=False)  # If there’s a mismatch
+    opening_quantity = Column(Integer, nullable=False, default=0)  # Quantity at the start of the day
+    realised_quantity = Column(Integer, nullable=False, default=0)  # Realized quantity
+    short_quantity = Column(Integer, nullable=False, default=0)  # Shorted stocks
+    used_quantity = Column(Integer, nullable=False, default=0)  # Used collateral quantity
+    product = Column(String(10), nullable=False, default="CNC")  # Holding type (e.g., CNC)
+    price = Column(DECIMAL(10, 2), nullable=False, default=0)  # Trade price
+
+    mtf_average_price = Column(DECIMAL(10, 2), nullable=True)
+    mtf_initial_margin = Column(DECIMAL(10, 2), nullable=True)
+    mtf_quantity = Column(Integer, nullable=True)
+    mtf_used_quantity = Column(Integer, nullable=True)
+    mtf_value = Column(DECIMAL(10, 2), nullable=True)
+
     source = Column(String(50), nullable=False, server_default="REPORTS")
 
     # Timestamp fields
@@ -55,20 +75,22 @@ class Holdings(Base):
         ),
         # Constraints for data integrity
         CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),
+        CheckConstraint("used_quantity >= 0", name="check_used_quantity_non_negative"),
+        CheckConstraint("t1_quantity >= 0", name="check_t1_quantity_non_negative"),
         CheckConstraint("average_price >= 0", name="check_avg_price_non_negative"),
         CheckConstraint("last_price >= 0", name="check_last_price_non_negative"),
 
         # Uniqueness constraints
-        UniqueConstraint( "tradingsymbol", "exchange", "account", name="uq_account_tradingsymbol"),
+        UniqueConstraint("tradingsymbol", "exchange", "account", name="uq_account_tradingsymbol"),
 
         # Indexes for faster lookups
-        Index("idx_account_tradingsymbol1", "account", "tradingsymbol"),
-        Index("idx_tradingsymbol_exchange1", "tradingsymbol", "exchange"),
-        Index("idx_tradingsymbol1", "tradingsymbol"),
-        Index("idx_instrument_token2", "instrument_token"),
+        Index("idx_account_tradingsymbol", "account", "tradingsymbol"),
+        Index("idx_tradingsymbol_exchange", "tradingsymbol", "exchange"),
+        Index("idx_tradingsymbol", "tradingsymbol"),
+        Index("idx_instrument_token", "instrument_token"),
     )
 
     def __repr__(self):
-        return (f"<Holdings(id={self.id}, account='{self.account}', "
-                f"tradingsymbol='{self.tradingsymbol}', exchange='{self.exchange}', "
-                f"quantity={self.quantity}, avg_price={self.average_price})>")
+        return (f"<Holdings(id={self.id}, account='{self.account}', tradingsymbol='{self.tradingsymbol}', "
+                f"exchange='{self.exchange}', quantity={self.quantity}, avg_price={self.average_price}, "
+                f"pnl={self.pnl}, day_change={self.day_change}, day_change_pct={self.day_change_percentage})>")

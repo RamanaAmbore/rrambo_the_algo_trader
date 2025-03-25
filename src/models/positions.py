@@ -22,26 +22,49 @@ class Positions(Base):
 
     # ForeignKey relationships
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    tradingsymbol = Column(String(50), nullable=False)  # Part of composite FK
-    exchange = Column(String(20), nullable=False)  # Part of composite FK
+    tradingsymbol = Column(String(50), nullable=False)
+    exchange = Column(String(20), nullable=False)  # NSE/BSE/MCX
     instrument_token = Column(Integer, nullable=False)  # Part of composite FK
 
-    quantity = Column(Integer, nullable=False, default=0, server_default="0")  # Current net position quantity
-    overnight_quantity = Column(Integer, nullable=False, default=0, server_default="0")  # Previous day position
-    buy_quantity = Column(Integer, nullable=False, default=0, server_default="0")  # Total buy quantity
-    sell_quantity = Column(Integer, nullable=False, default=0, server_default="0")  # Total sell quantity
-    buy_price = Column(DECIMAL(10, 2), nullable=False, default=0, server_default="0.00")  # Average buy price
-    sell_price = Column(DECIMAL(10, 2), nullable=False, default=0, server_default="0.00")  # Average sell price
-    buy_value = Column(DECIMAL(15, 2), nullable=False, default=0, server_default="0.00")  # Total buy value
-    sell_value = Column(DECIMAL(15, 2), nullable=False, default=0, server_default="0.00")  # Total sell value
-    pnl = Column(DECIMAL(12, 2), nullable=False, default=0, server_default="0.00")  # Profit/Loss
-    realised = Column(DECIMAL(12, 2), nullable=False, default=0, server_default="0.00")  # Realized profit/loss
-    unrealised = Column(DECIMAL(12, 2), nullable=False, default=0, server_default="0.00")  # Unrealized profit/loss
-    last_price = Column(DECIMAL(10, 2), nullable=False, default=0, server_default="0.00")  # Last market price
-    close_price = Column(DECIMAL(10, 2), nullable=False, default=0, server_default="0.00")  # Previous close price
-    product = Column(String(10), nullable=False)  # CNC/MIS/NRML (cash, intraday, margin)
-    overnight = Column(Boolean, nullable=False, default=False, server_default="false")  # True if carry forward position
-    multiplier = Column(DECIMAL(5, 2), nullable=False, default=1, server_default="1.00")  # Leverage multiplier
+    product = Column(String(10), nullable=False, default="NRML")  # NRML/MIS/CNC
+
+    quantity = Column(Integer, nullable=False, default=0)  # Net position
+    average_price = Column(DECIMAL(10, 2), nullable=False)  # Average buy price
+    last_price = Column(DECIMAL(10, 2), nullable=False)  # Current market price
+    close_price = Column(DECIMAL(10, 2), nullable=False)  # Previous close price
+    pnl = Column(DECIMAL(10, 2), nullable=True)  # Total profit/loss
+    m2m = Column(DECIMAL(10, 2), nullable=False, default=0)  # Mark-to-market P&L
+    realised = Column(DECIMAL(10, 2), nullable=False, default=0)  # Realized P&L
+    unrealised = Column(DECIMAL(10, 2), nullable=False, default=0)  # Unrealized P&L
+    multiplier = Column(Integer, nullable=False, default=1)  # Lot size multiplier
+
+    # Buy-related fields
+    buy_price = Column(DECIMAL(10, 2), nullable=False, default=0)  # Average buy price
+    buy_quantity = Column(Integer, nullable=False, default=0)  # Total buy quantity
+    buy_value = Column(DECIMAL(10, 2), nullable=False, default=0)  # Total buy value
+    buy_m2m = Column(DECIMAL(10, 2), nullable=False, default=0)  # Buy M2M P&L
+
+    # Sell-related fields
+    sell_price = Column(DECIMAL(10, 2), nullable=False, default=0)  # Average sell price
+    sell_quantity = Column(Integer, nullable=False, default=0)  # Total sell quantity
+    sell_value = Column(DECIMAL(10, 2), nullable=False, default=0)  # Total sell value
+    sell_m2m = Column(DECIMAL(10, 2), nullable=False, default=0)  # Sell M2M P&L
+
+    # Intraday trade details
+    day_buy_price = Column(DECIMAL(10, 2), nullable=False, default=0)  # Today's buy price
+    day_buy_quantity = Column(Integer, nullable=False, default=0)  # Today's buy quantity
+    day_buy_value = Column(DECIMAL(10, 2), nullable=False, default=0)  # Today's buy value
+    day_sell_price = Column(DECIMAL(10, 2), nullable=False, default=0)  # Today's sell price
+    day_sell_quantity = Column(Integer, nullable=False, default=0)  # Today's sell quantity
+    day_sell_value = Column(DECIMAL(10, 2), nullable=False, default=0)  # Today's sell value
+
+    # Carry forward position details
+    overnight_price = Column(DECIMAL(10, 2), nullable=False, default=0)  # Yesterday's price
+    overnight_quantity = Column(Integer, nullable=False, default=0)  # Yesterday's quantity
+    overnight_value = Column(DECIMAL(10, 2), nullable=False, default=0)  # Yesterday's value
+
+    # Total value
+    value = Column(DECIMAL(10, 2), nullable=False, default=0)  # Total position value
     source = Column(String(50), nullable=False, server_default="API")
 
     # Timestamp fields

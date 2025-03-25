@@ -5,7 +5,7 @@ import pandas as pd
 from src.helpers.date_time_utils import convert_to_timezone
 from src.helpers.logger import get_logger
 from src.models.report_tradebook import ReportTradebook
-from src.services.service_base import ServiceBase, validate_cast_parameter
+from src.services.service_base import ServiceBase, check_for_empty_input
 
 logger = get_logger(__name__)
 
@@ -18,7 +18,7 @@ class ServiceReportTradebook(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    @validate_cast_parameter
+    @check_for_empty_input
     async def validate_insert_holdings(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
 
@@ -27,12 +27,15 @@ class ServiceReportTradebook(ServiceBase):
         await self.bulk_insert_records(records=records, index_elements=["account", "trade_id"])
 
     @staticmethod
-    def validate_clean_records(data_records: pd.DataFrame) -> pd.DataFrame:
+    def validate_clean_records(records: pd.DataFrame):
         """Cleans and validates trade records before inserting into the database."""
 
+        # Convert list of dicts to DataFrame if needed
+        records = pd.DataFrame(records) if isinstance(records, list) else records
+
         # Standardize column names
-        data_records.columns = (
-            data_records.columns.str.lower()
+        records.columns = (
+            records.columns.str.lower()
             .str.replace(r"[& ]+", "_", regex=True)
         )
 
@@ -42,12 +45,14 @@ class ServiceReportTradebook(ServiceBase):
             ("order_execution_time", "%Y-%m-%dT%H:%M:%S", None),
             ("expiry_date", "%Y-%m-%d", True),
         ]:
-            if col in data_records:
-                data_records[col] = data_records[col].apply(
+            if col in records:
+                records[col] = records[col].apply(
                     lambda x: convert_to_timezone(x, format=fmt, return_date=return_date) if pd.notna(x) else None
                 )
 
-        return data_records
+        records = records.to_dict(orient="records")
+
+        return records
 
 
 service_report_tradebook = ServiceReportTradebook()

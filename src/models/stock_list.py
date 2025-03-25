@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, ForeignKeyConstraint, func
+    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, ForeignKeyConstraint, func, Date
 )
 from sqlalchemy.orm import relationship
 
@@ -15,9 +15,10 @@ class StockList(Base):
     __tablename__ = "stock_list"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    instrument_token = Column(Integer, nullable=False)
+
     tradingsymbol = Column(String(50), nullable=False)
     exchange_token = Column(String(20), nullable=False)
+    instrument_token = Column(Integer, nullable=False)
     name = Column(String(50), nullable=False)
     segment = Column(String(50), nullable=False)
     instrument_type = Column(String(50), nullable=False)
@@ -25,8 +26,9 @@ class StockList(Base):
     lot_size = Column(Integer, nullable=False, server_default=text("1"))
     last_price = Column(DECIMAL(10, 2), nullable=True)  # For options
     tick_size = Column(DECIMAL(10, 4), nullable=False, server_default=text("0.05"))
-    expiry = Column(String(10), nullable=True)  # Converted from String to Date
+    expiry = Column(Date, nullable=True)  # Converted from String to Date
     strike = Column(DECIMAL(10, 2), nullable=True)  # For options
+
     source = Column(String(50), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

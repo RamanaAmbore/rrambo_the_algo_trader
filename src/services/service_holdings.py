@@ -4,7 +4,7 @@ import pandas as pd
 
 from src.helpers.logger import get_logger
 from src.models import Holdings
-from src.services.service_base import ServiceBase, validate_cast_parameter
+from src.services.service_base import ServiceBase, check_for_empty_input
 
 logger = get_logger(__name__)
 
@@ -17,26 +17,20 @@ class ServiceHoldings(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    @validate_cast_parameter
+    @check_for_empty_input
     async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
 
-
         await self.delete_all_records()
 
-        records = self.validate_clean_records(records).to_dict(orient="records")
+        # records = self.validate_clean_records(records).to_dict(orient="records")
         await self.bulk_insert_records(records=records, index_elements=[])
 
     @staticmethod
-    def validate_clean_records(df: pd.DataFrame) -> pd.DataFrame:
+    def validate_clean_records(records):
         """Cleans and validates holdings data before inserting into the database."""
-        df["quantity"] = df["quantity"].astype(int)
-        df["t1_quantity"] = df["t1_quantity"].fillna(0).astype(int)
-        df["average_price"] = df["average_price"].astype(float)
-        df["last_price"] = df["last_price"].astype(float)
-        df["pnl"] = df["pnl"].fillna(0).astype(float)
-        df["collateral_quantity"] = df["collateral_quantity"].fillna(0).astype(int)
-        return df
+
+        return records
 
 
 service_holdings = ServiceHoldings()

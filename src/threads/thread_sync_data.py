@@ -55,6 +55,15 @@ async def sync_holdings():
     try:
         logger.info("Fetching holdings from Kite API...")
         records = await asyncio.to_thread(kite.holdings)  # Fetch in a separate thread
+        master_rec = {'mtf_average_price': None, 'mtf_initial_margin': None, 'mtf_quantity': None,
+                      'mtf_used_quantity': None, 'mtf_value': None}
+        for record in records:
+            mtf = record.pop('mtf')
+            if mtf is None:
+                mtf = master_rec
+
+            for k, v in mtf.items():
+                record[f'mtf_{k}'] = v
 
         await service_holdings.validate_insert_records(records)  # Async DB insert
         logger.info("Holdings successfully updated.")

@@ -158,7 +158,7 @@ class ServiceBase:
                 raise
 
 
-def validate_cast_parameter(func: Callable):
+def check_for_empty_input(func: Callable):
     """Decorator to validate and convert records before processing."""
 
     @wraps(func)
@@ -166,13 +166,6 @@ def validate_cast_parameter(func: Callable):
         if not records or (isinstance(records, pd.DataFrame) and records.empty):
             logger.info("No valid records to process.")
             return
-
-        # Convert list of dicts to DataFrame if needed
-        records = pd.DataFrame(records) if isinstance(records, list) else records
-
-        table_columns = {c.name for c in self.model.__table__.columns}
-        valid_columns = [c for c in records.columns if c in table_columns]
-        records = records[valid_columns]
 
         return await func(self, records, *args, **kwargs)  # Call original function with DataFrame
 

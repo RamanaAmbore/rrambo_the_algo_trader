@@ -4,7 +4,7 @@ import pandas as pd
 
 from src.helpers.logger import get_logger
 from src.models import ReportProfitLoss
-from src.services.service_base import ServiceBase, validate_cast_parameter
+from src.services.service_base import ServiceBase, check_for_empty_input
 
 logger = get_logger(__name__)
 
@@ -17,13 +17,9 @@ class ServiceReportProfitLoss(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    @validate_cast_parameter
+    @check_for_empty_input
     async def validate_insert_holdings(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
-
-
-
-        records = self.validate_clean_records(records).to_dict(orient="records")
 
         await self.bulk_insert_records(records=records, index_elements=["account",
                                                                         "tradingsymbol",
@@ -33,9 +29,9 @@ class ServiceReportProfitLoss(ServiceBase):
                                                                         "sell_value"])
 
     @staticmethod
-    def validate_clean_records(data_records: pd.DataFrame) -> pd.DataFrame:
+    def validate_clean_records(records):
         """Cleans and validates trade records before inserting into the database."""
-        return data_records
+        return records
 
 
 service_report_profit_loss = ServiceReportProfitLoss()
