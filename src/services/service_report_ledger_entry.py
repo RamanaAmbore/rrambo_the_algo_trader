@@ -5,7 +5,7 @@ import pandas as pd
 from src.helpers.date_time_utils import convert_to_timezone
 from src.helpers.logger import get_logger
 from src.models import ReportLedgerEntries
-from src.services.service_base import ServiceBase, check_for_empty_input
+from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
@@ -18,10 +18,9 @@ class ServiceBaseReportLedgerEntry(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    @check_for_empty_input
     async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
-
+        records=self.validate_clean_records(records)
         await self.bulk_insert_records(records=records, index_elements=['account',
                                                                         'particulars',
                                                                         'posting_date',
@@ -29,7 +28,7 @@ class ServiceBaseReportLedgerEntry(ServiceBase):
                                                                         'voucher_type',
                                                                         'debit',
                                                                         'credit',
-                                                                        'net_balance'])
+                                                                        'net_balance'], batch_size=1)
 
         logger.info(f"Bulk processed {len(records)} records.")
 

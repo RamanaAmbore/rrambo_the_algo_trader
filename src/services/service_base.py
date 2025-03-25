@@ -156,17 +156,3 @@ class ServiceBase:
                 await session.rollback()
                 logger.exception(f"Bulk insert failed: {e}")
                 raise
-
-
-def check_for_empty_input(func: Callable):
-    """Decorator to validate and convert records before processing."""
-
-    @wraps(func)
-    async def wrapper(self, records: Union[pd.DataFrame, List[dict]], *args, **kwargs):
-        if not records or (isinstance(records, pd.DataFrame) and records.empty):
-            logger.info("No valid records to process.")
-            return
-
-        return await func(self, records, *args, **kwargs)  # Call original function with DataFrame
-
-    return wrapper

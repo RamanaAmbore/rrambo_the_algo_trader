@@ -21,9 +21,9 @@ class ReportLedgerEntries(Base):
     posting_date = Column(DateTime(timezone=True), nullable=True)
     cost_center = Column(String(20), nullable=True)
     voucher_type = Column(String(20), nullable=True)
-    debit = Column(DECIMAL(10, 4), default=0.00, nullable=True)  # Corrected
-    credit = Column(DECIMAL(10, 4), default=0.00, nullable=True)  # Corrected
-    net_balance = Column(DECIMAL(15, 4), default=0.00)  # Corrected
+    debit = Column(DECIMAL(20, 4), default=0.00, nullable=True)  # Corrected
+    credit = Column(DECIMAL(20, 4), default=0.00, nullable=True)  # Corrected
+    net_balance = Column(DECIMAL(20, 4), default=0.00)  # Corrected
     source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

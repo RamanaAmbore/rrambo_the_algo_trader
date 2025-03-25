@@ -5,7 +5,7 @@ import pandas as pd
 from src.helpers.date_time_utils import convert_to_timezone
 from src.helpers.logger import get_logger
 from src.models.report_tradebook import ReportTradebook
-from src.services.service_base import ServiceBase, check_for_empty_input
+from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
@@ -18,13 +18,12 @@ class ServiceReportTradebook(ServiceBase):
     def __init__(self):
         super().__init__(model)
 
-    @check_for_empty_input
-    async def validate_insert_holdings(self, records: Union[pd.DataFrame, List[dict]]):
+    async def validate_insert_records(self, records):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
 
-        records = self.validate_clean_records(records).to_dict(orient="records")
+        records = self.validate_clean_records(records)
 
-        await self.bulk_insert_records(records=records, index_elements=["account", "trade_id"])
+        await self.bulk_insert_records(records=records, index_elements=["account", "trade_id"], batch_size=1)
 
     @staticmethod
     def validate_clean_records(records: pd.DataFrame):

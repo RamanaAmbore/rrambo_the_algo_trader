@@ -22,7 +22,7 @@ class ReportTradebook(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     trade_id = Column(BigInteger, nullable=False)
     order_id = Column(BigInteger, nullable=False)
-    tradingsymbol = Column(String(50), nullable=False)
+    symbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     exchange = Column(String(10), nullable=False)
     segment = Column(String(10), nullable=False)
@@ -30,7 +30,7 @@ class ReportTradebook(Base):
     trade_type = Column(String(4), nullable=False)
     auction = Column(Boolean, default=False)
     quantity = Column(Integer, nullable=False)
-    price = Column(DECIMAL(10, 4), nullable=False)  # Corrected
+    price = Column(DECIMAL(20, 4), nullable=False)  # Corrected
     trade_date = Column(DateTime(timezone=True), nullable=False)
     order_execution_time = Column(DateTime(timezone=True), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=True)
@@ -52,13 +52,13 @@ class ReportTradebook(Base):
         UniqueConstraint('account', 'trade_id', name='uq_trade_id1'),
         Index("idx_trade_id", "account", "trade_id"),
         Index("idx_order_id", "order_id"),
-        Index("idx_symbol3", "tradingsymbol"),
+        Index("idx_symbol3", "symbol"),
         Index("idx_isin2", "isin"),
         Index("idx_account_date", "account", "trade_date"),
-        Index("idx_symbol_date", "tradingsymbol", "trade_date"),
+        Index("idx_symbol_date", "symbol", "trade_date"),
     )
 
     def __repr__(self):
         return (f"<ReportTradebook(id={self.id}, trade_id={self.trade_id}, "
-                f"tradingsymbol='{self.tradingsymbol}', trade_type='{self.trade_type}', "
+                f"symbol='{self.symbol}', trade_type='{self.trade_type}', "
                 f"quantity={self.quantity}, price={self.price})>")
