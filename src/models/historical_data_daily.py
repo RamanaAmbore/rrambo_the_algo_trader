@@ -22,10 +22,10 @@ class Holdings(Base):
     exchange = Column(String, nullable=False)  # NSE, BSE, etc.
     interval = Column(String, nullable=False)  # 'minute', 'day', etc.
 
-    open = Column(DECIMAL(10, 2), nullable=False)
-    high = Column(DECIMAL(10, 2), nullable=False)
-    low = Column(DECIMAL(10, 2), nullable=False)
-    close = Column(DECIMAL(10, 2), nullable=False)
+    open = Column(DECIMAL(10, 4), nullable=False)
+    high = Column(DECIMAL(10, 4), nullable=False)
+    low = Column(DECIMAL(10, 4), nullable=False)
+    close = Column(DECIMAL(10, 4), nullable=False)
     volume = Column(Integer, nullable=False)
 
     source = Column(String(50), nullable=False, server_default="REPORTS")

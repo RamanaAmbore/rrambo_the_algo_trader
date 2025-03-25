@@ -23,7 +23,7 @@ class OptionGreeks(Base):
     theta = Column(DECIMAL(10, 4), nullable=True)
     vega = Column(DECIMAL(10, 4), nullable=True)
     gamma = Column(DECIMAL(10, 4), nullable=True)
-    iv = Column(DECIMAL(10, 2), nullable=True)  # IV typically has 2 decimal places
+    iv = Column(DECIMAL(10, 4), nullable=True)  # IV typically has 2 decimal places
     source = Column(String(50), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

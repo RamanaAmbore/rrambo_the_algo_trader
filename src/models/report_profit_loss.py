@@ -21,16 +21,16 @@ class ReportProfitLoss(Base):
     tradingsymbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     quantity = Column(Integer, nullable=False)
-    buy_value = Column(DECIMAL(12, 2), nullable=False)  # Corrected
-    sell_value = Column(DECIMAL(12, 2), nullable=False)  # Corrected
-    realized_pnl = Column(DECIMAL(12, 2), nullable=False)  # Corrected
-    realized_pnl_pct = Column(DECIMAL(12, 2), nullable=False)  # Corrected
-    previous_closing_price = Column(DECIMAL(10, 2), nullable=True)  # Corrected
+    buy_value = Column(DECIMAL(12, 4), nullable=False)  # Corrected
+    sell_value = Column(DECIMAL(12, 4), nullable=False)  # Corrected
+    realized_pnl = Column(DECIMAL(12, 4), nullable=False)  # Corrected
+    realized_pnl_pct = Column(DECIMAL(12, 4), nullable=False)  # Corrected
+    previous_closing_price = Column(DECIMAL(10, 4), nullable=True)  # Corrected
     open_quantity = Column(Integer, nullable=True, default=0)
     open_quantity_type = Column(String(5), nullable=True)
-    open_value = Column(DECIMAL(12, 2), nullable=False)  # Corrected
-    unrealized_pnl = Column(DECIMAL(12, 2), nullable=False)  # Corrected
-    unrealized_pnl_pct = Column(DECIMAL(12, 2), nullable=False)  # Corrected
+    open_value = Column(DECIMAL(12, 4), nullable=False)  # Corrected
+    unrealized_pnl = Column(DECIMAL(12, 4), nullable=False)  # Corrected
+    unrealized_pnl_pct = Column(DECIMAL(12, 4), nullable=False)  # Corrected
     source = Column(String(50), nullable=False, server_default="REPORTS")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

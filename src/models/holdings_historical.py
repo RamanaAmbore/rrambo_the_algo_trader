@@ -20,10 +20,10 @@ class HoldingsHistorical(Base):
     isin = Column(String(20), nullable=True)  # Unique ISIN for stock identification
     quantity = Column(Integer, nullable=False)  # Number of shares held
     t1_quantity = Column(Integer, nullable=True)  # Shares in T1 settlement (not yet delivered)
-    average_price = Column(DECIMAL(10, 2), nullable=False)  # Buy average price
-    last_price = Column(DECIMAL(10, 2), nullable=False)  # Latest market price
-    pnl = Column(DECIMAL(10, 2), nullable=True)  # Profit/Loss
-    close_price = Column(DECIMAL(10, 2), nullable=True)  # Previous day close price
+    average_price = Column(DECIMAL(10, 4), nullable=False)  # Buy average price
+    last_price = Column(DECIMAL(10, 4), nullable=False)  # Latest market price
+    pnl = Column(DECIMAL(10, 4), nullable=True)  # Profit/Loss
+    close_price = Column(DECIMAL(10, 4), nullable=True)  # Previous day close price
     collateral_quantity = Column(Integer, nullable=True, server_default=text("0"))  # Pledged stocks
     collateral_type = Column(String(20), nullable=True)  # Pledge type (e.g., 'collateral')
     source = Column(String(50), nullable=False, server_default="REPORTS")

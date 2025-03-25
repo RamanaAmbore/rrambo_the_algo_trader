@@ -18,8 +18,8 @@ class OptionStrategies(Base):
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
     strategy_name = Column(String(50), nullable=False)
     legs = Column(JSON, nullable=False)
-    max_profit = Column(DECIMAL(12, 2), nullable=True)
-    max_loss = Column(DECIMAL(12, 2), nullable=True)
+    max_profit = Column(DECIMAL(12, 4), nullable=True)
+    max_loss = Column(DECIMAL(12, 4), nullable=True)
     breakeven_points = Column(JSON, nullable=True)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

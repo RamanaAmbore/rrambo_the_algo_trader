@@ -76,8 +76,8 @@ async def run():
     await asyncio.gather(
         # sync_stock_reports(),
         sync_stock_list(),
-        # sync_holdings(),
-        # sync_positions()
+        sync_holdings(),
+        sync_positions()
     )
 
 

@@ -30,7 +30,7 @@ class ReportTradebook(Base):
     trade_type = Column(String(4), nullable=False)
     auction = Column(Boolean, default=False)
     quantity = Column(Integer, nullable=False)
-    price = Column(DECIMAL(10, 2), nullable=False)  # Corrected
+    price = Column(DECIMAL(10, 4), nullable=False)  # Corrected
     trade_date = Column(DateTime(timezone=True), nullable=False)
     order_execution_time = Column(DateTime(timezone=True), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=True)

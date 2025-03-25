@@ -25,10 +25,10 @@ class OptionContracts(Base):
     instrument_token = Column(Integer, unique=True, nullable=False)
     tradingsymbol = Column(String(50), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=False)
-    strike_price = Column(DECIMAL(10, 2), nullable=False)
+    strike_price = Column(DECIMAL(10, 4), nullable=False)
     option_type = Column(String(10), nullable=False)
     lot_size = Column(Integer, nullable=False)
-    tick_size = Column(DECIMAL(10, 2), nullable=False)
+    tick_size = Column(DECIMAL(10, 4), nullable=False)
     source = Column(String(50), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))

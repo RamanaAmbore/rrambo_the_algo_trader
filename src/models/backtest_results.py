@@ -30,8 +30,8 @@ class BacktestResults(Base):
     end_date = Column(DateTime(timezone=True), nullable=False, index=True)
 
     # Performance metrics
-    total_pnl = Column(DECIMAL(10, 2), nullable=False)  # Profit/Loss (ensured to be non-null)
-    max_drawdown = Column(DECIMAL(10, 2), nullable=True)  # Maximum drawdown
+    total_pnl = Column(DECIMAL(10, 4), nullable=False)  # Profit/Loss (ensured to be non-null)
+    max_drawdown = Column(DECIMAL(10, 4), nullable=True)  # Maximum drawdown
     win_rate = Column(DECIMAL(6, 3), nullable=True)  # Win rate percentage (allowing up to 100.000%)
 
     # Metadata

@@ -61,9 +61,9 @@ class Orders(Base):
     # Price and quantity details
     quantity = Column(Integer, default=0)  # Total order quantity
     disclosed_quantity = Column(Integer, default=0)  # Disclosed quantity (visible to market)
-    price = Column(Decimal(10, 2), default=0)  # Order price
-    trigger_price = Column(Decimal(10, 2), default=0)  # Stop-loss trigger price
-    average_price = Column(Decimal(10, 2), default=0)  # Average execution price
+    price = Column(Decimal(10, 4), default=0)  # Order price
+    trigger_price = Column(Decimal(10, 4), default=0)  # Stop-loss trigger price
+    average_price = Column(Decimal(10, 4), default=0)  # Average execution price
     filled_quantity = Column(Integer, default=0)  # Quantity already executed
     pending_quantity = Column(Integer, default=0)  # Remaining quantity to be executed
     cancelled_quantity = Column(Integer, default=0)  # Quantity canceled

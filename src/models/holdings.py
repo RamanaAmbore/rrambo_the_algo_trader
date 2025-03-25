@@ -23,21 +23,21 @@ class Holdings(Base):
     tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)  # NSE/BSE
     instrument_token = Column(Integer, nullable=False)  # Part of composite FK
+    isin = Column(String(20), nullable=True, unique=True)  # Unique ISIN for stock identification
 
-    isin = Column(String(20), nullable=True)  # Unique ISIN for stock identification
     quantity = Column(Integer, nullable=False, default=0)  # Number of shares held
     t1_quantity = Column(Integer, nullable=False, default=0)  # T1 settlement shares
-    average_price = Column(DECIMAL(10, 2), nullable=False)  # Buy average price
-    last_price = Column(DECIMAL(10, 2), nullable=False)  # Latest market price
-    pnl = Column(DECIMAL(10, 2), nullable=True)  # Profit/Loss
-    close_price = Column(DECIMAL(10, 2), nullable=True)  # Previous day close price
+    average_price = Column(DECIMAL(10, 4), nullable=False, default=0)  # Buy average price
+    last_price = Column(DECIMAL(10, 4), nullable=False, default=0)  # Latest market price
+    pnl = Column(DECIMAL(10, 4), nullable=True)  # Profit/Loss
+    close_price = Column(DECIMAL(10, 4), nullable=True)  # Previous day close price
     collateral_quantity = Column(Integer, nullable=False, default=0)  # Pledged stocks
     collateral_type = Column(String(20), nullable=False)  # Pledge type (e.g., 'collateral')
 
     # New fields from API
     authorised_date = Column(String(23), nullable=True)  # Date when collateral was approved
     authorised_quantity = Column(Integer, nullable=False, default=0)  # Authorized pledge quantity
-    day_change = Column(DECIMAL(10, 2), nullable=False, default=0)  # Change in price today
+    day_change = Column(DECIMAL(10, 4), nullable=False, default=0)  # Change in price today
     day_change_percentage = Column(DECIMAL(10, 6), nullable=False, default=0)  # % change today
     discrepancy = Column(Boolean, nullable=False, default=False)  # If there’s a mismatch
     opening_quantity = Column(Integer, nullable=False, default=0)  # Quantity at the start of the day
@@ -45,13 +45,14 @@ class Holdings(Base):
     short_quantity = Column(Integer, nullable=False, default=0)  # Shorted stocks
     used_quantity = Column(Integer, nullable=False, default=0)  # Used collateral quantity
     product = Column(String(10), nullable=False, default="CNC")  # Holding type (e.g., CNC)
-    price = Column(DECIMAL(10, 2), nullable=False, default=0)  # Trade price
+    price = Column(DECIMAL(10, 4), nullable=False, default=0)  # Trade price
 
-    mtf_average_price = Column(DECIMAL(10, 2), nullable=True)
-    mtf_initial_margin = Column(DECIMAL(10, 2), nullable=True)
-    mtf_quantity = Column(Integer, nullable=True)
-    mtf_used_quantity = Column(Integer, nullable=True)
-    mtf_value = Column(DECIMAL(10, 2), nullable=True)
+    # Margin Trading Facility (MTF) Fields
+    mtf_average_price = Column(DECIMAL(10, 4), nullable=False, default=0)
+    mtf_initial_margin = Column(DECIMAL(10, 4), nullable=False, default=0)
+    mtf_quantity = Column(Integer, nullable=False, default=0)
+    mtf_used_quantity = Column(Integer, nullable=False, default=0)
+    mtf_value = Column(DECIMAL(10, 4), nullable=False, default=0)
 
     source = Column(String(50), nullable=False, server_default="REPORTS")
 
@@ -79,13 +80,19 @@ class Holdings(Base):
         CheckConstraint("t1_quantity >= 0", name="check_t1_quantity_non_negative"),
         CheckConstraint("average_price >= 0", name="check_avg_price_non_negative"),
         CheckConstraint("last_price >= 0", name="check_last_price_non_negative"),
+        CheckConstraint("short_quantity <= quantity", name="check_short_quantity_consistency"),
+
+        # Allowing positive and negative price changes
+        CheckConstraint("day_change_percentage >= -100.0 AND day_change_percentage <= 100.0",
+                        name="check_day_change_pct_range"),
 
         # Uniqueness constraints
-        UniqueConstraint("tradingsymbol", "exchange", "account", name="uq_account_tradingsymbol"),
+        UniqueConstraint("tradingsymbol", "exchange", "account", name="uq_account_tradingsymbol5"),
+        UniqueConstraint("isin", name="uq_isin"),
 
         # Indexes for faster lookups
-        Index("idx_account_tradingsymbol", "account", "tradingsymbol"),
-        Index("idx_tradingsymbol_exchange", "tradingsymbol", "exchange"),
+        Index(", 4)", "account", "tradingsymbol"),
+        Index("idx_tradingsymbol_exchange2", "tradingsymbol", "exchange"),
         Index("idx_tradingsymbol", "tradingsymbol"),
         Index("idx_instrument_token", "instrument_token"),
     )

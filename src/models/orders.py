@@ -56,9 +56,9 @@ class Orders(Base):
     # Price & Quantity
     quantity = Column(Integer, nullable=False, default=0)
     disclosed_quantity = Column(Integer, nullable=False, default=0)
-    price = Column(DECIMAL(12, 2), nullable=False, default=0)
-    trigger_price = Column(DECIMAL(12, 2), nullable=False, default=0)
-    average_price = Column(DECIMAL(12, 2), nullable=False, default=0)
+    price = Column(DECIMAL(12, 4), nullable=False, default=0)
+    trigger_price = Column(DECIMAL(12, 4), nullable=False, default=0)
+    average_price = Column(DECIMAL(12, 4), nullable=False, default=0)
     filled_quantity = Column(Integer, nullable=False, default=0)
     pending_quantity = Column(Integer, nullable=False, default=0)
     cancelled_quantity = Column(Integer, nullable=False, default=0)

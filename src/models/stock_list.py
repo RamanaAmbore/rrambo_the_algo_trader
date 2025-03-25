@@ -24,10 +24,10 @@ class StockList(Base):
     instrument_type = Column(String(50), nullable=False)
     exchange = Column(String(10), nullable=False)  # NSE/BSE
     lot_size = Column(Integer, nullable=False, server_default=text("1"))
-    last_price = Column(DECIMAL(10, 2), nullable=True)  # For options
+    last_price = Column(DECIMAL(10, 4), nullable=True)  # For options
     tick_size = Column(DECIMAL(10, 4), nullable=False, server_default=text("0.05"))
     expiry = Column(Date, nullable=True)  # Converted from String to Date
-    strike = Column(DECIMAL(10, 2), nullable=True)  # For options
+    strike = Column(DECIMAL(10, 4), nullable=True)  # For options
 
     source = Column(String(50), nullable=False, server_default="API")
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
