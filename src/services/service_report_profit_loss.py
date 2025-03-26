@@ -25,7 +25,7 @@ class ServiceReportProfitLoss(ServiceBase):
                                                                         "isin",
                                                                         "quantity",
                                                                         "buy_value",
-                                                                        "sell_value"], batch_size=1)
+                                                                        "sell_value"])
 
     @staticmethod
     def validate_clean_records(records):

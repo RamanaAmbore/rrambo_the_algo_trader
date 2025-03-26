@@ -28,7 +28,7 @@ class ServiceBaseReportLedgerEntry(ServiceBase):
                                                                         'voucher_type',
                                                                         'debit',
                                                                         'credit',
-                                                                        'net_balance'], batch_size=1)
+                                                                        'net_balance'])
 
         logger.info(f"Bulk processed {len(records)} records.")
 

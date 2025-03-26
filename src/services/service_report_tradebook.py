@@ -23,7 +23,7 @@ class ServiceReportTradebook(ServiceBase):
 
         records = self.validate_clean_records(records)
 
-        await self.bulk_insert_records(records=records, index_elements=["account", "trade_id"], batch_size=1)
+        await self.bulk_insert_records(records=records, index_elements=["account", "trade_id"])
 
     @staticmethod
     def validate_clean_records(records: pd.DataFrame):
