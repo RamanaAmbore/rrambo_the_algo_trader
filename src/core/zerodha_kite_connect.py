@@ -3,6 +3,7 @@ import threading
 import requests
 from kiteconnect import KiteConnect
 
+from src.core.decorators import retry_kite_conn
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp
 from src.services.service_access_token import service_access_token
@@ -15,7 +16,7 @@ class ZerodhaKiteConnect:
     """Handles Kite API authentication and access token management."""
 
     _lock = threading.Lock()
-    _access_tokens = None
+    _access_token = None
     account = parms.DEFAULT_ACCOUNT
     _password = ACCOUNT_CREDENTIALS[account]['PASSWORD']
     api_key = ACCOUNT_CREDENTIALS[account]["API_KEY"]
@@ -34,11 +35,11 @@ class ZerodhaKiteConnect:
         return cls.kite
 
     @classmethod
-    def get_access_tokens(cls, test_conn=False):
-        """Returns KiteConnect instance, initializing it if necessary."""
-        if cls._access_tokens is None:
+    def get_access_token(cls, test_conn=False):
+        """Returns access tokens, initializing them if necessary."""
+        if cls._access_token is None:
             cls._setup_conn(test_conn=test_conn)
-        return cls._access_tokens
+        return cls._access_token
 
     @classmethod
     def _setup_conn(cls, test_conn=False):
@@ -49,9 +50,9 @@ class ZerodhaKiteConnect:
 
             stored_token, cls.id = service_access_token.get_stored_access_token(cls.account)
             if stored_token:
-                cls._access_tokens = stored_token
+                cls._access_token = stored_token
                 cls.kite = KiteConnect(api_key=cls.api_key)
-                cls.kite.set_access_token(cls._access_tokens)
+                cls.kite.set_access_token(cls._access_token)
                 try:
                     cls.kite.profile()
                     logger.info("Stored access token is fetched and successfully validated")
@@ -63,7 +64,7 @@ class ZerodhaKiteConnect:
 
     @classmethod
     def _authenticate(cls):
-        """Handles login, TOTP authentication, and token generation."""
+        """Handles login process and calls authentication steps."""
         session = requests.Session()
 
         # Step 1: Perform initial login
@@ -76,23 +77,36 @@ class ZerodhaKiteConnect:
             logger.error(f"Failed to log in: {e}")
             raise
 
-        # Step 2: Perform TOTP authentication
-        for attempt in range(parms.MAX_TOTP_CONN_RETRY_COUNT):
-            try:
-                totp_pin = generate_totp(cls.totp_token)
-                response = session.post(cls.twofa_url, data={"user_id": cls.account, "request_id": request_id,
-                                                             "twofa_value": totp_pin, "twofa_type": "totp"}, )
-                response.raise_for_status()
-                logger.info("TOTP authentication successful.")
-                break
-            except Exception as e:
-                logger.warning(f"TOTP attempt {attempt + 1} of {parms.MAX_TOTP_CONN_RETRY_COUNT} failed: {e}...")
-                if attempt == parms.MAX_TOTP_CONN_RETRY_COUNT - 1:
-                    logger.error("TOTP authentication failed after multiple attempts.")
-                    raise
+        # Step 2: Perform TOTP authentication with retry logic
+        cls._authenticate_totp(session, request_id)
 
-        # Step 3: Fetch request token manually
-        # Request Kite login URL
+        # Step 3: Generate access token with retry logic
+        cls._generate_access_token(session)
+
+    @classmethod
+    @retry_kite_conn(parms.MAX_TOTP_CONN_RETRY_COUNT)
+    def _authenticate_totp(cls, session, request_id):
+        """
+        Authenticates using TOTP.
+
+        :param session: Requests session object.
+        :param request_id: Login request ID.
+        """
+        totp_pin = generate_totp(cls.totp_token)
+        response = session.post(cls.twofa_url, data={"user_id": cls.account, "request_id": request_id,
+                                                     "twofa_value": totp_pin, "twofa_type": "totp"})
+        response.raise_for_status()
+        logger.info("TOTP authentication successful.")
+
+
+    @classmethod
+    @retry_kite_conn(parms.MAX_TOTP_CONN_RETRY_COUNT)
+    def _generate_access_token(cls, session):
+        """
+        Generates access token after successful authentication.
+
+        :param session: Requests session object.
+        """
         try:
             kite = KiteConnect(api_key=cls.api_key)
             kite_url = kite.login_url()
@@ -105,11 +119,9 @@ class ZerodhaKiteConnect:
                 request_token = str(e).split("request_token=")[1].split("&")[0].split()[0]
                 logger.info(f"Request Token received: {request_token}")
             except Exception:
-                notes = "Failed to extract request token."
-                logger.error(notes)
+                logger.error("Failed to extract request token.")
                 raise
 
-        # Step 4: Generate access token
         try:
             kite = KiteConnect(api_key=cls.api_key)
             session_data = kite.generate_session(request_token, api_secret=cls._api_secret)

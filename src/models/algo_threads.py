@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, text, Index, UniqueConstraint, event, func
+from sqlalchemy import Column, Integer, String, DateTime, text, Index, UniqueConstraint, event, func, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import select
 
@@ -17,6 +17,7 @@ class AlgoThreads(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(30), nullable=False, unique=True)  # Changed length to match ThreadStatus
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
+    is_active = Column(Boolean, nullable=False, server_default=text("true"))
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
@@ -24,7 +25,7 @@ class AlgoThreads(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with ThreadStatus
-    algo_thread_status = relationship("AlgoThreadStatus", back_populates="algo_thread",
+    algo_thread_tracker = relationship("AlgoThreadTracker", back_populates="algo_thread",
                                       cascade="all, delete-orphan")  # Relationship with ThreadStatus
     algo_thread_schedule_xref = relationship("AlgoThreadScheduleXref", back_populates="algo_thread",
                                              cascade="all, delete-orphan")

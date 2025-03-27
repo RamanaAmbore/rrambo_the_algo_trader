@@ -11,9 +11,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class AlgoThreadStatus(Base):
+class AlgoThreadTracker(Base):
     """Stores thread information for scheduled tasks."""
-    __tablename__ = "algo_thread_status"
+    __tablename__ = "algo_thread_tracker"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(30), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
@@ -30,9 +30,9 @@ class AlgoThreadStatus(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_thread = relationship("AlgoThreads", back_populates="algo_thread_status")
-    broker_account = relationship("BrokerAccounts", back_populates="algo_thread_status")
-    algo_schedules = relationship("AlgoSchedules", back_populates="algo_thread_status")
+    algo_thread = relationship("AlgoThreads", back_populates="algo_thread_tracker")
+    broker_account = relationship("BrokerAccounts", back_populates="algo_thread_tracker")
+    algo_schedules = relationship("AlgoSchedules", back_populates="algo_thread_tracker")
 
     __table_args__ = (
         UniqueConstraint('thread', 'account', 'timestamp', name='uq_algo_thread_account'),

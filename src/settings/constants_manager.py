@@ -80,18 +80,18 @@ Schedule = SimpleNamespace(MARKET='MARKET', PRE_MARKET='PRE_MARKET')
 
 Type = SimpleNamespace(FLOAT='float', BOOL='bool', INT='int', STR='str')
 
-Thread = SimpleNamespace(
-    SOCKET="SOCKET", SYNC_REPORT_DATA="SYNC_REPORT_DATA", UPDATE_STOCK_LIST="UPDATE_STOCK_LIST",
-    UPDATE_HIST_PRICES="UPDATE_HIST_PRICES", UPDATE_WATCHLIST_INSTRUMENTS="UPDATE_WATCHLIST_INSTRUMENTS"
-)
-
+Thread = SimpleNamespace(**{"socket_ticker": Schedule.MARKET, "sync_stock_reports": Schedule.PRE_MARKET,
+                            "sync_stock_list": Schedule.PRE_MARKET,
+                            "sync_holdings": Schedule.PRE_MARKET, "sync_positions": Schedule.PRE_MARKET,
+                            'update_watchlists': Schedule.PRE_MARKET
+                            })
 # Default configurations
 DEFAULT_ACCESS_TOKENS = (
     {'account': Account.ACCOUNT1, 'token': None},
     {'account': Account.ACCOUNT2, 'token': None}
 )
 
-DEFAULT_ALGO_THREADS = tuple({"thread": thread} for thread in Thread.__dict__.values() if not thread.startswith('_'))
+DEFAULT_ALGO_THREADS = tuple({"thread": thread} for thread in vars(Thread) if not thread.startswith('_'))
 
 DEFAULT_ALGO_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
@@ -106,13 +106,7 @@ DEFAULT_ALGO_SCHEDULE_TIME_RECORDS = (
      'is_active': True}
 )
 
-DEFAULT_THREAD_SCHEDULE_XREF = (
-    {'thread': Thread.SOCKET, 'schedule': Schedule.MARKET},
-    {'thread': Thread.SYNC_REPORT_DATA, 'schedule': Schedule.PRE_MARKET},
-    {'thread': Thread.UPDATE_STOCK_LIST, 'schedule': Schedule.PRE_MARKET},
-    {'thread': Thread.UPDATE_HIST_PRICES, 'schedule': Schedule.PRE_MARKET},
-    {'thread': Thread.UPDATE_WATCHLIST_INSTRUMENTS, 'schedule': Schedule.PRE_MARKET}
-)
+DEFAULT_THREAD_SCHEDULE_XREF = ({'thread': k, 'schedule': v} for k, v in vars(Thread).items())
 
 DEFAULT_BROKER_ACCOUNTS = (
     {'account': Account.ACCOUNT1, 'broker_name': 'Zerodha', 'notes': 'Haritha account'},
@@ -120,7 +114,7 @@ DEFAULT_BROKER_ACCOUNTS = (
 )
 
 DEFAULT_WATCHLISTS = (
-    {'watchlist': f'{Account.ACCOUNT1}_POSITIONS','account':Account.ACCOUNT1},
+    {'watchlist': f'{Account.ACCOUNT1}_POSITIONS', 'account': Account.ACCOUNT1},
     {'watchlist': f'{Account.ACCOUNT1}_HOLDINGS', 'account': Account.ACCOUNT1},
     {'watchlist': f'{Account.ACCOUNT2}_POSITIONS', 'account': Account.ACCOUNT2},
     {'watchlist': f'{Account.ACCOUNT2}_HOLDINGS', 'account': Account.ACCOUNT2},

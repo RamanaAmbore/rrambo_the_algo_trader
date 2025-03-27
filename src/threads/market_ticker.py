@@ -97,7 +97,7 @@ class MarketTicker(threading.Thread):
             if self.socket_conn:
                 return
 
-            self.socket_conn = KiteTicker(self.kite_conn.api_key, self.kite_conn.get_access_tokens())
+            self.socket_conn = KiteTicker(self.kite_conn.api_key, self.kite_conn.get_access_token())
             self.socket_conn.on_ticks = self.on_ticks
             self.socket_conn.on_connect = self.on_connect
             self.socket_conn.on_close = self.on_close

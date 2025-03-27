@@ -27,7 +27,7 @@ class AlgoSchedules(Base):
     algo_schedule_time = relationship("AlgoScheduleTime", back_populates="algo_schedules", cascade="all, delete-orphan")
     algo_thread_schedule_xref = relationship("AlgoThreadScheduleXref", back_populates="algo_schedules",
                                              cascade="all, delete-orphan")
-    algo_thread_status = relationship("AlgoThreadStatus", back_populates="algo_schedules",
+    algo_thread_tracker = relationship("AlgoThreadTracker", back_populates="algo_schedules",
                                              cascade="all, delete-orphan")
 
     __table_args__ = (

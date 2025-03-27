@@ -37,7 +37,7 @@ class BrokerAccounts(Base):
     orders = relationship("Orders", back_populates="broker_account", cascade="all, delete")
     refresh_flags = relationship("RefreshFlags", back_populates="broker_account", cascade="all, delete")
     strategy_config = relationship("StrategyConfig", back_populates="broker_account", cascade="all, delete")
-    algo_thread_status = relationship("AlgoThreadStatus", back_populates="broker_account", cascade="all, delete")
+    algo_thread_tracker = relationship("AlgoThreadTracker", back_populates="broker_account", cascade="all, delete")
     report_tradebook = relationship("ReportTradebook", back_populates="broker_account", cascade="all, delete")
     positions = relationship("Positions", back_populates="broker_account", cascade="all, delete")
     option_contracts = relationship("OptionContracts", back_populates="broker_account", cascade="all, delete")
