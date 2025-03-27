@@ -1,15 +1,12 @@
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from src.models.algo_schedule_time import AlgoScheduleTime
+from src.core.database_manager import DatabaseManager as Db
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
+from src.models.algo_schedule_time import AlgoScheduleTime
 from src.settings.constants_manager import DEFAULT_ALGO_SCHEDULES
-from src.settings.parameter_manager import const, parms
-from src.core.database_manager import DatabaseManager as Db
+from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
 
@@ -19,7 +16,7 @@ market = "MARKET"
 def get_market_hours_for_today(account):
     """Retrieve today's market hours with a fallback mechanism."""
 
-    today = datetime.now(tz=ZoneInfo(const.INDIAN_TIMEZONE)).date()
+    today = today_indian()
     weekday = today.strftime("%A")
 
     for acc_id in [account, None]:  # Try account-specific first, then global

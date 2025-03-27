@@ -1,5 +1,4 @@
-from functools import wraps
-from typing import List, Set, Tuple, Any, Dict, Union, Optional, Callable
+from typing import List, Set, Tuple, Any, Dict, Union, Optional
 
 import pandas as pd
 from sqlalchemy import select, delete

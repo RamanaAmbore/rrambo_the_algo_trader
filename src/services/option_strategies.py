@@ -1,8 +1,8 @@
 from sqlalchemy import select
 
 from src.models import OptionStrategies
-from src.helpers import DbConnect as Db
-from src.helpers import to_decimal
+from src.core.database_manager import DatabaseManager as Db
+from src.helpers.utils import to_decimal
 
 
 async def get_all_results(account, sync=False):

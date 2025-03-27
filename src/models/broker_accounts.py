@@ -1,12 +1,11 @@
 from sqlalchemy import (
-    Column, String, DateTime, text, event, Index, UniqueConstraint, func, Integer
+    Column, String, DateTime, text, Index, UniqueConstraint, func, Integer
 )
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import select
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_BROKER_ACCOUNTS
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
@@ -35,7 +34,7 @@ class BrokerAccounts(Base):
     report_ledger_entries = relationship("ReportLedgerEntries", back_populates="broker_account", cascade="all, delete")
     option_strategies = relationship("OptionStrategies", back_populates="broker_account", cascade="all, delete")
     orders = relationship("Orders", back_populates="broker_account", cascade="all, delete")
-    refresh_flags = relationship("RefreshFlags", back_populates="broker_account", cascade="all, delete")
+
     strategy_config = relationship("StrategyConfig", back_populates="broker_account", cascade="all, delete")
     algo_thread_tracker = relationship("AlgoThreadTracker", back_populates="broker_account", cascade="all, delete")
     report_tradebook = relationship("ReportTradebook", back_populates="broker_account", cascade="all, delete")
@@ -53,30 +52,4 @@ class BrokerAccounts(Base):
         return (f"<BrokerAccounts(account='{self.account}', "
                 f"broker_name='{self.broker_name}', notes='{self.notes}')>")
 
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = BrokerAccounts.__table__
-        for record in DEFAULT_BROKER_ACCOUNTS:
-            exists = connection.execute(
-                select(table.c.account).where(
-                    table.c.account == record['account']
-                )
-            ).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Broker Accounts records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error managing default Broker Account records: {e}")
-        raise
-
-
-@event.listens_for(BrokerAccounts.__table__, 'after_create')
-def ensure_default_records(target, connection, **kwargs):
-    """Insert default records after table creation."""
-    logger.info('Event after_create triggered for BrokerAccounts table')
-    initialize_default_records(connection)
 

@@ -11,9 +11,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class Holdings(Base):
+class HistoricalDataHourly(Base):
     """Model to store portfolio holdings, structured to match Zerodha Kite API."""
-    __tablename__ = "holdings"
+    __tablename__ = "historical_data_hourly"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     instrument_token = Column(Integer, nullable=False, index=True)  # Stock identifier

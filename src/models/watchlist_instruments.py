@@ -21,7 +21,7 @@ class WatchlistInstruments(Base):
                        server_default=text("CURRENT_TIMESTAMP"))
 
     __table_args__ = (
-        UniqueConstraint("watchlist", "account", "tradingsymbol", "instrument_token", "exchange",
+        UniqueConstraint("watchlist", "account", "tradingsymbol", "exchange",
                          name="uq_watchlist_instruments"),
 
         # Foreign key reference for (watchlist, account)
@@ -29,8 +29,8 @@ class WatchlistInstruments(Base):
                              ondelete="CASCADE", name="fk_watchlist_account"),
 
         # Foreign key reference for (tradingsymbol, instrument_token, exchange)
-        ForeignKeyConstraint(["tradingsymbol", "instrument_token", "exchange"],
-                             ["stock_list.tradingsymbol", "stock_list.instrument_token", "stock_list.exchange"],
+        ForeignKeyConstraint(["tradingsymbol",  "exchange"],
+                             ["stock_list.tradingsymbol", "stock_list.exchange"],
                              ondelete="CASCADE", name="fk_stock_list")
     )
 

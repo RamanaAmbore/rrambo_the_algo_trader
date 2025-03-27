@@ -8,6 +8,15 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
+import src.service.service_access_token
+
+import src.services.schedule_algo_threads
+import src.services.service_access_tokens
+import src.services.service_algo_schedule_time
+import src.services.service_algo_thread_schedule_xref
+import src.services.service_broker_accounts
+import src.services.service_parameter_table
+import src.services.service_watchlists
 from src.helpers.logger import get_logger
 from src.models import ParameterTable
 from src.models import access_tokens
@@ -105,15 +114,16 @@ class DatabaseManager:
             Base.metadata.drop_all(cls._engine)
         Base.metadata.create_all(cls._engine)
         # Manually initialize default records
+
         with cls._engine.connect() as connection:
-            broker_accounts.initialize_default_records(connection)
-            access_tokens.initialize_default_records(connection)
+            src.services.service_broker_accounts.initialize_default_records(connection)
+            src.services.service_algo_schedule_time.initialize_default_records(connection)
             algo_schedules.initialize_default_records(connection)
-            algo_schedule_time.initialize_default_records(connection)
-            algo_threads.initialize_default_records(connection)
-            algo_thread_schedule_xref.initialize_default_records(connection)
-            parameter_table.initialize_default_records(connection)
-            watchlists.initialize_default_records(connection)
+            src.services.service_algo_schedule_time.initialize_default_records(connection)
+            src.services.schedule_algo_threads.initialize_default_records(connection)
+            src.services.service_algo_thread_schedule_xref.initialize_default_records(connection)
+            src.services.service_parameter_table.initialize_default_records(connection)
+            src.services.service_watchlists.initialize_default_records(connection)
 
     @classmethod
     def initialize_parameters(cls, refresh=False) -> None:

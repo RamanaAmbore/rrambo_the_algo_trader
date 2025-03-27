@@ -1,12 +1,10 @@
 from sqlalchemy import (Column, Integer, String, Date, Time, Boolean, DateTime, ForeignKey, CheckConstraint,
-                        Index, text, event, UniqueConstraint, func)
-from sqlalchemy.exc import SQLAlchemyError
+                        Index, text, UniqueConstraint, func)
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import select
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
@@ -46,31 +44,4 @@ class AlgoScheduleTime(Base):
                 f"is_market_open={self.is_market_open}, source='{self.source}', "
                 f"warning_error={self.warning_error}, notes='{self.notes}')>")
 
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = AlgoScheduleTime.__table__
-        for record in DEFAULT_ALGO_SCHEDULE_TIME_RECORDS:
-            exists = connection.execute(
-                select(table).where(
-                    table.c.schedule == record['schedule'],
-                    table.c.weekday == record['weekday']
-                )
-            ).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Schedule Time records inserted/updated')
-    except SQLAlchemyError as e:
-        logger.error(f"Error managing default Algo Schedule Time records: {e}")
-        raise
-
-
-@event.listens_for(AlgoScheduleTime.__table__, 'after_create')
-def ensure_default_records(target, connection, **kwargs):
-    """Insert default records after table creation."""
-    logger.info('Event after_create triggered for Algo Schedule Time table')
-    initialize_default_records(connection)
 

@@ -1,4 +1,4 @@
-from src.services.service_access_token import save_stock_list
+from src.services.service_access_tokens import save_stock_list
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.logger import get_logger
 

@@ -60,8 +60,3 @@ class ReportLedgerEntries(Base):
                    cls.net_balance))
         return {row for row in result.fetchall()}
 
-    @classmethod
-    async def bulk_insert(cls, session: AsyncSession, records):
-        """Insert multiple ledger records in bulk."""
-        session.add_all(records)
-        await session.commit()

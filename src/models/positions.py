@@ -1,8 +1,9 @@
 from sqlalchemy import (
-    Column, Integer, String, DateTime, Boolean, ForeignKey, ForeignKeyConstraint,
+    Column, Integer, String, DateTime, ForeignKey, ForeignKeyConstraint,
     CheckConstraint, Index, DECIMAL, func, text, UniqueConstraint
 )
 from sqlalchemy.orm import relationship
+
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base

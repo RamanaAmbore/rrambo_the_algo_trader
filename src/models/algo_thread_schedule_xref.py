@@ -1,11 +1,10 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, text, event, UniqueConstraint, \
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, text, UniqueConstraint, \
     Index, func
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import select
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_THREAD_SCHEDULE_XREF
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
@@ -38,31 +37,4 @@ class AlgoThreadScheduleXref(Base):
         return (f"<AlgoThreadScheduleXref(id={self.id}, thread='{self.thread}', "
                 f"schedule='{self.schedule}', source='{self.source}')>")
 
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = AlgoThreadScheduleXref.__table__
-        for record in DEFAULT_THREAD_SCHEDULE_XREF:
-            exists = connection.execute(
-                select(table).where(
-                    table.c.thread == record['thread'],
-                    table.c.schedule == record['schedule']
-                )
-            ).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Algo Thread Schedule Xref records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error managing default Algo Thread Schedule Xref records: {e}")
-        raise
-
-
-@event.listens_for(AlgoThreadScheduleXref.__table__, 'after_create')
-def ensure_default_records(target, connection, **kwargs):
-    """Insert default records after table creation."""
-    logger.info('Event after_create triggered for Algo Thread Schedule Xref table')
-    initialize_default_records(connection)
 

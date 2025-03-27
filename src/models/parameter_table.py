@@ -1,13 +1,11 @@
 from typing import Optional
 
-from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Index, Boolean, event,
-                        CheckConstraint, func, text)
+from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Index, Boolean, CheckConstraint, func, text)
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import select
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_PARAMETERS
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
@@ -53,32 +51,5 @@ def get_parameter(session, parameter: str, account: Optional[str] = None) -> Opt
         ParameterTable.account == account
     ).first()
 
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = ParameterTable.__table__
-        for record in DEFAULT_PARAMETERS:
-            exists = connection.execute(
-                select(table).where(
-                    table.c.parameter == record['parameter'],
-                    table.c.account == record.get('account')
-                )
-            ).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Parameter records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error managing default Parameter records: {e}")
-        raise
-
-
-@event.listens_for(ParameterTable.__table__, 'after_create')
-def ensure_default_records(target, connection, **kwargs):
-    """Insert default records after table creation."""
-    logger.info('Event after_create triggered for Parameter table')
-    initialize_default_records(connection)
 
 
