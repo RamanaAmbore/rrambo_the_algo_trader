@@ -4,7 +4,7 @@ from functools import wraps
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.services.service_algo_thread_tracker import AlgoThreadTrackerServiceBase
+from src.services.service_algo_thread_status_tracker import AlgoThreadStatusTrackerServiceBase
 from src.settings.constants_manager import ThreadStatus, Schedule, Source
 from src.settings.parameter_manager import parms
 
@@ -40,7 +40,7 @@ def retry_kite_conn(max_attempts):
 #     """Update the thread status in the database."""
 #     # Define Indian timezone (IST)
 #
-#     record_id = await AlgoThreadTrackerServiceBase().insert_record(
+#     record_id = await AlgoThreadStatusTrackerServiceBase().insert_record(
 #         {
 #             "thread": thread_name,
 #             "schedule": Schedule.PRE_MARKET,
@@ -60,7 +60,7 @@ def retry_kite_conn(max_attempts):
 #     """Update the thread status in the database."""
 #     # Define Indian timezone (IST)
 #
-#     return await AlgoThreadTrackerServiceBase().update_record(record_id,
+#     return await AlgoThreadStatusTrackerServiceBase().update_record(record_id,
 #                                                              {
 #                                                                  "thread_status": thread_status,
 #                                                                  "run_count": run_count,

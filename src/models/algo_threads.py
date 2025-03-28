@@ -24,9 +24,9 @@ class AlgoThreads(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with ThreadStatus
-    algo_thread_tracker = relationship("AlgoThreadTracker", back_populates="algo_thread",
+    algo_thread_status_tracker = relationship("AlgoThreadStatusTracker", back_populates="algo_thread",
                                        cascade="all, delete-orphan")  # Relationship with ThreadStatus
-    algo_thread_schedule_xref = relationship("AlgoThreadScheduleXref", back_populates="algo_thread",
+    algo_thread_schedule = relationship("AlgoThreadSchedule", back_populates="algo_thread",
                                              cascade="all, delete-orphan")
 
     __table_args__ = (

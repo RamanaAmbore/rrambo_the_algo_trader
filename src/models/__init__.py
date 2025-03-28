@@ -20,5 +20,5 @@ from .parameter_table import ParameterTable
 
 
 from .algo_threads import AlgoThreads
-from .algo_thread_tracker import AlgoThreadTracker
-from .algo_thread_schedule_xref import AlgoThreadScheduleXref
+from .algo_thread_status_tracker import AlgoThreadStatusTracker
+from .algo_thread_schedule import AlgoThreadSchedule
