@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
-from src.models.algo_schedule_time import AlgoScheduleTime
+from src.models.schedule_time import ScheduleTime
 from src.settings.constants_manager import DEFAULT_ALGO_SCHEDULES
 from src.settings.parameter_manager import parms
 
@@ -23,22 +23,22 @@ def get_market_hours_for_today(account):
         with Db.get_sync_session() as session:
             logger.info(f"Checking for MARKET hours for {today} with acc_id {acc_id}")
 
-            query = select(AlgoScheduleTime).where(AlgoScheduleTime.market_date.is_(today),
-                                                   AlgoScheduleTime.schedule.is_(market))
+            query = select(ScheduleTime).where(ScheduleTime.market_date.is_(today),
+                                                   ScheduleTime.schedule.is_(market))
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
 
             logger.info(f"Checking default weekday MARKET hours for {weekday} with acc_id {acc_id}")
-            query = select(AlgoScheduleTime).where(AlgoScheduleTime.weekday.is_(weekday),
-                                                   AlgoScheduleTime.schedule.is_(market))
+            query = select(ScheduleTime).where(ScheduleTime.weekday.is_(weekday),
+                                                   ScheduleTime.schedule.is_(market))
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
 
             logger.info(f"Checking for GLOBAL default MARKET hours with acc_id {acc_id}")
-            query = select(AlgoScheduleTime).where(AlgoScheduleTime.weekday.is_("GLOBAL"),
-                                                   AlgoScheduleTime.schedule.is_(market))
+            query = select(ScheduleTime).where(ScheduleTime.weekday.is_("GLOBAL"),
+                                                   ScheduleTime.schedule.is_(market))
             market_hours = session.execute(query).scalars().first()
             if market_hours:
                 return market_hours
@@ -59,13 +59,13 @@ def get_batch_schedules(session: Session, account, batch_type=None):
     for acc_id in [account, None]:
         logger.info(f"Checking batch schedules of type {batch_type} for {today} with account {acc_id}")
 
-        query = select(AlgoScheduleTime).where(AlgoScheduleTime.market_date.is_(today),
-                                               AlgoScheduleTime.schedule.is_(market),
-                                               AlgoScheduleTime.account.is_(
-                                                   acc_id) if acc_id is None else AlgoScheduleTime.account == acc_id)
+        query = select(ScheduleTime).where(ScheduleTime.market_date.is_(today),
+                                               ScheduleTime.schedule.is_(market),
+                                               ScheduleTime.account.is_(
+                                                   acc_id) if acc_id is None else ScheduleTime.account == acc_id)
 
         if batch_type:
-            query = query.where(AlgoScheduleTime.schedule.in_(batch_type))
+            query = query.where(ScheduleTime.schedule.in_(batch_type))
 
         found_schedules = session.execute(query).scalars().all()
         if found_schedules:
@@ -81,14 +81,14 @@ def get_batch_schedules(session: Session, account, batch_type=None):
 def ensure_default_records():
     """Manually ensure default records exist."""
     with Db.get_sync_session() as session:
-        existing = session.query(AlgoScheduleTime).filter(
-            AlgoScheduleTime.weekday.in_(["GLOBAL", parms.SATURDAY, parms.SUNDAY])
+        existing = session.query(ScheduleTime).filter(
+            ScheduleTime.weekday.in_(["GLOBAL", parms.SATURDAY, parms.SUNDAY])
         ).all()
 
         if not existing:
             try:
                 for record in DEFAULT_ALGO_SCHEDULES:
-                    session.add(AlgoScheduleTime(**record))
+                    session.add(ScheduleTime(**record))
                 session.commit()
                 logger.info("Default market hours inserted manually")
             except Exception as e:

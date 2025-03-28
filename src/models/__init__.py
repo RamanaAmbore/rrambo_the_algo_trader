@@ -2,8 +2,8 @@ from .access_tokens import AccessTokens
 from .stock_list import StockList
 from .broker_accounts import BrokerAccounts
 from .backtest_results import BacktestResults
-from .algo_schedules import AlgoSchedules
-from .algo_schedule_time import AlgoScheduleTime
+from .schedules import Schedules
+from .schedule_time import ScheduleTime
 from .option_contracts import OptionContracts
 from .option_greeks import OptionGreeks
 from .option_strategies import OptionStrategies
@@ -20,5 +20,5 @@ from .parameter_table import ParameterTable
 
 
 from .algo_threads import AlgoThreads
-from .algo_thread_status_tracker import AlgoThreadStatusTracker
-from .algo_thread_schedule import AlgoThreadSchedule
+from .thread_status_tracker import ThreadStatusTracker
+from .thread_schedule import ThreadSchedule

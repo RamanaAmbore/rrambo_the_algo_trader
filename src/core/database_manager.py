@@ -11,9 +11,9 @@ from sqlalchemy_utils import database_exists, create_database
 from src.helpers.logger import get_logger
 from src.models import ParameterTable
 from src.models import access_tokens
-from src.models import algo_schedule_time
-from src.models import algo_schedules
-from src.models import algo_thread_schedule
+from src.models import schedule_time
+from src.models import schedules
+from src.models import thread_schedule
 from src.models import algo_threads
 from src.models import broker_accounts
 from src.models import parameter_table
@@ -109,10 +109,10 @@ class DatabaseManager:
         with cls._engine.connect() as connection:
             broker_accounts.initialize_default_records(connection)
             access_tokens.initialize_default_records(connection)
-            algo_schedules.initialize_default_records(connection)
-            algo_schedule_time.initialize_default_records(connection)
+            schedules.initialize_default_records(connection)
+            schedule_time.initialize_default_records(connection)
             algo_threads.initialize_default_records(connection)
-            algo_thread_schedule.initialize_default_records(connection)
+            thread_schedule.initialize_default_records(connection)
             parameter_table.initialize_default_records(connection)
             watchlists.initialize_default_records(connection)
 

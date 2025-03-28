@@ -2,8 +2,8 @@ import asyncio
 
 from sqlalchemy import select
 from src.core.database_manager import DatabaseManager as Db
-from src.models import AlgoScheduleTime, AlgoThreadSchedule, AlgoThreads
-from src.services.service_algo_schedules import get_market_hours_for_today
+from src.models import ScheduleTime, ThreadSchedule, AlgoThreads
+from src.services.service_schedules import get_market_hours_for_today
 
 
 async def get_active_thread_schedule_times(account=None):
@@ -12,12 +12,12 @@ async def get_active_thread_schedule_times(account=None):
         stmt = (
             select(
                 AlgoThreads.thread,
-                AlgoThreadSchedule.schedule,
-                AlgoScheduleTime.start_time,
-                AlgoScheduleTime.end_time
+                ThreadSchedule.schedule,
+                ScheduleTime.start_time,
+                ScheduleTime.end_time
             )
-            .join(AlgoThreadSchedule, AlgoThreads.thread == AlgoThreadSchedule.thread)
-            .join(AlgoScheduleTime, AlgoThreadSchedule.schedule == AlgoScheduleTime.schedule)
+            .join(ThreadSchedule, AlgoThreads.thread == ThreadSchedule.thread)
+            .join(ScheduleTime, ThreadSchedule.schedule == ScheduleTime.schedule)
             .where(AlgoThreads.is_active == True)
         )
         result = await session.execute(stmt)

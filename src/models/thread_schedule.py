@@ -10,13 +10,13 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class AlgoThreadSchedule(Base):
+class ThreadSchedule(Base):
     """Model for mapping threads to schedules."""
-    __tablename__ = "algo_thread_schedule"
+    __tablename__ = "thread_schedule"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(30), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
-    schedule = Column(String(10), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(10), ForeignKey("schedules.schedule", ondelete="CASCADE"), nullable=False)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -25,8 +25,8 @@ class AlgoThreadSchedule(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_thread = relationship("AlgoThreads", back_populates="algo_thread_schedule")
-    algo_schedules = relationship("AlgoSchedules", back_populates="algo_thread_schedule")
+    algo_thread = relationship("AlgoThreads", back_populates="thread_schedule")
+    schedules = relationship("Schedules", back_populates="thread_schedule")
 
     __table_args__ = (
         UniqueConstraint('thread', 'schedule', name='uq_thread_schedule'),
@@ -34,14 +34,14 @@ class AlgoThreadSchedule(Base):
     )
 
     def __repr__(self):
-        return (f"<AlgoThreadSchedule(id={self.id}, thread='{self.thread}', "
+        return (f"<ThreadSchedule(id={self.id}, thread='{self.thread}', "
                 f"schedule='{self.schedule}', source='{self.source}')>")
 
 
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
-        table = AlgoThreadSchedule.__table__
+        table = ThreadSchedule.__table__
         for record in DEFAULT_THREAD_SCHEDULE_XREF:
             exists = connection.execute(
                 select(table).where(

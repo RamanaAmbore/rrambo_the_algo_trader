@@ -10,9 +10,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class AlgoSchedules(Base):
+class Schedules(Base):
     """Stores schedule definitions that can be referenced by other tables."""
-    __tablename__ = "algo_schedules"
+    __tablename__ = "schedules"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(10), nullable=False, unique=True)  # Unique constraint for referential integrity
@@ -24,19 +24,19 @@ class AlgoSchedules(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_schedule_time = relationship("AlgoScheduleTime", back_populates="algo_schedules", cascade="all, delete-orphan")
-    algo_thread_schedule = relationship("AlgoThreadSchedule", back_populates="algo_schedules",
+    schedule_time = relationship("ScheduleTime", back_populates="schedules", cascade="all, delete-orphan")
+    thread_schedule = relationship("ThreadSchedule", back_populates="schedules",
                                              cascade="all, delete-orphan")
-    algo_thread_status_tracker = relationship("AlgoThreadStatusTracker", back_populates="algo_schedules",
+    thread_status_tracker = relationship("ThreadStatusTracker", back_populates="schedules",
                                              cascade="all, delete-orphan")
 
     __table_args__ = (
-        UniqueConstraint('schedule', name='uq_schedule'),
+        UniqueConstraint('schedule', name='uq_schedule1'),
         Index("idx_schedule", "schedule"),
     )
 
     def __repr__(self):
-        return (f"<AlgoSchedule(id={self.id}, schedule='{self.schedule}', "
+        return (f"<scheduleSchedule(id={self.id}, schedule='{self.schedule}', "
                 f"is_active={self.is_active}, source='{self.source}', "
                 f"timestamp={self.timestamp}, notes='{self.notes}')>")
 
@@ -44,7 +44,7 @@ class AlgoSchedules(Base):
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
-        table = AlgoSchedules.__table__
+        table = Schedules.__table__
         for record in DEFAULT_ALGO_SCHEDULES:
             exists = connection.execute(select(table.c.schedule).where(
                 table.c.schedule == record['schedule'])).scalar_one_or_none() is not None

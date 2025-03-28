@@ -11,12 +11,12 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class AlgoScheduleTime(Base):
+class ScheduleTime(Base):
     """Stores market hours for specific dates, weekdays, and default global settings."""
-    __tablename__ = "algo_schedule_time"
+    __tablename__ = "schedule_time"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    schedule = Column(String(10), ForeignKey("algo_schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(10), ForeignKey("schedules.schedule", ondelete="CASCADE"), nullable=False)
     market_date = Column(Date, nullable=True)
     weekday = Column(String(10), nullable=True)
     start_time = Column(Time, nullable=True)
@@ -30,7 +30,7 @@ class AlgoScheduleTime(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_schedules = relationship("AlgoSchedules", back_populates="algo_schedule_time")
+    schedules = relationship("Schedules", back_populates="schedule_time")
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),
@@ -38,7 +38,7 @@ class AlgoScheduleTime(Base):
         Index('idx_schedule_time', 'schedule', 'market_date', 'weekday'),)
 
     def __repr__(self):
-        return (f"<AlgoScheduleTime(id={self.id}, "
+        return (f"<ScheduleTime(id={self.id}, "
                 f"schedule='{self.schedule}', "
                 f"market_date={self.market_date}, weekday={self.weekday}, "
                 f"start_time={self.start_time}, end_time={self.end_time}, "
@@ -49,7 +49,7 @@ class AlgoScheduleTime(Base):
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
-        table = AlgoScheduleTime.__table__
+        table = ScheduleTime.__table__
         for record in DEFAULT_ALGO_SCHEDULE_TIME_RECORDS:
             exists = connection.execute(
                 select(table).where(
