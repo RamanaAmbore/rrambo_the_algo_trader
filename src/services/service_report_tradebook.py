@@ -1,5 +1,3 @@
-from typing import Union, List
-
 import pandas as pd
 
 from src.helpers.date_time_utils import convert_to_timezone

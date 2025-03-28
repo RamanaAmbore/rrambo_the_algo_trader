@@ -25,7 +25,7 @@ class AlgoThreads(Base):
 
     # Relationship with ThreadStatus
     algo_thread_tracker = relationship("AlgoThreadTracker", back_populates="algo_thread",
-                                      cascade="all, delete-orphan")  # Relationship with ThreadStatus
+                                       cascade="all, delete-orphan")  # Relationship with ThreadStatus
     algo_thread_schedule_xref = relationship("AlgoThreadScheduleXref", back_populates="algo_thread",
                                              cascade="all, delete-orphan")
 
@@ -37,5 +37,3 @@ class AlgoThreads(Base):
     def __repr__(self):
         return (f"<Thread(id={self.id}, thread='{self.thread}', "
                 f"source='{self.source}', notes='{self.notes}')>")
-
-

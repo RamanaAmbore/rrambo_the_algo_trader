@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKey, CheckConstraint,
-                        Index, UniqueConstraint, func, DECIMAL)
+                        Index, UniqueConstraint, DECIMAL)
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian

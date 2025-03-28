@@ -1,6 +1,7 @@
 from typing import Optional
 
-from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Index, Boolean, CheckConstraint, func, text)
+from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Index, Boolean,
+                        CheckConstraint, func, text)
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -21,7 +22,8 @@ class ParameterTable(Base):
     value = Column(String(255), nullable=True)
     type = Column(String(10), nullable=True)
     encrypted = Column(Boolean, nullable=True)
-    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,server_default=text("CURRENT_TIMESTAMP"))
+    timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                       server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
@@ -50,6 +52,3 @@ def get_parameter(session, parameter: str, account: Optional[str] = None) -> Opt
         ParameterTable.parameter == parameter,
         ParameterTable.account == account
     ).first()
-
-
-

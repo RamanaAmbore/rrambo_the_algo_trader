@@ -1,5 +1,5 @@
+from src.core.database_manager import DatabaseManager as Db
 from src.models import BrokerAccounts
-from src.helpers import DatabaseManager as Db
 
 
 def insert_account(account_data, sync=True):

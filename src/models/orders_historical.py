@@ -107,4 +107,3 @@ class Orders(Base):
                 f"exchange='{self.exchange}', transaction_type='{self.transaction_type}', "
                 f"order_type='{self.order_type}', validity='{self.validity}', modified={self.modified}, "
                 f"source='{self.source}')>")
-

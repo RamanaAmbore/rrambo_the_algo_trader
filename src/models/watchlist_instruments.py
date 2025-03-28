@@ -1,8 +1,9 @@
 from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKeyConstraint, UniqueConstraint)
 from sqlalchemy.orm import relationship
-from .base import Base
+
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from .base import Base
 
 logger = get_logger(__name__)
 
@@ -29,7 +30,7 @@ class WatchlistInstruments(Base):
                              ondelete="CASCADE", name="fk_watchlist_account"),
 
         # Foreign key reference for (tradingsymbol, instrument_token, exchange)
-        ForeignKeyConstraint(["tradingsymbol",  "exchange"],
+        ForeignKeyConstraint(["tradingsymbol", "exchange"],
                              ["stock_list.tradingsymbol", "stock_list.exchange"],
                              ondelete="CASCADE", name="fk_stock_list")
     )
@@ -40,4 +41,3 @@ class WatchlistInstruments(Base):
         return f"<WatchlistInstrument(id={self.id}, watchlist='{self.watchlist}', " \
                f"account='{self.account}', tradingsymbol='{self.tradingsymbol}', " \
                f"instrument_token='{self.instrument_token}', exchange='{self.exchange}')>"
-

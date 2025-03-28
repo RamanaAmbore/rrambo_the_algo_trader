@@ -1,22 +1,12 @@
-from sqlalchemy import select
-
 from src.models import AlgoThreads
-from src.models.algo_threads import logger
-from src.settings.constants_manager import DEFAULT_ALGO_THREADS
+from src.services.service_base import ServiceBase
 
 
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = AlgoThreads.__table__
-        for record in DEFAULT_ALGO_THREADS:
-            exists = connection.execute(select(table.c.thread).where(
-                table.c.thread == record['thread'])).scalar_one_or_none() is not None
+class ServiceAccessToken(ServiceBase):
+    """Service class for handling AccessTokens database operations."""
 
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Algo Thread records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error managing default Algo Threads records: {e}")
-        raise
+    model = AlgoThreads  # Assign model at the class level
+
+    def __init__(self):
+        """Initialize the service with the AccessTokens model."""
+        super().__init__(self.model)

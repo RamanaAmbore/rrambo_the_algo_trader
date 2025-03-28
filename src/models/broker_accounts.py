@@ -1,11 +1,11 @@
 from sqlalchemy import (
-    Column, String, DateTime, text, Index, UniqueConstraint, func, Integer
+    Column, String, DateTime, text, Index, UniqueConstraint, func, Integer, select
 )
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source
+from src.settings.constants_manager import Source, DEFAULT_BROKER_ACCOUNTS
 from .base import Base
 
 logger = get_logger(__name__)
@@ -53,3 +53,21 @@ class BrokerAccounts(Base):
                 f"broker_name='{self.broker_name}', notes='{self.notes}')>")
 
 
+def initialize_default_records(connection):
+    """Initialize default records in the table."""
+    try:
+        table = BrokerAccounts.__table__
+        for record in DEFAULT_BROKER_ACCOUNTS:
+            exists = connection.execute(
+                select(table.c.account).where(
+                    table.c.account == record['account']
+                )
+            ).scalar_one_or_none() is not None
+
+            if not exists:
+                connection.execute(table.insert(), record)
+        connection.commit()
+        logger.info('Default Broker Accounts records inserted/updated')
+    except Exception as e:
+        logger.error(f"Error managing default Broker Account records: {e}")
+        raise

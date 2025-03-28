@@ -1,8 +1,8 @@
 # Import utilities for timestamp handling and environment variables
 from sqlalchemy import select
 
-from src.models import BacktestResults
 from src.core.database_manager import DatabaseManager as Db
+from src.models import BacktestResults
 
 
 async def insert_result(result_data, sync=False):
@@ -25,7 +25,7 @@ async def insert_result(result_data, sync=False):
         return new_result  # Return the newly created record
 
 
-async def get_all_results(account,sync=False):
+async def get_all_results(account, sync=False):
     """
     Fetch all backtest results asynchronously.
 
@@ -40,6 +40,6 @@ async def get_all_results(account,sync=False):
         query = select(BacktestResults).order_by(BacktestResults.start_date.desc())  # Sort results by latest start_date
         if account:
             query = query.where(BacktestResults.account.is_(account))
-    
+
         result = await session.execute(query)
         return result.scalars().all()

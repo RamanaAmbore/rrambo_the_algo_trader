@@ -36,5 +36,3 @@ class AlgoThreadScheduleXref(Base):
     def __repr__(self):
         return (f"<AlgoThreadScheduleXref(id={self.id}, thread='{self.thread}', "
                 f"schedule='{self.schedule}', source='{self.source}')>")
-
-

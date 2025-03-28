@@ -1,10 +1,10 @@
 from sqlalchemy import Column, String, DateTime, text, Integer, ForeignKey, UniqueConstraint, Index, \
-    func
+    func, select
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source
+from src.settings.constants_manager import Source, DEFAULT_ACCESS_TOKENS
 from .base import Base
 
 logger = get_logger(__name__)
@@ -34,3 +34,18 @@ class AccessTokens(Base):
                 f"source='{self.source}', warning_error={self.warning_error})>")
 
 
+def initialize_default_records(connection):
+    """Initialize default records in the table."""
+    try:
+        table = AccessTokens.__table__
+        for record in DEFAULT_ACCESS_TOKENS:
+            exists = connection.execute(select(table.c.account).where(
+                table.c.account == record['account'])).scalar_one_or_none() is not None
+
+            if not exists:
+                connection.execute(table.insert(), record)
+        connection.commit()
+        logger.info('Default Access Token records inserted/updated')
+    except Exception as e:
+        logger.error(f"Error managing default access tokens: {e}")
+        raise

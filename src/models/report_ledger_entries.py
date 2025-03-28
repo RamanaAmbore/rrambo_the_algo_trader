@@ -59,4 +59,3 @@ class ReportLedgerEntries(Base):
             select(cls.particulars, cls.posting_date, cls.cost_center, cls.voucher_type, cls.debit, cls.credit,
                    cls.net_balance))
         return {row for row in result.fetchall()}
-

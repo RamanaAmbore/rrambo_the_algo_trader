@@ -28,4 +28,3 @@ drop table  settings cascade;
 
 logger = get_logger(__name__)
 Base = declarative_base()
-

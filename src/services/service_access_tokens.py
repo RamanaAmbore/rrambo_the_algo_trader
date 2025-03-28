@@ -1,15 +1,11 @@
 from datetime import timedelta
 from typing import Any
 
-from sqlalchemy import select
-
 from src.core.database_manager import DatabaseManager as Db
 from src.helpers.cipher_utils import encrypt_text, decrypt_text
 from src.helpers.date_time_utils import timestamp_indian
-from src.models import AccessTokens
 from src.models.access_tokens import AccessTokens, logger
 from src.services.service_base import ServiceBase  # Assuming BaseService exists
-from src.settings.constants_manager import DEFAULT_ACCESS_TOKENS
 from src.settings.parameter_manager import parms
 
 
@@ -69,20 +65,3 @@ class ServiceAccessToken(ServiceBase):
 
 # Create a Singleton Instance
 service_access_token = ServiceAccessToken()
-
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = AccessTokens.__table__
-        for record in DEFAULT_ACCESS_TOKENS:
-            exists = connection.execute(select(table.c.account).where(
-                table.c.account == record['account'])).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Access Token records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error managing default access tokens: {e}")
-        raise

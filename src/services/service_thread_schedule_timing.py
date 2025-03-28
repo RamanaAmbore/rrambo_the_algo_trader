@@ -1,7 +1,6 @@
 import asyncio
 
 from sqlalchemy import select
-
 from src.core.database_manager import DatabaseManager as Db
 from src.models import AlgoScheduleTime, AlgoThreadScheduleXref, AlgoThreads
 

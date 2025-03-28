@@ -53,5 +53,3 @@ class StockList(Base):
         return (f"<StockList(id={self.id}, tradingsymbol='{self.tradingsymbol}', "
                 f"instrument_token={self.instrument_token}, exchange='{self.exchange}', "
                 f"lot_size={self.lot_size}, source='{self.source}', timestamp={self.timestamp})>")
-
-
