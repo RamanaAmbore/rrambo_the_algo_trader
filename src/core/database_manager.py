@@ -108,8 +108,8 @@ class DatabaseManager:
 
         with cls._engine.connect() as connection:
             broker_accounts.initialize_default_records(connection)
-            algo_schedule_time.initialize_default_records(connection)
-            algo_model.initialize_default_records(connection)
+            access_tokens.initialize_default_records(connection)
+            algo_schedules.initialize_default_records(connection)
             algo_schedule_time.initialize_default_records(connection)
             algo_threads.initialize_default_records(connection)
             algo_thread_schedule_xref.initialize_default_records(connection)

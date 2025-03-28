@@ -1,12 +1,10 @@
-from typing import Optional
-
 from sqlalchemy import (Column, Integer, String, DateTime, UniqueConstraint, ForeignKey, Index, Boolean,
-                        CheckConstraint, func, text)
+                        CheckConstraint, func, text, select)
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source
+from src.settings.constants_manager import Source, DEFAULT_PARAMETERS
 from .base import Base
 
 logger = get_logger(__name__)
@@ -46,9 +44,22 @@ class ParameterTable(Base):
                 f"warning_error={self.warning_error})>")
 
 
-def get_parameter(session, parameter: str, account: Optional[str] = None) -> Optional['ParameterTable']:
-    """Get parameter value for given parameter name and optional account."""
-    return session.query(ParameterTable).filter(
-        ParameterTable.parameter == parameter,
-        ParameterTable.account == account
-    ).first()
+def initialize_default_records(connection):
+    """Initialize default records in the table."""
+    try:
+        table = ParameterTable.__table__
+        for record in DEFAULT_PARAMETERS:
+            exists = connection.execute(
+                select(table).where(
+                    table.c.parameter == record['parameter'],
+                    table.c.account == record.get('account')
+                )
+            ).scalar_one_or_none() is not None
+
+            if not exists:
+                connection.execute(table.insert(), record)
+        connection.commit()
+        logger.info('Default Parameter records inserted/updated')
+    except Exception as e:
+        logger.error(f"Error managing default Parameter records: {e}")
+        raise
