@@ -21,7 +21,7 @@ class ServiceExchangeList(ServiceBase):
         """Bulk insert multiple trade records, skipping duplicates."""
         records = self.validate_clean_records(records)
         await self.bulk_insert_records(records=records, index_elements=["exchange"],
-                                       update_on_conflict=True)
+                                       update_on_conflict=False)
 
     @staticmethod
     def validate_clean_records(records):

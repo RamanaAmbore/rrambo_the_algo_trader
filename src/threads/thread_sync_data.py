@@ -20,7 +20,8 @@ async def sync_stock_list():
         logger.info("Fetching complete stock list from Kite API...")
         records = await asyncio.to_thread(kite.instruments)  # Run in a separate thread
         exchange_set = {record["exchange"] for record in records}
-        await service_exchange_list.validate_insert_records(records)  # Async DB insert
+        exchange_set = [{'exchange':record} for record in exchange_set]
+        await service_exchange_list.validate_insert_records(exchange_set)  # Async DB insert
         await service_stock_list.validate_insert_records(records)  # Async DB insert
         logger.info("Stock list successfully updated.")
     except Exception as e:

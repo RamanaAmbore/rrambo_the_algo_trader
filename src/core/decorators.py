@@ -23,8 +23,8 @@ def retry_kite_conn(max_attempts):
         def wrapper(*args, **kwargs):
             for attempt in range(max_attempts):
                 try:
-                    x= func(*args, **kwargs)
-                    return x
+                    result= func(*args, **kwargs)
+                    return result
                 except Exception as e:
                     logger.warning(f"{func.__name__}: Attempt {attempt + 1} of {max_attempts} failed: {e}...")
                     if attempt == max_attempts - 1:
