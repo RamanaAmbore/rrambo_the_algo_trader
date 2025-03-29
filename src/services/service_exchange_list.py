@@ -3,12 +3,12 @@ from typing import Union, List
 import pandas as pd
 
 from src.helpers.logger import get_logger
-from src.models import StockList
+from src.models import ExchangeList
 from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
-model = StockList
+model = ExchangeList
 
 
 class ServiceExchangeList(ServiceBase):
@@ -25,7 +25,6 @@ class ServiceExchangeList(ServiceBase):
 
     @staticmethod
     def validate_clean_records(records):
-
         return records
 
 
