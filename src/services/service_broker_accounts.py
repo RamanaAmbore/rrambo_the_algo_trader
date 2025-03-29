@@ -2,14 +2,14 @@ from sqlalchemy import select
 
 from src.models import BrokerAccounts
 from src.models.broker_accounts import logger
-from src.settings.constants_manager import DEFAULT_BROKER_ACCOUNTS
+from src.settings.constants_manager import DEF_BROKER_ACCOUNTS
 
 
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = BrokerAccounts.__table__
-        for record in DEFAULT_BROKER_ACCOUNTS:
+        for record in DEF_BROKER_ACCOUNTS:
             exists = connection.execute(
                 select(table.c.account).where(
                     table.c.account == record['account']

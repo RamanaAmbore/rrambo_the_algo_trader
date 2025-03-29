@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, func, Date
+    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, func, Date, ForeignKey
 )
 from sqlalchemy.orm import relationship
 
@@ -22,7 +22,7 @@ class StockList(Base):
     name = Column(String(50), nullable=False)
     segment = Column(String(50), nullable=False)
     instrument_type = Column(String(50), nullable=False)
-    exchange = Column(String(10), nullable=False)  # NSE/BSE
+    exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=False)
     lot_size = Column(Integer, nullable=False, server_default=text("1"))
     last_price = Column(DECIMAL(10, 4), nullable=True)  # For options
     tick_size = Column(DECIMAL(10, 4), nullable=False, server_default=text("0.05"))
@@ -39,6 +39,7 @@ class StockList(Base):
     # Relationships
     positions = relationship("Positions", back_populates="stock", cascade="all, delete-orphan")
     holdings = relationship("Holdings", back_populates="stock", cascade="all, delete-orphan")
+    exchange_rel = relationship("ExchangeList", back_populates="stock_list")
 
     __table_args__ = (
         # Composite unique constraint (needed for FK in Positions)

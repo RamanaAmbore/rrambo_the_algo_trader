@@ -4,19 +4,19 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_THREAD_SCHEDULE_XREF
+from src.settings.constants_manager import Source, DEF_THREAD_SCHEDULE_XREF
 from .base import Base
 
 logger = get_logger(__name__)
 
 
 class ThreadSchedule(Base):
-    """Model for mapping threads to schedules."""
+    """Model for mapping threads to schedule_list."""
     __tablename__ = "thread_schedule"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(String(30), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
-    schedule = Column(String(10), ForeignKey("schedules.schedule", ondelete="CASCADE"), nullable=False)
+    thread = Column(String(30), ForeignKey("thread_list.thread", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(10), ForeignKey("schedule_list.schedule", ondelete="CASCADE"), nullable=False)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -26,7 +26,7 @@ class ThreadSchedule(Base):
 
     # Relationships
     algo_thread = relationship("AlgoThreads", back_populates="thread_schedule")
-    schedules = relationship("Schedules", back_populates="thread_schedule")
+    schedule_list = relationship("Schedules", back_populates="thread_schedule")
 
     __table_args__ = (
         UniqueConstraint('thread', 'schedule', name='uq_thread_schedule'),
@@ -42,7 +42,7 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = ThreadSchedule.__table__
-        for record in DEFAULT_THREAD_SCHEDULE_XREF:
+        for record in DEF_THREAD_SCHEDULE_XREF:
             exists = connection.execute(
                 select(table).where(
                     table.c.thread == record['thread'],

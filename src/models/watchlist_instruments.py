@@ -26,7 +26,7 @@ class WatchlistInstruments(Base):
                          name="uq_watchlist_instruments"),
 
         # Foreign key reference for (watchlist, account)
-        ForeignKeyConstraint(["watchlist", "account"], ["watchlists.watchlist", "watchlists.account"],
+        ForeignKeyConstraint(["watchlist", "account"], ["watch_list.watchlist", "watch_list.account"],
                              ondelete="CASCADE", name="fk_watchlist_account"),
 
         # Foreign key reference for (tradingsymbol, instrument_token, exchange)
@@ -35,7 +35,7 @@ class WatchlistInstruments(Base):
                              ondelete="CASCADE", name="fk_stock_list")
     )
 
-    watchlist_rel = relationship("Watchlists", back_populates="watchlist_instruments")
+    watchlist_rel = relationship("WatchList", back_populates="watchlist_instruments")
 
     def __repr__(self):
         return f"<WatchlistInstrument(id={self.id}, watchlist='{self.watchlist}', " \

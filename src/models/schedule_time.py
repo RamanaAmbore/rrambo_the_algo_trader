@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_ALGO_SCHEDULE_TIME_RECORDS
+from src.settings.constants_manager import Source, DEF_ALGO_SCHEDULE_TIME_RECORDS
 from .base import Base
 
 logger = get_logger(__name__)
@@ -16,7 +16,8 @@ class ScheduleTime(Base):
     __tablename__ = "schedule_time"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    schedule = Column(String(10), ForeignKey("schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(10), ForeignKey("schedule_list.schedule", ondelete="CASCADE"), nullable=False)
+    exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=False)
     market_date = Column(Date, nullable=True)
     weekday = Column(String(10), nullable=True)
     start_time = Column(Time, nullable=True)
@@ -30,7 +31,8 @@ class ScheduleTime(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    schedules = relationship("Schedules", back_populates="schedule_time")
+    schedule_list = relationship("Schedules", back_populates="schedule_time")
+    exchange_rel = relationship("ExchangeList", back_populates="schedule_times")
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),
@@ -50,7 +52,7 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = ScheduleTime.__table__
-        for record in DEFAULT_ALGO_SCHEDULE_TIME_RECORDS:
+        for record in DEF_ALGO_SCHEDULE_TIME_RECORDS:
             exists = connection.execute(
                 select(table).where(
                     table.c.schedule == record['schedule'],

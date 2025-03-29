@@ -2,7 +2,7 @@ import asyncio
 
 from sqlalchemy import select
 from src.core.database_manager import DatabaseManager as Db
-from src.models import ScheduleTime, ThreadSchedule, AlgoThreads
+from src.models import ScheduleTime, ThreadSchedule, ThreadList
 from src.services.service_schedules import get_market_hours_for_today
 
 
@@ -11,14 +11,14 @@ async def get_active_thread_schedule_times(account=None):
     async with Db.get_async_session() as session:
         stmt = (
             select(
-                AlgoThreads.thread,
+                ThreadList.thread,
                 ThreadSchedule.schedule,
                 ScheduleTime.start_time,
                 ScheduleTime.end_time
             )
-            .join(ThreadSchedule, AlgoThreads.thread == ThreadSchedule.thread)
+            .join(ThreadSchedule, ThreadList.thread == ThreadSchedule.thread)
             .join(ScheduleTime, ThreadSchedule.schedule == ScheduleTime.schedule)
-            .where(AlgoThreads.is_active == True)
+            .where(ThreadList.is_active == True)
         )
         result = await session.execute(stmt)
         thread_schedules = result.all()  # List of tuples

@@ -3,15 +3,15 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_ALGO_THREADS
+from src.settings.constants_manager import Source, DEF_ALGO_THREADS
 from .base import Base
 
 logger = get_logger(__name__)
 
 
-class AlgoThreads(Base):
+class ThreadList(Base):
     """Model for storing thread definitions."""
-    __tablename__ = "algo_threads"
+    __tablename__ = "thread_list"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(30), nullable=False, unique=True)  # Changed length to match ThreadStatus
@@ -42,8 +42,8 @@ class AlgoThreads(Base):
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
-        table = AlgoThreads.__table__
-        for record in DEFAULT_ALGO_THREADS:
+        table = ThreadList.__table__
+        for record in DEF_ALGO_THREADS:
             exists = connection.execute(select(table.c.thread).where(
                 table.c.thread == record['thread'])).scalar_one_or_none() is not None
 

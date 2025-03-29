@@ -16,9 +16,9 @@ class ThreadStatusTracker(Base):
     __tablename__ = "thread_status_tracker"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    thread = Column(String(30), ForeignKey("algo_threads.thread", ondelete="CASCADE"), nullable=False)
+    thread = Column(String(30), ForeignKey("thread_list.thread", ondelete="CASCADE"), nullable=False)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
-    schedule = Column(String(10), ForeignKey("schedules.schedule", ondelete="CASCADE"), nullable=False)
+    schedule = Column(String(10), ForeignKey("schedule_list.schedule", ondelete="CASCADE"), nullable=False)
     thread_status = Column(String(20), nullable=False, default=ThreadStatus.IN_PROGRESS)
     run_count = Column(Integer, nullable=False, default=0)
     error_count = Column(Integer, nullable=False, default=0)
@@ -32,7 +32,7 @@ class ThreadStatusTracker(Base):
     # Relationships
     algo_thread = relationship("AlgoThreads", back_populates="thread_status_tracker")
     broker_account = relationship("BrokerAccounts", back_populates="thread_status_tracker")
-    schedules = relationship("Schedules", back_populates="thread_status_tracker")
+    schedule_list = relationship("Schedules", back_populates="thread_status_tracker")
 
     __table_args__ = (
         UniqueConstraint('thread', 'account', 'timestamp', name='uq_algo_thread_account'),

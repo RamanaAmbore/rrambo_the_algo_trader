@@ -4,15 +4,15 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEFAULT_WATCHLISTS
+from src.settings.constants_manager import Source, DEF_WATCHLISTS
 from .base import Base
 
 logger = get_logger(__name__)
 
 
-class Watchlists(Base):
-    """Model for storing user watchlists."""
-    __tablename__ = "watchlists"
+class WatchList(Base):
+    """Model for storing user watch_list."""
+    __tablename__ = "watch_list"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), nullable=False)
@@ -37,8 +37,8 @@ class Watchlists(Base):
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
-        table = Watchlists.__table__
-        for record in DEFAULT_WATCHLISTS:
+        table = WatchList.__table__
+        for record in DEF_WATCHLISTS:
             exists = connection.execute(
                 select(table.c.watchlist, table.c.account).where(
                     (table.c.watchlist == record['watchlist']) & (table.c.account == record.get('account'))

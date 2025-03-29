@@ -3,7 +3,7 @@ import time
 
 from kiteconnect import KiteTicker
 
-from src.models.schedules import ScheduleTime
+from src.models.schedule_list import ScheduleTime
 from src.settings.parameter_manager import const
 from src.helpers.date_time_utils import today_indian, current_time_indian
 from src.core.database_manager import DatabaseManager as Db

@@ -7,7 +7,7 @@ if you need to delete the tables:
 drop table  access_tokens cascade;
 drop table  backtest_results cascade;
 drop table  schedule_time cascade;
-drop table  schedules cascade;
+drop table  schedule_list cascade;
 drop table  option_contracts cascade;
 drop table  option_greeks cascade;
 drop table  option_strategies cascade;
@@ -17,7 +17,7 @@ drop table  positions cascade;
 drop table  stock_list cascade;
 drop table  strategy_config cascade;
 drop table  trades cascade;
-drop table  watchlists cascade;
+drop table  watch_list cascade;
 drop table  watchlist_instruments cascade;
 drop table  BrokerAccounts cascade;
 drop table  report_ledger_entries cascade;

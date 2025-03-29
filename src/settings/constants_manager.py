@@ -83,20 +83,21 @@ Type = SimpleNamespace(FLOAT='float', BOOL='bool', INT='int', STR='str')
 Thread = SimpleNamespace(**{"socket_ticker": Schedule.MARKET, "sync_stock_reports": Schedule.PRE_MARKET,
                             "sync_stock_list": Schedule.PRE_MARKET,
                             "sync_holdings": Schedule.PRE_MARKET, "sync_positions": Schedule.PRE_MARKET,
-                            'update_watchlists': Schedule.PRE_MARKET
+                            'update_watch_list': Schedule.PRE_MARKET
                             })
+
 # Default configurations
-DEFAULT_ACCESS_TOKENS = (
+DEF_ACCESS_TOKENS = (
     {'account': Account.ACCOUNT1, 'token': None},
     {'account': Account.ACCOUNT2, 'token': None}
 )
 
-DEFAULT_ALGO_THREADS = tuple({"thread": thread} for thread in vars(Thread) if not thread.startswith('_'))
+DEF_ALGO_THREADS = tuple({"thread": thread} for thread in vars(Thread) if not thread.startswith('_'))
 
-DEFAULT_ALGO_SCHEDULES = tuple(
+DEF_ALGO_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
-DEFAULT_ALGO_SCHEDULE_TIME_RECORDS = (
+DEF_ALGO_SCHEDULE_TIME_RECORDS = (
     {'weekday': Weekday.GLOBAL, 'schedule': Schedule.MARKET, 'start_time': time(9, 0), 'end_time': time(15, 30),
      'is_active': True},
     {'weekday': Weekday.SATURDAY, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
@@ -106,14 +107,14 @@ DEFAULT_ALGO_SCHEDULE_TIME_RECORDS = (
      'is_active': True}
 )
 
-DEFAULT_THREAD_SCHEDULE_XREF = ({'thread': k, 'schedule': v} for k, v in vars(Thread).items())
+DEF_THREAD_SCHEDULE_XREF = ({'thread': k, 'schedule': v} for k, v in vars(Thread).items())
 
-DEFAULT_BROKER_ACCOUNTS = (
+DEF_BROKER_ACCOUNTS = (
     {'account': Account.ACCOUNT1, 'broker_name': 'Zerodha', 'notes': 'Haritha account'},
     {'account': Account.ACCOUNT2, 'broker_name': 'Zerodha', 'notes': 'Ramana account'}
 )
 
-DEFAULT_WATCHLISTS = (
+DEF_WATCHLISTS = (
     {'watchlist': f'{Account.ACCOUNT1}_POSITIONS', 'account': Account.ACCOUNT1},
     {'watchlist': f'{Account.ACCOUNT1}_HOLDINGS', 'account': Account.ACCOUNT1},
     {'watchlist': f'{Account.ACCOUNT2}_POSITIONS', 'account': Account.ACCOUNT2},
@@ -124,9 +125,19 @@ DEFAULT_WATCHLISTS = (
     {'watchlist': 'HOT_STOCKS'}, {'watchlist': 'TURNAROUND'}, {'watchlist': 'WATCHLIST'}
 )
 
+DEF_EXCHANGES = (
+    {"exchange": "NSE", "desc": "National Stock Exchange of India"},
+    {"exchange": "BSE", "desc": "Bombay Stock Exchange"},
+    {"exchange": "NFO", "desc": "NSE Futures & Options (Derivatives)"},
+    {"exchange": "BFO", "desc": "BSE Futures & Options (Derivatives)"},
+    {"exchange": "CDS", "desc": "Currency Derivatives (NSE)"},
+    {"exchange": "MCX", "desc": "Multi Commodity Exchange"},
+    {"exchange": "MCXSX", "desc": "MCX Stock Exchange (Deprecated, now part of CDS)"},
+)
+
 # Load environment variables from .env file
 env_vars = dotenv_values()
-DEFAULT_PARAMETERS = tuple(
+DEF_PARAMETERS = tuple(
     [{'parameter': key, 'value': val} for key, val in env_vars.items() if not key.startswith('ACCOUNT')] + [
         {'account': Account.ACCOUNT1, 'parameter': 'API_KEY', 'value': os.getenv('ACCOUNT1_API_KEY'),
          'encrypted': True},
