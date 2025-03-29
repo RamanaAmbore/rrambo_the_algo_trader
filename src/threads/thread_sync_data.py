@@ -4,6 +4,7 @@ from src.core.report_downloader import ReportDownloader
 from src.core.report_uploader import ReportUploader
 from src.core.zerodha_kite_connect import ZerodhaKiteConnect
 from src.helpers.logger import get_logger
+from src.services.service_exchange_list import service_exchange_list
 from src.services.service_holdings import service_holdings
 from src.services.service_positions import service_positions
 from src.services.service_stock_list import service_stock_list
@@ -18,7 +19,8 @@ async def sync_stock_list():
     try:
         logger.info("Fetching complete stock list from Kite API...")
         records = await asyncio.to_thread(kite.instruments)  # Run in a separate thread
-
+        exchange_set = {record["exchange"] for record in records}
+        await service_exchange_list.validate_insert_records(records)  # Async DB insert
         await service_stock_list.validate_insert_records(records)  # Async DB insert
         logger.info("Stock list successfully updated.")
     except Exception as e:
