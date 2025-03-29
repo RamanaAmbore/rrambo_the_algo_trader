@@ -56,7 +56,8 @@ def initialize_default_records(connection):
             exists = connection.execute(
                 select(table).where(
                     table.c.schedule == record['schedule'],
-                    table.c.weekday == record['weekday']
+                    table.c.weekday == record['weekday'],
+                    table.c.exchange == record['exchange']
                 )
             ).scalar_one_or_none() is not None
 

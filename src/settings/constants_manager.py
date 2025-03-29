@@ -98,14 +98,14 @@ DEF_ALGO_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
 DEF_ALGO_SCHEDULE_TIME_RECORDS = (
-    {'weekday': Weekday.GLOBAL, 'schedule': Schedule.MARKET, 'start_time': time(9, 00), 'end_time': time(15, 30),
+    {'weekday': Weekday.GLOBAL, 'exchange': None,'schedule': Schedule.MARKET, 'start_time': time(9, 00), 'end_time': time(15, 30),
      'is_active': True},
     {'weekday': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': time(8, 30), 'end_time': time(23, 15),
      'is_active': True},
-    {'weekday': Weekday.SATURDAY, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
+    {'weekday': Weekday.SATURDAY, 'exchange': None,'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
      'is_active': False},
-    {'weekday': Weekday.SUNDAY, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None, 'is_active': False},
-    {'weekday': Weekday.SATURDAY, 'schedule': Schedule.PRE_MARKET, 'start_time': time(8, 30), 'end_time': None,
+    {'weekday': Weekday.SUNDAY, 'exchange': None,'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None, 'is_active': False},
+    {'weekday': Weekday.SATURDAY, 'exchange': None,'schedule': Schedule.PRE_MARKET, 'start_time': time(8, 30), 'end_time': None,
      'is_active': True}
 )
 

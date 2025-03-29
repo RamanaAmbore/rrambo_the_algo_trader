@@ -32,7 +32,8 @@ class ExchangeList(Base):
     schedule_time = relationship("ScheduleTime", back_populates="exchange_rel", cascade="all, delete-orphan")
 
     __table_args__ = (
-        UniqueConstraint("exchange", name="uq_exchange")
+        UniqueConstraint("exchange", name="uq_exchange"),
+        Index("idx_exchange", "exchange"),
     )
 
     def __repr__(self):
