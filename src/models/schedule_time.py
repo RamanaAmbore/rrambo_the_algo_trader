@@ -17,7 +17,7 @@ class ScheduleTime(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(10), ForeignKey("schedule_list.schedule", ondelete="CASCADE"), nullable=False)
-    exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=False)
+    exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=True)
     market_date = Column(Date, nullable=True)
     weekday = Column(String(10), nullable=True)
     start_time = Column(Time, nullable=True)
@@ -31,13 +31,13 @@ class ScheduleTime(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    schedule_list = relationship("Schedules", back_populates="schedule_time")
-    exchange_rel = relationship("ExchangeList", back_populates="schedule_times")
+    schedule_list = relationship("ScheduleList", back_populates="schedule_time")
+    exchange_rel = relationship("ExchangeList", back_populates="schedule_time")
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),
-        UniqueConstraint('schedule', 'market_date', 'weekday', 'start_time', name='uq_schedule_time'),
-        Index('idx_schedule_time', 'schedule', 'market_date', 'weekday'),)
+        UniqueConstraint('schedule', 'market_date', 'exchange', 'weekday', 'start_time', name='uq_schedule_time'),
+        Index('idx_schedule_time', 'schedule', 'market_date', 'exchange', 'weekday'),)
 
     def __repr__(self):
         return (f"<ScheduleTime(id={self.id}, "
@@ -65,5 +65,5 @@ def initialize_default_records(connection):
         connection.commit()
         logger.info('Default Schedule Time records inserted/updated')
     except SQLAlchemyError as e:
-        logger.error(f"Error managing default Algo Schedule Time records: {e}")
+        logger.error(f"Error managing default Schedule Time records: {e}")
         raise

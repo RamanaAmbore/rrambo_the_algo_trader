@@ -25,8 +25,8 @@ class ThreadSchedule(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_thread = relationship("AlgoThreads", back_populates="thread_schedule")
-    schedule_list = relationship("Schedules", back_populates="thread_schedule")
+    algo_thread = relationship("ThreadList", back_populates="thread_schedule")
+    schedule_list = relationship("ScheduleList", back_populates="thread_schedule")
 
     __table_args__ = (
         UniqueConstraint('thread', 'schedule', name='uq_thread_schedule'),
@@ -53,7 +53,7 @@ def initialize_default_records(connection):
             if not exists:
                 connection.execute(table.insert(), record)
         connection.commit()
-        logger.info('Default Algo Thread Schedule Xref records inserted/updated')
+        logger.info('Default Thread Schedule records inserted/updated')
     except Exception as e:
-        logger.error(f"Error managing default Algo Thread Schedule Xref records: {e}")
+        logger.error(f"Error managing default Thread Schedule records: {e}")
         raise

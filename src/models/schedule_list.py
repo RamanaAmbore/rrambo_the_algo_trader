@@ -52,9 +52,9 @@ def initialize_default_records(connection):
             if not exists:
                 connection.execute(table.insert(), record)
         connection.commit()
-        logger.info('Default Algo Schedule records inserted/updated')
+        logger.info('Default Schedule List records inserted/updated')
     except Exception as e:
-        logger.error(f"Error managing default Alog Schedule records: {e}")
+        logger.error(f"Error managing default Schedule List records: {e}")
         raise
 
 

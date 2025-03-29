@@ -48,9 +48,9 @@ def initialize_default_records(connection):
             if exists is None:  # Fixes the boolean check issue
                 connection.execute(table.insert(), record)
         connection.commit()
-        logger.info('Default Watchlist records inserted/updated')
+        logger.info('Default Watch List records inserted/updated')
     except Exception as e:
-        logger.error(f"Error inserting default Watchlist records: {e}", exc_info=True)
+        logger.error(f"Error inserting default Watch List records: {e}", exc_info=True)
         raise
 
 

@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
 from src.helpers.logger import get_logger
-from src.models import ParameterTable
+from src.models import ParameterTable, schedule_time, exchange_list
 from src.models import access_tokens
 from src.models import schedule_list
 from src.models import schedule_list
@@ -106,15 +106,22 @@ class DatabaseManager:
         Base.metadata.create_all(cls._engine)
         # Manually initialize default records
 
+        cls.insert_default_records()
+
+    @classmethod
+    def insert_default_records(cls):
         with cls._engine.connect() as connection:
             broker_accounts.initialize_default_records(connection)
+
             access_tokens.initialize_default_records(connection)
+            exchange_list.initialize_default_records(connection)
             schedule_list.initialize_default_records(connection)
-            schedule_time.initialize_default_records(connection)
+            watch_list.initialize_default_records(connection)
             thread_list.initialize_default_records(connection)
+
+            schedule_time.initialize_default_records(connection)
             thread_schedule.initialize_default_records(connection)
             parameter_table.initialize_default_records(connection)
-            watch_list.initialize_default_records(connection)
 
     @classmethod
     def initialize_parameters(cls, refresh=False) -> None:

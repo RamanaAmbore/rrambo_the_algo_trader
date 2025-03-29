@@ -30,9 +30,9 @@ class ThreadStatusTracker(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_thread = relationship("AlgoThreads", back_populates="thread_status_tracker")
+    algo_thread = relationship("ThreadList", back_populates="thread_status_tracker")
     broker_account = relationship("BrokerAccounts", back_populates="thread_status_tracker")
-    schedule_list = relationship("Schedules", back_populates="thread_status_tracker")
+    schedule_list = relationship("ScheduleList", back_populates="thread_status_tracker")
 
     __table_args__ = (
         UniqueConstraint('thread', 'account', 'timestamp', name='uq_algo_thread_account'),

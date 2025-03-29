@@ -50,7 +50,7 @@ def initialize_default_records(connection):
             if not exists:
                 connection.execute(table.insert(), record)
         connection.commit()
-        logger.info('Default Algo Thread records inserted/updated')
+        logger.info('Default Thread List records inserted/updated')
     except Exception as e:
-        logger.error(f"Error managing default Algo Threads records: {e}")
+        logger.error(f"Error managing default Thread List records: {e}")
         raise

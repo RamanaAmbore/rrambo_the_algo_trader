@@ -6,7 +6,7 @@ from src.models import ScheduleTime, ThreadSchedule, ThreadList
 from src.services.service_schedules import get_market_hours_for_today
 
 
-async def get_active_thread_schedule_times(account=None):
+async def get_active_thread_schedule_time(account=None):
     """Fetch start and end times for active threads based on market hours."""
     async with Db.get_async_session() as session:
         stmt = (
@@ -38,7 +38,7 @@ async def get_active_thread_schedule_times(account=None):
 
 # Simple test runner for async SQLAlchemy call
 async def main():
-    results = await get_active_thread_schedule_times()
+    results = await get_active_thread_schedule_time()
     print("\n🧪 Active Thread Schedule Timings:\n")
     print(results)  # pretty prints list of tuples
 

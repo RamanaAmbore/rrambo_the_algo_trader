@@ -19,7 +19,7 @@ class ExchangeList(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     exchange = Column(String(10), nullable=False, unique=True)  # NSE, BSE, etc.
     desc = Column(String(255), nullable=True)
-    country = Column(String(50), nullable=False)  # India, USA, etc.
+    country = Column(String(50), nullable=False, default="INDIA")  # India, USA, etc.
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -29,32 +29,31 @@ class ExchangeList(Base):
 
     # Relationships
     stock_list = relationship("StockList", back_populates="exchange_rel", cascade="all, delete-orphan")
-    schedule_times = relationship("ScheduleTime", back_populates="exchange_rel", cascade="all, delete-orphan")
+    schedule_time = relationship("ScheduleTime", back_populates="exchange_rel", cascade="all, delete-orphan")
 
     __table_args__ = (
-        UniqueConstraint("exchange", name="uq_exchange"),
-        Index("idx_exchange", "exchange"),
+        UniqueConstraint("exchange", name="uq_exchange")
     )
 
     def __repr__(self):
         return (f"<ExchangeList(id={self.id}, exchange='{self.exchange}', country='{self.country}', "
                 f"source='{self.source}', timestamp={self.timestamp})>")
 
-def initialize_default_records(connection):
-        """Initialize default records in the table."""
-        try:
-            table = ExchangeList.__table__
-            for record in DEF_EXCHANGES:
-                exists = connection.execute(
-                    select(table).where(
-                        table.c.exchange == record['exchange']
-                    )
-                ).scalar_one_or_none() is not None
 
-                if not exists:
-                    connection.execute(table.insert(), record)
-            connection.commit()
-            logger.info('Default Exchange records inserted/updated')
-        except SQLAlchemyError as e:
-            logger.error(f"Error managing default Algo Schedule Time records: {e}")
-            raise
+def initialize_default_records(connection):
+    """Initialize default records in the table."""
+    try:
+        table = ExchangeList.__table__
+        for record in DEF_EXCHANGES:
+            exists = connection.execute(
+                select(table).where(table.c.exchange == record['exchange'])
+            ).fetchone() is not None  # Fetch one record instead of scalar_one_or_none
+
+            if not exists:
+                connection.execute(table.insert().values(record))
+
+        connection.commit()
+        logger.info('Default Exchange List records inserted/updated')
+    except Exception as e:
+        logger.error(f"Error managing default Exchange List records: {e}")
+        raise
