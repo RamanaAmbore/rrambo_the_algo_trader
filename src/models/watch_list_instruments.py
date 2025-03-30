@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKeyConstraint, UniqueConstraint, func, DECIMAL,
-                        Index, select)
+                        Index, select, event)
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -8,6 +8,7 @@ from .base import Base
 from ..settings.constants_manager import Source, DEF_WATCHLIST_INSTRUMENTS
 
 logger = get_logger(__name__)
+
 
 class WatchListInstruments(Base):
     """Model for storing instruments in a watchlist."""
@@ -19,6 +20,12 @@ class WatchListInstruments(Base):
     tradingsymbol = Column(String(50), nullable=False, index=True)  # Index added
     instrument_token = Column(Integer, nullable=True, index=True)  # Index added
     exchange = Column(String(20), nullable=False)
+
+    
+    prev_close_price = Column(DECIMAL(12, 4), nullable=True, default=0)
+    last_price = Column(DECIMAL(12, 4), nullable=True, default=0)
+    change = Column(DECIMAL(12, 4), nullable=True, default=0)
+    change_percent = Column(DECIMAL(5, 2), nullable=True, default=0)
 
     buy_price = Column(DECIMAL(12, 4), nullable=True, default=0)
     buy_quantity = Column(Integer, nullable=True, default=0)

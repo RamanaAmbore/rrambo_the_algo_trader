@@ -80,10 +80,10 @@ Schedule = SimpleNamespace(MARKET='MARKET', PRE_MARKET='PRE_MARKET')
 
 Type = SimpleNamespace(FLOAT='float', BOOL='bool', INT='int', STR='str')
 
-Thread = SimpleNamespace(**{"socket_ticker": Schedule.MARKET, "sync_stock_reports": Schedule.PRE_MARKET,
+Thread = SimpleNamespace(**{"start_socket_ticker": Schedule.MARKET, "sync_stock_reports": Schedule.PRE_MARKET,
                             "sync_stock_list": Schedule.PRE_MARKET,
                             "sync_holdings": Schedule.PRE_MARKET, "sync_positions": Schedule.PRE_MARKET,
-                            'update_watch_list': Schedule.PRE_MARKET
+                            'sync_watch_list': Schedule.PRE_MARKET
                             })
 
 # Default configurations

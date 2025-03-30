@@ -8,24 +8,41 @@ from src.services.service_exchange_list import service_exchange_list
 from src.services.service_holdings import service_holdings
 from src.services.service_positions import service_positions
 from src.services.service_stock_list import service_stock_list
+from src.services.service_watch_list_instruments import (update_watchlist_with_ohlc,
+                                                         get_watchlist_instrument_tokens)
 
 logger = get_logger(__name__)  # Initialize logger
 
 kite = ZerodhaKiteConnect.get_kite_conn()
 
+records = None
 
 async def sync_stock_list():
     """Fetches stock list from Kite API without filtering and updates the database."""
+    global records
     try:
         logger.info("Fetching complete stock list from Kite API...")
         records = await asyncio.to_thread(kite.instruments)  # Run in a separate thread
         exchange_set = {record["exchange"] for record in records}
-        exchange_set = [{'exchange':record} for record in exchange_set]
+        exchange_set = [{'exchange': record} for record in exchange_set]
         await service_exchange_list.validate_insert_records(exchange_set)  # Async DB insert
         await service_stock_list.validate_insert_records(records)  # Async DB insert
-        logger.info("Stock list successfully updated.")
+
+        logger.info("Stock List successfully updated.")
     except Exception as e:
         logger.error(f"Error fetching stock list: {e}")
+
+
+async def sync_watch_list():
+    """Fetches stock list from Kite API without filtering and updates the database."""
+    try:
+        logger.info("Fetching OHLC data for watch list...")
+        rec_fields, instrument_tokens = await get_watchlist_instrument_tokens(records)
+        ohlc_data = kite.ohlc(instrument_tokens)
+        await update_watchlist_with_ohlc(rec_fields, instrument_tokens, ohlc_data)
+        logger.info("Watch List successfully updated.")
+    except Exception as e:
+        logger.error(f"Error fetching watch list: {e}")
 
 
 async def sync_stock_reports():
@@ -79,9 +96,11 @@ async def run():
     await asyncio.gather(
         # sync_stock_reports(),
         sync_stock_list(),
-        # sync_holdings(),
-        # sync_positions()
+        sync_holdings(),
+        sync_positions(),
+
     )
+    await sync_watch_list()
 
 
 if __name__ == "__main__":
