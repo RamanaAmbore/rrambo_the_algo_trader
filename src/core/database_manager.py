@@ -118,7 +118,6 @@ class DatabaseManager:
             schedule_list.initialize_default_records(connection)
             watch_list.initialize_default_records(connection)
             thread_list.initialize_default_records(connection)
-            watch_list.initialize_default_records(connection)
             schedule_list.initialize_default_records(connection)
             watch_list_instruments.initialize_default_records(connection)
 

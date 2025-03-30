@@ -20,7 +20,7 @@ class Positions(Base):
     __tablename__ = "positions"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
     tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False)

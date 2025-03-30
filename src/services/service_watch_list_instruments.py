@@ -1,4 +1,4 @@
-from sqlalchemy import union_all, literal, bindparam
+from sqlalchemy import union_all, literal, bindparam, union
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
@@ -17,7 +17,7 @@ async def get_watchlist_instrument_tokens(all_instruments):
     async with Db.get_async_session() as session:
         try:
             # Step 1: Get distinct trading symbols, exchanges, accounts, and watchlists
-            stmt = union_all(
+            stmt = union(
                 # Watchlist: Use existing account and watchlist value
                 select(
                     WatchListInstruments.tradingsymbol,
@@ -31,7 +31,7 @@ async def get_watchlist_instrument_tokens(all_instruments):
                     Positions.tradingsymbol,
                     Positions.exchange,
                     Positions.account,
-                    literal('positions').label("watchlist")
+                    literal('POSITIONS').label("watchlist")
                 ).distinct(),
 
                 # Holdings: Fetch account number, add 'holdings' as watchlist type
@@ -39,7 +39,7 @@ async def get_watchlist_instrument_tokens(all_instruments):
                     Holdings.tradingsymbol,
                     Holdings.exchange,
                     Holdings.account,
-                    literal('holdings').label("watchlist")
+                    literal('HOLDINGS').label("watchlist")
                 ).distinct()
             )
 
@@ -65,11 +65,11 @@ async def get_watchlist_instrument_tokens(all_instruments):
                 else:
                     logger.warning(f"Instrument token not found for {tradingsymbol} ({exchange})")
 
-            logger.info(f"Fetched {len(instrument_tokens)} unique instrument tokens.")
+            logger.info(f"Fetched {len(instrument_tokens)} unique watch list instrument tokens.")
             return rec_fields, instrument_tokens
 
         except SQLAlchemyError as e:
-            logger.error(f"Error fetching instrument tokens: {e}", exc_info=True)
+            logger.error(f"Error fetching watch list instrument tokens: {e}", exc_info=True)
             return None, []
 
 
@@ -91,7 +91,7 @@ async def update_watchlist_with_ohlc(results, instrument_tokens, ohlc_data):
             prev_close_price = ohlc.get('last_price')
             change= last_price - prev_close_price
             records.append({
-                "account": result[2],
+                "account": '*' if result[2] is None else result[2] ,
                 "watchlist": result[3],
                 "tradingsymbol": result[0],
                 "exchange": result[1],
@@ -104,7 +104,7 @@ async def update_watchlist_with_ohlc(results, instrument_tokens, ohlc_data):
             })
 
     if not records:
-        logger.info("No valid OHLC data found for the watchlist.")
+        logger.info("No valid OHLC data found for the watch list instruments.")
         return
 
     async with Db.get_async_session() as session:
@@ -124,8 +124,8 @@ async def update_watchlist_with_ohlc(results, instrument_tokens, ohlc_data):
 
             await session.execute(stmt)
             await session.commit()
-            logger.info(f"Updated OHLC data for {len(records)} instruments.")
+            logger.info(f"Updated OHLC data for {len(records)} watch list instruments.")
 
         except SQLAlchemyError as e:
-            logger.error(f"Error updating watchlist with OHLC data: {e}", exc_info=True)
+            logger.error(f"Error updating watch list instruments table with OHLC data: {e}", exc_info=True)
             await session.rollback()

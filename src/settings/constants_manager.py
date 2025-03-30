@@ -117,17 +117,20 @@ DEF_THREAD_SCHEDULE_XREF = ({'thread': k, 'schedule': v} for k, v in vars(Thread
 
 DEF_BROKER_ACCOUNTS = (
     {'account': Account.ACCOUNT1, 'broker_name': 'Zerodha', 'notes': 'Haritha account'},
-    {'account': Account.ACCOUNT2, 'broker_name': 'Zerodha', 'notes': 'Ramana account'}
+    {'account': Account.ACCOUNT2, 'broker_name': 'Zerodha', 'notes': 'Ramana account'},
+    {'account': '*', 'broker_name': 'Zerodha', 'notes': 'Ramana account'}
 )
 
 DEF_WATCHLISTS = (
-    {'watchlist': f'{Account.ACCOUNT1}_POSITIONS', 'account': Account.ACCOUNT1},
-    {'watchlist': f'{Account.ACCOUNT1}_HOLDINGS', 'account': Account.ACCOUNT1},
-    {'watchlist': f'{Account.ACCOUNT2}_POSITIONS', 'account': Account.ACCOUNT2},
-    {'watchlist': f'{Account.ACCOUNT2}_HOLDINGS', 'account': Account.ACCOUNT2},
+    {'watchlist': 'POSITIONS', 'account': Account.ACCOUNT1},
+    {'watchlist': 'HOLDINGS', 'account': Account.ACCOUNT1},
+    {'watchlist': 'POSITIONS', 'account': Account.ACCOUNT2},
+    {'watchlist': 'HOLDINGS', 'account': Account.ACCOUNT2},
     {'watchlist': 'INDEX_MINI'},
     {'watchlist': 'INDEX'},
-    {'watchlist': 'OPTION_STOCKS'}, {'watchlist': 'WATCHLIST'},{'watchlist': 'COMMODITIES'}
+    {'watchlist': 'OPTION_STOCKS'},
+    {'watchlist': 'WATCHLIST'},
+    {'watchlist': 'COMMODITIES'}
 )
 
 DEF_WATCHLIST_INSTRUMENTS = (

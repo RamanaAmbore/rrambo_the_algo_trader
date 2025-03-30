@@ -16,7 +16,7 @@ class WatchListInstruments(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), nullable=False)
-    account = Column(String(10), nullable=True)
+    account = Column(String(10), nullable=False,default='*')
     tradingsymbol = Column(String(50), nullable=False, index=True)  # Index added
     instrument_token = Column(Integer, nullable=True, index=True)  # Index added
     exchange = Column(String(20), nullable=False)
@@ -67,6 +67,9 @@ class WatchListInstruments(Base):
                f"instrument_token='{self.instrument_token}', exchange='{self.exchange}')>"
 
 
+
+
+
 def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
@@ -75,8 +78,8 @@ def initialize_default_records(connection):
             stmt = select(table.c.watchlist).where(
                 (table.c.watchlist == record['watchlist']) &
                 (table.c.tradingsymbol == record['tradingsymbol']) &
-                (table.c.exchange == record.get('exchange')) &
-                (table.c.account == record.get('account', None))  # Default to None if not present
+                (table.c.exchange == record['exchange']) &
+                (table.c.account == record.get('account','*'))  # Default to None if not present
             )
             exists = connection.execute(stmt).scalar_one_or_none()
 

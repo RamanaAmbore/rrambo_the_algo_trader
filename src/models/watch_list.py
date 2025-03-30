@@ -16,7 +16,7 @@ class WatchList(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), nullable=False)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,default='*')
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -41,7 +41,7 @@ def initialize_default_records(connection):
         for record in DEF_WATCHLISTS:
             exists = connection.execute(
                 select(table.c.watchlist, table.c.account).where(
-                    (table.c.watchlist == record['watchlist']) & (table.c.account == record.get('account'))
+                    (table.c.watchlist == record['watchlist']) & (table.c.account == record.get('account','*'))
                 )
             ).scalar_one_or_none()
 
