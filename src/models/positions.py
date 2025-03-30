@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
+from ..settings.constants_manager import Source
 
 logger = get_logger(__name__)
 
@@ -60,12 +61,12 @@ class Positions(Base):
     overnight_quantity = Column(Integer, nullable=False, default=0)  # Yesterday's quantity
     overnight_value = Column(DECIMAL(10, 2), nullable=False, default=0)  # Yesterday's value
 
-    source = Column(String(50), nullable=False, server_default="API")
-
+    source = Column(String(50), nullable=False, server_default=Source.API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
-    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian, onupdate=func.now(),
-                           server_default=text("CURRENT_TIMESTAMP"))
+    upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
+                           onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
+    notes = Column(String(255), nullable=True)
 
     broker_account = relationship("BrokerAccounts", back_populates="positions", passive_deletes=True)
     stock = relationship("StockList", back_populates="positions", passive_deletes=True)

@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="triggered database on_create function from database_manager">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="Exchange model successfully integrated">
+      <change afterPath="$PROJECT_DIR$/src/models/watch_list_instruments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/access_tokens.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_schedule_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_schedules.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_thread_schedule_xref.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/algo_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/algo_threads.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/parameter_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/parameter_table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watchlists.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlists.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/watchlist_instruments.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedule_time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedules.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,87 +52,94 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python tests.Python tests for cipher_utils.test_cipher.executor": "Run",
-    "Python tests.Python tests for db_connect.test_sync_session.executor": "Run",
-    "Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor": "Run",
-    "Python tests.Python tests for test_utils_funcs.test_to_decimal.executor": "Run",
-    "Python tests.Python tests for util_funcs.test_delete_folder_contents.executor": "Run",
-    "Python tests.Python tests in db_connect.py.executor": "Run",
-    "Python tests.Python tests in test_utils_funcs.py.executor": "Run",
-    "Python tests.Python.executor": "Run",
-    "Python.Python.executor": "Run",
-    "Python.SimpleDashboard.executor": "Run",
-    "Python.algo_thread_status.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.backend.executor": "Run",
-    "Python.broker_connection.executor": "Run",
-    "Python.cipher_utils.executor": "Debug",
-    "Python.database.executor": "Run",
-    "Python.database_manager (1).executor": "Run",
-    "Python.database_manager.executor": "Run",
-    "Python.date_time_utils.executor": "Debug",
-    "Python.db_conn.executor": "Run",
-    "Python.db_connect.executor": "Run",
-    "Python.db_connection (1).executor": "Run",
-    "Python.db_connection.executor": "Run",
-    "Python.db_manager.executor": "Run",
-    "Python.db_utils (1).executor": "Debug",
-    "Python.db_utils.executor": "Debug",
-    "Python.download_reports (1).executor": "Debug",
-    "Python.download_reports.executor": "Run",
-    "Python.fetch_parms (1).executor": "Run",
-    "Python.kite_api_login.executor": "Debug",
-    "Python.kite_connect (1).executor": "Debug",
-    "Python.kite_connection_new.executor": "Debug",
-    "Python.kite_get_access_token.executor": "Run",
-    "Python.load_reports (1).executor": "Run",
-    "Python.load_reports.executor": "Run",
-    "Python.logger.executor": "Run",
-    "Python.login (1).executor": "Run",
-    "Python.login.executor": "Debug",
-    "Python.login_new.executor": "Debug",
-    "Python.market_monitor.executor": "Run",
-    "Python.market_ticker (1).executor": "Debug",
-    "Python.market_ticker.executor": "Run",
-    "Python.parameter_loader (1).executor": "Run",
-    "Python.report_donwloader.executor": "Run",
-    "Python.report_downloader (1).executor": "Run",
-    "Python.report_downloader (2).executor": "Debug",
-    "Python.report_downloader.executor": "Run",
-    "Python.report_uploader.executor": "Run",
-    "Python.settings_loader.executor": "Run",
-    "Python.settings_loader_new.executor": "Run",
-    "Python.sync_data.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.test_db_utils.executor": "Debug",
-    "Python.thread_decorator.executor": "Debug",
-    "Python.thread_manager.executor": "Run",
-    "Python.thread_stock_list.executor": "Run",
-    "Python.zerodha_kite.executor": "Debug",
-    "Python.zerodha_socket.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "D:/rrambo_trader_new",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests for cipher_utils.test_cipher.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for db_connect.test_sync_session.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for test_utils_funcs.test_to_decimal.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests for util_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in db_connect.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in test_utils_funcs.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Python.executor&quot;: &quot;Run&quot;,
+    &quot;Python.SimpleDashboard.executor&quot;: &quot;Run&quot;,
+    &quot;Python.algo_thread_status.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.backend.executor&quot;: &quot;Run&quot;,
+    &quot;Python.broker_connection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.cipher_utils.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.database.executor&quot;: &quot;Run&quot;,
+    &quot;Python.database_manager (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.database_manager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.date_time_utils.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.db_conn.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_connect.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_connection (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_connection.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_manager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.db_utils (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.db_utils.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.download_reports (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.download_reports.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fetch_parms (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.kite_api_login.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.kite_connect (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.kite_connection_new.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.kite_get_access_token.executor&quot;: &quot;Run&quot;,
+    &quot;Python.load_reports (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.load_reports.executor&quot;: &quot;Run&quot;,
+    &quot;Python.logger.executor&quot;: &quot;Run&quot;,
+    &quot;Python.login (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.login.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.login_new.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.market_monitor.executor&quot;: &quot;Run&quot;,
+    &quot;Python.market_ticker (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.market_ticker.executor&quot;: &quot;Run&quot;,
+    &quot;Python.parameter_loader (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.report_donwloader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.report_downloader (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.report_downloader (2).executor&quot;: &quot;Debug&quot;,
+    &quot;Python.report_downloader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.report_uploader (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.report_uploader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.service_algo_thread_schedule_timing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.service_thread_schedule_timing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.settings_loader.executor&quot;: &quot;Run&quot;,
+    &quot;Python.settings_loader_new.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sync_data.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_db_utils.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.thread_decorator.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.thread_manager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.thread_schedule_timing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.thread_stock_list.executor&quot;: &quot;Run&quot;,
+    &quot;Python.thread_sync_data (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.thread_sync_data.executor&quot;: &quot;Run&quot;,
+    &quot;Python.zerodha_kite.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.zerodha_kite_connect.executor&quot;: &quot;Run&quot;,
+    &quot;Python.zerodha_socket.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/rrambo_trader_new&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new\services" />
       <recent name="D:\rrambo_trader_new" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\data" />
       <recent name="D:\rrambo_trader_new" />
       <recent name="D:\rrambo_trader_new\src\settings" />
-      <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.thread_stock_list">
+  <component name="RunManager" selected="Python.database_manager">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -155,7 +162,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="report_downloader (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="database_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -164,11 +171,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/core" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/report_downloader.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/database_manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -177,7 +184,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="report_uploader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="service_thread_schedule_timing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -186,11 +193,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/services" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/report_uploader.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\services\service_thread_schedule_timing.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -199,7 +206,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="thread_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="thread_sync_data (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -212,7 +219,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/thread_manager.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/thread_sync_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -221,7 +228,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="thread_stock_list" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="thread_sync_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -234,7 +241,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/thread_stock_list.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\threads\thread_sync_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -256,7 +263,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\core\zerodha_kite_connect.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/zerodha_kite_connect.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -267,19 +274,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
-      <item itemvalue="Python.thread_manager" />
-      <item itemvalue="Python.thread_stock_list" />
+      <item itemvalue="Python.database_manager" />
+      <item itemvalue="Python.service_thread_schedule_timing" />
+      <item itemvalue="Python.thread_sync_data (1)" />
+      <item itemvalue="Python.thread_sync_data" />
       <item itemvalue="Python.zerodha_kite_connect" />
-      <item itemvalue="Python.report_downloader (2)" />
-      <item itemvalue="Python.report_uploader" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.thread_stock_list" />
-        <item itemvalue="Python.thread_manager" />
-        <item itemvalue="Python.report_uploader" />
-        <item itemvalue="Python.report_downloader (2)" />
+        <item itemvalue="Python.database_manager" />
+        <item itemvalue="Python.thread_sync_data (1)" />
+        <item itemvalue="Python.service_thread_schedule_timing" />
         <item itemvalue="Python.zerodha_kite_connect" />
+        <item itemvalue="Python.thread_sync_data" />
       </list>
     </recent_temporary>
   </component>
@@ -298,174 +305,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00046" summary="db_manager is cleaned up">
-      <option name="closed" value="true" />
-      <created>1741706697346</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1741706697346</updated>
-    </task>
-    <task id="LOCAL-00047" summary="performance improvement for report_downloader, return values fo successfully downloaded files">
-      <option name="closed" value="true" />
-      <created>1741710945208</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1741710945208</updated>
-    </task>
-    <task id="LOCAL-00048" summary="bug fix in exception handling for report_downloader.py">
-      <option name="closed" value="true" />
-      <created>1741751781456</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1741751781456</updated>
-    </task>
-    <task id="LOCAL-00049" summary="bug fix in check_for_error_text">
-      <option name="closed" value="true" />
-      <created>1741753273821</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1741753273821</updated>
-    </task>
-    <task id="LOCAL-00050" summary="bug fix in exceptio handling in download failure">
-      <option name="closed" value="true" />
-      <created>1741820189934</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1741820189934</updated>
-    </task>
-    <task id="LOCAL-00051" summary="externalize url in report_downloader.py">
-      <option name="closed" value="true" />
-      <created>1741855869418</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1741855869418</updated>
-    </task>
-    <task id="LOCAL-00052" summary="added list_files_regex_patterns function to utils">
-      <option name="closed" value="true" />
-      <created>1741862317789</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1741862317789</updated>
-    </task>
-    <task id="LOCAL-00053" summary="fix for unicode display on sys.out console">
-      <option name="closed" value="true" />
-      <created>1741867949714</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1741867949714</updated>
-    </task>
-    <task id="LOCAL-00054" summary="report parameters renamed">
-      <option name="closed" value="true" />
-      <created>1741882798732</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1741882798732</updated>
-    </task>
-    <task id="LOCAL-00055" summary="restructured service classes">
-      <option name="closed" value="true" />
-      <created>1742026507502</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1742026507502</updated>
-    </task>
-    <task id="LOCAL-00056" summary="made database manager work with threads">
-      <option name="closed" value="true" />
-      <created>1742027223487</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1742027223487</updated>
-    </task>
-    <task id="LOCAL-00057" summary="made database manager work with threads">
-      <option name="closed" value="true" />
-      <created>1742033225062</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1742033225062</updated>
-    </task>
-    <task id="LOCAL-00058" summary="logger changed to usq queues. services changed to inherit base service">
-      <option name="closed" value="true" />
-      <created>1742046883791</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1742046883791</updated>
-    </task>
-    <task id="LOCAL-00059" summary="fix compilation issues with class services">
-      <option name="closed" value="true" />
-      <created>1742049527835</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1742049527835</updated>
-    </task>
-    <task id="LOCAL-00060" summary="code restructuring for report_uploader">
-      <option name="closed" value="true" />
-      <created>1742112132109</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1742112132109</updated>
-    </task>
-    <task id="LOCAL-00061" summary="code restructuring for report_uploader">
-      <option name="closed" value="true" />
-      <created>1742115955552</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1742115955552</updated>
-    </task>
-    <task id="LOCAL-00062" summary="working code for report_tradebook_service">
-      <option name="closed" value="true" />
-      <created>1742126409020</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1742126409020</updated>
-    </task>
-    <task id="LOCAL-00063" summary="changes related to report_uploader">
-      <option name="closed" value="true" />
-      <created>1742129621301</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1742129621301</updated>
-    </task>
-    <task id="LOCAL-00064" summary="fixed column related issues in report uploader">
-      <option name="closed" value="true" />
-      <created>1742131514487</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1742131514487</updated>
-    </task>
-    <task id="LOCAL-00065" summary="fully working code for report download and upload functions">
-      <option name="closed" value="true" />
-      <created>1742146280491</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1742146280491</updated>
-    </task>
-    <task id="LOCAL-00066" summary="moved parameter_manager to settings folder">
-      <option name="closed" value="true" />
-      <created>1742150901359</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1742150901364</updated>
     </task>
     <task id="LOCAL-00067" summary="report downloaded defect">
       <option name="closed" value="true" />
@@ -691,7 +530,175 @@
       <option name="project" value="LOCAL" />
       <updated>1742725553827</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="model default record insert message and function name changed">
+      <option name="closed" value="true" />
+      <created>1742728931539</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1742728931539</updated>
+    </task>
+    <task id="LOCAL-00096" summary="model default record insert message and function name changed">
+      <option name="closed" value="true" />
+      <created>1742741845752</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1742741845752</updated>
+    </task>
+    <task id="LOCAL-00097" summary="added decorator validate_cast_parameter">
+      <option name="closed" value="true" />
+      <created>1742744455854</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1742744455854</updated>
+    </task>
+    <task id="LOCAL-00098" summary="thread with 4 tasks executing successfully">
+      <option name="closed" value="true" />
+      <created>1742810800203</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1742810800203</updated>
+    </task>
+    <task id="LOCAL-00099" summary="thread with 4 tasks executing successfully">
+      <option name="closed" value="true" />
+      <created>1742827318432</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1742827318432</updated>
+    </task>
+    <task id="LOCAL-00100" summary="Optimized code for positions, stock_list, holdings, and bug fixes">
+      <option name="closed" value="true" />
+      <created>1742893837474</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1742893837474</updated>
+    </task>
+    <task id="LOCAL-00101" summary="Optimized code for positions, stock_list, holdings, and bug fixes - 2">
+      <option name="closed" value="true" />
+      <created>1742903375432</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1742903375432</updated>
+    </task>
+    <task id="LOCAL-00102" summary="Optimized code for positions, stock_list, holdings, and bug fixes - 3">
+      <option name="closed" value="true" />
+      <created>1742919882921</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1742919882921</updated>
+    </task>
+    <task id="LOCAL-00103" summary="removed batch_size = 1">
+      <option name="closed" value="true" />
+      <created>1742969259570</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1742969259570</updated>
+    </task>
+    <task id="LOCAL-00104" summary="renamed models and service classes for thread processing">
+      <option name="closed" value="true" />
+      <created>1743065320576</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1743065320576</updated>
+    </task>
+    <task id="LOCAL-00105" summary="Added watchlists query. removed on_create method and used database manager to update tables">
+      <option name="closed" value="true" />
+      <created>1743091801410</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1743091801410</updated>
+    </task>
+    <task id="LOCAL-00106" summary="Added watchlists query. removed on_create method and used database manager to update tables-1">
+      <option name="closed" value="true" />
+      <created>1743155883608</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1743155883608</updated>
+    </task>
+    <task id="LOCAL-00107" summary="Base code for thread implmenetation">
+      <option name="closed" value="true" />
+      <created>1743157596979</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1743157596979</updated>
+    </task>
+    <task id="LOCAL-00108" summary="Base code for thread implmenetation - 1">
+      <option name="closed" value="true" />
+      <created>1743166983507</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1743166983507</updated>
+    </task>
+    <task id="LOCAL-00109" summary="Base code for thread implmenetation - 2">
+      <option name="closed" value="true" />
+      <created>1743181749437</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1743181749437</updated>
+    </task>
+    <task id="LOCAL-00110" summary="Base code for thread implmenetation - 2">
+      <option name="closed" value="true" />
+      <created>1743223024435</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1743223024435</updated>
+    </task>
+    <task id="LOCAL-00111" summary="Base code for thread implmenetation - 3">
+      <option name="closed" value="true" />
+      <created>1743231719515</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1743231719516</updated>
+    </task>
+    <task id="LOCAL-00112" summary="Base code for thread implmenetation - 4">
+      <option name="closed" value="true" />
+      <created>1743232376853</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1743232376853</updated>
+    </task>
+    <task id="LOCAL-00113" summary="Base code for thread implmenetation - 4">
+      <option name="closed" value="true" />
+      <created>1743233937327</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1743233937327</updated>
+    </task>
+    <task id="LOCAL-00114" summary="Base code for thread implmenetation - 5">
+      <option name="closed" value="true" />
+      <created>1743238125796</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1743238125796</updated>
+    </task>
+    <task id="LOCAL-00115" summary="Exchange model successfully integrated">
+      <option name="closed" value="true" />
+      <created>1743256866478</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1743256866478</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -716,23 +723,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changes related to report_uploader" />
-    <MESSAGE value="fixed column related issues in report uploader" />
-    <MESSAGE value="fully working code for report download and upload functions" />
-    <MESSAGE value="moved parameter_manager to settings folder" />
-    <MESSAGE value="report downloaded defect" />
-    <MESSAGE value="added update timestamp to models and reformatted the code" />
-    <MESSAGE value="model foreign key relationship changes" />
-    <MESSAGE value="Thread related changes" />
-    <MESSAGE value="Thread related changes-1" />
-    <MESSAGE value="added missing id, removed error_or_warning" />
-    <MESSAGE value="reorg of constants and parameters" />
-    <MESSAGE value="restructured settings code" />
-    <MESSAGE value="restructured settings code-2" />
-    <MESSAGE value="restructured settings code-3" />
-    <MESSAGE value="restructured settings code-4" />
-    <MESSAGE value="utils read_file_content fixed in file_uploader" />
-    <MESSAGE value="code cleanup for bulk csv data insert" />
     <MESSAGE value="fix for code compilation issues with access token code" />
     <MESSAGE value="fix for code compilation issues with access token code -1" />
     <MESSAGE value="working code for kite connect" />
@@ -741,7 +731,24 @@
     <MESSAGE value="updating models" />
     <MESSAGE value="thread code added to work with model and service classes -3. removed twilio" />
     <MESSAGE value="triggered database on_create function from database_manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="triggered database on_create function from database_manager" />
+    <MESSAGE value="model default record insert message and function name changed" />
+    <MESSAGE value="added decorator validate_cast_parameter" />
+    <MESSAGE value="thread with 4 tasks executing successfully" />
+    <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes" />
+    <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes - 2" />
+    <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes - 3" />
+    <MESSAGE value="removed batch_size = 1" />
+    <MESSAGE value="renamed models and service classes for thread processing" />
+    <MESSAGE value="Added watchlists query. removed on_create method and used database manager to update tables" />
+    <MESSAGE value="Added watchlists query. removed on_create method and used database manager to update tables-1" />
+    <MESSAGE value="Base code for thread implmenetation" />
+    <MESSAGE value="Base code for thread implmenetation - 1" />
+    <MESSAGE value="Base code for thread implmenetation - 2" />
+    <MESSAGE value="Base code for thread implmenetation - 3" />
+    <MESSAGE value="Base code for thread implmenetation - 4" />
+    <MESSAGE value="Base code for thread implmenetation - 5" />
+    <MESSAGE value="Exchange model successfully integrated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exchange model successfully integrated" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -757,55 +764,71 @@
           <option name="timeStamp" value="280" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
+          <url>file://$PROJECT_DIR$/src/core/report_uploader.py</url>
           <line>96</line>
           <option name="timeStamp" value="311" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/services/service_report_ledger_entry.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="319" />
-        </line-breakpoint>
-        <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
+          <url>file://$PROJECT_DIR$/src/core/report_uploader.py</url>
           <line>54</line>
           <option name="timeStamp" value="320" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/thread_decorator.py</url>
+          <url>file://$PROJECT_DIR$/src/core/decorators.py</url>
           <line>51</line>
           <option name="timeStamp" value="360" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/services/service_report_profit_loss.py</url>
-          <line>19</line>
-          <option name="timeStamp" value="393" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/report_uploader.py</url>
+          <url>file://$PROJECT_DIR$/src/core/report_uploader.py</url>
           <line>100</line>
           <option name="timeStamp" value="395" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/services/service_base.py</url>
-          <line>155</line>
+          <line>156</line>
           <option name="timeStamp" value="397" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/zerodha_kite_connect.py</url>
-          <line>132</line>
-          <option name="timeStamp" value="403" />
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <line>81</line>
+          <option name="timeStamp" value="442" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/models/watchlists.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="419" />
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="445" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/service_report_profit_loss.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="450" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/service_report_profit_loss.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="451" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/core/zerodha_kite_connect.py</url>
+          <line>83</line>
+          <option name="timeStamp" value="483" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <line>23</line>
+          <option name="timeStamp" value="485" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <line>22</line>
+          <option name="timeStamp" value="486" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="table" />
+        <watch expression="records[0]['mtf']['initial_margin']" />
       </configuration>
     </watches-manager>
   </component>

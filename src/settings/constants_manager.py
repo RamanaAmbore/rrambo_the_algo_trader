@@ -98,14 +98,18 @@ DEF_ALGO_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
 DEF_ALGO_SCHEDULE_TIME_RECORDS = (
-    {'weekday': Weekday.GLOBAL, 'exchange': None,'schedule': Schedule.MARKET, 'start_time': time(9, 00), 'end_time': time(15, 30),
+    {'weekday': Weekday.GLOBAL, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': time(9, 00),
+     'end_time': time(15, 30),
      'is_active': True},
-    {'weekday': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': time(8, 30), 'end_time': time(23, 15),
+    {'weekday': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': time(8, 30),
+     'end_time': time(23, 15),
      'is_active': True},
-    {'weekday': Weekday.SATURDAY, 'exchange': None,'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
+    {'weekday': Weekday.SATURDAY, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
      'is_active': False},
-    {'weekday': Weekday.SUNDAY, 'exchange': None,'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None, 'is_active': False},
-    {'weekday': Weekday.SATURDAY, 'exchange': None,'schedule': Schedule.PRE_MARKET, 'start_time': time(8, 30), 'end_time': None,
+    {'weekday': Weekday.SUNDAY, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
+     'is_active': False},
+    {'weekday': Weekday.SATURDAY, 'exchange': None, 'schedule': Schedule.PRE_MARKET, 'start_time': time(8, 30),
+     'end_time': None,
      'is_active': True}
 )
 
@@ -123,9 +127,59 @@ DEF_WATCHLISTS = (
     {'watchlist': f'{Account.ACCOUNT2}_HOLDINGS', 'account': Account.ACCOUNT2},
     {'watchlist': 'INDEX_MINI'},
     {'watchlist': 'INDEX'},
-    {'watchlist': 'OPTION_STOCKS'},
-    {'watchlist': 'HOT_STOCKS'}, {'watchlist': 'TURNAROUND'}, {'watchlist': 'WATCHLIST'}
+    {'watchlist': 'OPTION_STOCKS'}, {'watchlist': 'WATCHLIST'},{'watchlist': 'COMMODITIES'}
 )
+
+DEF_WATCHLIST_INSTRUMENTS = (
+    {"watchlist": "INDEX_MINI", "tradingsymbol": "NIFTY 50", "exchange": "NSE"},
+    {"watchlist": "INDEX_MINI", "tradingsymbol": "SENSEX", "exchange": "BSE"},
+    {"watchlist": "INDEX_MINI", "tradingsymbol": "NIFTY BANK", "exchange": "NSE"},
+    {"watchlist": "INDEX_MINI", "tradingsymbol": "INDIA VIX", "exchange": "NSE"},
+
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY MIDCAP 100", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "ALLCAP", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY IT", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY REALTY", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY INFRA", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY ENERGY", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY FMCG", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY MNC", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY PHARMA", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY PSE", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY PSU BANK", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY SERV SECTOR", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY AUTO", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY METAL", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "NIFTY MEDIA", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "HANGSENG BEES-NAV", "exchange": "NSE"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXGOLDEX", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXMETLDEX", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXCRUDEX", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXCOPRDEX", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXCOMPDEX", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXBULLDEX", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXENERGY", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXAGRI", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXMETAL", "exchange": "MCX"},
+    {"watchlist": "INDEX", "tradingsymbol": "MCXSILVDEX", "exchange": "MCX"},
+
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXGOLDEX", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXMETLDEX", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXCRUDEX", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXCOPRDEX", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXCOMPDEX", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXBULLDEX", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXENERGY", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXAGRI", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXMETAL", "exchange": "MCX"},
+    {"watchlist": "COMMODITIES", "tradingsymbol": "MCXSILVDEX", "exchange": "MCX"},
+
+    {"watchlist": "OPTION_STOCKS", "tradingsymbol": "NIFTY2540323500CE", "exchange": "NFO"},
+    {"watchlist": "OPTION_STOCKS", "tradingsymbol": "NIFTY2540323800CE", "exchange": "NFO"},
+
+    {"watchlist": "WATCHLIST", "tradingsymbol": "RELIANCE", "exchange": "NSE"}
+)
+
 
 DEF_EXCHANGES = (
     {"exchange": "NSE", "desc": "National Stock Exchange of India"},

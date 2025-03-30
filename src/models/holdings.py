@@ -94,7 +94,7 @@ class Holdings(Base):
         Index(", 4)", "account", "tradingsymbol"),
         Index("idx_tradingsymbol_exchange2", "tradingsymbol", "exchange"),
         Index("idx_tradingsymbol", "tradingsymbol"),
-        Index("idx_instrument_token", "instrument_token"),
+        Index("idx_instrument_token2", "instrument_token"),
     )
 
     def __repr__(self):

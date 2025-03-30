@@ -23,7 +23,7 @@ from .report_tradebook import ReportTradebook
 from .report_profit_loss import ReportProfitLoss
 from .report_ledger_entries import ReportLedgerEntries
 
-from .watchlist_instruments import WatchlistInstruments
+from .watch_list_instruments import WatchListInstruments
 from .parameter_table import ParameterTable
 
 from .thread_status_tracker import ThreadStatusTracker
