@@ -200,21 +200,21 @@ DEF_EXCHANGES = (
 env_vars = dotenv_values()
 DEF_PARAMETERS = tuple(
     [{'parameter': key, 'value': val} for key, val in env_vars.items() if not key.startswith('ACCOUNT')] + [
-        {'account': Account.ACCOUNT1, 'parameter': 'API_KEY', 'value': os.getenv('ACCOUNT1_API_KEY'),
+        {'account': Account.ACCOUNT1, 'parameter': 'API_KEY', 'value': encrypt_text(os.getenv('ACCOUNT1_API_KEY')),
          'encrypted': True},
-        {'account': Account.ACCOUNT1, 'parameter': 'API_SECRET', 'value': os.getenv('ACCOUNT1_API_SECRET'),
+        {'account': Account.ACCOUNT1, 'parameter': 'API_SECRET', 'value': encrypt_text(os.getenv('ACCOUNT1_API_SECRET')),
          'encrypted': True},
-        {'account': Account.ACCOUNT1, 'parameter': 'PASSWORD', 'value': os.getenv('ACCOUNT1_PASSWORD'),
+        {'account': Account.ACCOUNT1, 'parameter': 'PASSWORD', 'value': encrypt_text(os.getenv('ACCOUNT1_PASSWORD')),
          'encrypted': True},
-        {'account': Account.ACCOUNT1, 'parameter': 'TOTP_TOKEN', 'value': os.getenv('ACCOUNT1_TOTP_TOKEN'),
+        {'account': Account.ACCOUNT1, 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(os.getenv('ACCOUNT1_TOTP_TOKEN')),
          'encrypted': True},
 
-        {'account': Account.ACCOUNT2, 'parameter': 'API_KEY', 'value': os.getenv('ACCOUNT2_API_KEY'),
+        {'account': Account.ACCOUNT2, 'parameter': 'API_KEY', 'value': encrypt_text(os.getenv('ACCOUNT2_API_KEY')),
          'encrypted': True},
-        {'account': Account.ACCOUNT2, 'parameter': 'API_SECRET', 'value': os.getenv('ACCOUNT2_API_SECRET'),
+        {'account': Account.ACCOUNT2, 'parameter': 'API_SECRET', 'value': encrypt_text(os.getenv('ACCOUNT2_API_SECRET')),
          'encrypted': True},
-        {'account': Account.ACCOUNT2, 'parameter': 'PASSWORD', 'value': os.getenv('ACCOUNT2_PASSWORD'),
+        {'account': Account.ACCOUNT2, 'parameter': 'PASSWORD', 'value': encrypt_text(os.getenv('ACCOUNT2_PASSWORD')),
          'encrypted': True},
-        {'account': Account.ACCOUNT2, 'parameter': 'TOTP_TOKEN', 'value': os.getenv('ACCOUNT2_TOTP_TOKEN'),
+        {'account': Account.ACCOUNT2, 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(os.getenv('ACCOUNT2_TOTP_TOKEN')),
          'encrypted': True},
     ])

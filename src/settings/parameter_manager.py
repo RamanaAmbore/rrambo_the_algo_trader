@@ -4,6 +4,7 @@ from typing import Dict, Any
 
 from dotenv import load_dotenv, dotenv_values
 
+from src.helpers.cipher_utils import decrypt_text
 from src.helpers.utils import parse_value
 
 load_dotenv()
@@ -35,7 +36,11 @@ def refresh_parameters(records, refresh=False) -> None:
                     continue
                 if account not in ACCOUNT_CREDENTIALS:
                     ACCOUNT_CREDENTIALS[account] = {}
-                ACCOUNT_CREDENTIALS[account][parameter] = value
+
+                if record.encrypted:
+                    ACCOUNT_CREDENTIALS[account][parameter] = decrypt_text(value)
+                else:
+                    ACCOUNT_CREDENTIALS[account][parameter] = value
         except Exception as e:
             print(f"Error resetting parameters: {e}")
             raise SystemExit(1)  # Fail immediately if an error occurs
