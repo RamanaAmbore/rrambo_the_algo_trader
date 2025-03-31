@@ -15,7 +15,7 @@ class OptionStrategies(Base):
     __tablename__ = "option_strategies"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     strategy_name = Column(String(50), nullable=False)
     legs = Column(JSON, nullable=False)
     max_profit = Column(DECIMAL(12, 4), nullable=True)

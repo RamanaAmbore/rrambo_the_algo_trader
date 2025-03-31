@@ -93,14 +93,14 @@ async def sync_holdings():
 
 async def run():
     """Main execution function, running all tasks in parallel."""
+
+    await sync_stock_list()
     await asyncio.gather(
-        # sync_stock_reports(),
-        sync_stock_list(),
         sync_holdings(),
         sync_positions(),
-
     )
     await sync_watch_list()
+    await sync_stock_reports(),
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKeyConstraint, UniqueConstraint, func, DECIMAL,
-                        Index, select, event)
+                        Index, select, event, ForeignKey)
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -16,7 +16,7 @@ class WatchListInstruments(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), nullable=False)
-    account = Column(String(10), nullable=False,default='*')
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     tradingsymbol = Column(String(50), nullable=False, index=True)  # Index added
     instrument_token = Column(Integer, nullable=True, index=True)  # Index added
     exchange = Column(String(20), nullable=False)

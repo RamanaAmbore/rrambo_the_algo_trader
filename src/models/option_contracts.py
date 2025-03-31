@@ -21,7 +21,7 @@ class OptionContracts(Base):
     __tablename__ = "option_contracts"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     instrument_token = Column(Integer, unique=True, nullable=False)
     tradingsymbol = Column(String(50), nullable=False)
     expiry_date = Column(DateTime(timezone=True), nullable=False)

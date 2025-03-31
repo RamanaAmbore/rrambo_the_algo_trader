@@ -30,7 +30,7 @@ class Orders(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # Account and order identifiers
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     placed_by = Column(String(10), nullable=False)  # Who placed the order (User ID)
     order_id = Column(String(20), nullable=False, unique=True)  # Unique order ID
     exchange_order_id = Column(String(20), nullable=True)  # Exchange-specific order ID

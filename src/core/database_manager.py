@@ -11,13 +11,13 @@ from sqlalchemy_utils import database_exists, create_database
 from src.helpers.logger import get_logger
 from src.models import ParameterTable, schedule_time, exchange_list
 from src.models import access_tokens
-from src.models import watch_list_instruments
-from src.models import schedule_list
-from src.models import thread_schedule
-from src.models import thread_list
 from src.models import broker_accounts
 from src.models import parameter_table
+from src.models import schedule_list
+from src.models import thread_list
+from src.models import thread_schedule
 from src.models import watch_list
+from src.models import watch_list_instruments
 from src.models.base import Base
 from src.settings.parameter_manager import parms, refresh_parameters
 

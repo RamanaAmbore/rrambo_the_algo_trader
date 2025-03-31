@@ -17,7 +17,7 @@ class ReportProfitLoss(Base):
     __tablename__ = "report_profit_loss"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
     symbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     quantity = Column(Integer, nullable=False)

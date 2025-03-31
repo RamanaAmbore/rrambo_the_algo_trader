@@ -4,6 +4,8 @@ from types import SimpleNamespace
 
 from dotenv import load_dotenv, dotenv_values
 
+from src.helpers.cipher_utils import encrypt_text
+
 load_dotenv()
 
 INDIAN_TIMEZONE = 'Asia/Kolkata'

@@ -17,7 +17,6 @@ class HistoricalDataDaily(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     instrument_token = Column(Integer, nullable=False, index=True)  # Stock identifier
-    account = Column(String, nullable=False)  # Required for unique constraint
     tradingsymbol = Column(String, nullable=False, index=True)  # Stock symbol
     exchange = Column(String, nullable=False)  # NSE, BSE, etc.
     interval = Column(String, nullable=False)  # 'minute', 'day', etc.
@@ -38,7 +37,6 @@ class HistoricalDataDaily(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    broker_account = relationship("BrokerAccounts", back_populates="holdings")
 
     __table_args__ = (
         CheckConstraint("volume >= 0", name="check_volume_non_negative"),

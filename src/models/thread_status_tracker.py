@@ -17,7 +17,7 @@ class ThreadStatusTracker(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     thread = Column(String(30), ForeignKey("thread_list.thread", ondelete="CASCADE"), nullable=False)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     schedule = Column(String(10), ForeignKey("schedule_list.schedule", ondelete="CASCADE"), nullable=False)
     thread_status = Column(String(20), nullable=False, default=ThreadStatus.IN_PROGRESS)
     run_count = Column(Integer, nullable=False, default=0)

@@ -15,7 +15,7 @@ class ParameterTable(Base):
     __tablename__ = 'parameter_table'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     parameter = Column(String(50), nullable=False)
     value = Column(String(255), nullable=True)
     type = Column(String(10), nullable=True)

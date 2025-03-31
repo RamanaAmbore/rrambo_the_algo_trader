@@ -30,14 +30,12 @@ def refresh_parameters(records, refresh=False) -> None:
                 parameter = None if record.parameter is None else record.parameter.strip()
                 record_type = None if record.type is None else record.type.strip()
                 value = parse_value(record.value, record_type)
-                if account is None:
+                if account == '*':
                     setattr(parms, parameter, value)
                     continue
                 if account not in ACCOUNT_CREDENTIALS:
                     ACCOUNT_CREDENTIALS[account] = {}
                 ACCOUNT_CREDENTIALS[account][parameter] = value
-
-
         except Exception as e:
             print(f"Error resetting parameters: {e}")
             raise SystemExit(1)  # Fail immediately if an error occurs

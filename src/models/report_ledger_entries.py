@@ -16,7 +16,7 @@ class ReportLedgerEntries(Base):
     __tablename__ = "report_ledger_entries"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
     particulars = Column(String(255), nullable=False)
     posting_date = Column(DateTime(timezone=True), nullable=True)
     cost_center = Column(String(20), nullable=True)

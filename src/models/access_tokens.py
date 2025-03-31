@@ -15,7 +15,7 @@ class AccessTokens(Base):
     __tablename__ = "access_tokens"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     token = Column(String(255), nullable=True)
     source = Column(String(50), nullable=False, server_default=Source.API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

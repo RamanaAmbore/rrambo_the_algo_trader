@@ -15,7 +15,7 @@ class PositionsHistorical(Base):
     __tablename__ = "positions_historical"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
     tradingsymbol = Column(String(50), nullable=False)  # Stock symbol
     exchange = Column(String(20), nullable=False)  # NSE/BSE
     instrument_token = Column(Integer, nullable=False)  # Unique instrument identifier

@@ -15,7 +15,8 @@ class StrategyConfig(Base):
     __tablename__ = "strategy_config"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
+                     default='ZG0790')
     strategy_name = Column(String(50), unique=True, nullable=False)
     parameters = Column(JSON, nullable=False)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)

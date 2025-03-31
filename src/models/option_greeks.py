@@ -16,7 +16,7 @@ class OptionGreeks(Base):
     __tablename__ = "option_greeks"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     instrument_token = Column(Integer, ForeignKey("option_contracts.instrument_token", ondelete="CASCADE"),
                               nullable=False)
     delta = Column(DECIMAL(10, 4), nullable=True)  # Higher precision for Greeks

@@ -19,7 +19,7 @@ class ReportTradebook(Base):
     __tablename__ = "report_tradebook"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
     trade_id = Column(BigInteger, nullable=False)
     order_id = Column(BigInteger, nullable=False)
     symbol = Column(String(50), nullable=False)

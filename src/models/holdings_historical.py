@@ -14,7 +14,7 @@ class HoldingsHistorical(Base):
     __tablename__ = "holdings_historical"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     tradingsymbol = Column(String(50), nullable=False)  # Stock tradingsymbol
     exchange = Column(String(20), nullable=False)  # NSE/BSE
     isin = Column(String(20), nullable=True)  # Unique ISIN for stock identification

@@ -16,7 +16,7 @@ class BrokerAccounts(Base):
     __tablename__ = "broker_accounts"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), nullable=False, unique=True)  # Unique account ID
+    account = Column(String(10), nullable=False, unique=True, default='*')  # Unique account ID
     broker_name = Column(String(20), nullable=False)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,

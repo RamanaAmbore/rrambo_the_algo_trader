@@ -22,7 +22,7 @@ class BacktestResults(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # Foreign keys
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=True)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     strategy_id = Column(Integer, ForeignKey("strategy_config.id", ondelete="CASCADE"), nullable=False, index=True)
 
     # Date range for backtest

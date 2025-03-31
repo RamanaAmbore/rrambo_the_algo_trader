@@ -25,7 +25,7 @@ class Orders(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # Account & Order Identifiers
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False)
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     placed_by = Column(String(10), nullable=False)
     order_id = Column(String(20), nullable=False, unique=True)
     exchange_order_id = Column(String(20), nullable=True)
