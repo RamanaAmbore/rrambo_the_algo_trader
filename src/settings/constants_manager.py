@@ -6,7 +6,12 @@ from dotenv import load_dotenv, dotenv_values
 
 from src.helpers.cipher_utils import encrypt_text
 
-load_dotenv()
+loaded = False
+def load_env():
+    if loaded:
+        return
+    load_dotenv()
+load_env()
 
 INDIAN_TIMEZONE = 'Asia/Kolkata'
 EST_TIMEZONE = 'EST'
@@ -94,7 +99,7 @@ DEF_ACCESS_TOKENS = (
     {'account': Account.ACCOUNT2, 'token': None}
 )
 
-DEF_ALGO_THREADS = tuple({"thread": thread} for thread in vars(Thread) if not thread.startswith('_'))
+DEF_THREAD_LIST = tuple({"thread": thread} for thread in vars(Thread) if not thread.startswith('_'))
 
 DEF_ALGO_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))

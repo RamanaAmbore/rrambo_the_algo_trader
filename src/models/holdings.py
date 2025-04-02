@@ -1,3 +1,5 @@
+import os
+
 from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, Index, UniqueConstraint, func, DECIMAL, text, ForeignKeyConstraint,
     Boolean, CheckConstraint
@@ -19,7 +21,8 @@ class Holdings(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
 
     # Foreign Key relationships
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,default='ZG0790')
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
+                     default=os.getenv('DEFAULT_ACCOUNT'))
     tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)  # NSE/BSE
     instrument_token = Column(Integer, nullable=False)  # Part of composite FK
@@ -65,7 +68,7 @@ class Holdings(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    broker_account = relationship("BrokerAccounts", back_populates="holdings")
+    broker_account_rel = relationship("BrokerAccounts", back_populates="holdings_rel")
     stock = relationship("StockList", back_populates="holdings")
 
     __table_args__ = (

@@ -26,9 +26,9 @@ class BrokerAccounts(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships with Foreign Keys
-    access_tokens = relationship("AccessTokens", back_populates="broker_account", cascade="all, delete")
-    holdings = relationship("Holdings", back_populates="broker_account", cascade="all, delete")
-    parameter_table = relationship("ParameterTable", back_populates="broker_account", cascade="all, delete")
+    access_tokens_rel = relationship("AccessTokens", back_populates="broker_accounts_rel", cascade="all, delete")
+    holdings_rel = relationship("Holdings", back_populates="broker_account_rel", cascade="all, delete")
+    parameter_table_rel = relationship("ParameterTable", back_populates="broker_accounts_rel", cascade="all, delete")
     backtest_results = relationship("BacktestResults", back_populates="broker_account", cascade="all, delete")
     option_greeks = relationship("OptionGreeks", back_populates="broker_account", cascade="all, delete")
     report_ledger_entries = relationship("ReportLedgerEntries", back_populates="broker_account", cascade="all, delete")
@@ -38,7 +38,7 @@ class BrokerAccounts(Base):
     strategy_config = relationship("StrategyConfig", back_populates="broker_account", cascade="all, delete")
     thread_status_tracker = relationship("ThreadStatusTracker", back_populates="broker_account", cascade="all, delete")
     report_tradebook = relationship("ReportTradebook", back_populates="broker_account", cascade="all, delete")
-    positions = relationship("Positions", back_populates="broker_account", cascade="all, delete")
+    positions_rel = relationship("Positions", back_populates="broker_account_rel", cascade="all, delete")
     option_contracts = relationship("OptionContracts", back_populates="broker_account", cascade="all, delete")
     report_profit_loss = relationship("ReportProfitLoss", back_populates="broker_account", cascade="all, delete")
 

@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEF_ALGO_THREADS
+from src.settings.constants_manager import Source, DEF_THREAD_LIST
 from .base import Base
 
 logger = get_logger(__name__)
@@ -43,7 +43,7 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = ThreadList.__table__
-        for record in DEF_ALGO_THREADS:
+        for record in DEF_THREAD_LIST:
             exists = connection.execute(select(table.c.thread).where(
                 table.c.thread == record['thread'])).scalar_one_or_none() is not None
 

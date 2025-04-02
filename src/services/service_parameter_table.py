@@ -1,20 +1,29 @@
 import logging
 
-from src.core.database_manager import DatabaseManager as Db
 from src.models import ParameterTable
+from src.services.service_base import ServiceBase
 
 logger = logging.getLogger(__name__)
 
 
-def fetch_all_records(sync=True):
-    """Fetch all parameters as a nested dictionary."""
-    try:
-        with Db.get_session(sync) as session:
-            return session.query(ParameterTable).all()
-    except Exception as e:
-        print('Error in fetching records from parameter table: {e}')
-        return {}
+class ServiceParameterTable(ServiceBase):
+    """Service class for handling ReportProfitLoss database operations."""
+
+    _instance = None
+    model = ParameterTable
+    conflict_cols = ['account', 'parameter']
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(ServiceParameterTable, cls).__new__(cls)
+        return cls._instance
+
+    def __init__(self):
+        """Ensure __init__ is only called once."""
+        if not hasattr(self, "_initialized"):  # Ensure _initialized is instance-scoped
+            super().__init__(self.model, self.conflict_cols)
+            self._initialized = True  # Mark as initialized
 
 
-def refresh_parms():
-    Db.initialize_parameters()
+# Singleton instance
+service_parameter_table = ServiceParameterTable()

@@ -25,7 +25,7 @@ class AccessTokens(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship
-    broker_account = relationship("BrokerAccounts", back_populates="access_tokens")
+    broker_account_rel = relationship("BrokerAccounts", back_populates="access_tokens_rel")
 
     __table_args__ = (UniqueConstraint('account', name='uq_access_token'), Index("idx_account", "account"),)
 

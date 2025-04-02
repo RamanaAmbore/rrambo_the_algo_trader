@@ -1,21 +1,21 @@
 import logging
 
-from src.models import BrokerAccounts
+from src.models import WatchList
 from src.services.service_base import ServiceBase
 
 logger = logging.getLogger(__name__)
 
 
-class ServiceBrokerAccounts(ServiceBase):
+class ServiceWatchList(ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
     _instance = None
-    model = BrokerAccounts
-    conflict_cols = ['account']
+    model = WatchList
+    conflict_cols = ['watchlist', 'account']
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance = super(ServiceBrokerAccounts, cls).__new__(cls)
+            cls._instance = super(ServiceWatchList, cls).__new__(cls)
         return cls._instance
 
     def __init__(self):
@@ -26,4 +26,4 @@ class ServiceBrokerAccounts(ServiceBase):
 
 
 # Singleton instance
-service_broker_accounts = ServiceBrokerAccounts()
+service_watch_list = ServiceWatchList()

@@ -6,8 +6,9 @@ from dotenv import load_dotenv, dotenv_values
 
 from src.helpers.cipher_utils import decrypt_text
 from src.helpers.utils import parse_value
+from src.settings.constants_manager import load_env
 
-load_dotenv()
+load_env()
 
 # Thread safety lock
 _lock = threading.Lock()

@@ -1,4 +1,4 @@
-
+from .parameter_table import ParameterTable
 from .access_tokens import AccessTokens
 
 from .exchange_list import ExchangeList
@@ -24,7 +24,7 @@ from .report_profit_loss import ReportProfitLoss
 from .report_ledger_entries import ReportLedgerEntries
 
 from .watch_list_instruments import WatchListInstruments
-from .parameter_table import ParameterTable
+
 
 from .thread_status_tracker import ThreadStatusTracker
 from .thread_schedule import ThreadSchedule

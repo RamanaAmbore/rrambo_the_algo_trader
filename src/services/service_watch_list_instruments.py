@@ -1,9 +1,9 @@
-from sqlalchemy import union_all, literal, bindparam, union
+from sqlalchemy import literal, union
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
 
-from src.core.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import DatabaseManager as Db
 from src.helpers.logger import get_logger
 from src.models.holdings import Holdings
 from src.models.positions import Positions

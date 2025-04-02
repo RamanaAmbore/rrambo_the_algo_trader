@@ -5,16 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="Exchange model successfully integrated">
-      <change afterPath="$PROJECT_DIR$/src/models/watch_list_instruments.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/database_manager.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/db_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/load_env.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/service_thread_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/services/service_watch_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/threads/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/database_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/database_manager.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/report_downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/report_downloader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/cipher_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/cipher_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/broker_accounts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/holdings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/parameter_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/parameter_table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watchlist_instruments.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/thread_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/thread_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_backtest_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_backtest_results.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_broker_accounts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_option_contracts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_option_contracts.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_option_greeks.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_option_greeks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_option_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_option_strategies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_parameter_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_parameter_table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/service_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedule_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_schedules.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedules.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_thread_schedule_timing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_thread_schedule_timing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_watchlists.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/status_broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/status_broker_accounts.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/parameter_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/parameter_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/market_ticker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/thread_sync_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/thread_sync_premarket_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +68,10 @@
     &quot;accountId&quot;: &quot;133c0936-69df-4e62-a0d4-e917fd314179&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/AppData/Local/Programs/Python/Python311/Lib/contextlib.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/.venv/Lib/site-packages/sqlalchemy/engine/default.py" root0="SKIP_INSPECTION" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -52,94 +81,95 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for cipher_utils.test_cipher.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for db_connect.test_sync_session.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_utils_funcs.test_to_decimal.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for util_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in db_connect.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_utils_funcs.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Python.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SimpleDashboard.executor&quot;: &quot;Run&quot;,
-    &quot;Python.algo_thread_status.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.backend.executor&quot;: &quot;Run&quot;,
-    &quot;Python.broker_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.cipher_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.database.executor&quot;: &quot;Run&quot;,
-    &quot;Python.database_manager (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.database_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.date_time_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_conn.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connect.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_utils (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fetch_parms (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.kite_api_login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connect (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connection_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_get_access_token.executor&quot;: &quot;Run&quot;,
-    &quot;Python.load_reports (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.load_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.logger.executor&quot;: &quot;Run&quot;,
-    &quot;Python.login (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.login_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_monitor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.market_ticker (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_ticker.executor&quot;: &quot;Run&quot;,
-    &quot;Python.parameter_loader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_donwloader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_downloader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_downloader (2).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.report_downloader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_uploader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_uploader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.service_algo_thread_schedule_timing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.service_thread_schedule_timing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader_new.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_data.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.thread_decorator.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.thread_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_schedule_timing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_stock_list.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_sync_data (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_sync_data.executor&quot;: &quot;Run&quot;,
-    &quot;Python.zerodha_kite.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.zerodha_kite_connect.executor&quot;: &quot;Run&quot;,
-    &quot;Python.zerodha_socket.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/rrambo_trader_new&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for cipher_utils.test_cipher.executor": "Run",
+    "Python tests.Python tests for db_connect.test_sync_session.executor": "Run",
+    "Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor": "Run",
+    "Python tests.Python tests for test_utils_funcs.test_to_decimal.executor": "Run",
+    "Python tests.Python tests for util_funcs.test_delete_folder_contents.executor": "Run",
+    "Python tests.Python tests in db_connect.py.executor": "Run",
+    "Python tests.Python tests in test_utils_funcs.py.executor": "Run",
+    "Python tests.Python.executor": "Run",
+    "Python.Python.executor": "Run",
+    "Python.SimpleDashboard.executor": "Run",
+    "Python.algo_thread_status.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.backend.executor": "Run",
+    "Python.broker_connection.executor": "Run",
+    "Python.cipher_utils.executor": "Debug",
+    "Python.database.executor": "Run",
+    "Python.database_manager (1).executor": "Debug",
+    "Python.database_manager.executor": "Run",
+    "Python.date_time_utils.executor": "Debug",
+    "Python.db_conn.executor": "Run",
+    "Python.db_connect.executor": "Run",
+    "Python.db_connection (1).executor": "Run",
+    "Python.db_connection.executor": "Run",
+    "Python.db_manager.executor": "Run",
+    "Python.db_utils (1).executor": "Debug",
+    "Python.db_utils.executor": "Debug",
+    "Python.download_reports (1).executor": "Debug",
+    "Python.download_reports.executor": "Run",
+    "Python.fetch_parms (1).executor": "Run",
+    "Python.kite_api_login.executor": "Debug",
+    "Python.kite_connect (1).executor": "Debug",
+    "Python.kite_connection_new.executor": "Debug",
+    "Python.kite_get_access_token.executor": "Run",
+    "Python.load_reports (1).executor": "Run",
+    "Python.load_reports.executor": "Run",
+    "Python.logger.executor": "Run",
+    "Python.login (1).executor": "Run",
+    "Python.login.executor": "Debug",
+    "Python.login_new.executor": "Debug",
+    "Python.market_monitor.executor": "Run",
+    "Python.market_ticker (1).executor": "Debug",
+    "Python.market_ticker.executor": "Run",
+    "Python.parameter_loader (1).executor": "Run",
+    "Python.report_donwloader.executor": "Run",
+    "Python.report_downloader (1).executor": "Run",
+    "Python.report_downloader (2).executor": "Debug",
+    "Python.report_downloader.executor": "Run",
+    "Python.report_uploader (1).executor": "Run",
+    "Python.report_uploader.executor": "Run",
+    "Python.service_algo_thread_schedule_timing.executor": "Run",
+    "Python.service_parameter_table.executor": "Run",
+    "Python.service_thread_schedule_timing.executor": "Run",
+    "Python.settings_loader.executor": "Run",
+    "Python.settings_loader_new.executor": "Run",
+    "Python.sync_data.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_db_utils.executor": "Debug",
+    "Python.thread_decorator.executor": "Debug",
+    "Python.thread_manager.executor": "Run",
+    "Python.thread_schedule_timing.executor": "Run",
+    "Python.thread_stock_list.executor": "Run",
+    "Python.thread_sync_data (1).executor": "Run",
+    "Python.thread_sync_data.executor": "Run",
+    "Python.zerodha_kite.executor": "Debug",
+    "Python.zerodha_kite_connect.executor": "Run",
+    "Python.zerodha_socket.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/rrambo_trader_new",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new\services" />
       <recent name="D:\rrambo_trader_new" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\rrambo_trader_new\src\helpers" />
       <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\data" />
       <recent name="D:\rrambo_trader_new" />
       <recent name="D:\rrambo_trader_new\src\settings" />
-      <recent name="D:\rrambo_trader_new\src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.database_manager">
+  <component name="RunManager" selected="Python.test">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -162,6 +192,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="database_manager (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/helpers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/helpers/database_manager.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="database_manager" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -175,7 +227,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/database_manager.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\helpers\database_manager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -184,7 +236,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="service_thread_schedule_timing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="service_parameter_table" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -197,7 +249,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\services\service_thread_schedule_timing.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\services\service_parameter_table.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -206,7 +258,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="thread_sync_data (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -219,7 +271,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/thread_sync_data.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -228,7 +280,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="thread_sync_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="thread_sync_premarket_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -241,7 +293,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\threads\thread_sync_data.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\threads\thread_sync_premarket_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -250,7 +302,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="zerodha_kite_connect" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="thread_sync_premarket_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -259,11 +311,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/core" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/core/zerodha_kite_connect.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\threads\thread_sync_premarket_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -274,19 +326,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
+      <item itemvalue="Python.database_manager (1)" />
+      <item itemvalue="Python.service_parameter_table" />
+      <item itemvalue="Python.test" />
       <item itemvalue="Python.database_manager" />
-      <item itemvalue="Python.service_thread_schedule_timing" />
-      <item itemvalue="Python.thread_sync_data (1)" />
-      <item itemvalue="Python.thread_sync_data" />
-      <item itemvalue="Python.zerodha_kite_connect" />
+      <item itemvalue="Python.thread_sync_premarket_data" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.service_parameter_table" />
+        <item itemvalue="Python.database_manager (1)" />
         <item itemvalue="Python.database_manager" />
-        <item itemvalue="Python.thread_sync_data (1)" />
-        <item itemvalue="Python.service_thread_schedule_timing" />
-        <item itemvalue="Python.zerodha_kite_connect" />
-        <item itemvalue="Python.thread_sync_data" />
+        <item itemvalue="Python.thread_sync_premarket_data" />
       </list>
     </recent_temporary>
   </component>
@@ -784,17 +836,12 @@
           <option name="timeStamp" value="395" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/services/service_base.py</url>
-          <line>156</line>
-          <option name="timeStamp" value="397" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_premarket_data.py</url>
           <line>81</line>
           <option name="timeStamp" value="442" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_premarket_data.py</url>
           <line>24</line>
           <option name="timeStamp" value="445" />
         </line-breakpoint>
@@ -814,22 +861,21 @@
           <option name="timeStamp" value="483" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_premarket_data.py</url>
           <line>23</line>
           <option name="timeStamp" value="485" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/threads/thread_sync_data.py</url>
+          <url>file://$PROJECT_DIR$/src/threads/thread_sync_premarket_data.py</url>
           <line>22</line>
           <option name="timeStamp" value="486" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/helpers/db_utils.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="512" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="table" />
-        <watch expression="records[0]['mtf']['initial_margin']" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

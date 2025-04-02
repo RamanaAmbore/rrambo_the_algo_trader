@@ -1,4 +1,4 @@
-from src.core.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import DatabaseManager as Db
 from src.models import BrokerAccounts
 
 

@@ -1,7 +1,7 @@
 import asyncio
 
 from sqlalchemy import select
-from src.core.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import DatabaseManager as Db
 from src.models import ScheduleTime, ThreadSchedule, ThreadList
 from src.services.service_schedules import get_market_hours_for_today
 

@@ -1,3 +1,5 @@
+import os
+
 from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, ForeignKeyConstraint,
     CheckConstraint, Index, DECIMAL, func, text, UniqueConstraint
@@ -7,11 +9,11 @@ from sqlalchemy.orm import relationship
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
-from ..settings.constants_manager import Source
+from ..settings.constants_manager import Source, load_env
 
 logger = get_logger(__name__)
 
-PRODUCT_TYPES = ("MIS", "CNC", "NRML")
+load_env()
 
 
 class Positions(Base):
@@ -20,7 +22,8 @@ class Positions(Base):
     __tablename__ = "positions"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
+                     default=os.getenv('DEFAULT_ACCOUNT'))
     tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False)
@@ -68,7 +71,7 @@ class Positions(Base):
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
-    broker_account = relationship("BrokerAccounts", back_populates="positions", passive_deletes=True)
+    broker_account_rel = relationship("BrokerAccounts", back_populates="positions_rel", passive_deletes=True)
     stock = relationship("StockList", back_populates="positions", passive_deletes=True)
 
     __table_args__ = (
