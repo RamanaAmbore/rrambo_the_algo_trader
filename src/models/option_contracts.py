@@ -36,7 +36,6 @@ class OptionContracts(Base):
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
-    option_greeks_rel = relationship("OptionGreeks", back_populates="option_contract_rel", passive_deletes=True, )
     broker_accounts_rel = relationship("BrokerAccounts", back_populates="option_contracts_rel", passive_deletes=True, )
 
     __table_args__ = (CheckConstraint("strike_price > 0", name="check_strike_price_positive"),

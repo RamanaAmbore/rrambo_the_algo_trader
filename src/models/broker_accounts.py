@@ -29,17 +29,12 @@ class BrokerAccounts(Base):
     access_tokens_rel = relationship("AccessTokens", back_populates="broker_accounts_rel", passive_deletes=True, )
     holdings_rel = relationship("Holdings", back_populates="broker_accounts_rel", passive_deletes=True, )
     parameter_table_rel = relationship("ParameterTable", back_populates="broker_accounts_rel", passive_deletes=True, )
-    backtest_results_rel = relationship("BacktestResults", back_populates="broker_accounts_rel", passive_deletes=True, )
-    option_greeks_rel = relationship("OptionGreeks", back_populates="broker_accounts_rel", passive_deletes=True, )
     report_ledger_entries_rel = relationship("ReportLedgerEntries", back_populates="broker_accounts_rel", passive_deletes=True, )
     option_strategies_rel = relationship("OptionStrategies", back_populates="broker_accounts_rel", passive_deletes=True, )
     orders_rel = relationship("Orders", back_populates="broker_accounts_rel", passive_deletes=True, )
-
-    strategy_config_rel = relationship("StrategyConfig", back_populates="broker_accounts_rel", passive_deletes=True, )
     thread_status_tracker_rel = relationship("ThreadStatusTracker", back_populates="broker_accounts_rel", passive_deletes=True, )
     report_tradebook_rel = relationship("ReportTradebook", back_populates="broker_accounts_rel", passive_deletes=True, )
     positions_rel = relationship("Positions", back_populates="broker_accounts_rel", passive_deletes=True, )
-    option_contracts_rel = relationship("OptionContracts", back_populates="broker_accounts_rel", passive_deletes=True, )
     report_profit_loss_rel = relationship("ReportProfitLoss", back_populates="broker_accounts_rel", passive_deletes=True, )
 
     __table_args__ = (
