@@ -6,7 +6,7 @@ from kiteconnect import KiteConnect
 from src.core.decorators import retry_kite_conn
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp
-from src.services.service_access_tokens import service_access_token
+from src.services.service_access_tokens import service_access_tokens
 from src.settings.parameter_manager import parms, ACCOUNT_CREDENTIALS
 
 logger = get_logger(__name__)

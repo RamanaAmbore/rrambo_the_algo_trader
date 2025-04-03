@@ -28,7 +28,7 @@ class ParameterTable(Base):
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     notes = Column(String(255), nullable=True)
-    broker_accounts_rel = relationship("BrokerAccounts", back_populates="parameter_table_rel")
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="parameter_table_rel", passive_deletes=True, )
 
     __table_args__ = (
         UniqueConstraint('account', 'parameter', name='uq_account_parameter_table'),

@@ -25,8 +25,8 @@ class ThreadSchedule(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    algo_thread = relationship("ThreadList", back_populates="thread_schedule")
-    schedule_list = relationship("ScheduleList", back_populates="thread_schedule")
+    thread_list_rel = relationship("ThreadList", back_populates="thread_schedule_rel", passive_deletes=True, )
+    schedule_list_rel = relationship("ScheduleList", back_populates="thread_schedule_rel", passive_deletes=True, )
 
     __table_args__ = (
         UniqueConstraint('thread', 'schedule', name='uq_thread_schedule'),
@@ -37,23 +37,3 @@ class ThreadSchedule(Base):
         return (f"<ThreadSchedule(id={self.id}, thread='{self.thread}', "
                 f"schedule='{self.schedule}', source='{self.source}')>")
 
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = ThreadSchedule.__table__
-        for record in DEF_THREAD_SCHEDULE_XREF:
-            exists = connection.execute(
-                select(table).where(
-                    table.c.thread == record['thread'],
-                    table.c.schedule == record['schedule']
-                )
-            ).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Thread Schedule records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error managing default Thread Schedule records: {e}")
-        raise

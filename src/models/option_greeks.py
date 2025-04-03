@@ -32,8 +32,8 @@ class OptionGreeks(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    broker_account = relationship("BrokerAccounts", back_populates="option_greeks")
-    option_contract = relationship("OptionContracts", back_populates="option_greeks")
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="option_greeks_rel", passive_deletes=True, )
+    option_contract_rel = relationship("OptionContracts", back_populates="option_greeks_rel", passive_deletes=True, )
 
     __table_args__ = (
         CheckConstraint("delta BETWEEN -1 AND 1", name="check_delta_range"),

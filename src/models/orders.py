@@ -78,8 +78,8 @@ class Orders(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    broker_account = relationship("BrokerAccounts", back_populates="orders")
-    parent_order = relationship("Orders", remote_side=[order_id])
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="orders_rel", passive_deletes=True, )
+    parent_order_rel = relationship("Orders", remote_side=[order_id])
 
     __table_args__ = (
         CheckConstraint("status IN ('COMPLETE', 'CANCELLED', 'REJECTED', 'PENDING', 'OPEN')",

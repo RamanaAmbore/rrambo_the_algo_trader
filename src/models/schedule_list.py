@@ -4,7 +4,7 @@ from sqlalchemy.sql import select
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEF_ALGO_SCHEDULES
+from src.settings.constants_manager import Source, DEF_SCHEDULES
 from .base import Base
 
 logger = get_logger(__name__)
@@ -24,11 +24,11 @@ class ScheduleList(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    schedule_time = relationship("ScheduleTime", back_populates="schedule_list", cascade="all, delete-orphan")
-    thread_schedule = relationship("ThreadSchedule", back_populates="schedule_list",
-                                             cascade="all, delete-orphan")
-    thread_status_tracker = relationship("ThreadStatusTracker", back_populates="schedule_list",
-                                             cascade="all, delete-orphan")
+    schedule_time_rel = relationship("ScheduleTime", back_populates="schedule_list_rel", passive_deletes=True, )
+    thread_schedule_rel = relationship("ThreadSchedule", back_populates="schedule_list_rel",
+                                             passive_deletes=True, )
+    thread_status_tracker_rel = relationship("ThreadStatusTracker", back_populates="schedule_list_rel",
+                                             passive_deletes=True, )
 
     __table_args__ = (
         UniqueConstraint('schedule', name='uq_schedule1'),
@@ -40,21 +40,5 @@ class ScheduleList(Base):
                 f"is_active={self.is_active}, source='{self.source}', "
                 f"timestamp={self.timestamp}, notes='{self.notes}')>")
 
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = ScheduleList.__table__
-        for record in DEF_ALGO_SCHEDULES:
-            exists = connection.execute(select(table.c.schedule).where(
-                table.c.schedule == record['schedule'])).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Schedule List records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error managing default Schedule List records: {e}")
-        raise
 
 

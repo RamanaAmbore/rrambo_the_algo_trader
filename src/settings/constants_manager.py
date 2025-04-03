@@ -101,7 +101,7 @@ DEF_ACCESS_TOKENS = (
 
 DEF_THREAD_LIST = tuple({"thread": thread} for thread in vars(Thread) if not thread.startswith('_'))
 
-DEF_ALGO_SCHEDULES = tuple(
+DEF_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
 DEF_ALGO_SCHEDULE_TIME_RECORDS = (

@@ -71,8 +71,8 @@ class Positions(Base):
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
-    broker_account_rel = relationship("BrokerAccounts", back_populates="positions_rel", passive_deletes=True)
-    stock = relationship("StockList", back_populates="positions", passive_deletes=True)
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="positions_rel", passive_deletes=True)
+    stock_list_rel = relationship("StockList", back_populates="positions_rel", passive_deletes=True)
 
     __table_args__ = (
         # Composite Foreign Key Constraint to stocklist

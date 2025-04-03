@@ -37,9 +37,9 @@ class StockList(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    positions = relationship("Positions", back_populates="stock", cascade="all, delete-orphan")
-    holdings = relationship("Holdings", back_populates="stock", cascade="all, delete-orphan")
-    exchange_rel = relationship("ExchangeList", back_populates="stock_list")
+    positions_rel = relationship("Positions", back_populates="stock_list_rel", passive_deletes=True, )
+    holdings_rel = relationship("Holdings", back_populates="stock_list_rel", passive_deletes=True, )
+    exchange_rel = relationship("ExchangeList", back_populates="stock_list_rel", passive_deletes=True, )
 
     __table_args__ = (
         # Composite unique constraint (needed for FK in Positions)

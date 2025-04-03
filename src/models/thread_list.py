@@ -24,10 +24,10 @@ class ThreadList(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with ThreadStatus
-    thread_status_tracker = relationship("ThreadStatusTracker", back_populates="algo_thread",
-                                       cascade="all, delete-orphan")  # Relationship with ThreadStatus
-    thread_schedule = relationship("ThreadSchedule", back_populates="algo_thread",
-                                             cascade="all, delete-orphan")
+    thread_status_tracker_rel = relationship("ThreadStatusTracker", back_populates="thread_list_rel",
+                                       passive_deletes=True, )  # Relationship with ThreadStatus
+    thread_schedule_rel = relationship("ThreadSchedule", back_populates="thread_list_rel",
+                                             passive_deletes=True, )
 
     __table_args__ = (
         UniqueConstraint('thread', name='uq_algo_thread'),

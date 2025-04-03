@@ -1,21 +1,21 @@
 import logging
 
-from src.models import ThreadList
+from src.models import ScheduleList
 from src.services.service_base import ServiceBase
 
 logger = logging.getLogger(__name__)
 
 
-class ServiceThreadList(ServiceBase):
+class ServiceScheduleList(ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
     _instance = None
-    model = ThreadList
-    conflict_cols = ['thread']
+    model = ScheduleList
+    conflict_cols = ['schedule']
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance = super(ServiceThreadList, cls).__new__(cls)
+            cls._instance = super(ServiceScheduleList, cls).__new__(cls)
         return cls._instance
 
     def __init__(self):
@@ -26,8 +26,4 @@ class ServiceThreadList(ServiceBase):
 
 
 # Singleton instance
-service_thread_list = ServiceThreadList()
-
-
-
-
+service_schedule_list = ServiceScheduleList()

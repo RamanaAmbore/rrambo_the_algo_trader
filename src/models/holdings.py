@@ -68,8 +68,8 @@ class Holdings(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    broker_account_rel = relationship("BrokerAccounts", back_populates="holdings_rel")
-    stock = relationship("StockList", back_populates="holdings")
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="holdings_rel", passive_deletes=True, )
+    stock_list_rel = relationship("StockList", back_populates="holdings_rel", passive_deletes=True, )
 
     __table_args__ = (
         ForeignKeyConstraint(

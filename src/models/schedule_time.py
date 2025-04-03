@@ -31,8 +31,8 @@ class ScheduleTime(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    schedule_list = relationship("ScheduleList", back_populates="schedule_time")
-    exchange_rel = relationship("ExchangeList", back_populates="schedule_time")
+    schedule_list_rel = relationship("ScheduleList", back_populates="schedule_time_rel", passive_deletes=True, )
+    exchange_rel = relationship("ExchangeList", back_populates="schedule_time_rel", passive_deletes=True, )
 
     __table_args__ = (
         CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),

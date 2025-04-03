@@ -28,8 +28,8 @@ class ExchangeList(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    stock_list = relationship("StockList", back_populates="exchange_rel", cascade="all, delete-orphan")
-    schedule_time = relationship("ScheduleTime", back_populates="exchange_rel", cascade="all, delete-orphan")
+    stock_list_rel = relationship("StockList", back_populates="exchange_rel", passive_deletes=True, )
+    schedule_time_rel = relationship("ScheduleTime", back_populates="exchange_rel", passive_deletes=True, )
 
     __table_args__ = (
         UniqueConstraint("exchange", name="uq_exchange"),

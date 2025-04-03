@@ -32,7 +32,7 @@ class ReportLedgerEntries(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    broker_account = relationship("BrokerAccounts", back_populates="report_ledger_entries")
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="report_ledger_entries_rel", passive_deletes=True, )
 
     __table_args__ = (
         CheckConstraint("debit >= 0", name="check_debit_non_negative"),

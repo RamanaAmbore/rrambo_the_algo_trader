@@ -26,21 +26,21 @@ class BrokerAccounts(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships with Foreign Keys
-    access_tokens_rel = relationship("AccessTokens", back_populates="broker_accounts_rel", cascade="all, delete")
-    holdings_rel = relationship("Holdings", back_populates="broker_account_rel", cascade="all, delete")
-    parameter_table_rel = relationship("ParameterTable", back_populates="broker_accounts_rel", cascade="all, delete")
-    backtest_results = relationship("BacktestResults", back_populates="broker_account", cascade="all, delete")
-    option_greeks = relationship("OptionGreeks", back_populates="broker_account", cascade="all, delete")
-    report_ledger_entries = relationship("ReportLedgerEntries", back_populates="broker_account", cascade="all, delete")
-    option_strategies = relationship("OptionStrategies", back_populates="broker_account", cascade="all, delete")
-    orders = relationship("Orders", back_populates="broker_account", cascade="all, delete")
+    access_tokens_rel = relationship("AccessTokens", back_populates="broker_accounts_rel", passive_deletes=True, )
+    holdings_rel = relationship("Holdings", back_populates="broker_accounts_rel", passive_deletes=True, )
+    parameter_table_rel = relationship("ParameterTable", back_populates="broker_accounts_rel", passive_deletes=True, )
+    backtest_results_rel = relationship("BacktestResults", back_populates="broker_accounts_rel", passive_deletes=True, )
+    option_greeks_rel = relationship("OptionGreeks", back_populates="broker_accounts_rel", passive_deletes=True, )
+    report_ledger_entries_rel = relationship("ReportLedgerEntries", back_populates="broker_accounts_rel", passive_deletes=True, )
+    option_strategies_rel = relationship("OptionStrategies", back_populates="broker_accounts_rel", passive_deletes=True, )
+    orders_rel = relationship("Orders", back_populates="broker_accounts_rel", passive_deletes=True, )
 
-    strategy_config = relationship("StrategyConfig", back_populates="broker_account", cascade="all, delete")
-    thread_status_tracker = relationship("ThreadStatusTracker", back_populates="broker_account", cascade="all, delete")
-    report_tradebook = relationship("ReportTradebook", back_populates="broker_account", cascade="all, delete")
-    positions_rel = relationship("Positions", back_populates="broker_account_rel", cascade="all, delete")
-    option_contracts = relationship("OptionContracts", back_populates="broker_account", cascade="all, delete")
-    report_profit_loss = relationship("ReportProfitLoss", back_populates="broker_account", cascade="all, delete")
+    strategy_config_rel = relationship("StrategyConfig", back_populates="broker_accounts_rel", passive_deletes=True, )
+    thread_status_tracker_rel = relationship("ThreadStatusTracker", back_populates="broker_accounts_rel", passive_deletes=True, )
+    report_tradebook_rel = relationship("ReportTradebook", back_populates="broker_accounts_rel", passive_deletes=True, )
+    positions_rel = relationship("Positions", back_populates="broker_accounts_rel", passive_deletes=True, )
+    option_contracts_rel = relationship("OptionContracts", back_populates="broker_accounts_rel", passive_deletes=True, )
+    report_profit_loss_rel = relationship("ReportProfitLoss", back_populates="broker_accounts_rel", passive_deletes=True, )
 
     __table_args__ = (
         UniqueConstraint('account', name='uq_broker_account'),

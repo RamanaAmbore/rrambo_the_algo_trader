@@ -29,7 +29,7 @@ class WatchList(Base):
         Index("idx_watchlist1", "watchlist"),
     )
 
-    watchlist_instruments = relationship("WatchListInstruments", back_populates="watchlist_rel")
+    watchlist_instruments_rel = relationship("WatchListInstruments", back_populates="watch_list_rel", passive_deletes=True, )
 
     def __repr__(self):
         return f"<Watchlist(id={self.id}, watchlist='{self.watchlist}', account='{self.account}')>"
