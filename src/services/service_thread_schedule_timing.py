@@ -2,14 +2,14 @@ import asyncio
 
 from sqlalchemy import select
 
-from src.helpers.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import db
 from src.models import ScheduleTime, ThreadSchedule, ThreadList
 from src.services.service_schedule_list import get_market_hours_for_today
 
 
 async def get_active_thread_schedule_time(account=None):
     """Fetch start and end times for active threads based on market hours."""
-    async with Db.get_async_session() as session:
+    async with db.get_async_session() as session:
         stmt = (
             select(
                 ThreadList.thread,

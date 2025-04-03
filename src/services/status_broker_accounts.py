@@ -1,10 +1,10 @@
-from src.helpers.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import db
 from src.models import BrokerAccounts
 
 
 def insert_account(account_data, sync=True):
     """Insert a new broker account record."""
-    with Db.get_session(sync) as session:
+    with db.get_session(sync) as session:
         new_account = BrokerAccounts(**account_data)
         session.add(new_account)
         session.commit()
@@ -13,7 +13,7 @@ def insert_account(account_data, sync=True):
 
 def get_all_accounts(sync=False):
     """Fetch all broker accounts."""
-    with Db.get_session(sync) as session:
+    with db.get_session(sync) as session:
         return session.query(BrokerAccounts).all()
 
 

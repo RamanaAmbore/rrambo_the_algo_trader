@@ -3,7 +3,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.future import select
 
-from src.helpers.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import db
 from src.helpers.logger import get_logger
 from src.models.holdings import Holdings
 from src.models.positions import Positions
@@ -14,7 +14,7 @@ logger = get_logger(__name__)
 
 async def get_watchlist_instrument_tokens(all_instruments):
     """Fetch unique instrument tokens for watchlist, positions, and holdings using Kite instrument list."""
-    async with Db.get_async_session() as session:
+    async with db.get_async_session() as session:
         try:
             # Step 1: Get distinct trading symbols, exchanges, accounts, and watchlists
             stmt = union(
@@ -107,7 +107,7 @@ async def update_watchlist_with_ohlc(results, instrument_tokens, ohlc_data):
         logger.info("No valid OHLC data found for the watch list instruments.")
         return
 
-    async with Db.get_async_session() as session:
+    async with db.get_async_session() as session:
         try:
             # Upsert (Insert or Update)
             stmt = insert(WatchListInstruments).values(records)

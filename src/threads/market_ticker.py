@@ -6,7 +6,7 @@ from kiteconnect import KiteTicker
 from src.models.schedule_list import ScheduleTime
 from src.settings.parameter_manager import const
 from src.helpers.date_time_utils import today_indian, current_time_indian
-from src.helpers.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import db
 from src.helpers.logger import get_logger
 from src.core.zerodha_kite_connect import ZerodhaKiteConnect
 
@@ -60,7 +60,7 @@ class MarketTicker(threading.Thread):
         current_time = current_time_indian()
 
         if self.last_checked_date != today or self.market_hours is None:
-            session = Db.get_sync_session(async_mode=False)
+            session = db.get_sync_session(async_mode=False)
             try:
                 self.market_hours = ScheduleTime.get_market_hours_for_today(session)
             finally:

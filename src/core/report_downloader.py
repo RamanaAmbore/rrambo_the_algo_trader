@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
-from src.helpers.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import db
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp, delete_folder_contents
@@ -20,7 +20,7 @@ from src.settings import constants_manager as const
 from src.settings.parameter_manager import parms, ACCOUNT_CREDENTIALS
 
 logger = get_logger(__name__)  # Initialize logger
-Db.initialize_parameters()
+db.initialize_parameters()
 
 
 class ReportDownloader:

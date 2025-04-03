@@ -1,7 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from src.helpers.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import db
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.models.schedule_time import ScheduleTime
@@ -22,7 +22,7 @@ class ServiceScheduleTime:
         today = today_indian()
         weekday = today.strftime("%A")
 
-        with Db.get_sync_session() as session:
+        with db.get_sync_session() as session:
             logger.info(f"Checking for MARKET hours for {today}")
 
             query = select(self.model).where(self.model.market_date == today,

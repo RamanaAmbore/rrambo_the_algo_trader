@@ -1,7 +1,7 @@
 # You should run the async function inside an event loop (e.g., in an async main function)
 import asyncio
 
-from src.core.core_coroutines import setup_parameters
+from src.core.app_initializer import setup_parameters, get_kite_conn
 from src.services.service_access_tokens import service_access_tokens
 from src.services.service_schedule_list import service_schedule_list
 from src.services.service_thread_list import service_thread_list
@@ -14,6 +14,8 @@ async def run():
     """Main execution function, running all tasks in parallel."""
 
     await setup_parameters()
+    get_kite_conn()
+
 
     await asyncio.gather(
         service_access_tokens.setup_table_records(DEF_ACCESS_TOKENS, skip_update_if_exists=True),

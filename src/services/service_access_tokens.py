@@ -2,7 +2,7 @@ from datetime import timedelta
 from typing import Any
 
 from src.helpers.cipher_utils import encrypt_text, decrypt_text
-from src.helpers.database_manager import DatabaseManager as Db
+from src.helpers.database_manager import db
 from src.helpers.date_time_utils import timestamp_indian
 from src.models.access_tokens import AccessTokens, logger
 from src.services.service_base import ServiceBase  # Assuming BaseService exists
@@ -33,7 +33,7 @@ class ServiceAccessTokens(ServiceBase):
         Retrieve stored access token for a given account.
         """
         try:
-            with Db.get_sync_session() as session:
+            with db.get_sync_session() as session:
                 token_entry = session.query(self.model).filter_by(account=account).first()
 
                 if token_entry:
@@ -53,7 +53,7 @@ class ServiceAccessTokens(ServiceBase):
         Save or update access token in the database.
         """
         try:
-            with Db.get_sync_session() as session:
+            with db.get_sync_session() as session:
                 token_entry = session.query(self.model).filter_by(account=account).first()
                 encrypted_token = encrypt_text(new_token)
 

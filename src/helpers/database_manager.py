@@ -116,7 +116,9 @@ def test_sync_session():
     except Exception as e:
         logger.error(f"Sync session test failed: {e}")
 
+
 db = DatabaseManager()
+
 
 async def main():
     """Main function to test both sync and async database sessions."""
