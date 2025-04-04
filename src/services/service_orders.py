@@ -1,4 +1,6 @@
 import pandas as pd
+
+from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import Orders
 from src.services.service_base import ServiceBase
@@ -8,7 +10,7 @@ logger = get_logger(__name__)
 model = Orders
 
 
-class ServiceOrders(ServiceBase):
+class ServiceOrders(SingletonBase, ServiceBase):
     """Service class for handling orders database operations."""
 
     def __init__(self):

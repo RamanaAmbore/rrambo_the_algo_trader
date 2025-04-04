@@ -1,28 +1,24 @@
 import logging
 
+from src.core.singleton_base import SingletonBase
 from src.models import ParameterTable
 from src.services.service_base import ServiceBase
 
 logger = logging.getLogger(__name__)
 
 
-class ServiceParameterTable(ServiceBase):
+class ServiceParameterTable(SingletonBase, ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
-    _instance = None
     model = ParameterTable
     conflict_cols = ['account', 'parameter']
 
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super(ServiceParameterTable, cls).__new__(cls)
-        return cls._instance
-
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if not hasattr(self, "_initialized"):  # Ensure _initialized is instance-scoped
-            super().__init__(self.model, self.conflict_cols)
-            self._initialized = True  # Mark as initialized
+        if getattr(self, '_singleton_initialized', True):
+            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
+            return
+        super().__init__(self.model, self.conflict_cols)
 
 
 # Singleton instance

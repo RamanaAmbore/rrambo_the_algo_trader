@@ -43,5 +43,6 @@ async def main():
     print("\n🧪 Active Thread Schedule Timings:\n")
     print(results)  # pretty prints list of tuples
 
+
 if __name__ == "__main__":
     asyncio.run(main())

@@ -1,6 +1,7 @@
 from datetime import timedelta
 from typing import Any
 
+from src.core.singleton_base import SingletonBase
 from src.helpers.cipher_utils import encrypt_text, decrypt_text
 from src.helpers.database_manager import db
 from src.helpers.date_time_utils import timestamp_indian
@@ -9,24 +10,19 @@ from src.services.service_base import ServiceBase  # Assuming BaseService exists
 from src.settings.parameter_manager import parms
 
 
-class ServiceAccessTokens(ServiceBase):
+class ServiceAccessTokens(SingletonBase, ServiceBase):
     """Service class for handling AccessTokens database operations."""
 
     model = AccessTokens  # Assign model at the class level
 
-    _instance = None
     conflict_cols = ['account']
-
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super(ServiceAccessTokens, cls).__new__(cls)
-        return cls._instance
 
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if not hasattr(self, "_initialized"):  # Ensure _initialized is instance-scoped
-            super().__init__(self.model, self.conflict_cols)
-            self._initialized = True  # Mark as initialized
+        if getattr(self, '_singleton_initialized', True):
+            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
+            return
+        super().__init__(self.model, self.conflict_cols)
 
     def get_stored_access_token(self, account: str) -> tuple[Any, Any] | None:
         """

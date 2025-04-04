@@ -2,6 +2,7 @@ from typing import Union, List
 
 import pandas as pd
 
+from src.core.singleton_base import SingletonBase
 from src.helpers.date_time_utils import convert_to_timezone
 from src.helpers.logger import get_logger
 from src.models import ReportLedgerEntries
@@ -12,11 +13,18 @@ logger = get_logger(__name__)
 model = ReportLedgerEntries
 
 
-class ServiceBaseReportLedgerEntry(ServiceBase):
+class ServiceReportLedgerEntries(SingletonBase, ServiceBase):
     """Service class for handling ReportTradebook database operations."""
 
+    model = ReportLedgerEntries
+    conflict_cols = ['schedule']
+
     def __init__(self):
-        super().__init__(model)
+        """Ensure __init__ is only called once."""
+        if getattr(self, '_singleton_initialized', True):
+            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
+            return
+        super().__init__(self.model, self.conflict_cols)
 
     async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
@@ -48,4 +56,4 @@ class ServiceBaseReportLedgerEntry(ServiceBase):
         return records
 
 
-service_report_ledger_entry = ServiceBaseReportLedgerEntry()
+service_report_ledger_entry = ServiceReportLedgerEntries()

@@ -1,6 +1,7 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from src.core.singleton_base import SingletonBase
 from src.helpers.database_manager import db
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
@@ -12,23 +13,19 @@ logger = get_logger(__name__)
 model = ScheduleTime
 
 
-class ServiceScheduleTime(ServiceBase):
+class ServiceScheduleTime(SingletonBase, ServiceBase):
     """Service class for handling ScheduleTime database operations."""
 
     _instance = None
     model = ScheduleTime
     conflict_cols = ['schedule', 'market_date', 'exchange', 'weekday', 'start_time']
 
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super(ServiceScheduleTime, cls).__new__(cls)
-        return cls._instance
-
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if not hasattr(self, "_initialized"):  # Ensure _initialized is instance-scoped
-            super().__init__(self.model, self.conflict_cols)
-            self._initialized = True  # Mark as initialized
+        if getattr(self, '_singleton_initialized', True):
+            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
+            return
+        super().__init__(self.model, self.conflict_cols)
 
     def get_market_hours_for_today(self):
         """Retrieve today's market hours with a fallback mechanism."""

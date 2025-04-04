@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
+from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models.base import Base
 from src.settings.parameter_manager import parms
@@ -15,24 +16,20 @@ from src.settings.parameter_manager import parms
 logger = get_logger(__name__)
 
 
-class DatabaseManager:
+class DatabaseManager(SingletonBase):
     """Singleton Database Utility Class for handling both Sync and Async database connections."""
     _instance = None
     _lock = Lock()
 
-    def __new__(cls):
-        with cls._lock:
-            if cls._instance is None:
-                cls._instance = super(DatabaseManager, cls).__new__(cls)
-        return cls._instance
-
     def __init__(self):
-        if not hasattr(self, "_initialized"):  # Fix: Use instance variable
-            self._setup_database_urls()
-            self._initialize_engines_and_sessions()
-            self._setup_database_tables()
-            self._initialized = True
-            logger.info("Database and Parameters initialized successfully")
+        if getattr(self, '_singleton_initialized', True):
+            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
+            return
+        self._setup_database_urls()
+        self._initialize_engines_and_sessions()
+        self._setup_database_tables()
+        self._initialized = True
+        logger.info("Database and Parameters initialized successfully")
 
     def _setup_database_urls(self):
         """Setup database URLs based on configuration."""
