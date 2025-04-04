@@ -95,7 +95,7 @@ class ReportDownloader:
             totp_field = cls.driver.find_element(By.XPATH, "//input[@type='number']")
             cls.highlight_element(totp_field)
 
-            for attempt in range(parms.MAX_TOTP_CONN_RETRY_COUNT):
+            for attempt in range(parms.MAX_KITE_CONN_RETRY_COUNT):
                 ztotp = generate_totp(cls.credential['TOTP_TOKEN'])
                 logger.info(f"Generated TOTP: {ztotp}")
                 totp_field.send_keys(ztotp)
@@ -107,8 +107,8 @@ class ReportDownloader:
                     return
                 else:
                     logger.warning(
-                        f"Invalid TOTP! Retrying for account: {cls.account} (Attempt {attempt + 1}/{parms.MAX_TOTP_CONN_RETRY_COUNT})")
-                if attempt == parms.MAX_TOTP_CONN_RETRY_COUNT - 1:
+                        f"Invalid TOTP! Retrying for account: {cls.account} (Attempt {attempt + 1}/{parms.MAX_KITE_CONN_RETRY_COUNT})")
+                if attempt == parms.MAX_KITE_CONN_RETRY_COUNT - 1:
                     raise ValueError(f"TOTP Authentication Failed for accunt {cls.account}")
 
         except Exception as e:

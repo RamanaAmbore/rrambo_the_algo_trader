@@ -104,7 +104,7 @@ DEF_THREAD_LIST = tuple({"thread": thread} for thread in vars(Thread) if not thr
 DEF_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
-DEF_ALGO_SCHEDULE_TIME_RECORDS = (
+DEF_SCHEDULE_TIME = (
     {'weekday': Weekday.GLOBAL, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': time(9, 00),
      'end_time': time(15, 30),
      'is_active': True},
@@ -120,7 +120,7 @@ DEF_ALGO_SCHEDULE_TIME_RECORDS = (
      'is_active': True}
 )
 
-DEF_THREAD_SCHEDULE_XREF = ({'thread': k, 'schedule': v} for k, v in vars(Thread).items())
+DEF_THREAD_SCHEDULE = tuple({'thread': k, 'schedule': v} for k, v in vars(Thread).items())
 
 DEF_BROKER_ACCOUNTS = (
     {'account': Account.ACCOUNT1, 'broker_name': 'Zerodha', 'notes': 'Haritha account'},
@@ -191,7 +191,7 @@ DEF_WATCHLIST_INSTRUMENTS = (
 )
 
 
-DEF_EXCHANGES = (
+DEF_EXCHANGE_LIST = (
     {"exchange": "NSE", "desc": "National Stock Exchange of India"},
     {"exchange": "BSE", "desc": "Bombay Stock Exchange"},
     {"exchange": "NFO", "desc": "NSE Futures & Options (Derivatives)"},

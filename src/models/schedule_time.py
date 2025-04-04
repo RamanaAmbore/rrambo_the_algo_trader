@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEF_ALGO_SCHEDULE_TIME_RECORDS
+from src.settings.constants_manager import Source, DEF_SCHEDULE_TIME
 from .base import Base
 
 logger = get_logger(__name__)
@@ -52,7 +52,7 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = ScheduleTime.__table__
-        for record in DEF_ALGO_SCHEDULE_TIME_RECORDS:
+        for record in DEF_SCHEDULE_TIME:
             exists = connection.execute(
                 select(table).where(
                     table.c.schedule == record['schedule'],

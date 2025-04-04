@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEF_EXCHANGES
+from src.settings.constants_manager import Source, DEF_EXCHANGE_LIST
 from .base import Base
 
 logger = get_logger(__name__)
@@ -45,7 +45,7 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = ExchangeList.__table__
-        for record in DEF_EXCHANGES:
+        for record in DEF_EXCHANGE_LIST:
             exists = connection.execute(
                 select(table).where(table.c.exchange == record['exchange'])
             ).fetchone() is not None  # Fetch one record instead of scalar_one_or_none

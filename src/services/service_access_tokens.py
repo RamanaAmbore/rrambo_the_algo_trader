@@ -36,17 +36,17 @@ class ServiceAccessTokens(ServiceBase):
             with db.get_sync_session() as session:
                 token_entry = session.query(self.model).filter_by(account=account).first()
 
-                if token_entry:
+                if token_entry and token_entry.token is not None:
                     age = timestamp_indian() - token_entry.timestamp
                     if age < timedelta(hours=parms.ACCESS_TOKEN_VALIDITY):
                         logger.info('Using access token from database')
-                        return decrypt_text(token_entry.token), token_entry.id
+                        return decrypt_text(token_entry.token)
                     logger.info(f'Stored token has expired for {account}')
         except Exception as e:
             logger.error(f"Error retrieving access token: {e}")
             raise
 
-        return None, None
+        return None
 
     def check_update_access_token(self, new_token: str, account: str) -> None:
         """

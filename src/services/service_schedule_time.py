@@ -5,17 +5,30 @@ from src.helpers.database_manager import db
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.models.schedule_time import ScheduleTime
+from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
 model = ScheduleTime
 
 
-class ServiceScheduleTime:
+class ServiceScheduleTime(ServiceBase):
     """Service class for handling ScheduleTime database operations."""
 
+    _instance = None
+    model = ScheduleTime
+    conflict_cols = ['schedule', 'market_date', 'exchange', 'weekday', 'start_time']
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(ServiceScheduleTime, cls).__new__(cls)
+        return cls._instance
+
     def __init__(self):
-        self.model = ScheduleTime
+        """Ensure __init__ is only called once."""
+        if not hasattr(self, "_initialized"):  # Ensure _initialized is instance-scoped
+            super().__init__(self.model, self.conflict_cols)
+            self._initialized = True  # Mark as initialized
 
     def get_market_hours_for_today(self):
         """Retrieve today's market hours with a fallback mechanism."""
@@ -73,4 +86,4 @@ class ServiceScheduleTime:
         return schedule_list  # Return list instead of None
 
 
-service_stock_list = ServiceStockList()
+service_schedule_time = ServiceScheduleTime()
