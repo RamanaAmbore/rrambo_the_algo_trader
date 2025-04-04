@@ -36,7 +36,9 @@ class ZerodhaKiteConnect(SingletonBase):
 
         self._initialized = True
 
-    def get_kite_conn(self, test_conn=True):
+        self.init_kite_conn()
+
+    def init_kite_conn(self, test_conn=True):
         """Returns KiteConnect instance, initializing it if necessary."""
         with ZerodhaKiteConnect._lock:
             if not test_conn and self.kite:
@@ -75,6 +77,8 @@ class ZerodhaKiteConnect(SingletonBase):
 
             self.fetch_access_token(request_token)
 
+    def get_kite_conn(self):
+        self.init_kite_conn()
         return self.kite
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
@@ -105,10 +109,9 @@ class ZerodhaKiteConnect(SingletonBase):
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def fetch_access_token(self, request_token):
         try:
-            kite = KiteConnect(api_key=self.api_key)
-            session_data = kite.generate_session(request_token, api_secret=self._api_secret)
+            self.kite = KiteConnect(api_key=self.api_key)
+            session_data = self.kite.generate_session(request_token, api_secret=self._api_secret)
             self._access_token = session_data["access_token"]
-            self.kite = kite
             self.kite.set_access_token(self._access_token)
 
             # Store the new access token

@@ -15,8 +15,6 @@ async def run():
     """Main execution function, running all tasks in parallel."""
 
     await setup_parameters()
-    get_kite_conn()
-
 
     await asyncio.gather(
         service_thread_list.setup_table_records(DEF_THREAD_LIST, skip_update_if_exists=True),
