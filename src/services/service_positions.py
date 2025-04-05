@@ -1,5 +1,3 @@
-import os
-
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import Positions
@@ -25,13 +23,13 @@ class ServicePositions(SingletonBase, ServiceBase):
             return
         super().__init__(self.model, self.conflict_cols)
 
-    async def pre_process_records(self, positions):
+    async def process_records(self, records):
         """Cleans and validates positions data before inserting into DB."""
         await self.delete_all_records()
-        positions = positions.get("day", []) + positions.get("net", [])
-        for record in positions:
+        records = records.get("day", []) + records.get("net", [])
+        for record in records:
             record['account'] = parms.DEF_ACCOUNT
-        return positions
+        await self.setup_table_records(records)
 
 
 service_positions = ServicePositions()

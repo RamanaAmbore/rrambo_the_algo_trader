@@ -19,7 +19,7 @@ async def setup_parameters():
     refresh_parameters(records, refresh=True)
 
     # Step 4: Initialize singleton instance
-    ZerodhaKiteConnect().get_kite_conn()
+    ZerodhaKiteConnect().get_kite_conn(test_conn=True)
 
 def get_kite_conn():
     return ZerodhaKiteConnect().get_kite_conn()

@@ -1,7 +1,3 @@
-from typing import Union, List
-
-import pandas as pd
-
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import InstrumentList
@@ -23,14 +19,13 @@ class ServiceInstrumentList(SingletonBase, ServiceBase):
             return
         super().__init__(self.model, self.conflict_cols)
 
-    @staticmethod
-    def pre_process_records(records):
+    async def process_records(self, records):
         """Cleans and validates trade records before inserting into the database."""
         # Ensure expiry column is handled properly
         for record in records:
             if record['expiry'] == '':
                 record['expiry'] = None
-        return records
+        await self.setup_table_records(records)
 
 
 service_instrument_list = ServiceInstrumentList()

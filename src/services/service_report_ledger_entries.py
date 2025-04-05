@@ -33,22 +33,15 @@ class ServiceReportLedgerEntries(SingletonBase, ServiceBase):
             return
         super().__init__(self.model, self.conflict_cols)
 
-    # async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
-    #     """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
-    #     records = self.validate_clean_records(records)
-    #     await self.bulk_insert_records(records=records, index_elements=['account',
-    #                                                                     'particulars',
-    #                                                                     'posting_date',
-    #                                                                     'cost_center',
-    #                                                                     'voucher_type',
-    #                                                                     'debit',
-    #                                                                     'credit',
-    #                                                                     'net_balance'])
-    #
-    #     logger.info(f"Bulk processed {len(records)} records.")
+    async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
+        """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
+        records=self.validate_clean_records(records)
+        await self.bulk_insert_records(records=records, index_elements=self.conflict_cols)
+
+        logger.info(f"Bulk processed {len(records)} records.")
 
     @staticmethod
-    def pre_process_records(records):
+    def validate_clean_records(records):
         """Cleans and validates trade records before inserting into the database."""
         # Convert list of dicts to DataFrame if needed
         records = pd.DataFrame(records) if isinstance(records, list) else records
@@ -63,4 +56,4 @@ class ServiceReportLedgerEntries(SingletonBase, ServiceBase):
         return records
 
 
-service_report_ledger_entry = ServiceReportLedgerEntries()
+service_report_ledger_entries = ServiceReportLedgerEntries()

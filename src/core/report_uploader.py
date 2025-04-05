@@ -7,7 +7,7 @@ import pandas as pd
 from src.helpers.logger import get_logger
 from src.helpers.utils import read_file_content
 from src.services.service_report_profit_loss import service_report_profit_loss
-from src.services.service_report_ledger_entries import service_report_ledger_entry
+from src.services.service_report_ledger_entries import service_report_ledger_entries
 from src.services.service_report_tradebook import service_report_tradebook
 from src.settings import constants_manager as const
 from src.settings.parameter_manager import parms
@@ -47,7 +47,7 @@ class ReportUploader:
             service_xref = {
                 "tradebook": service_report_tradebook,
                 "pnl": service_report_profit_loss,
-                "ledger": service_report_ledger_entry
+                "ledger": service_report_ledger_entries
             }
 
             all_files = sorted(os.listdir(parms.REPORT_DOWNLOAD_DIR),

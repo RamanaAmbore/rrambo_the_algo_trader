@@ -38,7 +38,7 @@ class ZerodhaKiteConnect(SingletonBase):
 
         self.init_kite_conn()
 
-    def init_kite_conn(self, test_conn=True):
+    def init_kite_conn(self, test_conn=False):
         """Returns KiteConnect instance, initializing it if necessary."""
         with ZerodhaKiteConnect._lock:
             if not test_conn and self.kite:
@@ -77,8 +77,8 @@ class ZerodhaKiteConnect(SingletonBase):
 
             self.fetch_access_token(request_token)
 
-    def get_kite_conn(self):
-        self.init_kite_conn()
+    def get_kite_conn(self,test_conn=True):
+        self.init_kite_conn(test_conn=test_conn)
         return self.kite
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)

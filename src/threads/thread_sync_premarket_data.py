@@ -25,8 +25,8 @@ async def sync_instrument_list():
         records = await asyncio.to_thread(kite.instruments)  # Run in a separate thread
         exchange_set = {record["exchange"] for record in records}
         exchange_set = [{'exchange': record} for record in exchange_set]
-        await service_exchange_list.validate_insert_records(exchange_set)  # Async DB insert
-        await service_instrument_list.validate_insert_records(records)  # Async DB insert
+        await service_exchange_list.pre_process_records(exchange_set)  # Async DB insert
+        await service_instrument_list.pre_process_records(records)  # Async DB insert
 
         logger.info("Stock List successfully updated.")
     except Exception as e:
@@ -64,7 +64,7 @@ async def sync_positions():
         positions = await asyncio.to_thread(kite.positions)  # Fetch in a separate thread
         records = positions.get("day", []) + positions.get("net", [])
 
-        await service_positions.validate_insert_records(records)  # Async DB insert
+        await service_positions.pre_process_records(records)  # Async DB insert
         logger.info("Positions successfully updated.")
     except Exception as e:
         logger.error(f"Error fetching positions: {e}")
@@ -85,7 +85,7 @@ async def sync_holdings():
             for k, v in mtf.items():
                 record[f'mtf_{k}'] = v
 
-        await service_holdings.validate_insert_records(records)  # Async DB insert
+        await service_holdings.pre_process_records(records)  # Async DB insert
         logger.info("Holdings successfully updated.")
     except Exception as e:
         logger.error(f"Error fetching holdings: {e}")
