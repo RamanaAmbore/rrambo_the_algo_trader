@@ -2,6 +2,7 @@
 import asyncio
 
 from src.core.app_initializer import setup_parameters, get_kite_conn
+from src.core.report_downloader import ReportDownloader
 # from src.core.report_downloader import ReportDownloader
 from src.core.report_uploader import ReportUploader
 from src.services.service_exchange_list import service_exchange_list
@@ -45,7 +46,7 @@ async def run():
 
     # await service_schedule_time.setup_table_records(DEF_SCHEDULE_TIME, skip_update_if_exists=True)
 
-    # await asyncio.to_thread(ReportDownloader.login_download_reports)  # Run in a separate thread
+    await asyncio.to_thread(ReportDownloader.login_download_reports)  # Run in a separate thread
 
     await ReportUploader.upload_reports()  # Async upload
 

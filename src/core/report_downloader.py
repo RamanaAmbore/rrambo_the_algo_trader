@@ -12,7 +12,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
-from src.helpers.database_manager import db
 from src.helpers.date_time_utils import today_indian
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp, delete_folder_contents
@@ -20,8 +19,6 @@ from src.settings import constants_manager as const
 from src.settings.parameter_manager import parms, ACCOUNT_CREDENTIALS
 
 logger = get_logger(__name__)  # Initialize logger
-db.initialize_parameters()
-
 
 class ReportDownloader:
     driver = None
@@ -187,7 +184,7 @@ class ReportDownloader:
                                 EC.element_to_be_clickable((By.XPATH, item['button'])))
                             cls.highlight_element(arrow_button)
                             arrow_button.click()
-                            time.sleep(10)
+                            time.sleep(5)
                             download_csv_link = cls.wait_for_download_link(item)
                             if download_csv_link is None:
                                 break
@@ -215,7 +212,7 @@ class ReportDownloader:
 
     @classmethod
     def enter_date_range(cls, current_start, current_end, item, segment):
-        date_range = WebDriverWait(cls.driver, 10).until(
+        date_range = WebDriverWait(cls.driver, 25).until(
             EC.element_to_be_clickable((By.XPATH, item['date_range'])))
         cls.highlight_element(date_range)
         date_range_str = f'{current_start.strftime("%Y-%m-%d")} ~ {current_end.strftime("%Y-%m-%d")}'
