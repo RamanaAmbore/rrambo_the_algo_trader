@@ -53,7 +53,7 @@ class ServiceReportTradebook(SingletonBase, ServiceBase):
                 records[col] = records[col].apply(
                     lambda x: convert_to_timezone(x, format=fmt, return_date=return_date) if pd.notna(x) else None
                 )
-
+        records = records.drop_duplicates(['account', 'trade_id'])
         records = records.to_dict(orient="records")
 
         return records
