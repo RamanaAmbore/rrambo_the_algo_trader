@@ -14,7 +14,7 @@ drop table  option_strategies cascade;
 drop table  orders cascade;
 drop table  holdings cascade;
 drop table  positions cascade;
-drop table  stock_list cascade;
+drop table  instrument_list cascade;
 drop table  strategy_config cascade;
 drop table  trades cascade;
 drop table  watch_list cascade;

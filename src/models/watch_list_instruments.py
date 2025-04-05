@@ -50,8 +50,8 @@ class WatchListInstruments(Base):
 
         # # Foreign key reference for (tradingsymbol, instrument_token, exchange)
         # ForeignKeyConstraint(["tradingsymbol", "exchange"],
-        #                      ["stock_list.tradingsymbol", "stock_list.exchange"],
-        #                      ondelete="CASCADE", name="fk_stock_list"),
+        #                      ["instrument_list.tradingsymbol", "instrument_list.exchange"],
+        #                      ondelete="CASCADE", name="fk_instrument_list"),
 
         # Explicitly defining indexes
         Index("idx_tradingsymbol2", "tradingsymbol"),

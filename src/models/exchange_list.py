@@ -28,7 +28,7 @@ class ExchangeList(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    stock_list_rel = relationship("StockList", back_populates="exchange_rel", passive_deletes=True, )
+    instrument_list_rel = relationship("InstrumentList", back_populates="exchange_rel", passive_deletes=True, )
     schedule_time_rel = relationship("ScheduleTime", back_populates="exchange_rel", passive_deletes=True, )
 
     __table_args__ = (

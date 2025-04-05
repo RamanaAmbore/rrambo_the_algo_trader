@@ -9,24 +9,20 @@ from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
-model = ExchangeList
-
 
 class ServiceExchangeList(SingletonBase, ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
+    model = ExchangeList
+
+    conflict_cols = ['exchange']
+
     def __init__(self):
-        super().__init__(model)
-
-    async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
-        """Bulk insert multiple trade records, skipping duplicates."""
-        records = self.validate_clean_records(records)
-        await self.bulk_insert_records(records=records, index_elements=["exchange"],
-                                       update_on_conflict=False)
-
-    @staticmethod
-    def validate_clean_records(records):
-        return records
+        """Ensure __init__ is only called once."""
+        if getattr(self, '_singleton_initialized', True):
+            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
+            return
+        super().__init__(self.model, self.conflict_cols)
 
 
 service_exchange_list = ServiceExchangeList()

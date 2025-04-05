@@ -1,5 +1,3 @@
-import os
-
 from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, Index, UniqueConstraint, func, DECIMAL, text, ForeignKeyConstraint,
     Boolean, CheckConstraint
@@ -8,6 +6,7 @@ from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
+from src.settings.parameter_manager import parms
 from .base import Base
 
 logger = get_logger(__name__)
@@ -22,7 +21,7 @@ class Holdings(Base):
 
     # Foreign Key relationships
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
-                     default=os.getenv('DEFAULT_ACCOUNT'))
+                     default=parms.DEF_ACCOUNT)
     tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)  # NSE/BSE
     instrument_token = Column(Integer, nullable=False)  # Part of composite FK
@@ -69,12 +68,12 @@ class Holdings(Base):
 
     # Relationships
     broker_accounts_rel = relationship("BrokerAccounts", back_populates="holdings_rel", passive_deletes=True, )
-    stock_list_rel = relationship("StockList", back_populates="holdings_rel", passive_deletes=True, )
+    instrument_list_rel = relationship("InstrumentList", back_populates="holdings_rel", passive_deletes=True, )
 
     __table_args__ = (
         ForeignKeyConstraint(
             ["tradingsymbol", "exchange"],
-            ["stock_list.tradingsymbol", "stock_list.exchange"],
+            ["instrument_list.tradingsymbol", "instrument_list.exchange"],
             ondelete="CASCADE"
         ),
         # Constraints for data integrity

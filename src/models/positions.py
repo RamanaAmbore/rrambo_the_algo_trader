@@ -10,10 +10,9 @@ from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
 from ..settings.constants_manager import Source, load_env
-
+from src.settings.parameter_manager import parms
 logger = get_logger(__name__)
 
-load_env()
 
 
 class Positions(Base):
@@ -23,7 +22,7 @@ class Positions(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
-                     default=os.getenv('DEFAULT_ACCOUNT'))
+                     default=parms.DEF_ACCOUNT)
     tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False)
@@ -72,16 +71,16 @@ class Positions(Base):
     notes = Column(String(255), nullable=True)
 
     broker_accounts_rel = relationship("BrokerAccounts", back_populates="positions_rel", passive_deletes=True)
-    stock_list_rel = relationship("StockList", back_populates="positions_rel", passive_deletes=True)
+    instrument_list_rel = relationship("InstrumentList", back_populates="positions_rel", passive_deletes=True)
 
     __table_args__ = (
         # Composite Foreign Key Constraint to stocklist
         ForeignKeyConstraint(
             ["tradingsymbol", "exchange"],
-            ["stock_list.tradingsymbol", "stock_list.exchange"],
+            ["instrument_list.tradingsymbol", "instrument_list.exchange"],
             ondelete="CASCADE"
         ),
-        UniqueConstraint("tradingsymbol", "exchange", "account", name="uq_account_tradingsymbol4"),
+        # UniqueConstraint("tradingsymbol", "exchange", "account", "quantity", name="uq_account_tradingsymbol4"),
 
         Index("idx_account_tradingsymbol3", "account", "tradingsymbol"),
         Index("idx_tradingsymbol_exchange1", "tradingsymbol", "exchange"),

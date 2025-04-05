@@ -88,7 +88,7 @@ Schedule = SimpleNamespace(MARKET='MARKET', PRE_MARKET='PRE_MARKET')
 Type = SimpleNamespace(FLOAT='float', BOOL='bool', INT='int', STR='str')
 
 Thread = SimpleNamespace(**{"start_socket_ticker": Schedule.MARKET, "sync_stock_reports": Schedule.PRE_MARKET,
-                            "sync_stock_list": Schedule.PRE_MARKET,
+                            "sync_instrument_list": Schedule.PRE_MARKET,
                             "sync_holdings": Schedule.PRE_MARKET, "sync_positions": Schedule.PRE_MARKET,
                             'sync_watch_list': Schedule.PRE_MARKET
                             })
@@ -117,7 +117,7 @@ DEF_SCHEDULE_TIME = (
      'is_active': False},
     {'weekday': Weekday.SATURDAY, 'exchange': None, 'schedule': Schedule.PRE_MARKET, 'start_time': time(8, 30),
      'end_time': None,
-     'is_active': True}
+     'is_active': True},
 )
 
 DEF_THREAD_SCHEDULE = tuple({'thread': k, 'schedule': v} for k, v in vars(Thread).items())

@@ -26,12 +26,12 @@ class ServiceReportTradebook(SingletonBase, ServiceBase):
     async def validate_insert_records(self, records):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
 
-        records = self.validate_clean_records(records)
+        records = self.pre_process_records(records)
 
         await self.bulk_insert_records(records=records, index_elements=["account", "trade_id"])
 
     @staticmethod
-    def validate_clean_records(records: pd.DataFrame):
+    def pre_process_records(records: pd.DataFrame):
         """Cleans and validates trade records before inserting into the database."""
 
         # Convert list of dicts to DataFrame if needed

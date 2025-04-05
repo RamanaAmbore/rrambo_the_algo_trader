@@ -17,7 +17,14 @@ class ServiceReportLedgerEntries(SingletonBase, ServiceBase):
     """Service class for handling ReportTradebook database operations."""
 
     model = ReportLedgerEntries
-    conflict_cols = ['schedule']
+    conflict_cols = ['account',
+                     'particulars',
+                     'posting_date',
+                     'cost_center',
+                     'voucher_type',
+                     'debit',
+                     'credit',
+                     'net_balance']
 
     def __init__(self):
         """Ensure __init__ is only called once."""
@@ -26,22 +33,22 @@ class ServiceReportLedgerEntries(SingletonBase, ServiceBase):
             return
         super().__init__(self.model, self.conflict_cols)
 
-    async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
-        """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
-        records=self.validate_clean_records(records)
-        await self.bulk_insert_records(records=records, index_elements=['account',
-                                                                        'particulars',
-                                                                        'posting_date',
-                                                                        'cost_center',
-                                                                        'voucher_type',
-                                                                        'debit',
-                                                                        'credit',
-                                                                        'net_balance'])
-
-        logger.info(f"Bulk processed {len(records)} records.")
+    # async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
+    #     """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
+    #     records = self.validate_clean_records(records)
+    #     await self.bulk_insert_records(records=records, index_elements=['account',
+    #                                                                     'particulars',
+    #                                                                     'posting_date',
+    #                                                                     'cost_center',
+    #                                                                     'voucher_type',
+    #                                                                     'debit',
+    #                                                                     'credit',
+    #                                                                     'net_balance'])
+    #
+    #     logger.info(f"Bulk processed {len(records)} records.")
 
     @staticmethod
-    def validate_clean_records(records):
+    def pre_process_records(records):
         """Cleans and validates trade records before inserting into the database."""
         # Convert list of dicts to DataFrame if needed
         records = pd.DataFrame(records) if isinstance(records, list) else records

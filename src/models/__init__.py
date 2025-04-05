@@ -12,7 +12,7 @@ from .report_profit_loss import ReportProfitLoss
 from .report_tradebook import ReportTradebook
 from .schedule_list import ScheduleList
 from .schedule_time import ScheduleTime
-from .stock_list import StockList
+from .instrument_list import InstrumentList
 from .thread_list import ThreadList
 from .thread_schedule import ThreadSchedule
 from .thread_status_tracker import ThreadStatusTracker

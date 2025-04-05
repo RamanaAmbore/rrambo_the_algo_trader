@@ -7,7 +7,7 @@ from src.helpers.logger import get_logger
 from src.services.service_exchange_list import service_exchange_list
 from src.services.service_holdings import service_holdings
 from src.services.service_positions import service_positions
-from src.services.service_stock_list import service_stock_list
+from src.services.service_instrument_list import service_instrument_list
 from src.services.service_watch_list_instruments import (update_watchlist_with_ohlc,
                                                          get_watchlist_instrument_tokens)
 
@@ -17,7 +17,7 @@ kite = ZerodhaKiteConnect.get_kite_conn()
 
 records = None
 
-async def sync_stock_list():
+async def sync_instrument_list():
     """Fetches stock list from Kite API without filtering and updates the database."""
     global records
     try:
@@ -26,7 +26,7 @@ async def sync_stock_list():
         exchange_set = {record["exchange"] for record in records}
         exchange_set = [{'exchange': record} for record in exchange_set]
         await service_exchange_list.validate_insert_records(exchange_set)  # Async DB insert
-        await service_stock_list.validate_insert_records(records)  # Async DB insert
+        await service_instrument_list.validate_insert_records(records)  # Async DB insert
 
         logger.info("Stock List successfully updated.")
     except Exception as e:
@@ -94,7 +94,7 @@ async def sync_holdings():
 async def run():
     """Main execution function, running all tasks in parallel."""
 
-    await sync_stock_list()
+    await sync_instrument_list()
     await asyncio.gather(
         sync_holdings(),
         sync_positions(),

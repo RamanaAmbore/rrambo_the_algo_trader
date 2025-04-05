@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 import datetime
 from layout import create_layout
-from src.models import StockList, get_stock_data, get_stock_info
+from src.models import InstrumentList, get_stock_data, get_stock_info
 
 app = dash.Dash()
 app.title = "RRambo - Stock Market Dashboard"
@@ -22,27 +22,27 @@ Base.metadata.drop_all(engine)
 Session = sessionmaker(bind=engine)
 
 
-def update_stock_list():
+def update_instrument_list():
     """Fetch NSE stock list once a week and update the database."""
     session = Session()
-    last_update = session.query(StockList).order_by(StockList.last_updated.desc()).first()
+    last_update = session.query(InstrumentList).order_by(InstrumentList.last_updated.desc()).first()
     if last_update and (datetime.date.today() - last_update.last_updated).days < 7:
         session.close()
         return
 
     stock_symbols = ["RELIANCE.NS", "TATAMOTORS.NS", "INFY.NS", "HDFCBANK.NS", "TCS.NS"]  # Replace with full list
-    session.query(StockList).delete()
+    session.query(InstrumentList).delete()
     for tradingsymbol in stock_symbols:
-        session.add(StockList(tradingsymbol=tradingsymbol, name=tradingsymbol, last_updated=datetime.date.today()))
+        session.add(InstrumentList(tradingsymbol=tradingsymbol, name=tradingsymbol, last_updated=datetime.date.today()))
     session.commit()
     session.close()
 
 
 # Update stock list once a week
-update_stock_list()
+update_instrument_list()
 
 session = Session()
-stocks = session.query(StockList).all()
+stocks = session.query(InstrumentList).all()
 stock_options = [{'label': stock.name, 'value': stock.tradingsymbol} for stock in stocks]
 session.close()
 

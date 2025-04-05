@@ -10,9 +10,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class StockList(Base):
+class InstrumentList(Base):
     """Model to store stock listing information."""
-    __tablename__ = "stock_list"
+    __tablename__ = "instrument_list"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -37,9 +37,9 @@ class StockList(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationships
-    positions_rel = relationship("Positions", back_populates="stock_list_rel", passive_deletes=True, )
-    holdings_rel = relationship("Holdings", back_populates="stock_list_rel", passive_deletes=True, )
-    exchange_rel = relationship("ExchangeList", back_populates="stock_list_rel", passive_deletes=True, )
+    positions_rel = relationship("Positions", back_populates="instrument_list_rel", passive_deletes=True, )
+    holdings_rel = relationship("Holdings", back_populates="instrument_list_rel", passive_deletes=True, )
+    exchange_rel = relationship("ExchangeList", back_populates="instrument_list_rel", passive_deletes=True, )
 
     __table_args__ = (
         # Composite unique constraint (needed for FK in Positions)
@@ -51,6 +51,6 @@ class StockList(Base):
     )
 
     def __repr__(self):
-        return (f"<StockList(id={self.id}, tradingsymbol='{self.tradingsymbol}', "
+        return (f"<InstrumentList(id={self.id}, tradingsymbol='{self.tradingsymbol}', "
                 f"instrument_token={self.instrument_token}, exchange='{self.exchange}', "
                 f"lot_size={self.lot_size}, source='{self.source}', timestamp={self.timestamp})>")
