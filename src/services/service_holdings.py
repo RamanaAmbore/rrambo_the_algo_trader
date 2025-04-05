@@ -21,7 +21,7 @@ class ServiceHoldings(SingletonBase, ServiceBase):
         super().__init__(self.model, self.conflict_cols)
 
     async def process_records(self, records):
-        await self.delete_all_records()
+
         master_rec = {'mtf_average_price': None, 'mtf_initial_margin': None, 'mtf_quantity': None,
                       'mtf_used_quantity': None, 'mtf_value': None}
         for holding in records:
@@ -32,7 +32,7 @@ class ServiceHoldings(SingletonBase, ServiceBase):
 
             for k, v in mtf.items():
                 holding[f'mtf_{k}'] = v
-        await self.setup_table_records(records)
+        await self.delete_setup_table_records(records)
 
 
 service_holdings = ServiceHoldings()

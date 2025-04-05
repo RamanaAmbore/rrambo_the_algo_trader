@@ -1,12 +1,8 @@
-import threading
 import time
 from functools import wraps
+from inspect import iscoroutinefunction
 
-from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.services.service_thread_status_tracker import ThreadStatusTrackerServiceBase
-from src.settings.constants_manager import ThreadStatus, Schedule, Source
-from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
 
@@ -23,7 +19,7 @@ def retry_kite_conn(max_attempts):
         def wrapper(*args, **kwargs):
             for attempt in range(max_attempts):
                 try:
-                    result= func(*args, **kwargs)
+                    result = func(*args, **kwargs)
                     return result
                 except Exception as e:
                     logger.warning(f"{func.__name__}: Attempt {attempt + 1} of {max_attempts} failed: {e}...")
@@ -32,5 +28,40 @@ def retry_kite_conn(max_attempts):
                         raise
 
         return wrapper
+
+    return decorator
+
+
+def track_exec_time():
+    def decorator(func):
+        if iscoroutinefunction(func):
+            @wraps(func)
+            async def async_wrapper(*args, **kwargs):
+                start_time = time.perf_counter()
+                try:
+                    result = await func(*args, **kwargs)
+                    return result
+                except Exception as e:
+                    raise e
+                finally:
+                    elapsed = time.perf_counter() - start_time
+                    logger.info(f"Async function {func.__name__} executed in {elapsed:.4f} seconds")
+
+            return async_wrapper
+
+        else:
+            @wraps(func)
+            def sync_wrapper(*args, **kwargs):
+                start_time = time.perf_counter()
+                try:
+                    result = func(*args, **kwargs)
+                    return result
+                except Exception as e:
+                    raise e
+                finally:
+                    elapsed = time.perf_counter() - start_time
+                    logger.info(f"Function {func.__name__} executed in {elapsed:.4f} seconds")
+
+            return sync_wrapper
 
     return decorator

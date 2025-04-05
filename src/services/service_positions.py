@@ -25,11 +25,10 @@ class ServicePositions(SingletonBase, ServiceBase):
 
     async def process_records(self, records):
         """Cleans and validates positions data before inserting into DB."""
-        await self.delete_all_records()
         records = records.get("day", []) + records.get("net", [])
         for record in records:
             record['account'] = parms.DEF_ACCOUNT
-        await self.setup_table_records(records)
+        await self.delete_setup_table_records(records)
 
 
 service_positions = ServicePositions()

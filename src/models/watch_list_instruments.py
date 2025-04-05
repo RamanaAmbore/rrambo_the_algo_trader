@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from .base import Base
-from ..settings.constants_manager import Source, DEF_WATCHLIST_INSTRUMENTS
+from ..settings.constants_manager import Source, DEF_WATCH_LIST_INSTRUMENTS
 
 logger = get_logger(__name__)
 
@@ -74,7 +74,7 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = WatchListInstruments.__table__
-        for record in DEF_WATCHLIST_INSTRUMENTS:
+        for record in DEF_WATCH_LIST_INSTRUMENTS:
             stmt = select(table.c.watchlist).where(
                 (table.c.watchlist == record['watchlist']) &
                 (table.c.tradingsymbol == record['tradingsymbol']) &

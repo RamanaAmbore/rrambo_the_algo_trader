@@ -1,3 +1,4 @@
+from src.core.decorators import track_exec_time
 from src.core.zerodha_kite_connect import ZerodhaKiteConnect
 from src.services.service_access_tokens import service_access_tokens
 from src.services.service_broker_accounts import service_broker_accounts
@@ -5,7 +6,7 @@ from src.services.service_parameter_table import service_parameter_table
 from src.settings.constants_manager import DEF_PARAMETERS, DEF_BROKER_ACCOUNTS, DEF_ACCESS_TOKENS
 from src.settings.parameter_manager import refresh_parameters
 
-
+@track_exec_time()
 async def setup_parameters():
     # Step 1: Set up broker and parameter records
     await service_broker_accounts.setup_table_records(DEF_BROKER_ACCOUNTS, skip_update_if_exists=True)

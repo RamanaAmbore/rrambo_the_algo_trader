@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.inspection import inspect as sqlainspect  # Alias to avoid name clash
 from sqlalchemy.orm import DeclarativeBase  # Assuming use of declarative base for model type hint
 
+from src.core.decorators import track_exec_time
 # Assuming db and logger setup are correct
 from src.helpers.database_manager import db
 from src.helpers.logger import get_logger
@@ -203,6 +204,7 @@ class ServiceBase:
                 logger.error(f"Error updating record {record_id} in {self.table_name}: {e}", exc_info=True)
                 raise
 
+    @track_exec_time()
     async def bulk_insert_records(
             self,
             records: Union[List[Dict[str, Any]], pd.DataFrame] = None,
@@ -211,6 +213,7 @@ class ServiceBase:
             skip_update_if_exists: bool = False,
             batch_size: int = 500,
             update_columns: Optional[List[str]] = None,
+            ignore_extra_columns: bool = False,  # <-- New flag
     ) -> None:
         """
         Performs bulk insert/upsert using PostgreSQL's ON CONFLICT clause.
@@ -223,88 +226,83 @@ class ServiceBase:
             skip_update_if_exists: If True, does not update existing records, only inserts new ones.
             batch_size: Number of records to process per database batch.
             update_columns: Explicit list of columns to update on conflict.
-                              If None and update_on_conflict is True, updates all columns
-                              not in index_elements.
+                            If None and update_on_conflict is True, updates all columns
+                            not in index_elements.
+            ignore_extra_columns: If True, silently ignores keys not in table columns.
+                                  If False, raises error on invalid keys.
         """
         if not isinstance(records, list) and not isinstance(records, tuple):
             if isinstance(records, pd.DataFrame):
                 records = records.to_dict(orient="records")
             else:
                 logger.error("Invalid format for 'records'. Must be list of dicts or DataFrame.")
-                return  # Or raise TypeError
+                return
 
         if not records:
             logger.info("No records provided for bulk insert.")
             return
 
-        # Determine conflict target
+        model_columns = {c.name for c in self._model_inspect.columns}
+
+        # Validate or filter fields based on the flag
+        if ignore_extra_columns:
+            records = [
+                {k: v for k, v in record.items() if k in model_columns}
+                for record in records
+            ]
+        else:
+            for i, record in enumerate(records):
+                extra_keys = set(record.keys()) - model_columns
+                if extra_keys:
+                    logger.error(f"Record {i} has invalid keys not in model: {extra_keys}")
+                    raise ValueError(f"Invalid keys in record {i}: {extra_keys}")
+
+        # Conflict target
         conflict_target = index_elements if index_elements is not None else self.conflict_cols
         if not conflict_target:
             if update_on_conflict:
                 logger.error("`index_elements` or `self.conflict_cols` must be provided for `update_on_conflict=True`.")
                 raise ValueError("Conflict target required for updates.")
             logger.warning(
-                f"No conflict target specified for bulk insert into {self.table_name}. Performing plain inserts within batches.")
+                f"No conflict target specified for bulk insert into {self.table_name}. Performing plain inserts.")
 
         async with db.get_async_session() as session:
             try:
-                model_columns = {c.name for c in self._model_inspect.columns}
-                non_conflict_cols = list(model_columns - set(conflict_target or []))
+                non_conflict_cols = list(model_columns - set(conflict_target))
 
-                # Determine columns to update *once* before the loop
-                set_clause_cols = []
-                if conflict_target and update_on_conflict and not skip_update_if_exists:
-                    if update_columns is None:
-                        set_clause_cols = non_conflict_cols
-                    else:
-                        set_clause_cols = [
-                            col for col in update_columns
-                            if col in model_columns and col not in conflict_target
-                        ]
+                if update_columns is None and update_on_conflict:
+                    update_columns = non_conflict_cols
 
                 for i in range(0, len(records), batch_size):
-                    batch = records[i: i + batch_size]
-                    if not batch: continue
+                    batch = records[i:i + batch_size]
+                    stmt = pg_insert(self.model).values(batch)
 
-                    valid_batch = []
-                    for rec in batch:
-                        valid_batch.append({k: v for k, v in rec.items() if k in model_columns})
-
-                    if not valid_batch: continue
-
-                    stmt = pg_insert(self.model).values(valid_batch)
-
-                    if conflict_target:
-                        if update_on_conflict and set_clause_cols and not skip_update_if_exists:
-                            update_dict = {
-                                col: stmt.excluded[col] for col in set_clause_cols
-                            }
-                            stmt = stmt.on_conflict_do_update(
-                                index_elements=conflict_target, set_=update_dict
-                            )
-                        else:
-                            stmt = stmt.on_conflict_do_nothing(index_elements=conflict_target)
+                    if update_on_conflict and not skip_update_if_exists:
+                        stmt = stmt.on_conflict_do_update(
+                            index_elements=conflict_target,
+                            set_={col: getattr(stmt.excluded, col) for col in update_columns}
+                        )
+                    elif update_on_conflict and skip_update_if_exists:
+                        stmt = stmt.on_conflict_do_nothing(index_elements=conflict_target)
 
                     await session.execute(stmt)
 
                 await session.commit()
-                logger.info(
-                    f"Successfully processed {len(records)} records in bulk "
-                    f"for {self.table_name} (batch size {batch_size}, "
-                    f"conflict update: {update_on_conflict and bool(conflict_target)}, "
-                    f"skip updates: {skip_update_if_exists}, "
-                    f"target: {conflict_target})."
-                )
 
-            except SQLAlchemyError as e:
+            except Exception as e:
+                logger.exception(f"Error in bulk insert into {self.table_name}: {e}")
                 await session.rollback()
-                logger.error(f"Bulk insert/update failed for {self.table_name}: {e}", exc_info=True)
-                raise
+
+    async def delete_setup_table_records(self, *args, **kwargs):
+        await self.delete_all_records()
+        await self.setup_table_records(*args, **kwargs)
 
     async def setup_table_records(self, default_records: List[Dict[str, Any]],
                                   update_columns: Optional[List[str]] = None,
                                   exclude_from_update=('timestamp',),
-                                  skip_update_if_exists: bool = False) -> None:
+                                  skip_update_if_exists: bool = False,
+                                  ignore_extra_columns: bool = False,  # <-- New flag
+                                  ) -> None:
         """
         Insert default records using the bulk mechanism for efficiency.
         Performs an update on conflict based on `self.conflict_cols` unless `skip_update_if_exists` is True.
@@ -315,6 +313,11 @@ class ServiceBase:
                             all columns except PKs and a predefined exclude list.
             exclude_from_update: Columns to exclude from updates.
             skip_update_if_exists: If True, does not update existing records.
+            :param skip_update_if_exists:
+            :param default_records:
+            :param update_columns:
+            :param exclude_from_update:
+            :param ignore_extra_columns:
         """
 
         if not self.conflict_cols:
@@ -351,6 +354,7 @@ class ServiceBase:
             update_on_conflict=True,
             skip_update_if_exists=skip_update_if_exists,
             update_columns=update_columns,
-            batch_size=100
+            batch_size=100,
+            ignore_extra_columns=ignore_extra_columns
         )
         logger.info(f"Default records setup completed for {self.table_name}.")

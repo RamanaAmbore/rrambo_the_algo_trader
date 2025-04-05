@@ -107,17 +107,17 @@ DEF_SCHEDULES = tuple(
 DEF_SCHEDULE_TIME = (
     {'weekday': Weekday.GLOBAL, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': time(9, 00),
      'end_time': time(15, 30),
-     'is_active': True},
+     'is_market_open': True},
     {'weekday': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': time(8, 30),
      'end_time': time(23, 15),
-     'is_active': True},
+     'is_market_open': True},
     {'weekday': Weekday.SATURDAY, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
-     'is_active': False},
+     'is_market_open': False},
     {'weekday': Weekday.SUNDAY, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
-     'is_active': False},
+     'is_market_open': False},
     {'weekday': Weekday.SATURDAY, 'exchange': None, 'schedule': Schedule.PRE_MARKET, 'start_time': time(8, 30),
      'end_time': None,
-     'is_active': True},
+     'is_market_open': True},
 )
 
 DEF_THREAD_SCHEDULE = tuple({'thread': k, 'schedule': v} for k, v in vars(Thread).items())
@@ -128,11 +128,11 @@ DEF_BROKER_ACCOUNTS = (
     {'account': '*', 'broker_name': 'Zerodha', 'notes': 'Ramana account'}
 )
 
-DEF_WATCHLISTS = (
-    {'watchlist': 'POSITIONS', 'account': Account.ACCOUNT1},
-    {'watchlist': 'HOLDINGS', 'account': Account.ACCOUNT1},
-    {'watchlist': 'POSITIONS', 'account': Account.ACCOUNT2},
-    {'watchlist': 'HOLDINGS', 'account': Account.ACCOUNT2},
+DEF_WATCH_LIST = (
+    {'watchlist': f'POSITIONS_{Account.ACCOUNT1}', 'account': Account.ACCOUNT1},
+    {'watchlist': f'HOLDINGS_{Account.ACCOUNT1}', 'account': Account.ACCOUNT1},
+    {'watchlist': f'POSITIONS_{Account.ACCOUNT2}', 'account': Account.ACCOUNT2},
+    {'watchlist': f'HOLDINGS_{Account.ACCOUNT2}', 'account': Account.ACCOUNT2},
     {'watchlist': 'INDEX_MINI'},
     {'watchlist': 'INDEX'},
     {'watchlist': 'OPTION_STOCKS'},
@@ -140,7 +140,7 @@ DEF_WATCHLISTS = (
     {'watchlist': 'COMMODITIES'}
 )
 
-DEF_WATCHLIST_INSTRUMENTS = (
+DEF_WATCH_LIST_INSTRUMENTS = (
     {"watchlist": "INDEX_MINI", "tradingsymbol": "NIFTY 50", "exchange": "NSE"},
     {"watchlist": "INDEX_MINI", "tradingsymbol": "SENSEX", "exchange": "BSE"},
     {"watchlist": "INDEX_MINI", "tradingsymbol": "NIFTY BANK", "exchange": "NSE"},

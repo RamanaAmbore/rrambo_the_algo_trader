@@ -14,11 +14,11 @@ from src.services.service_base import ServiceBase
 logger = get_logger(__name__)
 
 
-class ServiceBrokerAccounts(SingletonBase, ServiceBase):
+class ServiceWatchListInstruments(SingletonBase, ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
     model = WatchListInstruments
-    conflict_cols = ['account']
+    conflict_cols = ['account', 'watchlist', 'tradingsymbol', 'exchange']
 
     def __init__(self):
         """Ensure __init__ is only called once."""
@@ -142,3 +142,6 @@ class ServiceBrokerAccounts(SingletonBase, ServiceBase):
             except SQLAlchemyError as e:
                 logger.error(f"Error updating watch list instruments table with OHLC data: {e}", exc_info=True)
                 await session.rollback()
+
+
+service_watch_list_instruments = ServiceWatchListInstruments()
