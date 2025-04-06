@@ -25,3 +25,6 @@ async def setup_parameters():
 def get_kite_conn():
     return ZerodhaKiteConnect().get_kite_conn()
 
+def get_kite_obj():
+    return ZerodhaKiteConnect()
+

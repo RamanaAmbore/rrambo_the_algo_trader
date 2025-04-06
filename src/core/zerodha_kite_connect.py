@@ -75,7 +75,7 @@ class ZerodhaKiteConnect(SingletonBase):
                     logger.error("Failed to extract request token.")
                     raise
 
-            self.fetch_access_token(request_token)
+            self.setup_access_token(request_token)
 
     def get_kite_conn(self,test_conn=True):
         self.init_kite_conn(test_conn=test_conn)
@@ -107,7 +107,7 @@ class ZerodhaKiteConnect(SingletonBase):
             raise
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
-    def fetch_access_token(self, request_token):
+    def setup_access_token(self, request_token):
         try:
             self.kite = KiteConnect(api_key=self.api_key)
             session_data = self.kite.generate_session(request_token, api_secret=self._api_secret)
@@ -120,3 +120,5 @@ class ZerodhaKiteConnect(SingletonBase):
         except Exception as e:
             logger.error(f"Failed to generate access token for account {self.account}: {e}")
             raise
+    def get_access_token(self):
+        return self._access_token

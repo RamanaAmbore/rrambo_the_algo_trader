@@ -35,21 +35,21 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
         with db.get_sync_session() as session:
             logger.info(f"Checking for MARKET hours for {today}")
 
-            query = select(self.model).where(self.model.market_date == today,
-                                             self.model.schedule == "MARKET")
-            market_hours = session.execute(query).scalars().first()
-            if market_hours:
-                return market_hours
-
-            logger.info(f"Checking default weekday MARKET hours for {weekday}")
-            query = select(self.model).where(self.model.weekday == weekday,
-                                             self.model.schedule == "MARKET")
-            market_hours = session.execute(query).scalars().first()
-            if market_hours:
-                return market_hours
+            # query = select(self.model).where(self.model.market_date == today,
+            #                                  self.model.schedule == "MARKET")
+            # market_hours = session.execute(query).scalars().first()
+            # if market_hours:
+            #     return market_hours
+            #
+            # logger.info(f"Checking default weekday MARKET hours for {weekday}")
+            # query = select(self.model).where(self.model.weekday == weekday,
+            #                                  self.model.schedule == "MARKET")
+            # market_hours = session.execute(query).scalars().first()
+            # if market_hours:
+            #     return market_hours
 
             logger.info("Checking for GLOBAL default MARKET hours")
-            query = select(self.model).where(self.model.weekday == "GLOBAL",
+            query = select(self.model).where(self.model.weekday == "*",
                                              self.model.schedule == "MARKET")
             market_hours = session.execute(query).scalars().first()
             if market_hours:

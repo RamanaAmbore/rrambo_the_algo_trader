@@ -70,7 +70,7 @@ REPORT = {
 # Define constants using SimpleNamespace instead of Enums
 Weekday = SimpleNamespace(
     MONDAY='Monday', TUESDAY='Tuesday', WEDNESDAY='Wednesday', THURSDAY='Thursday',
-    FRIDAY='Friday', SATURDAY='Saturday', SUNDAY='Sunday', GLOBAL='GLOBAL'
+    FRIDAY='Friday', SATURDAY='Saturday', SUNDAY='Sunday', GLOBAL='*'
 )
 
 Source = SimpleNamespace(
@@ -105,18 +105,15 @@ DEF_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
 DEF_SCHEDULE_TIME = (
-    {'weekday': Weekday.GLOBAL, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': time(9, 00),
-     'end_time': time(15, 30),
+    {'weekday': Weekday.GLOBAL,  'schedule': Schedule.MARKET, 'start_time': '09:00',
+     'end_time': '15:30',
      'is_market_open': True},
-    {'weekday': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': time(8, 30),
-     'end_time': time(23, 15),
+    {'weekday': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': '09:00',
+     'end_time': '23:00',
      'is_market_open': True},
-    {'weekday': Weekday.SATURDAY, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
-     'is_market_open': False},
-    {'weekday': Weekday.SUNDAY, 'exchange': None, 'schedule': Schedule.MARKET, 'start_time': None, 'end_time': None,
-     'is_market_open': False},
-    {'weekday': Weekday.SATURDAY, 'exchange': None, 'schedule': Schedule.PRE_MARKET, 'start_time': time(8, 30),
-     'end_time': None,
+    {'weekday': Weekday.SATURDAY, 'schedule': Schedule.MARKET, 'is_market_open': False},
+    {'weekday': Weekday.SUNDAY, 'schedule': Schedule.MARKET,      'is_market_open': False},
+    {'weekday': Weekday.SATURDAY,  'schedule': Schedule.PRE_MARKET, 'start_time': '09:00',
      'is_market_open': True},
 )
 
@@ -192,6 +189,7 @@ DEF_WATCH_LIST_INSTRUMENTS = (
 
 
 DEF_EXCHANGE_LIST = (
+    {"exchange": "*", "desc": "all exchanges"},
     {"exchange": "NSE", "desc": "National Stock Exchange of India"},
     {"exchange": "BSE", "desc": "Bombay Stock Exchange"},
     {"exchange": "NFO", "desc": "NSE Futures & Options (Derivatives)"},

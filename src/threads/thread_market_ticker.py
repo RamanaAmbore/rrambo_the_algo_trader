@@ -1,109 +1,95 @@
+import asyncio
 import threading
 import time
 
 from kiteconnect import KiteTicker
 
-from src.models.schedule_list import ScheduleTime
-from src.settings.parameter_manager import const
+from src.core.app_initializer import get_kite_conn, get_kite_obj
+from src.core.app_initializer import setup_parameters
+from src.core.decorators import retry_kite_conn
+from src.core.singleton_base import SingletonBase
 from src.helpers.date_time_utils import today_indian, current_time_indian
-from src.helpers.database_manager import db
 from src.helpers.logger import get_logger
-from src.core.zerodha_kite_connect import ZerodhaKiteConnect
+from src.services.service_schedule_time import service_schedule_time
+from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
 
-class MarketTicker(threading.Thread):
+
+class MarketTicker(SingletonBase, threading.Thread):
     _instance = None
     _lock = threading.Lock()
-    _initialized = False
     instrument_tokens = set()
-    MAX_RECONNECT_ATTEMPTS = int(const.MAX_SOCKET_RECONNECT_ATTEMPTS)
-    RECONNECT_BACKOFF = 5  # Seconds, exponential backoff can be implemented
-
-
-
-    def __new__(cls):
-        with cls._lock:
-            if cls._instance is None:
-                cls._instance = super().__new__(cls)
-        return cls._instance
+    MAX_RECONNECT_ATTEMPTS = int(parms.MAX_SOCKET_RECONNECT_ATTEMPTS)
+    RECONNECT_BACKOFF = 5  # Seconds, optional exponential backoff
 
     def __init__(self):
-        with self._lock:
-            if not self._initialized:
-                super().__init__(daemon=True)
-                self.init_ticker_state()
-                self.reconnect_attempts = 0
-                self.start()
-                self._initialized = True
+        with MarketTicker._lock:
+            if getattr(self, '_singleton_initialized', False):
+                logger.debug(f"{self.__class__.__name__} already initialized.")
+                return
+            self._singleton_initialized = True
 
-                self.kite_conn = ZerodhaKiteConnect
-                self.kite_conn.get_kite_conn()
-                self.socket_conn = None
-                self.running = True
-                self.market_hours = None
-                self.last_checked_date = None
-                self.reconnect_attempts = 0
+        super().__init__(daemon=True)
 
-    def init_ticker_state(self):
-        self.kite_conn = ZerodhaKiteConnect
-        self.kite_conn.get_kite_conn()
+        # Setup internal state
+        self.kite = get_kite_obj()
         self.socket_conn = None
         self.running = True
         self.market_hours = None
         self.last_checked_date = None
-        self.reconnect_attempts = 0
-        logger.info("Starting MarketTicker thread")
 
-    def is_market_open(self):
-        today = today_indian()
-        current_time = current_time_indian()
+        logger.info("MarketTicker thread initialized.")
+        self.start()
 
-        if self.last_checked_date != today or self.market_hours is None:
-            session = db.get_sync_session(async_mode=False)
-            try:
-                self.market_hours = ScheduleTime.get_market_hours_for_today(session)
-            finally:
-                session.close()
-            if not self.market_hours:
-                logger.error(f"No market hours record found in market hours table for {today}")
-                return False
-            self.last_checked_date = today
-
-        market_open = self.market_hours.start_time
-        market_close = self.market_hours.end_time
-        is_open = self.market_hours.is_market_open and market_open <=current_time < market_close
-
-        logger.info(
-            f"Market open status: {is_open}, Current time: {current_time}, Market hours: {market_open} - {market_close}")
-        return is_open
-
-    def run(self):
-        while self.running:
-            if self.is_market_open():
-                logger.info("Market is open. Ensuring WebSocket is running.")
-                self.setup_socket_conn()
-            else:
-                logger.info("Market is closed. Ensuring WebSocket is stopped.")
-                self.close_socket()
-            time.sleep(30)
-
+    @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def setup_socket_conn(self):
-        if self.reconnect_attempts >= self.MAX_RECONNECT_ATTEMPTS:
-            logger.error("Maximum WebSocket reconnection attempts reached. Stopping reconnect attempts.")
-            return
-
         if self.is_market_open():
             if self.socket_conn:
                 return
 
-            self.socket_conn = KiteTicker(self.kite_conn.api_key, self.kite_conn.get_access_token())
+            self.socket_conn = KiteTicker(self.kite.api_key, self.kite.get_access_token())
             self.socket_conn.on_ticks = self.on_ticks
             self.socket_conn.on_connect = self.on_connect
             self.socket_conn.on_close = self.on_close
             self.socket_conn.on_error = self.on_error
             self.socket_conn.on_reconnect = self.on_reconnect
             self.socket_conn.connect(threaded=True)
+
+    def is_market_open(self):
+        today = today_indian()
+        current_time = current_time_indian()
+
+        if self.last_checked_date != today or self.market_hours is None:
+            try:
+                self.market_hours = service_schedule_time.get_market_hours_for_today()
+                self.last_checked_date = today
+            except Exception as e:
+                logger.error(f"Failed to fetch market hours: {e}")
+                self.market_hours = None
+
+        if self.market_hours and self.market_hours.is_market_open:
+            return self.market_hours.start_time <= current_time <= self.market_hours.end_time
+
+        return False
+
+    def run(self):
+        logger.info("MarketTicker started.")
+        while self.running:
+            try:
+                if self.is_market_open():
+                    logger.debug("Market is open. Ensuring WebSocket is active.")
+                    self.setup_socket_conn()
+                else:
+                    logger.debug("Market is closed. WebSocket not required.")
+                    self.close_socket()
+                    return
+
+                time.sleep(parms.KITE_SOCKET_SLEEP)  # Tune this as needed for responsiveness vs. CPU
+
+            except Exception as e:
+                logger.error(f"Error in MarketTicker loop: {e}")
+                raise
 
     def close_socket(self):
         if self.socket_conn:
@@ -136,9 +122,11 @@ class MarketTicker(threading.Thread):
             self.reconnect_attempts += 1
             time.sleep(min(self.RECONNECT_BACKOFF * (2 ** self.reconnect_attempts), 60))
             self.setup_socket_conn()
+
     @classmethod
     def on_error(cls, ws, code, reason):
         logger.error(f"WebSocket error {code}: {reason}")
+
     @classmethod
     def on_reconnect(cls, ws, attempts):
         logger.info(f"WebSocket reconnecting, attempt {attempts}...")
@@ -171,7 +159,8 @@ class MarketTicker(threading.Thread):
                 cls._instance = None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    asyncio.run(setup_parameters())  # Proper way to call an async function
     market_ticker = MarketTicker()
     market_ticker.add_instruments([738561, 5633])  # Add tokens
     time.sleep(1)

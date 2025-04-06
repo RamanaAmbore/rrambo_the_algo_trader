@@ -19,22 +19,12 @@ from src.settings.constants_manager import DEF_THREAD_LIST, DEF_SCHEDULES, DEF_T
     DEF_SCHEDULE_TIME, DEF_WATCH_LIST, DEF_WATCH_LIST_INSTRUMENTS
 
 
-@track_exec_time()
-async def run():
-    """Main execution function, running all tasks in parallel."""
-
-    await setup_parameters()
-
-    # await setup_pre_market()
-
-    await sync_reports()
-
-
 async def setup_pre_market():
     await asyncio.gather(
         service_thread_list.setup_table_records(DEF_THREAD_LIST, skip_update_if_exists=True),
         service_schedule_list.setup_table_records(DEF_SCHEDULES, skip_update_if_exists=True),
         service_watch_list.setup_table_records(DEF_WATCH_LIST, skip_update_if_exists=True),
+        service_exchange_list.setup_table_records(DEF_EXCHANGE_LIST, skip_update_if_exists=True)
     )
     await asyncio.gather(
         service_thread_schedule.setup_table_records(DEF_THREAD_SCHEDULE, skip_update_if_exists=True),
@@ -43,7 +33,7 @@ async def setup_pre_market():
 
     instrument_list = await asyncio.to_thread(get_kite_conn().instruments)  # Run in a separate thread
 
-    await service_exchange_list.setup_table_records(DEF_EXCHANGE_LIST)
+
     exchange_list = {record["exchange"] for record in instrument_list}
     exchange_list = tuple({'exchange': record} for record in exchange_list)
     await service_exchange_list.setup_table_records(exchange_list)
@@ -63,6 +53,17 @@ async def setup_pre_market():
 async def sync_reports():
     await asyncio.to_thread(ReportDownloader.login_download_reports)
     await ReportUploader.upload_reports()
+
+
+@track_exec_time()
+async def run():
+    """Main execution function, running all tasks in parallel."""
+
+    await setup_parameters()
+
+    await setup_pre_market()
+
+    # await sync_reports()
 
 
 if __name__ == "__main__":

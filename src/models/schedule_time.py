@@ -17,11 +17,11 @@ class ScheduleTime(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(10), ForeignKey("schedule_list.schedule", ondelete="CASCADE"), nullable=False)
-    exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=True)
-    market_date = Column(Date, nullable=True)
-    weekday = Column(String(10), nullable=True)
-    start_time = Column(Time, nullable=True)
-    end_time = Column(Time, nullable=True)
+    exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=False,default='*')
+    market_date = Column(String(10), nullable=False,default='*')
+    weekday = Column(String(10), nullable=False,default='*')
+    start_time = Column(String(5), nullable=False,default='*')
+    end_time = Column(String(5), nullable=False,default='*')
     is_market_open = Column(Boolean, nullable=False, default=True)
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
