@@ -105,15 +105,19 @@ DEF_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
 DEF_SCHEDULE_TIME = (
-    {'weekday': Weekday.GLOBAL,  'schedule': Schedule.MARKET, 'start_time': '09:00',
+    {'market_day': Weekday.GLOBAL,  'schedule': Schedule.MARKET, 'start_time': '09:00',
      'end_time': '15:30',
      'is_market_open': True},
-    {'weekday': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': '09:00',
+    {'market_day': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': '09:00',
      'end_time': '23:00',
      'is_market_open': True},
-    {'weekday': Weekday.SATURDAY, 'schedule': Schedule.MARKET, 'is_market_open': False},
-    {'weekday': Weekday.SUNDAY, 'schedule': Schedule.MARKET,      'is_market_open': False},
-    {'weekday': Weekday.SATURDAY,  'schedule': Schedule.PRE_MARKET, 'start_time': '09:00',
+    {'market_day': Weekday.SATURDAY, 'schedule': Schedule.MARKET, 'is_market_open': False},
+    {'market_day': Weekday.SATURDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
+    {'market_day': Weekday.SUNDAY, 'schedule': Schedule.MARKET,      'is_market_open': False},
+    {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
+    {'market_day': Weekday.SATURDAY,  'schedule': Schedule.PRE_MARKET, 'start_time': '09:00',
+     'is_market_open': True},
+    {'market_day': Weekday.SATURDAY, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '09:00',
      'is_market_open': True},
 )
 

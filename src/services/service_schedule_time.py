@@ -1,5 +1,6 @@
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from typing import List, Optional, Union, Tuple, Set
+
+from sqlalchemy import select, column
 
 from src.core.singleton_base import SingletonBase
 from src.helpers.database_manager import db
@@ -18,7 +19,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
 
     _instance = None
     model = ScheduleTime
-    conflict_cols = ['schedule', 'market_date', 'exchange', 'weekday', 'start_time']
+    conflict_cols = ['schedule', 'market_day', 'exchange', 'start_time']
 
     def __init__(self):
         """Ensure __init__ is only called once."""
@@ -27,60 +28,100 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
             return
         super().__init__(self.model, self.conflict_cols)
 
-    def get_market_hours_for_today(self):
-        """Retrieve today's market hours with a fallback mechanism."""
+    def _get_unique_exchanges(self):
+        """Fetch unique exchange values from the table."""
+        exchanges = set()
+        with db.get_sync_session() as session:
+            try:
+                # Assuming 'exchange' is a column in your model
+                query = select(self.model.exchange).distinct()
+                results = session.execute(query).scalars().all()
+                return results
+            except Exception as e:
+                logger.error(f"Error fetching unique exchanges: {e}")
+                return ["*"]  # Fallback to global if error
+
+
+    def get_market_hours_for_today(self) -> List:
+        """Retrieve today's market hours with a fallback mechanism, considering all exchanges."""
         today = today_indian()
         weekday = today.strftime("%A")
+        today_str = today.strftime("%Y-%m-%d")  # Assuming default postgres date format is<\ctrl3348>-MM-DD
+        records= []
+        exchanges = self._get_unique_exchanges()
+        imp_columns = self.conflict_cols+['end_time','is_market_open']
+        with db.get_sync_session() as session:
+            for schedule in ('MARKET', 'PRE_MARKET'):
+                for exchange in exchanges:
+                    logger.info(f"Checking for {schedule} hours for {today_str} with exchange '{exchange}'")
+                    query = select(self.model).where(
+                        self.model.market_day == today_str,
+                        self.model.schedule == schedule,
+                        self.model.exchange == exchange
+                    )
+                    record = session.execute(query).scalars().first()
+                    if not record:
+                        logger.info(
+                            f"Checking default weekday {schedule} hours for {weekday} with exchange '{exchange}'")
+                        query = select(self.model).where(
+                            self.model.market_day == weekday,
+                            self.model.schedule == schedule,
+                            self.model.exchange == exchange
+                        )
+                        record = session.execute(query).scalars().first()
+                    if not record:
+                        logger.info(
+                            f"Checking default weekday {schedule} hours for * with exchange '{exchange}'")
+                        query = select(self.model).where(
+                            self.model.market_day == '*',
+                            self.model.schedule == schedule,
+                            self.model.exchange == exchange
+                        )
+                        record = session.execute(query).scalars().first()
+                    if record:
+                        result = {column: getattr(record, column) for column in imp_columns}
+                        records.append(result)
+        return records  # Return a unique list of matching schedules
+
+    def get_batch_schedules(self, batch_type: Optional[Union[str, List[str], Tuple[str], Set[str]]] = None) -> List:
+        """Retrieve today's batch processing schedule_list, considering all exchanges."""
+        today = today_indian()
+        today_str = today.strftime("%Y-%m-%d")  # Assuming default postgres date format is<\ctrl3348>-MM-DD
+        all_schedules = []
+        exchanges = self._get_unique_exchanges()
 
         with db.get_sync_session() as session:
-            logger.info(f"Checking for MARKET hours for {today}")
+            for exchange in exchanges:
+                logger.info(
+                    f"Checking batch schedule_list of type {batch_type} for {today_str} with exchange '{exchange}'")
+                query = select(self.model).where(self.model.market_date == today_str)
 
-            # query = select(self.model).where(self.model.market_date == today,
-            #                                  self.model.schedule == "MARKET")
-            # market_hours = session.execute(query).scalars().first()
-            # if market_hours:
-            #     return market_hours
-            #
-            # logger.info(f"Checking default weekday MARKET hours for {weekday}")
-            # query = select(self.model).where(self.model.weekday == weekday,
-            #                                  self.model.schedule == "MARKET")
-            # market_hours = session.execute(query).scalars().first()
-            # if market_hours:
-            #     return market_hours
+                if batch_type:
+                    query = query.where(self.model.schedule.in_(batch_type))
 
-            logger.info("Checking for GLOBAL default MARKET hours")
-            query = select(self.model).where(self.model.weekday == "*",
-                                             self.model.schedule == "MARKET")
-            market_hours = session.execute(query).scalars().first()
-            if market_hours:
-                return market_hours
+                query = query.where(self.model.exchange == exchange)
 
-        return None  # Return None if no matching schedule is found
+                found_schedules = session.execute(query).scalars().all()
+                if found_schedules:
+                    all_schedules.extend(found_schedules)
 
-    def get_batch_schedules(self, session: Session, batch_type=None):
-        """Retrieve today's batch processing schedule_list."""
-        today = today_indian()
+            # Fetch global batch schedules (exchange '*') once
+            logger.info(f"Checking batch schedule_list of type {batch_type} for {today_str} with global exchange")
+            query = select(self.model).where(self.model.market_date == today_str)
 
-        if batch_type and not isinstance(batch_type, (list, tuple, set)):
-            batch_type = [batch_type]
+            if batch_type:
+                query = query.where(self.model.schedule.in_(batch_type))
 
-        schedule_list = []
+            query = query.where(self.model.exchange == "*")
 
-        logger.info(f"Checking batch schedule_list of type {batch_type} for {today}")
+            found_schedules = session.execute(query).scalars().all()
+            if found_schedules:
+                all_schedules.extend(found_schedules)
 
-        query = select(self.model).where(self.model.market_date == today,
-                                         self.model.schedule == "MARKET")
-        if batch_type:
-            query = query.where(self.model.schedule.in_(batch_type))
+            if not all_schedules:
+                logger.info(f"No batch schedule_list found for {batch_type} on {today_str} for any exchange")
 
-        found_schedules = session.execute(query).scalars().all()
-        if found_schedules:
-            schedule_list.extend(found_schedules)
-
-        if not schedule_list:
-            logger.info(f"No batch schedule_list found for {batch_type} on {today}")
-
-        return schedule_list  # Return list instead of None
+        return list(set(all_schedules))
 
 
 service_schedule_time = ServiceScheduleTime()

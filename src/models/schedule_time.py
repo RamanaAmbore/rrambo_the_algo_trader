@@ -18,8 +18,7 @@ class ScheduleTime(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     schedule = Column(String(10), ForeignKey("schedule_list.schedule", ondelete="CASCADE"), nullable=False)
     exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=False,default='*')
-    market_date = Column(String(10), nullable=False,default='*')
-    weekday = Column(String(10), nullable=False,default='*')
+    market_day = Column(String(10), nullable=False,default='*')
     start_time = Column(String(5), nullable=False,default='*')
     end_time = Column(String(5), nullable=False,default='*')
     is_market_open = Column(Boolean, nullable=False, default=True)
@@ -35,14 +34,13 @@ class ScheduleTime(Base):
     exchange_rel = relationship("ExchangeList", back_populates="schedule_time_rel", passive_deletes=True, )
 
     __table_args__ = (
-        CheckConstraint("market_date IS NOT NULL OR weekday IS NOT NULL", name="check_at_least_one_not_null"),
-        UniqueConstraint('schedule', 'market_date', 'exchange', 'weekday', 'start_time', name='uq_schedule_time'),
-        Index('idx_schedule_time', 'schedule', 'market_date', 'exchange', 'weekday'),)
+        UniqueConstraint('schedule', 'market_day', 'exchange', 'start_time', name='uq_schedule_time'),
+        Index('idx_schedule_time', 'schedule', 'market_day', 'exchange'),)
 
     def __repr__(self):
         return (f"<ScheduleTime(id={self.id}, "
                 f"schedule='{self.schedule}', "
-                f"market_date={self.market_date}, weekday={self.weekday}, "
+                f"market_day={self.market_day}, "
                 f"start_time={self.start_time}, end_time={self.end_time}, "
                 f"is_market_open={self.is_market_open}, source='{self.source}', "
                 f"warning_error={self.warning_error}, notes='{self.notes}')>")
