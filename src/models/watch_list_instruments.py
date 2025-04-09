@@ -1,5 +1,6 @@
 from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKeyConstraint, UniqueConstraint, func, DECIMAL,
                         Index, select, ForeignKey)
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -21,6 +22,9 @@ class WatchListInstruments(Base):
     instrument_token = Column(Integer, nullable=True, index=True)  # Index added
     exchange = Column(String(20), nullable=False)
 
+    @hybrid_property
+    def symbol_exchange(self):
+        return f"{self.tradingsymbol}:{self.exchange}"
     
     prev_close_price = Column(DECIMAL(12, 4), nullable=True, default=0)
     last_price = Column(DECIMAL(12, 4), nullable=True, default=0)

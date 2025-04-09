@@ -1,3 +1,5 @@
+from typing import List, Optional, Dict, Any
+
 from sqlalchemy import literal, union
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import SQLAlchemyError
@@ -143,5 +145,17 @@ class ServiceWatchListInstruments(SingletonBase, ServiceBase):
                 logger.error(f"Error updating watch list instruments table with OHLC data: {e}", exc_info=True)
                 await session.rollback()
 
+    async def setup_table_records(self, default_records: List[Dict[str, Any]],
+                                  update_columns: Optional[List[str]] = None,
+                                  exclude_from_update=('timestamp',),
+                                  skip_update_if_exists: bool = False,
+                                  ignore_extra_columns: bool = False,  # <-- New flag
+                                  ) -> None:
+        await super().setup_table_records(default_records,
+                                  update_columns,
+                                  exclude_from_update,
+                                  skip_update_if_exists,
+                                  ignore_extra_columns)
+        # update_watchlist()
 
 service_watch_list_instruments = ServiceWatchListInstruments()

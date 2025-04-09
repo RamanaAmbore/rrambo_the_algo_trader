@@ -4,6 +4,7 @@ from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, ForeignKeyConstraint,
     CheckConstraint, Index, DECIMAL, func, text, UniqueConstraint
 )
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -26,6 +27,10 @@ class Positions(Base):
     tradingsymbol = Column(String(50), nullable=False)
     exchange = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False)
+
+    @hybrid_property
+    def symbol_exchange(self):
+        return f"{self.tradingsymbol}:{self.exchange}"
 
     product = Column(String(10), nullable=False, default="NRML")
 

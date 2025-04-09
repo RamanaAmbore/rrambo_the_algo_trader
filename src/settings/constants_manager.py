@@ -115,10 +115,14 @@ DEF_SCHEDULE_TIME = (
     {'market_day': Weekday.SATURDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
     {'market_day': Weekday.SUNDAY, 'schedule': Schedule.MARKET,      'is_market_open': False},
     {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
-    {'market_day': Weekday.SATURDAY,  'schedule': Schedule.PRE_MARKET, 'start_time': '09:00',
+    {'market_day': Weekday.GLOBAL, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
      'is_market_open': True},
-    {'market_day': Weekday.SATURDAY, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '09:00',
+    {'market_day': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
      'is_market_open': True},
+    {'market_day': Weekday.SUNDAY, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+     'is_market_open': False},
+    {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+     'is_market_open': False},
 )
 
 DEF_THREAD_SCHEDULE = tuple({'thread': k, 'schedule': v} for k, v in vars(Thread).items())
@@ -130,10 +134,6 @@ DEF_BROKER_ACCOUNTS = (
 )
 
 DEF_WATCH_LIST = (
-    {'watchlist': f'POSITIONS_{Account.ACCOUNT1}', 'account': Account.ACCOUNT1},
-    {'watchlist': f'HOLDINGS_{Account.ACCOUNT1}', 'account': Account.ACCOUNT1},
-    {'watchlist': f'POSITIONS_{Account.ACCOUNT2}', 'account': Account.ACCOUNT2},
-    {'watchlist': f'HOLDINGS_{Account.ACCOUNT2}', 'account': Account.ACCOUNT2},
     {'watchlist': 'INDEX_MINI'},
     {'watchlist': 'INDEX'},
     {'watchlist': 'OPTION_STOCKS'},
