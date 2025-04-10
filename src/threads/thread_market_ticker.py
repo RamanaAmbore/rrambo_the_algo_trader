@@ -4,8 +4,8 @@ import time
 
 from kiteconnect import KiteTicker
 
-from src.core.app_initializer import get_kite_conn, get_kite_obj
-from src.core.app_initializer import setup_parameters
+from src.core.app_initializer import app_initializer
+
 from src.core.decorators import retry_kite_conn
 from src.core.singleton_base import SingletonBase
 from src.helpers.date_time_utils import today_indian, current_time_indian
@@ -33,7 +33,7 @@ class MarketTicker(SingletonBase, threading.Thread):
         super().__init__(daemon=True)
 
         # Setup internal state
-        self.kite = get_kite_obj()
+        self.kite = app_initializer.get_kite_obj()
         self.socket_conn = None
         self.running = True
         self.market_hours = None
@@ -160,7 +160,7 @@ class MarketTicker(SingletonBase, threading.Thread):
 
 
 if __name__ == "__main__":
-    asyncio.run(setup_parameters())  # Proper way to call an async function
+    asyncio.run(app_initializer.setup_parameters())  # Proper way to call an async function
     market_ticker = MarketTicker()
     market_ticker.add_instruments([738561, 5633])  # Add tokens
     time.sleep(1)

@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, func, Date, ForeignKey
+    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, func, Date, ForeignKey, event
 )
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
@@ -11,6 +11,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 
+
+
+
 class InstrumentList(Base):
     """Model to store stock listing information."""
     __tablename__ = "instrument_list"
@@ -20,13 +23,11 @@ class InstrumentList(Base):
     tradingsymbol = Column(String(50), nullable=False)
     exchange_token = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False)
-    @hybrid_property
-    def symbol_exchange(self):
-        return f"{self.tradingsymbol}:{self.exchange}"
+    symbol_exchange = Column(String(50), nullable=True)
 
     name = Column(String(50), nullable=False)
     segment = Column(String(50), nullable=False)
-    instrument_type = Column(String(50), nullable=False)
+    instrument_type = Column(String(50), nullable=True)
     exchange = Column(String(10), ForeignKey("exchange_list.exchange", ondelete="CASCADE"), nullable=False)
     lot_size = Column(Integer, nullable=False, server_default=text("1"))
     last_price = Column(DECIMAL(10, 4), nullable=True)  # For options
@@ -59,3 +60,4 @@ class InstrumentList(Base):
         return (f"<InstrumentList(id={self.id}, tradingsymbol='{self.tradingsymbol}', "
                 f"instrument_token={self.instrument_token}, exchange='{self.exchange}', "
                 f"lot_size={self.lot_size}, source='{self.source}', timestamp={self.timestamp})>")
+

@@ -8,6 +8,7 @@ from sqlalchemy.future import select
 from src.core.singleton_base import SingletonBase
 from src.helpers.database_manager import db
 from src.helpers.logger import get_logger
+from src.managers.makret_state_manager import market_state_manager
 from src.models.holdings import Holdings
 from src.models.positions import Positions
 from src.models.watch_list_instruments import WatchListInstruments
@@ -156,6 +157,6 @@ class ServiceWatchListInstruments(SingletonBase, ServiceBase):
                                   exclude_from_update,
                                   skip_update_if_exists,
                                   ignore_extra_columns)
-        # update_watchlist()
+        market_state_manager.update_watchlist(default_records)
 
 service_watch_list_instruments = ServiceWatchListInstruments()

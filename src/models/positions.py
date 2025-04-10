@@ -2,7 +2,7 @@ import os
 
 from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, ForeignKeyConstraint,
-    CheckConstraint, Index, DECIMAL, func, text, UniqueConstraint
+    CheckConstraint, Index, DECIMAL, func, text, UniqueConstraint, event
 )
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
@@ -28,9 +28,7 @@ class Positions(Base):
     exchange = Column(String(20), nullable=False)
     instrument_token = Column(Integer, nullable=False)
 
-    @hybrid_property
-    def symbol_exchange(self):
-        return f"{self.tradingsymbol}:{self.exchange}"
+    symbol_exchange = Column(String(50), nullable=True)
 
     product = Column(String(10), nullable=False, default="NRML")
 

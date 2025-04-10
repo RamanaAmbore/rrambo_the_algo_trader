@@ -1,8 +1,7 @@
 from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, Index, UniqueConstraint, func, DECIMAL, text, ForeignKeyConstraint,
-    Boolean, CheckConstraint
+    Boolean, CheckConstraint, event
 )
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -27,9 +26,7 @@ class Holdings(Base):
     exchange = Column(String(20), nullable=False)  # NSE/BSE
     instrument_token = Column(Integer, nullable=False)  # Part of composite FK
 
-    @hybrid_property
-    def symbol_exchange(self):
-        return f"{self.tradingsymbol}:{self.exchange}"
+    symbol_exchange = Column(String(50), nullable=True)
 
     isin = Column(String(20), nullable=True, unique=True)  # Unique ISIN for stock identification
 
@@ -109,3 +106,4 @@ class Holdings(Base):
         return (f"<Holdings(id={self.id}, account='{self.account}', tradingsymbol='{self.tradingsymbol}', "
                 f"exchange='{self.exchange}', quantity={self.quantity}, avg_price={self.average_price}, "
                 f"pnl={self.pnl}, day_change={self.day_change}, day_change_pct={self.day_change_percentage})>")
+

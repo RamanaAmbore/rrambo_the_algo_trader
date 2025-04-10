@@ -63,6 +63,7 @@ class WebSocketManager:
         except Exception as e:
             logger.error(f"Error creating async task: {e}")
 
+websocket_manager = WebSocketManager()
 # Example after fetching updated watchlist
 # market_state_manager.update_watchlist(new_symbols)
 # websocket_manager.update_subscription(market_state_manager.get_token_list())

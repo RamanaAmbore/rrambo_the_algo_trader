@@ -1,14 +1,10 @@
 from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKeyConstraint, UniqueConstraint, func, DECIMAL,
-                        Index, select, ForeignKey)
-from sqlalchemy.ext.hybrid import hybrid_property
+                        Index, ForeignKey)
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
-from src.helpers.logger import get_logger
 from .base import Base
-from ..settings.constants_manager import Source, DEF_WATCH_LIST_INSTRUMENTS
-
-logger = get_logger(__name__)
+from src.settings.constants_manager import Source
 
 
 class WatchListInstruments(Base):
@@ -19,12 +15,11 @@ class WatchListInstruments(Base):
     watchlist = Column(String(20), nullable=False)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     tradingsymbol = Column(String(50), nullable=False, index=True)  # Index added
-    instrument_token = Column(Integer, nullable=True, index=True)  # Index added
+
     exchange = Column(String(20), nullable=False)
 
-    @hybrid_property
-    def symbol_exchange(self):
-        return f"{self.tradingsymbol}:{self.exchange}"
+
+    symbol_exchange = Column(String(50), nullable=True)  # Index added
     
     prev_close_price = Column(DECIMAL(12, 4), nullable=True, default=0)
     last_price = Column(DECIMAL(12, 4), nullable=True, default=0)
@@ -60,7 +55,7 @@ class WatchListInstruments(Base):
         # Explicitly defining indexes
         Index("idx_tradingsymbol2", "tradingsymbol"),
         Index("idx_tradingsymbol4", "tradingsymbol", "exchange"),
-        Index("idx_instrument_token3", "instrument_token"),
+
     )
 
     watch_list_rel = relationship("WatchList", back_populates="watchlist_instruments_rel", passive_deletes=True, )
@@ -72,25 +67,3 @@ class WatchListInstruments(Base):
 
 
 
-
-
-def initialize_default_records(connection):
-    """Initialize default records in the table."""
-    try:
-        table = WatchListInstruments.__table__
-        for record in DEF_WATCH_LIST_INSTRUMENTS:
-            stmt = select(table.c.watchlist).where(
-                (table.c.watchlist == record['watchlist']) &
-                (table.c.tradingsymbol == record['tradingsymbol']) &
-                (table.c.exchange == record['exchange']) &
-                (table.c.account == record.get('account','*'))  # Default to None if not present
-            )
-            exists = connection.execute(stmt).scalar_one_or_none()
-
-            if exists is None:  # Fixes the boolean check issue
-                connection.execute(table.insert(), record)
-        connection.commit()
-        logger.info('Default Watch List records inserted/updated')
-    except Exception as e:
-        logger.error(f"Error inserting default Watch List records: {e}", exc_info=True)
-        raise

@@ -1,10 +1,9 @@
-import logging
-
 from src.core.singleton_base import SingletonBase
+from src.helpers.logger import get_logger
 from src.models import ScheduleList
 from src.services.service_base import ServiceBase
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class ServiceScheduleList(SingletonBase, ServiceBase):

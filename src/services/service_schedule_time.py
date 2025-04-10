@@ -1,6 +1,6 @@
 from typing import List, Optional, Union, Tuple, Set
 
-from sqlalchemy import select, column
+from sqlalchemy import select
 
 from src.core.singleton_base import SingletonBase
 from src.helpers.database_manager import db
@@ -10,10 +10,6 @@ from src.models.schedule_time import ScheduleTime
 from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
-
-model = ScheduleTime
-
-
 class ServiceScheduleTime(SingletonBase, ServiceBase):
     """Service class for handling ScheduleTime database operations."""
 

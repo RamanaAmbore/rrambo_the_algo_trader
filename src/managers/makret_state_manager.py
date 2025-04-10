@@ -21,9 +21,10 @@ class MarketStateManager(SingletonBase):
         self.lock = Lock()
 
     def update_watchlist(self, new_stocks):
-        with self.lock:
-            self.watchlist = set(new_stocks)
-            self._update_instrument_map(new_stocks)
+        pass
+        # with self.lock:
+        #     self.watchlist = set(new_stocks)
+        #     self._update_instrument_map(new_stocks)
 
     def update_holdings(self, holdings_list):
         with self.lock:
@@ -67,4 +68,6 @@ class MarketStateManager(SingletonBase):
     def get_all_symbols(self):
         with self.lock:
             return list(self.instrument_map.values())
+
+market_state_manager = MarketStateManager()
 

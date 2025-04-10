@@ -4,7 +4,8 @@ from src.core.singleton_base import SingletonBase
 from src.models import BrokerAccounts
 from src.services.service_base import ServiceBase
 
-logger = logging.getLogger(__name__)
+from src.helpers.logger import get_logger
+logger = get_logger(__name__)
 
 
 class ServiceBrokerAccounts(SingletonBase, ServiceBase):
