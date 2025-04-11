@@ -1,5 +1,3 @@
-from bidict import bidict
-
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import InstrumentList
@@ -34,23 +32,18 @@ class ServiceInstrumentList(SingletonBase, ServiceBase):
         await self.setup_table_records(records)
 
     async def get_symbol_map(self):
-        # Await the call to fetch all records
-        await self.get_all_records()
+        if not self.symbol_map:
+            # Await the call to fetch all records
+            await self.get_all_records(only_when_empty=True)
 
-        # Build a bidirectional map: symbol_exchange <-> instrument_token
-        self.symbol_map = bidict({
-            record.symbol_exchange: record.instrument_token
-            for record in self.records
-            if record.symbol_exchange and record.instrument_token is not None
-        })
+            # Build a bidirectional map: symbol_exchange <-> instrument_token
+            self.symbol_map = {
+                record.symbol_exchange: record.instrument_token
+                for record in self.records
+                if record.symbol_exchange and record.instrument_token is not None
+            }
 
         return self.symbol_map
-
-    async def get_all_records(self):
-        # Await the call to fetch all records
-        if self.records is None:
-            self.records = await self.get_all_records()
-        return self.records
 
 
 service_instrument_list = ServiceInstrumentList()

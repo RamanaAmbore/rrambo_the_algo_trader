@@ -62,6 +62,8 @@ class ServiceBase:
 
         self.conflict_cols = conflict_cols
         self.table_name = self.model.__tablename__  # Cache table name for logging
+        self.records = []
+        self.symbol_map = {}
 
     async def _execute_and_commit(self, session: AsyncSession, stmt: Any, operation_desc: str) -> Any:
         """Helper to execute a statement and commit, with standardized error handling."""
@@ -80,11 +82,13 @@ class ServiceBase:
             logger.error(f"Database error during '{operation_desc}' on {self.table_name}: {e}", exc_info=True)
             raise  # Re-raise the original error
 
-    async def get_all_records(self) -> List[ModelType]:
+    async def get_all_records(self, only_when_empty=True) -> List[ModelType]:
         """Fetch all records from the model."""
-        async with db.get_async_session() as session:
-            result = await session.execute(select(self.model))
-            return list(result.scalars().all())  # Ensure list return type
+        if not (only_when_empty and self.records):
+            async with db.get_async_session() as session:
+                result = await session.execute(select(self.model))
+                records = list(result.scalars().all())  # Ensure list return type
+                self.records = records
 
     async def delete_all_records(self) -> None:
         """Delete all records from the model's table."""

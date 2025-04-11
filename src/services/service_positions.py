@@ -1,5 +1,3 @@
-from bidict import bidict
-
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import Positions
@@ -24,7 +22,7 @@ class ServicePositions(SingletonBase, ServiceBase):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         super().__init__(self.model, self.conflict_cols)
-        self.symbol_map = None
+        self.symbol_map = {}
         self.records = None
 
     async def process_records(self, records):
@@ -34,26 +32,16 @@ class ServicePositions(SingletonBase, ServiceBase):
             record['account'] = parms.DEF_ACCOUNT
             record['symbol_exchange'] = f'{record["tradingsymbol"]}:{record["exchange"]}'
         await self.delete_setup_table_records(records)
+        self.records = records
 
     async def get_symbol_map(self):
-        # Await the call to fetch all records
-        await self.get_all_records()
-
-        # Build a bidirectional map: symbol_exchange <-> instrument_token
-        self.symbol_map = bidict({
-            record.symbol_exchange: record.instrument_token
-            for record in self.records
-            if record.symbol_exchange and record.instrument_token is not None
-        })
+        if not self.symbol_map:
+            await self.get_all_records(only_when_empty=False)
+            for record in self.records:
+                if record['symbol_exchange'] and record['instrument_token'] is not None:
+                    self.symbol_map[record['symbol_exchange']] = record['instrument_token']
 
         return self.symbol_map
-
-    async def get_all_records(self):
-        # Await the call to fetch all records
-        if self.records is None:
-            self.records = await self.get_all_records()
-        return self.records
-
 
 
 service_positions = ServicePositions()
