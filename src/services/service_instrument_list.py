@@ -18,8 +18,6 @@ class ServiceInstrumentList(SingletonBase, ServiceBase):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         super().__init__(self.model, self.conflict_cols)
-        self.records = None
-        self.symbol_map = None
 
     async def process_records(self, records):
         """Cleans and validates trade records before inserting into the database."""
@@ -31,19 +29,7 @@ class ServiceInstrumentList(SingletonBase, ServiceBase):
 
         await self.setup_table_records(records)
 
-    async def get_symbol_map(self):
-        if not self.symbol_map:
-            # Await the call to fetch all records
-            await self.get_all_records(only_when_empty=True)
 
-            # Build a bidirectional map: symbol_exchange <-> instrument_token
-            self.symbol_map = {
-                record.symbol_exchange: record.instrument_token
-                for record in self.records
-                if record.symbol_exchange and record.instrument_token is not None
-            }
-
-        return self.symbol_map
 
 
 service_instrument_list = ServiceInstrumentList()

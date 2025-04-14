@@ -63,7 +63,6 @@ class ServiceBase:
         self.conflict_cols = conflict_cols
         self.table_name = self.model.__tablename__  # Cache table name for logging
         self.records = []
-        self.symbol_map = {}
 
     async def _execute_and_commit(self, session: AsyncSession, stmt: Any, operation_desc: str) -> Any:
         """Helper to execute a statement and commit, with standardized error handling."""
@@ -82,13 +81,13 @@ class ServiceBase:
             logger.error(f"Database error during '{operation_desc}' on {self.table_name}: {e}", exc_info=True)
             raise  # Re-raise the original error
 
-    async def get_all_records(self, only_when_empty=True) -> List[ModelType]:
+    async def get_all_records(self, refresh=True) -> List[ModelType]:
         """Fetch all records from the model."""
-        if not (only_when_empty and self.records):
+        if not self.records or refresh:
             async with db.get_async_session() as session:
                 result = await session.execute(select(self.model))
-                records = list(result.scalars().all())  # Ensure list return type
-                self.records = records
+                self.records = list(result.scalars().all())  # Ensure list return type
+        return self.records
 
     async def delete_all_records(self) -> None:
         """Delete all records from the model's table."""
@@ -97,6 +96,8 @@ class ServiceBase:
             # Use helper for execution, commit, and error handling
             await self._execute_and_commit(session, stmt, f"delete all records from {self.table_name}")
             logger.info(f"Deleted all records from {self.table_name}")
+            # Clear the cached records
+            self.records = []
 
     async def get_by_id(self, record_id: Any) -> Optional[ModelType]:
         """
@@ -134,6 +135,8 @@ class ServiceBase:
                 # scalar_one() works for single PK, fetchone() for composite
                 inserted_pk = result.scalar_one() if len(returning_cols) == 1 else result.fetchone()
                 logger.info(f"Inserted record into {self.table_name} with PK: {inserted_pk}")
+                # Clear cached records to ensure fresh data on next fetch
+                self.records = []
                 return inserted_pk
             except IntegrityError:
                 # Handled by _execute_and_commit's rollback, just return None here
@@ -180,9 +183,7 @@ class ServiceBase:
 
         async with db.get_async_session() as session:
             # Fetch the record using ORM capabilities for easy update
-            # Use get_by_id internally
-            record_to_update = await self.get_by_id(
-                record_id)  # get_by_id uses its own session scope, but that's okay for read
+            record_to_update = await self.get_by_id(record_id)  # get_by_id uses its own session scope
 
             if not record_to_update:
                 logger.warning(f"Record with PK {record_id} not found in {self.table_name} for update.")
@@ -202,6 +203,8 @@ class ServiceBase:
             try:
                 await session.commit()
                 logger.info(f"Updated record {record_id} in {self.table_name} with {list(update_data.keys())}.")
+                # Clear cached records to ensure fresh data on next fetch
+                self.records = []
                 return True
             except SQLAlchemyError as e:
                 await session.rollback()
@@ -217,8 +220,8 @@ class ServiceBase:
             skip_update_if_exists: bool = False,
             batch_size: int = 500,
             update_columns: Optional[List[str]] = None,
-            ignore_extra_columns: bool = False,  # <-- New flag
-    ) -> None:
+            ignore_extra_columns: bool = False,
+    ) -> List[ModelType]:
         """
         Performs bulk insert/upsert using PostgreSQL's ON CONFLICT clause.
 
@@ -234,17 +237,23 @@ class ServiceBase:
                             not in index_elements.
             ignore_extra_columns: If True, silently ignores keys not in table columns.
                                   If False, raises error on invalid keys.
+
+        Returns:
+            List of all records after the operation completes.
         """
+        if records is None:
+            records = []
+
         if not isinstance(records, list) and not isinstance(records, tuple):
             if isinstance(records, pd.DataFrame):
                 records = records.to_dict(orient="records")
             else:
                 logger.error("Invalid format for 'records'. Must be list of dicts or DataFrame.")
-                return
+                return []
 
         if not records:
             logger.info("No records provided for bulk insert.")
-            return
+            return await self.get_all_records(refresh=True)
 
         model_columns = {c.name for c in self._model_inspect.columns}
 
@@ -272,7 +281,7 @@ class ServiceBase:
 
         async with db.get_async_session() as session:
             try:
-                non_conflict_cols = list(model_columns - set(conflict_target))
+                non_conflict_cols = list(model_columns - set(conflict_target or []))
 
                 if update_columns is None and update_on_conflict:
                     update_columns = non_conflict_cols
@@ -281,32 +290,44 @@ class ServiceBase:
                     batch = records[i:i + batch_size]
                     stmt = pg_insert(self.model).values(batch)
 
-                    if update_on_conflict and not skip_update_if_exists:
+                    if update_on_conflict and not skip_update_if_exists and conflict_target:
                         stmt = stmt.on_conflict_do_update(
                             index_elements=conflict_target,
                             set_={col: getattr(stmt.excluded, col) for col in update_columns}
                         )
-                    elif update_on_conflict and skip_update_if_exists:
+                    elif update_on_conflict and skip_update_if_exists and conflict_target:
                         stmt = stmt.on_conflict_do_nothing(index_elements=conflict_target)
 
                     await session.execute(stmt)
 
                 await session.commit()
+                # Clear cached records to force refresh
+                self.records = []
 
             except Exception as e:
                 logger.exception(f"Error in bulk insert into {self.table_name}: {e}")
                 await session.rollback()
 
-    async def delete_setup_table_records(self, *args, **kwargs):
-        await self.delete_all_records()
-        await self.setup_table_records(*args, **kwargs)
+        # Return fresh records after bulk insert
+        return await self.get_all_records(refresh=True)
 
-    async def setup_table_records(self, default_records: List[Dict[str, Any]],
+    async def delete_setup_table_records(self, *args, **kwargs) -> List[ModelType]:
+        """
+        Delete all existing records and then set up new default records.
+
+        Returns:
+            List of all records after the operation completes.
+        """
+        await self.delete_all_records()
+        return await self.setup_table_records(*args, **kwargs)
+
+    async def setup_table_records(self,
+                                  default_records: List[Dict[str, Any]],
                                   update_columns: Optional[List[str]] = None,
                                   exclude_from_update=('timestamp',),
                                   skip_update_if_exists: bool = False,
-                                  ignore_extra_columns: bool = False,  # <-- New flag
-                                  ) -> None:
+                                  ignore_extra_columns: bool = False,
+                                  ) -> List[ModelType]:
         """
         Insert default records using the bulk mechanism for efficiency.
         Performs an update on conflict based on `self.conflict_cols` unless `skip_update_if_exists` is True.
@@ -317,19 +338,17 @@ class ServiceBase:
                             all columns except PKs and a predefined exclude list.
             exclude_from_update: Columns to exclude from updates.
             skip_update_if_exists: If True, does not update existing records.
-            :param skip_update_if_exists:
-            :param default_records:
-            :param update_columns:
-            :param exclude_from_update:
-            :param ignore_extra_columns:
-        """
+            ignore_extra_columns: If True, silently ignores keys not in table columns.
 
+        Returns:
+            List of all records after the operation completes.
+        """
         if not self.conflict_cols:
             raise ValueError("`self.conflict_cols` must be set in __init__ to use setup_table_records.")
 
         if not default_records:
             logger.info(f"No default records provided for {self.table_name}.")
-            return
+            return []
 
         if update_columns is None:
             pk_names_set = set(self._pk_names)
@@ -352,7 +371,7 @@ class ServiceBase:
             f"Setting up default records for {self.table_name} using conflict target {self.conflict_cols} "
             f"and updating columns: {update_columns}, skipping updates: {skip_update_if_exists}")
 
-        await self.bulk_insert_records(
+        result = await self.bulk_insert_records(
             records=default_records,
             index_elements=self.conflict_cols,
             update_on_conflict=True,
@@ -362,3 +381,40 @@ class ServiceBase:
             ignore_extra_columns=ignore_extra_columns
         )
         logger.info(f"Default records setup completed for {self.table_name}.")
+
+        return result
+
+    async def get_records_map(self, key_attr: str = 'id', value_attr: str = None) -> Dict[Any, Any]:
+        """
+        Creates a dictionary map of records.
+
+        Args:
+            key_attr: The attribute to use as the dictionary key. Defaults to the primary key.
+            value_attr: The attribute to use as the dictionary value. If None, the entire record object is used.
+
+        Returns:
+            A dictionary mapping the key attribute to either the value attribute or the entire record.
+        """
+        records = await self.get_all_records(refresh=True)
+
+        # Default to using the primary key as the key
+        if not key_attr:
+            if not self._pk_name:
+                raise ValueError("No primary key column found and no key_attr specified")
+            key_attr = self._pk_name
+
+        # Create the map
+        if value_attr:
+            # Map key_attr -> value_attr
+            return {
+                getattr(record, key_attr): getattr(record, value_attr)
+                for record in records
+                if hasattr(record, key_attr) and hasattr(record, value_attr)
+            }
+        else:
+            # Map key_attr -> record
+            return {
+                getattr(record, key_attr): record
+                for record in records
+                if hasattr(record, key_attr)
+            }

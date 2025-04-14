@@ -8,7 +8,7 @@ from src.helpers.logger import get_logger
 
 logger = get_logger(__name__)
 
-class MarketStateManager(SingletonBase):
+class AppState(SingletonBase):
     def __init__(self):
         """Ensure __init__ is only called once."""
         if getattr(self, '_singleton_initialized', True):
@@ -69,5 +69,5 @@ class MarketStateManager(SingletonBase):
         with self.lock:
             return list(self.instrument_map.values())
 
-market_state_manager = MarketStateManager()
+market_state_manager = AppState()
 

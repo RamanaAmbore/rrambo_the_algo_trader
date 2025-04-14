@@ -49,6 +49,8 @@ class AppInitializer(SingletonBase):
         records = await service_parameter_table.get_all_records()
         refresh_parameters(records, refresh=True)
 
+        service_schedule_time.get_market_hours_for_today()
+
         # Step 4: Initialize singleton instance
         ZerodhaKiteConnect().get_kite_conn(test_conn=True)
 

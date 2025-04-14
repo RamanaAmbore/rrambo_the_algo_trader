@@ -1,9 +1,8 @@
 import asyncio
  # your db session
-from src.managers.market_state_manager import MarketStateManager
 
 from src.core.singleton_base import SingletonBase
-from src.managers.makret_state_manager import MarketStateManager
+from src.core.app_state import AppState
 from src.models.websocket_tick import WebsocketTick
 from src.services.service_base import ServiceBase
 
@@ -12,7 +11,7 @@ class ServiceWebsocketTick(SingletonBase, ServiceBase):
 
     def __init__(self, memory_store):
         self.queue = asyncio.Queue()
-        self.market_state = MarketStateManager()
+        self.market_state = AppState()
 
     async def enqueue_tick(self, tick: dict):
         await self.queue.put(tick)
