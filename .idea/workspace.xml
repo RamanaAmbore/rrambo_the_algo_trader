@@ -4,26 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="app_state added. code reorganized -2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IndexComponents/HengSengStockList.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/IndexComponents/SP500StockList.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/async_processors/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/async_processors/async_pub_sub_worker.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/async_processors/holdings_processor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/async_processors/positions_processor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/app_initializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_initializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/app_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/websocket_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/websocket_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_websocket_tick.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_websocket_tick.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/backend_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/market_ticker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/websocket/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/websocket/websocket.py" beforeDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="working code with unnecessary modules deleted">
+      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/zerodha_wrapper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -432,14 +415,6 @@
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
     </task>
-    <task id="LOCAL-00069" summary="added update timestamp to models and reformatted the code">
-      <option name="closed" value="true" />
-      <created>1742218966109</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1742218966109</updated>
-    </task>
     <task id="LOCAL-00070" summary="added update timestamp to models and reformatted the code">
       <option name="closed" value="true" />
       <created>1742224239232</created>
@@ -824,7 +799,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744724768075</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="working code with unnecessary modules deleted">
+      <option name="closed" value="true" />
+      <created>1744733959195</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1744733959195</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -849,7 +832,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="working code for kite connect" />
     <MESSAGE value="Report process, selenium and access token process working successfully" />
     <MESSAGE value="added additional parameters" />
     <MESSAGE value="updating models" />
@@ -874,7 +856,8 @@
     <MESSAGE value="Exchange model successfully integrated" />
     <MESSAGE value="app_state added. code reorganized" />
     <MESSAGE value="app_state added. code reorganized -2" />
-    <option name="LAST_COMMIT_MESSAGE" value="app_state added. code reorganized -2" />
+    <MESSAGE value="working code with unnecessary modules deleted" />
+    <option name="LAST_COMMIT_MESSAGE" value="working code with unnecessary modules deleted" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
