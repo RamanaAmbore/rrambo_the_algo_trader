@@ -4,7 +4,7 @@ import time
 
 from kiteconnect import KiteTicker
 
-from src.core.app_initializer import app_initializer
+from src.app_initializer import app_initializer
 
 from src.core.decorators import retry_kite_conn
 from src.core.singleton_base import SingletonBase

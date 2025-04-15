@@ -2,7 +2,7 @@ import asyncio
  # your db session
 
 from src.core.singleton_base import SingletonBase
-from src.core.app_state import AppState
+from src.app_state import AppState
 from src.models.websocket_tick import WebsocketTick
 from src.services.service_base import ServiceBase
 
