@@ -1,4 +1,5 @@
-from src.core.websocket_manager import WebSocketManager
+from src.managers.websocket_manager import WebSocketManager
+from kiteconnect import KiteConnect
 from bidict import bidict
 
 api_key = "your_kite_api_key"

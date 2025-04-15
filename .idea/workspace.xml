@@ -4,25 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="Exchange model successfully integrated">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="app_state added. code reorganized">
+      <change afterPath="$PROJECT_DIR$/src/managers/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/app_initializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/app_initializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/websocket_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/managers/websocket_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/makret_state_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/app_state.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/managers/websocket_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/websocket_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_holdings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_instrument_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_instrument_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_positions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/service_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedule_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watch_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_websocket_tick.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_websocket_tick.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/thread_market_open_restart.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/backend_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/thread_market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/market_ticker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/threads/thread_pre_market.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/threads/backend_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/threads/backend_process.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +69,8 @@
     "Python.algo_thread_status.executor": "Run",
     "Python.app.executor": "Run",
     "Python.backend.executor": "Run",
-    "Python.backend_process (1).executor": "Debug",
+    "Python.backend_process (1).executor": "Run",
+    "Python.backend_process (2).executor": "Run",
     "Python.backend_process.executor": "Debug",
     "Python.broker_connection.executor": "Run",
     "Python.cipher_utils.executor": "Debug",
@@ -149,11 +140,11 @@
       <recent name="D:\rrambo_trader_new" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\rrambo_trader_new\src\threads" />
+      <recent name="D:\rrambo_trader_new\src" />
       <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\src\helpers" />
       <recent name="D:\rrambo_trader_new\data" />
-      <recent name="D:\rrambo_trader_new" />
-      <recent name="D:\rrambo_trader_new\src\settings" />
     </key>
   </component>
   <component name="RunManager" selected="Python.backend_process (1)">
@@ -223,7 +214,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="service_parameter_table" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="backend_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -232,11 +223,77 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/services" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\services\service_parameter_table.py" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\backend_process.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="backend_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\threads\backend_process.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="backend_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\backend_process.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="backend_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\threads\backend_process.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -291,19 +348,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
+      <item itemvalue="Python.backend_process (2)" />
       <item itemvalue="Python.backend_process (1)" />
       <item itemvalue="Python.backend_process" />
-      <item itemvalue="Python.service_parameter_table" />
       <item itemvalue="Python.test" />
       <item itemvalue="Python.thread_pre_market" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.backend_process (1)" />
-        <item itemvalue="Python.backend_process" />
-        <item itemvalue="Python.thread_pre_market" />
-        <item itemvalue="Python.test" />
-        <item itemvalue="Python.service_parameter_table" />
+        <item itemvalue="Python.backend_process (1)" />
+        <item itemvalue="Python.backend_process (2)" />
+        <item itemvalue="Python.backend_process (2)" />
+        <item itemvalue="Python.backend_process (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -322,14 +379,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00067" summary="report downloaded defect">
-      <option name="closed" value="true" />
-      <created>1742184136452</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1742184136452</updated>
     </task>
     <task id="LOCAL-00068" summary="report downloaded defect">
       <option name="closed" value="true" />
@@ -715,7 +764,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743256866478</updated>
     </task>
-    <option name="localTasksCounter" value="116" />
+    <task id="LOCAL-00116" summary="app_state added. code reorganized">
+      <option name="closed" value="true" />
+      <created>1744641899587</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1744641899587</updated>
+    </task>
+    <option name="localTasksCounter" value="117" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -740,7 +797,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix for code compilation issues with access token code" />
     <MESSAGE value="fix for code compilation issues with access token code -1" />
     <MESSAGE value="working code for kite connect" />
     <MESSAGE value="Report process, selenium and access token process working successfully" />
@@ -765,7 +821,8 @@
     <MESSAGE value="Base code for thread implmenetation - 4" />
     <MESSAGE value="Base code for thread implmenetation - 5" />
     <MESSAGE value="Exchange model successfully integrated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exchange model successfully integrated" />
+    <MESSAGE value="app_state added. code reorganized" />
+    <option name="LAST_COMMIT_MESSAGE" value="app_state added. code reorganized" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -811,11 +868,6 @@
           <option name="timeStamp" value="445" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/zerodha_kite_connect.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="483" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/threads/thread_sync_premarket_data.py</url>
           <line>23</line>
           <option name="timeStamp" value="485" />
@@ -832,13 +884,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/services/service_schedule_time.py</url>
-          <line>40</line>
+          <line>41</line>
           <option name="timeStamp" value="602" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/threads/backend_process.py</url>
           <line>17</line>
           <option name="timeStamp" value="603" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/service_schedule_time.py</url>
+          <line>108</line>
+          <option name="timeStamp" value="607" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/service_schedule_time.py</url>
+          <line>144</line>
+          <option name="timeStamp" value="608" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

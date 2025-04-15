@@ -14,8 +14,8 @@ logger = get_logger(__name__)
 
 async def backend_process():
     await app_initializer.setup_parameters()
-    is_open, start_time, end_time = service_schedule_time.is_market_open()
-    if not is_open:
+    is_open, start_time, end_time = service_schedule_time.is_market_open(pre_market=True)
+    if is_open:
         await app_initializer.setup_pre_market()
 
     positions = await asyncio.to_thread(app_initializer.get_kite_conn().positions)

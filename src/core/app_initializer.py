@@ -48,7 +48,7 @@ class AppInitializer(SingletonBase):
         # Step 3: Refresh parameters
         records = await service_parameter_table.get_all_records()
         refresh_parameters(records, refresh=True)
-
+        await service_schedule_time.setup_table_records(DEF_SCHEDULE_TIME, skip_update_if_exists=True)
         service_schedule_time.get_market_hours_for_today()
 
         # Step 4: Initialize singleton instance

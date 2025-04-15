@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from typing import List, Optional, Union, Tuple, Set
 
 from sqlalchemy import select
@@ -98,9 +99,12 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
 
         return list({sched.id: sched for sched in all_schedules}.values())  # Deduplication by ID
 
+    from datetime import datetime, time
+    from typing import Tuple, Optional, Dict
+
     def is_market_open(
             self, pre_market: bool = False, exchange: str = '*'
-    ) -> Tuple[bool, Optional[dict], Optional[dict]]:
+    ) -> Tuple[bool, Optional[Dict], Optional[Dict]]:
         """Determine if the market is currently open."""
         today = today_indian()
         current_time = current_time_indian()
@@ -115,19 +119,39 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
                 self.market_hours = None
                 return False, None, None
 
-        filtered = [
-            x for x in self.market_hours
-            if x.get('schedule') == market_flag and x.get('exchange') == exchange and x.get('is_market_open')
-        ]
+        def parse_time(t: str) -> Optional[time]:
+            try:
+                return datetime.strptime(t, "%H:%M").time()
+            except Exception as e:
+                logger.warning(f"Invalid time format '{t}': {e}")
+                return None
+
+        filtered = []
+        for x in self.market_hours:
+            if (
+                    x.get('schedule') == market_flag
+                    and x.get('exchange') == exchange
+                    and x.get('is_market_open')
+            ):
+                start_time_str = x.get('start_time')
+                end_time_str = x.get('end_time')
+                start_time = parse_time(start_time_str)
+                end_time = parse_time(end_time_str)
+                if start_time and end_time:
+                    x['start_time'] = start_time
+                    x['end_time'] = end_time
+                    filtered.append(x)
 
         if not filtered:
+            logger.info(f"No open market hours found for {market_flag} on {exchange}")
             return False, None, None
 
-        earliest_start = min(filtered, key=lambda x: x.get('start_time'))
-        latest_end = max(filtered, key=lambda x: x.get('end_time'))
+        earliest_start = min(filtered, key=lambda x: x['start_time'])
+        latest_end = max(filtered, key=lambda x: x['end_time'])
 
-        is_open = earliest_start.get('start_time') <= current_time <= latest_end.get('end_time')
+        is_open = earliest_start['start_time'] <= current_time <= latest_end['end_time']
         return is_open, earliest_start, latest_end
+
 
 # Singleton instance
 service_schedule_time = ServiceScheduleTime()

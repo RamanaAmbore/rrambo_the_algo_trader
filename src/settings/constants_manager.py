@@ -115,13 +115,13 @@ DEF_SCHEDULE_TIME = (
     {'market_day': Weekday.SATURDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
     {'market_day': Weekday.SUNDAY, 'schedule': Schedule.MARKET,      'is_market_open': False},
     {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
-    {'market_day': Weekday.GLOBAL, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+    {'market_day': Weekday.GLOBAL, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
      'is_market_open': True},
-    {'market_day': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+    {'market_day': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
      'is_market_open': True},
-    {'market_day': Weekday.SUNDAY, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+    {'market_day': Weekday.SUNDAY, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
      'is_market_open': False},
-    {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+    {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
      'is_market_open': False},
 )
 
