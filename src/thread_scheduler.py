@@ -1,5 +1,7 @@
-from apscheduler.schedulers.background import BackgroundScheduler
 import time
+
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
 def scheduled_task():
     """Function to run the report downloader."""
@@ -9,6 +11,7 @@ def scheduled_task():
         # Add other necessary calls if required
     except Exception as e:
         logger.error(f"Scheduled task failed: {e}")
+
 
 # Initialize APScheduler
 scheduler = BackgroundScheduler()

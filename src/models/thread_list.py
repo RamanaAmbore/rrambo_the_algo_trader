@@ -25,9 +25,9 @@ class ThreadList(Base):
 
     # Relationship with ThreadStatus
     thread_status_tracker_rel = relationship("ThreadStatusTracker", back_populates="thread_list_rel",
-                                       passive_deletes=True, )  # Relationship with ThreadStatus
+                                             passive_deletes=True, )  # Relationship with ThreadStatus
     thread_schedule_rel = relationship("ThreadSchedule", back_populates="thread_list_rel",
-                                             passive_deletes=True, )
+                                       passive_deletes=True, )
 
     __table_args__ = (
         UniqueConstraint('thread', name='uq_algo_thread'),

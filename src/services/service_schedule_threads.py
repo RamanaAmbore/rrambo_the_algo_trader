@@ -5,6 +5,7 @@ from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
+
 class ServiceAccessToken(SingletonBase, ServiceBase):
     """Service class for handling AccessTokens database operations."""
 

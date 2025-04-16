@@ -1,10 +1,10 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, text, UniqueConstraint, \
-    Index, func, select
+    Index, func
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEF_THREAD_SCHEDULE
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
@@ -36,4 +36,3 @@ class ThreadSchedule(Base):
     def __repr__(self):
         return (f"<ThreadSchedule(id={self.id}, thread='{self.thread}', "
                 f"schedule='{self.schedule}', source='{self.source}')>")
-

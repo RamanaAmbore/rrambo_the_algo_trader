@@ -1,19 +1,16 @@
-import os
-
 from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, ForeignKeyConstraint,
-    CheckConstraint, Index, DECIMAL, func, text, UniqueConstraint, event
+    CheckConstraint, Index, DECIMAL, func, text
 )
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from .base import Base
-from ..settings.constants_manager import Source, load_env
 from src.settings.parameter_manager import parms
-logger = get_logger(__name__)
+from .base import Base
+from ..settings.constants_manager import Source
 
+logger = get_logger(__name__)
 
 
 class Positions(Base):

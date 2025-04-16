@@ -32,7 +32,7 @@ class ServiceReportProfitLoss(SingletonBase, ServiceBase):
 
     async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
-        records=records.iloc[:,1:]
+        records = records.iloc[:, 1:]
         await self.bulk_insert_records(records=records, index_elements=self.conflict_cols)
 
     @staticmethod
@@ -40,9 +40,6 @@ class ServiceReportProfitLoss(SingletonBase, ServiceBase):
         """Cleans and validates trade records before inserting into the database."""
 
         return records
-
-
-
 
 
 service_report_profit_loss = ServiceReportProfitLoss()

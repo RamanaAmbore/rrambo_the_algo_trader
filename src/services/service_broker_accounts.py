@@ -1,10 +1,8 @@
-import logging
-
 from src.core.singleton_base import SingletonBase
+from src.helpers.logger import get_logger
 from src.models import BrokerAccounts
 from src.services.service_base import ServiceBase
 
-from src.helpers.logger import get_logger
 logger = get_logger(__name__)
 
 

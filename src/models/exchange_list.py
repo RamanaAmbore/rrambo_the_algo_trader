@@ -1,7 +1,6 @@
 from sqlalchemy import (
-    Column, Integer, String, DateTime, ForeignKey, text, UniqueConstraint, Index, func, select
+    Column, Integer, String, DateTime, text, UniqueConstraint, Index, func, select
 )
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian

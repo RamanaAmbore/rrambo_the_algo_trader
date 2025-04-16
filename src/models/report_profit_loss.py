@@ -17,7 +17,8 @@ class ReportProfitLoss(Base):
     __tablename__ = "report_profit_loss"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
+                     default='ZG0790')
     symbol = Column(String(50), nullable=False)
     isin = Column(String(12), nullable=True)
     quantity = Column(Integer, nullable=False)
@@ -39,7 +40,8 @@ class ReportProfitLoss(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    broker_accounts_rel = relationship("BrokerAccounts", back_populates="report_profit_loss_rel", passive_deletes=True, )
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="report_profit_loss_rel",
+                                       passive_deletes=True, )
 
     __table_args__ = (
         CheckConstraint("quantity >= 0", name="check_quantity_non_negative"),

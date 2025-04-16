@@ -3,8 +3,8 @@ from sqlalchemy import (Column, Integer, String, DateTime, text, ForeignKeyConst
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
-from .base import Base
 from src.settings.constants_manager import Source
+from .base import Base
 
 
 class WatchListInstruments(Base):
@@ -18,9 +18,8 @@ class WatchListInstruments(Base):
 
     exchange = Column(String(20), nullable=False)
 
-
     symbol_exchange = Column(String(50), nullable=True)  # Index added
-    
+
     prev_close_price = Column(DECIMAL(12, 4), nullable=True, default=0)
     last_price = Column(DECIMAL(12, 4), nullable=True, default=0)
     change = Column(DECIMAL(12, 4), nullable=True, default=0)
@@ -64,6 +63,3 @@ class WatchListInstruments(Base):
         return f"<WatchlistInstrument(id={self.id}, watchlist='{self.watchlist}', " \
                f"account='{self.account}', tradingsymbol='{self.tradingsymbol}', " \
                f"instrument_token='{self.instrument_token}', exchange='{self.exchange}')>"
-
-
-

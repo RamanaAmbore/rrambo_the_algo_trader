@@ -11,9 +11,11 @@ logger = get_logger(__name__)
 
 def locked_update(method):
     """Decorator to acquire a lock before updating instance variables."""
+
     def wrapper(self, *args, **kwargs):
         with self.lock:
             return method(self, *args, **kwargs)
+
     return wrapper
 
 
@@ -22,6 +24,7 @@ class AppState(SingletonBase):
     Singleton class to manage the application's state, including instrument mappings,
     watchlist, holdings, and positions, with thread-safe updates.
     """
+
     def __init__(self):
         """Ensure __init__ is only called once."""
         if getattr(self, '_singleton_initialized', True):
@@ -110,4 +113,3 @@ class AppState(SingletonBase):
 
 # Example of how to get the singleton instance
 app_state = AppState()
-

@@ -30,6 +30,4 @@ class ServiceInstrumentList(SingletonBase, ServiceBase):
         await self.setup_table_records(records)
 
 
-
-
 service_instrument_list = ServiceInstrumentList()

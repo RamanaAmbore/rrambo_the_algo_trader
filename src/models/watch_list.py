@@ -1,10 +1,10 @@
 from sqlalchemy import Column, String, DateTime, text, Index, UniqueConstraint, Integer, func, \
-    ForeignKey, select
+    ForeignKey
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
-from src.settings.constants_manager import Source, DEF_WATCH_LIST
+from src.settings.constants_manager import Source
 from .base import Base
 
 logger = get_logger(__name__)
@@ -16,7 +16,7 @@ class WatchList(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), nullable=False)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,default='*')
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
     source = Column(String(50), nullable=False, server_default=Source.MANUAL)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
@@ -29,11 +29,8 @@ class WatchList(Base):
         Index("idx_watchlist1", "watchlist"),
     )
 
-    watchlist_instruments_rel = relationship("WatchListInstruments", back_populates="watch_list_rel", passive_deletes=True, )
+    watchlist_instruments_rel = relationship("WatchListInstruments", back_populates="watch_list_rel",
+                                             passive_deletes=True, )
 
     def __repr__(self):
         return f"<Watchlist(id={self.id}, watchlist='{self.watchlist}', account='{self.account}')>"
-
-
-
-

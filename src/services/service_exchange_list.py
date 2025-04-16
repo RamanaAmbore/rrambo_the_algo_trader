@@ -1,7 +1,3 @@
-from typing import Union, List
-
-import pandas as pd
-
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import ExchangeList

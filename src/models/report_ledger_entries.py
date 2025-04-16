@@ -16,7 +16,8 @@ class ReportLedgerEntries(Base):
     __tablename__ = "report_ledger_entries"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='ZG0790')
+    account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
+                     default='ZG0790')
     particulars = Column(String(255), nullable=False)
     posting_date = Column(DateTime(timezone=True), nullable=True)
     cost_center = Column(String(20), nullable=True)
@@ -32,7 +33,8 @@ class ReportLedgerEntries(Base):
     notes = Column(String(255), nullable=True)
 
     # Relationship with BrokerAccounts model
-    broker_accounts_rel = relationship("BrokerAccounts", back_populates="report_ledger_entries_rel", passive_deletes=True, )
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="report_ledger_entries_rel",
+                                       passive_deletes=True, )
 
     __table_args__ = (
         CheckConstraint("debit >= 0", name="check_debit_non_negative"),

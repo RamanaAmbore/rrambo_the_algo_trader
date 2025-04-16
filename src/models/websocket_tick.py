@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, BigInteger
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
 
 Base = declarative_base()
+
 
 class WebsocketTick(Base):
     __tablename__ = 'websocket_tick.py'
@@ -41,4 +41,3 @@ class WebsocketTick(Base):
 
     def __repr__(self):
         return f"<WebSocketTick(token={self.instrument_token}, last_price={self.last_price})>"
-

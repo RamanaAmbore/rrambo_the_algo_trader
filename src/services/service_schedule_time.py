@@ -99,7 +99,6 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
 
         return list({sched.id: sched for sched in all_schedules}.values())  # Deduplication by ID
 
-    from datetime import datetime, time
     from typing import Tuple, Optional, Dict
 
     def is_market_open(

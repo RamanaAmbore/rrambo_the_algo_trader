@@ -35,7 +35,7 @@ class ServiceReportLedgerEntries(SingletonBase, ServiceBase):
 
     async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):
         """Bulk insert holdings data, skipping duplicates. Supports both DataFrame and list of dicts."""
-        records=self.validate_clean_records(records)
+        records = self.validate_clean_records(records)
         await self.bulk_insert_records(records=records, index_elements=self.conflict_cols, skip_update_if_exists=True)
 
         logger.info(f"Bulk processed {len(records)} records.")

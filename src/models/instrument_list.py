@@ -1,7 +1,6 @@
 from sqlalchemy import (
-    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, func, Date, ForeignKey, event
+    Column, String, Integer, DateTime, DECIMAL, text, Index, UniqueConstraint, func, Date, ForeignKey
 )
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -9,9 +8,6 @@ from src.helpers.logger import get_logger
 from .base import Base
 
 logger = get_logger(__name__)
-
-
-
 
 
 class InstrumentList(Base):
@@ -60,4 +56,3 @@ class InstrumentList(Base):
         return (f"<InstrumentList(id={self.id}, tradingsymbol='{self.tradingsymbol}', "
                 f"instrument_token={self.instrument_token}, exchange='{self.exchange}', "
                 f"lot_size={self.lot_size}, source='{self.source}', timestamp={self.timestamp})>")
-

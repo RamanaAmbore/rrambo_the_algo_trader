@@ -2,8 +2,6 @@ from .access_tokens import AccessTokens
 from .broker_accounts import BrokerAccounts
 from .exchange_list import ExchangeList
 from .holdings import Holdings
-from .option_greeks import OptionGreeks
-from .option_strategies import OptionStrategies
 from .orders import Orders
 from .parameter_table import ParameterTable
 from .positions import Positions

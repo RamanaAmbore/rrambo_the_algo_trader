@@ -25,7 +25,7 @@ class ScheduleList(Base):
     # Relationships
     schedule_time_rel = relationship("ScheduleTime", back_populates="schedule_list_rel", passive_deletes=True, )
     thread_schedule_rel = relationship("ThreadSchedule", back_populates="schedule_list_rel",
-                                             passive_deletes=True, )
+                                       passive_deletes=True, )
     thread_status_tracker_rel = relationship("ThreadStatusTracker", back_populates="schedule_list_rel",
                                              passive_deletes=True, )
 
@@ -38,6 +38,3 @@ class ScheduleList(Base):
         return (f"<scheduleSchedule(id={self.id}, schedule='{self.schedule}', "
                 f"is_active={self.is_active}, source='{self.source}', "
                 f"timestamp={self.timestamp}, notes='{self.notes}')>")
-
-
-
