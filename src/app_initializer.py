@@ -1,5 +1,4 @@
 import asyncio
-import inspect
 
 from src.core.decorators import track_exec_time
 from src.core.report_downloader import ReportDownloader
@@ -13,6 +12,7 @@ from src.services.service_exchange_list import service_exchange_list
 from src.services.service_holdings import service_holdings
 from src.services.service_instrument_list import service_instrument_list
 from src.services.service_parameter_table import service_parameter_table
+from src.services.service_positions import service_positions
 from src.services.service_schedule_list import service_schedule_list
 from src.services.service_schedule_time import service_schedule_time
 from src.services.service_thread_list import service_thread_list
@@ -21,7 +21,8 @@ from src.services.service_watch_list import service_watch_list
 from src.services.service_watch_list_instruments import service_watch_list_instruments
 from src.settings.constants_manager import DEF_PARAMETERS, DEF_BROKER_ACCOUNTS, DEF_ACCESS_TOKENS, DEF_THREAD_LIST, \
     DEF_SCHEDULES, DEF_WATCH_LIST, DEF_EXCHANGE_LIST, DEF_THREAD_SCHEDULE, DEF_SCHEDULE_TIME, DEF_WATCH_LIST_INSTRUMENTS
-from src.settings.parameter_manager import refresh_parameters
+from src.settings.parameter_manager import refresh_parameters, parms
+from src.app_state import app_state
 
 logger = get_logger(__name__)
 
@@ -48,19 +49,32 @@ class AppInitializer(SingletonBase):
         # Step 3: Refresh parameters
         records = await service_parameter_table.get_all_records()
         refresh_parameters(records, refresh=True)
+
+        await asyncio.gather(
+            service_schedule_list.setup_table_records(DEF_SCHEDULES, skip_update_if_exists=True),
+            service_exchange_list.setup_table_records(DEF_EXCHANGE_LIST, skip_update_if_exists=True)
+        )
         await service_schedule_time.setup_table_records(DEF_SCHEDULE_TIME, skip_update_if_exists=True)
         service_schedule_time.get_market_hours_for_today()
 
         # Step 4: Initialize singleton instance
         ZerodhaKiteConnect().get_kite_conn(test_conn=True)
+        is_open = False
+
+        if parms.DROP_TABLES:
+            await self.setup_pre_market()
+        else:
+            is_open, start_time, end_time = service_schedule_time.is_market_open(pre_market=True)
+
+        if is_open:
+            await app_initializer.setup_pre_market()
+        await self.update_app_sate()
 
     @track_exec_time()
     async def setup_pre_market(self):
         await asyncio.gather(
             service_thread_list.setup_table_records(DEF_THREAD_LIST, skip_update_if_exists=True),
-            service_schedule_list.setup_table_records(DEF_SCHEDULES, skip_update_if_exists=True),
             service_watch_list.setup_table_records(DEF_WATCH_LIST, skip_update_if_exists=True),
-            service_exchange_list.setup_table_records(DEF_EXCHANGE_LIST, skip_update_if_exists=True)
         )
         await asyncio.gather(
             service_thread_schedule.setup_table_records(DEF_THREAD_SCHEDULE, skip_update_if_exists=True),
@@ -84,10 +98,20 @@ class AppInitializer(SingletonBase):
         )
         await service_watch_list_instruments.setup_table_records(DEF_WATCH_LIST_INSTRUMENTS, skip_update_if_exists=True)
 
+    @classmethod
+    async def update_app_sate(cls):
+        positions = await asyncio.to_thread(app_initializer.get_kite_conn().positions)
+        await service_positions.process_records(positions)
+        app_state.positions = await service_positions.get_records_map()
+        app_state.holdings = await service_holdings.get_records_map()
+        app_state.instrument_map = await service_instrument_list.get_records_map()
+        app_state.watchlist = await service_watch_list_instruments.get_records_map()
+
     @staticmethod
     async def sync_reports():
         await asyncio.to_thread(ReportDownloader.login_download_reports)
         await ReportUploader.upload_reports()
+
     @staticmethod
     def get_kite_conn():
         return ZerodhaKiteConnect().get_kite_conn()
@@ -95,5 +119,6 @@ class AppInitializer(SingletonBase):
     @staticmethod
     def get_kite_obj(self):
         return ZerodhaKiteConnect()
+
 
 app_initializer = AppInitializer()

@@ -27,21 +27,17 @@ class ServicePositions(SingletonBase, ServiceBase):
 
     async def process_records(self, records):
         """Cleans and validates positions data before inserting into DB."""
-        records = records.get("day", []) + records.get("net", [])
-        for record in records:
-            record['account'] = parms.DEF_ACCOUNT
-            record['symbol_exchange'] = f'{record["tradingsymbol"]}:{record["exchange"]}'
-        await self.delete_setup_table_records(records)
-        self.records = records
 
-    async def get_records_map(self):
-        if not self.symbol_map:
-            await self.get_all_records(refresh=False)
-            for record in self.records:
-                if record['symbol_exchange'] and record['instrument_token'] is not None:
-                    self.symbol_map[record['symbol_exchange']] = record['instrument_token']
+        result = []
+        for type, recs in records.items():
+            for record in recs:
+                record['type'] = type
+                record['account'] = parms.DEF_ACCOUNT
+                record['symbol_exchange'] = f'{record["tradingsymbol"]}:{record["exchange"]}'
+                result.append(record)
 
-        return self.symbol_map
+        await self.delete_setup_table_records(result)
+        self.records = result
 
 
 service_positions = ServicePositions()

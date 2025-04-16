@@ -22,6 +22,7 @@ class Positions(Base):
     __tablename__ = "positions"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    type = Column(String(20), nullable=False)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False,
                      default=parms.DEF_ACCOUNT)
     tradingsymbol = Column(String(50), nullable=False)
@@ -83,7 +84,7 @@ class Positions(Base):
             ["instrument_list.tradingsymbol", "instrument_list.exchange"],
             ondelete="CASCADE"
         ),
-        # UniqueConstraint("tradingsymbol", "exchange", "account", "quantity", name="uq_account_tradingsymbol4"),
+        # UniqueConstraint("type", "tradingsymbol", "exchange", "account", "quantity", name="uq_account_tradingsymbol4"),
 
         Index("idx_account_tradingsymbol3", "account", "tradingsymbol"),
         Index("idx_tradingsymbol_exchange1", "tradingsymbol", "exchange"),

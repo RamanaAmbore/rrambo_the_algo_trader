@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="working code with unnecessary modules deleted">
-      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decorators/zerodha_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/zerodha_wrapper.py" afterDir="false" />
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="working code with unnecessary modules deleted - 3">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app_initializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_initializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_positions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,11 +141,11 @@
       <recent name="D:\rrambo_trader_new" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\rrambo_the_algo\src\core" />
       <recent name="D:\rrambo_trader_new\src" />
       <recent name="D:\rrambo_trader_new\src\threads" />
       <recent name="D:\rrambo_trader_new\src\core" />
       <recent name="D:\rrambo_trader_new\src\helpers" />
-      <recent name="D:\rrambo_trader_new\data" />
     </key>
   </component>
   <component name="RunManager" selected="Python.backend (1)">
@@ -414,22 +420,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00070" summary="added update timestamp to models and reformatted the code">
-      <option name="closed" value="true" />
-      <created>1742224239232</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1742224239232</updated>
-    </task>
-    <task id="LOCAL-00071" summary="model foreign key relationship changes">
-      <option name="closed" value="true" />
-      <created>1742225928051</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1742225928051</updated>
     </task>
     <task id="LOCAL-00072" summary="Thread related changes">
       <option name="closed" value="true" />
@@ -807,7 +797,23 @@
       <option name="project" value="LOCAL" />
       <updated>1744733959195</updated>
     </task>
-    <option name="localTasksCounter" value="119" />
+    <task id="LOCAL-00119" summary="working code with unnecessary modules deleted -2">
+      <option name="closed" value="true" />
+      <created>1744734062749</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1744734062749</updated>
+    </task>
+    <task id="LOCAL-00120" summary="working code with unnecessary modules deleted - 3">
+      <option name="closed" value="true" />
+      <created>1744734112613</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1744734112613</updated>
+    </task>
+    <option name="localTasksCounter" value="121" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -832,8 +838,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Report process, selenium and access token process working successfully" />
-    <MESSAGE value="added additional parameters" />
     <MESSAGE value="updating models" />
     <MESSAGE value="thread code added to work with model and service classes -3. removed twilio" />
     <MESSAGE value="triggered database on_create function from database_manager" />
@@ -857,7 +861,9 @@
     <MESSAGE value="app_state added. code reorganized" />
     <MESSAGE value="app_state added. code reorganized -2" />
     <MESSAGE value="working code with unnecessary modules deleted" />
-    <option name="LAST_COMMIT_MESSAGE" value="working code with unnecessary modules deleted" />
+    <MESSAGE value="working code with unnecessary modules deleted -2" />
+    <MESSAGE value="working code with unnecessary modules deleted - 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="working code with unnecessary modules deleted - 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -913,29 +919,14 @@
           <option name="timeStamp" value="486" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/backend.py</url>
-          <line>18</line>
-          <option name="timeStamp" value="597" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/services/service_schedule_time.py</url>
           <line>41</line>
           <option name="timeStamp" value="602" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/backend.py</url>
-          <line>17</line>
-          <option name="timeStamp" value="603" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/services/service_schedule_time.py</url>
-          <line>108</line>
-          <option name="timeStamp" value="607" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/services/service_schedule_time.py</url>
-          <line>144</line>
-          <option name="timeStamp" value="608" />
+          <url>file://$PROJECT_DIR$/src/services/service_positions.py</url>
+          <line>38</line>
+          <option name="timeStamp" value="621" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
