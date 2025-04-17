@@ -100,8 +100,7 @@ class AppInitializer(SingletonBase):
 
     @classmethod
     async def update_app_sate(cls):
-        positions = await asyncio.to_thread(app_initializer.get_kite_conn().positions)
-        await service_positions.process_records(positions)
+        await service_positions.process_records(await asyncio.to_thread(app_initializer.get_kite_conn().positions))
         app_state.positions = await service_positions.get_records_map()
         app_state.holdings = await service_holdings.get_records_map()
         app_state.instrument_map = await service_instrument_list.get_records_map()

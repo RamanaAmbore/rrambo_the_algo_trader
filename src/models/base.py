@@ -10,7 +10,6 @@ drop table  schedule_time cascade;
 drop table  schedule_list cascade;
 drop table  option_contracts cascade;
 drop table  option_greeks cascade;
-drop table  option_strategies cascade;
 drop table  orders cascade;
 drop table  holdings cascade;
 drop table  positions cascade;

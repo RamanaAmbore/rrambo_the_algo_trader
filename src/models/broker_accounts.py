@@ -31,8 +31,6 @@ class BrokerAccounts(Base):
     parameter_table_rel = relationship("ParameterTable", back_populates="broker_accounts_rel", passive_deletes=True, )
     report_ledger_entries_rel = relationship("ReportLedgerEntries", back_populates="broker_accounts_rel",
                                              passive_deletes=True, )
-    option_strategies_rel = relationship("OptionStrategies", back_populates="broker_accounts_rel",
-                                         passive_deletes=True, )
     orders_rel = relationship("Orders", back_populates="broker_accounts_rel", passive_deletes=True, )
     thread_status_tracker_rel = relationship("ThreadStatusTracker", back_populates="broker_accounts_rel",
                                              passive_deletes=True, )
