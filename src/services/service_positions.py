@@ -29,9 +29,9 @@ class ServicePositions(SingletonBase, ServiceBase):
         """Cleans and validates positions data before inserting into DB."""
 
         result = []
-        for type, recs in records.items():
+        for rec_type, recs in records.items():
             for record in recs:
-                record['type'] = type
+                record['type'] = rec_type
                 record['account'] = parms.DEF_ACCOUNT
                 record['symbol_exchange'] = f'{record["tradingsymbol"]}:{record["exchange"]}'
                 result.append(record)

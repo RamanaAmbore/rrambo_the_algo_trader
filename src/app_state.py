@@ -1,8 +1,5 @@
 from threading import Lock
-from typing import Any
-
 from bidict import bidict
-
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 
@@ -10,106 +7,213 @@ logger = get_logger(__name__)
 
 
 def locked_update(method):
-    """Decorator to acquire a lock before updating instance variables."""
-
     def wrapper(self, *args, **kwargs):
         with self.lock:
             return method(self, *args, **kwargs)
-
     return wrapper
 
 
 class AppState(SingletonBase):
-    """
-    Singleton class to manage the application's state, including instrument mappings,
-    watchlist, holdings, and positions, with thread-safe updates.
-    """
-
     def __init__(self):
-        """Ensure __init__ is only called once."""
         if getattr(self, '_singleton_initialized', True):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
-        self._instrument_map = bidict()  # token <-> tradingsymbol|exchange
-        self._watchlist = set()
+        self._instrument_map = {}
+        self._instrument_list = {}
+        self._watchlist = {}
+        self._watchlist_inst = {}
         self._holdings = {}
         self._positions = {}
+        self._instrument_xref = {}  # symbol_exchange -> {category: key}
+        self._xref_reverse = {}     # (category, key) -> symbol_exchange
+
+        # Instrument/symbol collections
+        self._token_list_all = set()
+        self._token_list_watchlist = set()
+        self._token_list_positions = set()
+        self._token_list_holdings = set()
+
+        self._symbol_list_all = set()
+        self._symbol_list_watchlist = set()
+        self._symbol_list_positions = set()
+        self._symbol_list_holdings = set()
+
         self.lock = Lock()
+        self._singleton_initialized = True
 
-    # Instrument Map using property decorator
-    @property
-    def instrument_map(self) -> bidict:
-        """Returns the instrument map."""
-        return self._instrument_map
+    def _add_xref(self, symbol_exchange, category, key):
+        self._instrument_xref.setdefault(symbol_exchange, {})[category] = key
+        self._xref_reverse[(category, key)] = symbol_exchange
 
-    @instrument_map.setter
+        token = self._instrument_map.get(symbol_exchange)
+        if token:
+            self._token_list_all.add(token)
+            self._symbol_list_all.add(symbol_exchange)
+            if category == "watchlist":
+                self._token_list_watchlist.add(token)
+                self._symbol_list_watchlist.add(symbol_exchange)
+            elif category == "positions":
+                self._token_list_positions.add(token)
+                self._symbol_list_positions.add(symbol_exchange)
+            elif category == "holdings":
+                self._token_list_holdings.add(token)
+                self._symbol_list_holdings.add(symbol_exchange)
+
+    def _remove_xref(self, symbol_exchange, category):
+        if symbol_exchange in self._instrument_xref:
+            self._instrument_xref[symbol_exchange].pop(category, None)
+            if not self._instrument_xref[symbol_exchange]:
+                del self._instrument_xref[symbol_exchange]
+        self._xref_reverse.pop((category, symbol_exchange), None)
+        self._refresh_lists()
+
+    def _refresh_xref(self):
+        self._instrument_xref.clear()
+        self._xref_reverse.clear()
+        self._refresh_lists()
+
+        for key, record in self._holdings.items():
+            self._add_xref(record.symbol_exchange, "holdings", key)
+        for key, record in self._positions.items():
+            self._add_xref(record.symbol_exchange, "positions", key)
+        for key, record in self._watchlist.items():
+            self._add_xref(record.symbol_exchange, "watchlist", key)
+
+    def _refresh_lists(self):
+        self._token_list_all.clear()
+        self._token_list_watchlist.clear()
+        self._token_list_positions.clear()
+        self._token_list_holdings.clear()
+
+        self._symbol_list_all.clear()
+        self._symbol_list_watchlist.clear()
+        self._symbol_list_positions.clear()
+        self._symbol_list_holdings.clear()
+
+    # Helpers to retrieve mappings
+    def get_instrument_xref(self):
+        return self._instrument_xref
+
+    def get_tokens_with_keys(self):
+        return self._instrument_xref
+
+    def get_all_tokens(self):
+        return {token: None for token in self._token_list_all}
+
+    def get_symbol_exchange_by_key(self, category, key):
+        return self._xref_reverse.get((category, key))
+
+    # Instrument Tokens Helpers
+    def get_all_tokens_list(self):
+        return list(self._token_list_all)
+
+    def get_tokens_by_category(self, category):
+        return {
+            "watchlist": list(self._token_list_watchlist),
+            "positions": list(self._token_list_positions),
+            "holdings": list(self._token_list_holdings),
+        }.get(category, [])
+
+    def get_symbol_list_by_category(self, category):
+        return {
+            "watchlist": list(self._symbol_list_watchlist),
+            "positions": list(self._symbol_list_positions),
+            "holdings": list(self._symbol_list_holdings),
+        }.get(category, [])
+
+    def get_all_symbol_exchanges(self):
+        return list(self._symbol_list_all)
+
+    # Instrument Map
+    def get_instrument_list(self):
+        return self._instrument_list
+
     @locked_update
-    def instrument_map(self, value: bidict):
-        """Sets the instrument map."""
-        self._instrument_map = value
+    def set_instrument_list(self, value):
+        self._instrument_list = value
+        self._instrument_map = bidict({key: val.instruement_token for key, val in value.items()})
+        self._refresh_xref()
 
     @locked_update
-    def update_instrument_map(self, token: str, trading_symbol_exchange: str):
-        """Updates the instrument map with a single entry."""
-        self._instrument_map[token] = trading_symbol_exchange
+    def update_instrument_list(self, symbol_exchange, insturment_token):
+        self._instrument_map[symbol_exchange] = insturment_token
+        self._instrument_list[symbol_exchange] = insturment_token
 
-    # Watchlist using property decorator
-    @property
-    def watchlist(self) -> set:
-        """Returns the watchlist."""
+    # Watchlist
+    def get_watchlist(self):
         return self._watchlist
 
-    @watchlist.setter
     @locked_update
-    def watchlist(self, value: set):
-        """Sets the watchlist."""
+    def set_watchlist(self, value):
         self._watchlist = value
+        self._refresh_xref()
 
     @locked_update
-    def add_to_watchlist(self, instrument: Any):
-        """Adds an instrument to the watchlist."""
-        self._watchlist.add(instrument)
+    def add_to_watchlist(self, symbol_exchange, record):
+        self._watchlist[symbol_exchange] = record
+        self._add_xref(record.symbol_exchange, "watchlist", symbol_exchange)
 
     @locked_update
-    def remove_from_watchlist(self, instrument: Any):
-        """Removes an instrument from the watchlist."""
-        if instrument in self._watchlist:
-            self._watchlist.remove(instrument)
+    def remove_from_watchlist(self, symbol_exchange):
+        self._watchlist.pop(symbol_exchange, None)
+        self._remove_xref(symbol_exchange, "watchlist")
 
-    # Holdings using property decorator
-    @property
-    def holdings(self) -> dict:
-        """Returns the holdings data."""
+    # Watchlist Instrument Map
+    def get_watchlist_inst(self):
+        return self._watchlist_inst
+
+    @locked_update
+    def set_watchlist_inst(self, value):
+        self._watchlist_inst = value
+
+    @locked_update
+    def add_to_watchlist_inst(self, token):
+        self._watchlist_inst[token] = None
+
+    @locked_update
+    def remove_from_watchlist_inst(self, token):
+        self._watchlist_inst.pop(token, None)
+
+    # Holdings
+    def get_holdings(self):
         return self._holdings
 
-    @holdings.setter
     @locked_update
-    def holdings(self, value: dict):
-        """Sets the holdings data."""
+    def set_holdings(self, value):
         self._holdings = value
+        self._refresh_xref()
 
     @locked_update
-    def update_holdings(self, symbol: str, data: dict):
-        """Updates the holdings for a specific symbol."""
-        self._holdings[symbol] = data
+    def update_holdings(self, symbol_exchange, data):
+        self._holdings[symbol_exchange] = data
+        self._add_xref(symbol_exchange, "holdings", symbol_exchange)
 
-    # Positions using property decorator
-    @property
-    def positions(self) -> dict:
-        """Returns the positions data."""
+    @locked_update
+    def remove_holdings(self, symbol_exchange):
+        if symbol_exchange in self._holdings:
+            del self._holdings[symbol_exchange]
+            self._remove_xref(symbol_exchange, "holdings")
+
+    # Positions
+    def get_positions(self):
         return self._positions
 
-    @positions.setter
     @locked_update
-    def positions(self, value: dict):
-        """Sets the positions data."""
+    def set_positions(self, value):
         self._positions = value
+        self._refresh_xref()
 
     @locked_update
-    def update_positions(self, symbol: str, data: dict):
-        """Updates the positions for a specific symbol."""
-        self._positions[symbol] = data
+    def update_positions(self, symbol_exchange, data):
+        self._positions[symbol_exchange] = data
+        self._add_xref(symbol_exchange, "positions", symbol_exchange)
+
+    @locked_update
+    def remove_positions(self, symbol_exchange):
+        if symbol_exchange in self._positions:
+            del self._positions[symbol_exchange]
+            self._remove_xref(symbol_exchange, "positions")
 
 
-# Example of how to get the singleton instance
+# Singleton instance
 app_state = AppState()

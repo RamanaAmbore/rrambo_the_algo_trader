@@ -100,11 +100,15 @@ class AppInitializer(SingletonBase):
 
     @classmethod
     async def update_app_sate(cls):
-        await service_positions.process_records(await asyncio.to_thread(app_initializer.get_kite_conn().positions))
-        app_state.positions = await service_positions.get_records_map()
-        app_state.holdings = await service_holdings.get_records_map()
-        app_state.instrument_map = await service_instrument_list.get_records_map()
-        app_state.watchlist = await service_watch_list_instruments.get_records_map()
+        await service_positions.process_records(
+            await asyncio.to_thread(app_initializer.get_kite_conn().positions)
+        )
+
+        # These assignments will auto-update the internal xref mapping
+        app_state.set_positions(await service_positions.get_records_map())
+        app_state.set_holdings(await service_holdings.get_records_map())
+        app_state.set_instrument_list(await service_instrument_list.get_records_map(key_attr = 'symbol_exchange'))
+        app_state.set_watchlist(await service_watch_list_instruments.get_records_map())
 
     @staticmethod
     async def sync_reports():

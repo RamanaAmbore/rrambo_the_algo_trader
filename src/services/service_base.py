@@ -413,8 +413,9 @@ class ServiceBase:
             }
         else:
             # Map key_attr -> record
-            return {
-                getattr(record, key_attr): record
-                for record in records
-                if hasattr(record, key_attr)
-            }
+            result = {}
+            for record in records:
+                if hasattr(record, key_attr):
+                    key = getattr(record, key_attr)
+                    result[key] = record
+            return result

@@ -21,14 +21,6 @@ class ServiceWatchList(SingletonBase, ServiceBase):
         self.records = None
         self.symbol_map = None
 
-    async def get_records_map(self):
-        if not self.symbol_map:
-            await self.get_all_records(refresh=False)
-
-            for record in self.records:
-                if record.symbol_exchange and record.instrument_token is not None:
-                    self.symbol_map[record.symbol_exchange] = record.instrument_token
-
 
 # Singleton instance
 service_watch_list = ServiceWatchList()

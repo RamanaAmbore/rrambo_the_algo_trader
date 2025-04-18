@@ -39,13 +39,5 @@ class ServiceHoldings(SingletonBase, ServiceBase):
         await self.delete_setup_table_records(records)
         self.records = records
 
-    async def get_records_map(self):
-        if not self.symbol_map:
-            await self.get_all_records(refresh=True)
-
-            for record in self.records:
-                if record.symbol_exchange and record.instrument_token is not None:
-                    self.symbol_map[record.symbol_exchange] = record.instrument_token
-
 
 service_holdings = ServiceHoldings()

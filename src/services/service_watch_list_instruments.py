@@ -156,7 +156,6 @@ class ServiceWatchListInstruments(SingletonBase, ServiceBase):
                                           exclude_from_update,
                                           skip_update_if_exists,
                                           ignore_extra_columns)
-        market_state_manager.update_watchlist(default_records)
 
 
 service_watch_list_instruments = ServiceWatchListInstruments()
