@@ -18,10 +18,10 @@ async def backend_process():
 
     positions = await asyncio.to_thread(app_initializer.get_kite_conn().positions)
     await service_positions.process_records(positions)
-    app_state.positions = await service_positions.get_records_map()
-    symbol_map1 = await service_holdings.get_records_map()
-    symbol_map2 = await service_instrument_list.get_records_map()
-    symbol_map3 = await service_watch_list_instruments.get_records_map()
+    app_state.positions = await service_positions.get_record_map()
+    symbol_map1 = await service_holdings.get_record_map()
+    symbol_map2 = await service_instrument_list.get_record_map()
+    symbol_map3 = await service_watch_list_instruments.get_record_map()
 
 
 if __name__ == "__main__":

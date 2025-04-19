@@ -63,6 +63,11 @@ class ServiceBase:
         self.conflict_cols = conflict_cols
         self.table_name = self.model.__tablename__  # Cache table name for logging
         self.records = []
+        self.record_map = {}
+
+    def get_records(self):
+        return self.records
+
 
     async def _execute_and_commit(self, session: AsyncSession, stmt: Any, operation_desc: str) -> Any:
         """Helper to execute a statement and commit, with standardized error handling."""
@@ -382,9 +387,11 @@ class ServiceBase:
         )
         logger.info(f"Default records setup completed for {self.table_name}.")
 
+        await self.get_record_map()
+
         return result
 
-    async def get_records_map(self, key_attr: str = 'id', value_attr: str = None) -> Dict[Any, Any]:
+    async def get_record_map(self, key_attr: str = 'id', value_attr: str = None, refresh=True) -> Dict[Any, Any]:
         """
         Creates a dictionary map of records.
 
@@ -395,6 +402,9 @@ class ServiceBase:
         Returns:
             A dictionary mapping the key attribute to either the value attribute or the entire record.
         """
+        if not refresh and self.record_map:
+            return self.record_map
+
         records = await self.get_all_records(refresh=True)
 
         # Default to using the primary key as the key
@@ -406,16 +416,16 @@ class ServiceBase:
         # Create the map
         if value_attr:
             # Map key_attr -> value_attr
-            return {
+            self.record_map = {
                 getattr(record, key_attr): getattr(record, value_attr)
                 for record in records
                 if hasattr(record, key_attr) and hasattr(record, value_attr)
             }
         else:
             # Map key_attr -> record
-            result = {}
+            self.record_map = {}
             for record in records:
                 if hasattr(record, key_attr):
                     key = getattr(record, key_attr)
-                    result[key] = record
-            return result
+                    self.record_map[key] = record
+            return self.record_map

@@ -61,7 +61,7 @@ class MarketTicker(SingletonBase, threading.Thread):
 
         if self.last_checked_date != today or self.market_hours is None:
             try:
-                self.market_hours = service_schedule_time.get_market_hours_for_today()
+                self.market_hours = service_schedule_time.get_market_schedule_recs_for_today()
                 self.last_checked_date = today
             except Exception as e:
                 logger.error(f"Failed to fetch market hours: {e}")

@@ -1,5 +1,6 @@
 import asyncio
 
+from src.app_state import app_state
 from src.core.decorators import track_exec_time
 from src.core.report_downloader import ReportDownloader
 from src.core.report_uploader import ReportUploader
@@ -22,7 +23,6 @@ from src.services.service_watch_list_instruments import service_watch_list_instr
 from src.settings.constants_manager import DEF_PARAMETERS, DEF_BROKER_ACCOUNTS, DEF_ACCESS_TOKENS, DEF_THREAD_LIST, \
     DEF_SCHEDULES, DEF_WATCH_LIST, DEF_EXCHANGE_LIST, DEF_THREAD_SCHEDULE, DEF_SCHEDULE_TIME, DEF_WATCH_LIST_INSTRUMENTS
 from src.settings.parameter_manager import refresh_parameters, parms
-from src.app_state import app_state
 
 logger = get_logger(__name__)
 
@@ -55,7 +55,7 @@ class AppInitializer(SingletonBase):
             service_exchange_list.setup_table_records(DEF_EXCHANGE_LIST, skip_update_if_exists=True)
         )
         await service_schedule_time.setup_table_records(DEF_SCHEDULE_TIME, skip_update_if_exists=True)
-        service_schedule_time.get_market_hours_for_today()
+        service_schedule_time.get_market_schedule_recs_for_today()
 
         # Step 4: Initialize singleton instance
         ZerodhaKiteConnect().get_kite_conn(test_conn=True)
@@ -68,6 +68,11 @@ class AppInitializer(SingletonBase):
 
         if is_open:
             await app_initializer.setup_pre_market()
+
+        await service_positions.process_records(
+            await asyncio.to_thread(app_initializer.get_kite_conn().positions)
+        )
+
         await self.update_app_sate()
 
     @track_exec_time()
@@ -100,15 +105,14 @@ class AppInitializer(SingletonBase):
 
     @classmethod
     async def update_app_sate(cls):
-        await service_positions.process_records(
-            await asyncio.to_thread(app_initializer.get_kite_conn().positions)
-        )
+        pass
 
-        # These assignments will auto-update the internal xref mapping
-        app_state.set_positions(await service_positions.get_records_map())
-        app_state.set_holdings(await service_holdings.get_records_map())
-        app_state.set_instrument_list(await service_instrument_list.get_records_map(key_attr = 'symbol_exchange'))
-        app_state.set_watchlist(await service_watch_list_instruments.get_records_map())
+        # # These assignments will auto-update the internal xref mapping
+        # app_state.set_schedule_time(service_schedule_time.get_schedule_records())
+        # app_state.set_instrument_list(await service_instrument_list.get_record_map(key_attr='symbol_exchange'))
+        # app_state.set_positions(await service_positions.get_record_map())
+        # app_state.set_holdings(await service_holdings.get_record_map())
+        # app_state.set_watchlist(await service_watch_list_instruments.get_record_map())
 
     @staticmethod
     async def sync_reports():
@@ -120,8 +124,22 @@ class AppInitializer(SingletonBase):
         return ZerodhaKiteConnect().get_kite_conn()
 
     @staticmethod
-    def get_kite_obj(self):
+    def get_kite_obj():
         return ZerodhaKiteConnect()
 
 
 app_initializer = AppInitializer()
+
+
+class XrefCategory:
+    WATCHLIST = 'watchlist'
+    HOLDINGS = 'holdings'
+    POSITIONS = 'positions'
+    WATCHLIST_INST = 'watchlist_inst'
+    EXCHANGES = 'exchanges'
+    SCHEDULE_TIME = 'schedule_time'
+
+    # etc.
+
+
+xref_categories = {XrefCategory.WATCHLIST, XrefCategory.HOLDINGS, XrefCategory.POSITIONS, XrefCategory.WATCHLIST_INST, XrefCategory.EXCHANGES, XrefCategory.SCHEDULE_TIME}

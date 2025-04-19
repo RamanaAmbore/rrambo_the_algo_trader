@@ -1,5 +1,6 @@
 from datetime import datetime, time
-from typing import List, Optional, Union, Tuple, Set
+from typing import List, Union, Set
+from typing import Tuple, Optional, Dict
 
 from sqlalchemy import select
 
@@ -27,7 +28,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
             return
         super().__init__(self.model, self.conflict_cols)
         self.last_checked_date = None
-        self.market_hours = None
+        self.schedule_records = {}
 
     def _get_unique_exchanges(self) -> List[str]:
         """Fetch unique exchange values from the table."""
@@ -40,10 +41,10 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
                 logger.error(f"Error fetching unique exchanges: {e}")
                 return ["*"]
 
-    def get_market_hours_for_today(self) -> List[dict]:
+    def get_market_schedule_recs_for_today(self) -> List[dict]:
         """Retrieve today's market hours with a fallback mechanism, considering all exchanges."""
-        if self.market_hours:
-            return self.market_hours
+        if self.schedule_records:
+            return self.schedule_records
 
         today = today_indian()
         weekday = today.strftime("%A")
@@ -68,12 +69,18 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
                         if record:
                             result = {column: getattr(record, column) for column in imp_columns}
                             records.append(result)
+                            self.schedule_records[result['id']] = result
                             break  # Stop at first match for this combo
 
-        self.market_hours = records
+        self.schedule_records = records
         return records
 
-    def get_batch_schedules(
+    def get_schedule_records(self):
+        if not self.schedule_records:
+            self.get_market_schedule_recs_for_today()
+        return self.schedule_records
+
+    def get_schedule_recs_by_type(
             self, batch_type: Optional[Union[str, List[str], Tuple[str], Set[str]]] = None
     ) -> List[ScheduleTime]:
         """Retrieve today's batch processing schedule list, considering all exchanges."""
@@ -99,8 +106,6 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
 
         return list({sched.id: sched for sched in all_schedules}.values())  # Deduplication by ID
 
-    from typing import Tuple, Optional, Dict
-
     def is_market_open(
             self, pre_market: bool = False, exchange: str = '*'
     ) -> Tuple[bool, Optional[Dict], Optional[Dict]]:
@@ -109,13 +114,13 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
         current_time = current_time_indian()
         market_flag = 'PRE_MARKET' if pre_market else 'MARKET'
 
-        if self.last_checked_date != today or self.market_hours is None:
+        if self.last_checked_date != today or self.schedule_records is None:
             try:
-                self.market_hours = self.get_market_hours_for_today()
+                self.schedule_records = self.get_market_schedule_recs_for_today()
                 self.last_checked_date = today
             except Exception as e:
                 logger.error(f"Failed to fetch market hours: {e}")
-                self.market_hours = None
+                self.schedule_records = None
                 return False, None, None
 
         def parse_time(t: str) -> Optional[time]:
@@ -126,7 +131,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
                 return None
 
         filtered = []
-        for x in self.market_hours:
+        for x in self.schedule_records:
             if (
                     x.get('schedule') == market_flag
                     and x.get('exchange') == exchange

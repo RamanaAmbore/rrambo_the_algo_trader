@@ -27,7 +27,7 @@ class ServiceInstrumentList(SingletonBase, ServiceBase):
                 record['expiry'] = None
             record['symbol_exchange'] = f'{record["tradingsymbol"]}:{record["exchange"]}'
 
-        await self.setup_table_records(records)
+        await self.delete_setup_table_records(records)
 
 
 service_instrument_list = ServiceInstrumentList()

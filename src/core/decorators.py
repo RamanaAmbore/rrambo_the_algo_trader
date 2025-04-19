@@ -2,6 +2,7 @@ import time
 from functools import wraps
 from inspect import iscoroutinefunction
 
+
 from src.helpers.logger import get_logger
 
 logger = get_logger(__name__)
@@ -65,3 +66,9 @@ def track_exec_time():
             return sync_wrapper
 
     return decorator
+
+def locked_update(method):
+    def wrapper(self, *args, **kwargs):
+        with self.lock:
+            return method(self, *args, **kwargs)
+    return wrapper
