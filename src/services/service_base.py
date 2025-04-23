@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.inspection import inspect as sqlainspect  # Alias to avoid name clash
 from sqlalchemy.orm import DeclarativeBase  # Assuming use of declarative base for model type hint
 
-from src.core.decorators import track_exec_time
+from src.core.decorators import track_it
 # Assuming db and logger setup are correct
 from src.helpers.database_manager import db
 from src.helpers.logger import get_logger
@@ -216,7 +216,7 @@ class ServiceBase:
                 logger.error(f"Error updating record {record_id} in {self.table_name}: {e}", exc_info=True)
                 raise
 
-    @track_exec_time()
+    @track_it()
     async def bulk_insert_records(
             self,
             records: Union[List[Dict[str, Any]], pd.DataFrame] = None,
@@ -427,5 +427,5 @@ class ServiceBase:
             for record in records:
                 if hasattr(record, key_attr):
                     key = getattr(record, key_attr)
-                    self.record_map[key] = record
+                    self.record_map[key] = {key:val for key,val in record.__dict__.items() if not key.startswith('_sa')}
             return self.record_map

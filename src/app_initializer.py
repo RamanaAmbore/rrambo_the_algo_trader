@@ -1,7 +1,7 @@
 import asyncio
 
-from src.app_state import app_state
-from src.core.decorators import track_exec_time
+from src.app_state_manager import app_state
+from src.core.decorators import track_it
 from src.core.report_downloader import ReportDownloader
 from src.core.report_uploader import ReportUploader
 from src.core.singleton_base import SingletonBase
@@ -30,13 +30,13 @@ logger = get_logger(__name__)
 class AppInitializer(SingletonBase):
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if getattr(self, '_singleton_initialized', True):
+        if getattr(self, '_singleton_initialized', False):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         self.kite_obj = None
         self.kite_conn = None
 
-    @track_exec_time()
+    @track_it()
     async def setup_parameters(self):
 
         # Step 1: Set up broker and parameter records
@@ -75,7 +75,7 @@ class AppInitializer(SingletonBase):
 
         await self.update_app_sate()
 
-    @track_exec_time()
+    @track_it()
     async def setup_pre_market(self):
         await asyncio.gather(
             service_thread_list.setup_table_records(DEF_THREAD_LIST, skip_update_if_exists=True),
@@ -105,13 +105,11 @@ class AppInitializer(SingletonBase):
 
     @classmethod
     async def update_app_sate(cls):
-        pass
+        app_state.set_schedule_time(service_schedule_time.get_schedule_records())
+        app_state.set_instruments(await service_instrument_list.get_record_map(key_attr='symbol_exchange'))
 
-        # # These assignments will auto-update the internal xref mapping
-        # app_state.set_schedule_time(service_schedule_time.get_schedule_records())
-        # app_state.set_instrument_list(await service_instrument_list.get_record_map(key_attr='symbol_exchange'))
-        # app_state.set_positions(await service_positions.get_record_map())
-        # app_state.set_holdings(await service_holdings.get_record_map())
+        app_state.set_positions(await service_positions.get_record_map())
+        app_state.set_holdings(await service_holdings.get_record_map())
         # app_state.set_watchlist(await service_watch_list_instruments.get_record_map())
 
     @staticmethod
@@ -129,17 +127,3 @@ class AppInitializer(SingletonBase):
 
 
 app_initializer = AppInitializer()
-
-
-class XrefCategory:
-    WATCHLIST = 'watchlist'
-    HOLDINGS = 'holdings'
-    POSITIONS = 'positions'
-    WATCHLIST_INST = 'watchlist_inst'
-    EXCHANGES = 'exchanges'
-    SCHEDULE_TIME = 'schedule_time'
-
-    # etc.
-
-
-xref_categories = {XrefCategory.WATCHLIST, XrefCategory.HOLDINGS, XrefCategory.POSITIONS, XrefCategory.WATCHLIST_INST, XrefCategory.EXCHANGES, XrefCategory.SCHEDULE_TIME}

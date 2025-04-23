@@ -1,6 +1,8 @@
 import shutil
+from collections import defaultdict
 from decimal import Decimal, ROUND_DOWN
 from pathlib import Path
+
 import pandas as pd
 import pyotp
 
@@ -84,3 +86,28 @@ def parse_value(value: str, target_type: type = None):
         return value
 
 
+def create_instr_symbol_xref(data, xref, reverse_key=None, use_type=set):
+    symbol_id_xref = reverse_dict(data, reverse_key, use_type)
+    instr_id_xref = {}
+    for key, val in symbol_id_xref.items():
+        instr_id_xref[xref[key]['instrument_token']] = val
+    return symbol_id_xref, instr_id_xref
+
+
+def reverse_dict(data, reverse_key=None, use_type=set):
+    if use_type is None:
+        multi_set_dict = dict()
+    else:
+        multi_set_dict = defaultdict(use_type)
+
+    for key, val in data.items():
+        temp_key = val[reverse_key]
+        if use_type is None:
+            multi_set_dict[temp_key] = key
+        else:
+            multi_set_dict[temp_key].add(key)
+
+    if use_type is None:
+        return multi_set_dict
+    else:
+        return dict(multi_set_dict)

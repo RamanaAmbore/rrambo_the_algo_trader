@@ -1,6 +1,6 @@
 import asyncio
 
-from src.app_state import AppState
+from src.app_state_manager import AppState
 from src.core.singleton_base import SingletonBase
 from src.models.websocket_tick import WebsocketTick
 from src.services.service_base import ServiceBase

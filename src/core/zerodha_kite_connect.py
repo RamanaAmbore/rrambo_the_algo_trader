@@ -17,7 +17,7 @@ class ZerodhaKiteConnect(SingletonBase):
     """Singleton class to handle Kite API authentication and access token management."""
 
     def __init__(self):
-        if getattr(self, '_singleton_initialized', True):
+        if getattr(self, '_singleton_initialized', False):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         self.account = parms.DEF_ACCOUNT

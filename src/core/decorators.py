@@ -1,7 +1,7 @@
+import threading
 import time
 from functools import wraps
 from inspect import iscoroutinefunction
-
 
 from src.helpers.logger import get_logger
 
@@ -33,7 +33,7 @@ def retry_kite_conn(max_attempts):
     return decorator
 
 
-def track_exec_time():
+def track_it():
     def decorator(func):
         if iscoroutinefunction(func):
             @wraps(func)
@@ -67,8 +67,35 @@ def track_exec_time():
 
     return decorator
 
-def locked_update(method):
+def lock_it_for_update(method):
     def wrapper(self, *args, **kwargs):
         with self.lock:
             return method(self, *args, **kwargs)
     return wrapper
+
+
+
+def update_lock(method):
+    """
+    Decorator that ensures method execution is thread-safe using global and per-element locks.
+    The element key is assumed to be the first positional argument.
+    """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        key = args[0] if args else None  # get key if passed
+
+        with self.lock:
+            if key:
+                if key not in self.element_locks:
+                    self.element_locks[key] = threading.Lock()
+                lock = self.element_locks[key]
+            else:
+                lock = self.lock
+
+        with lock:
+            return method(self, *args, **kwargs)
+
+    return wrapper
+
+
+

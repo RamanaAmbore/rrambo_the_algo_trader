@@ -8,7 +8,7 @@ logger = get_logger(__name__)
 class StateComponent(SingletonBase):
     """Base class for managing a specific part of the application state."""
     def __init__(self, lock):
-        if getattr(self, '_singleton_initialized', True):
+        if getattr(self, '_singleton_initialized', False):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         self.lock = lock

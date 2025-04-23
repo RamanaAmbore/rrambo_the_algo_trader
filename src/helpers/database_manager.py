@@ -22,7 +22,7 @@ class DatabaseManager(SingletonBase):
     _lock = Lock()
 
     def __init__(self):
-        if getattr(self, '_singleton_initialized', True):
+        if getattr(self, '_singleton_initialized', False):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         self._setup_database_urls()

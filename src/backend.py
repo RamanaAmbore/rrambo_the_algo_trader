@@ -3,7 +3,7 @@
 import asyncio
 
 from src.app_initializer import app_initializer
-from src.app_state import app_state
+from src.app_state_manager import app_state
 from src.helpers.logger import get_logger
 from src.services.service_holdings import service_holdings
 from src.services.service_instrument_list import service_instrument_list

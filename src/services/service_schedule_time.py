@@ -23,7 +23,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
 
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if getattr(self, '_singleton_initialized', True):
+        if getattr(self, '_singleton_initialized', False):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         super().__init__(self.model, self.conflict_cols)
@@ -67,7 +67,8 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
                         )
                         record = session.execute(query).scalars().first()
                         if record:
-                            result = {column: getattr(record, column) for column in imp_columns}
+                            result = {k: v for k, v in record.__dict__.items()}
+                            # result = {column: getattr(record, column) for column in self._model_inspect.columns}
                             records.append(result)
                             self.schedule_records[result['id']] = result
                             break  # Stop at first match for this combo
