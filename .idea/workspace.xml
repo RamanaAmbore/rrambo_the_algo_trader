@@ -4,37 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructure app_state">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructure app_state - 1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app_initializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_initializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app_state/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app_state/schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state/schedule_time.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app_state_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/zerodha_kite_connect.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/zerodha_kite_connect.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/database_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/database_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_access_tokens.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_access_tokens.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/watch_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist_symbols.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/service_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_broker_accounts.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_broker_accounts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_exchange_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_exchange_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_holdings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_holdings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/service_instrument_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_instrument_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_parameter_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_parameter_table.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_positions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_positions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_report_ledger_entries.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_report_ledger_entries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_report_profit_loss.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_report_profit_loss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_report_tradebook.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_report_tradebook.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_schedule_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedule_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_schedule_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedule_threads.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_schedule_time.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_schedule_time.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_thread_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_thread_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_thread_schedule.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_thread_schedule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_thread_status_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_thread_status_tracker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watch_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_websocket_tick.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_websocket_tick.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watchlist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watchlist_symbols.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,87 +59,87 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python tests.Python tests for cipher_utils.test_cipher.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for db_connect.test_sync_session.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for test_utils_funcs.test_to_decimal.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for util_funcs.test_delete_folder_contents.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in db_connect.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests in test_utils_funcs.py.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Python.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SimpleDashboard.executor&quot;: &quot;Run&quot;,
-    &quot;Python.algo_thread_status.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.backend (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.backend.executor&quot;: &quot;Run&quot;,
-    &quot;Python.backend_process (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.backend_process (2).executor&quot;: &quot;Run&quot;,
-    &quot;Python.backend_process.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.broker_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.cipher_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.database.executor&quot;: &quot;Run&quot;,
-    &quot;Python.database_manager (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.database_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.date_time_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_conn.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connect.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_utils (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.download_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fetch_parms (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.kite_api_login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connect (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_connection_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.kite_get_access_token.executor&quot;: &quot;Run&quot;,
-    &quot;Python.load_reports (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.load_reports.executor&quot;: &quot;Run&quot;,
-    &quot;Python.logger.executor&quot;: &quot;Run&quot;,
-    &quot;Python.login (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.login.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.login_new.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_monitor.executor&quot;: &quot;Run&quot;,
-    &quot;Python.market_ticker (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.market_ticker.executor&quot;: &quot;Run&quot;,
-    &quot;Python.parameter_loader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_donwloader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_downloader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_downloader (2).executor&quot;: &quot;Debug&quot;,
-    &quot;Python.report_downloader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_uploader (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.report_uploader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.service_algo_thread_schedule_timing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.service_parameter_table.executor&quot;: &quot;Run&quot;,
-    &quot;Python.service_thread_schedule_timing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader.executor&quot;: &quot;Run&quot;,
-    &quot;Python.settings_loader_new.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sync_data.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_db_utils.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.thread_decorator.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.thread_manager.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_market_open_restart.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_pre_market.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_schedule_timing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_stock_list.executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_sync_data (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.thread_sync_data.executor&quot;: &quot;Run&quot;,
-    &quot;Python.zerodha_kite.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.zerodha_kite_connect.executor&quot;: &quot;Run&quot;,
-    &quot;Python.zerodha_socket.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/rrambo_the_algo&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python tests.Python tests for cipher_utils.test_cipher.executor": "Run",
+    "Python tests.Python tests for db_connect.test_sync_session.executor": "Run",
+    "Python tests.Python tests for test_utils_funcs.test_delete_folder_contents.executor": "Run",
+    "Python tests.Python tests for test_utils_funcs.test_to_decimal.executor": "Run",
+    "Python tests.Python tests for util_funcs.test_delete_folder_contents.executor": "Run",
+    "Python tests.Python tests in db_connect.py.executor": "Run",
+    "Python tests.Python tests in test_utils_funcs.py.executor": "Run",
+    "Python tests.Python.executor": "Run",
+    "Python.Python.executor": "Run",
+    "Python.SimpleDashboard.executor": "Run",
+    "Python.algo_thread_status.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.backend (1).executor": "Debug",
+    "Python.backend.executor": "Run",
+    "Python.backend_process (1).executor": "Run",
+    "Python.backend_process (2).executor": "Run",
+    "Python.backend_process.executor": "Debug",
+    "Python.broker_connection.executor": "Run",
+    "Python.cipher_utils.executor": "Debug",
+    "Python.database.executor": "Run",
+    "Python.database_manager (1).executor": "Debug",
+    "Python.database_manager.executor": "Run",
+    "Python.date_time_utils.executor": "Debug",
+    "Python.db_conn.executor": "Run",
+    "Python.db_connect.executor": "Run",
+    "Python.db_connection (1).executor": "Run",
+    "Python.db_connection.executor": "Run",
+    "Python.db_manager.executor": "Run",
+    "Python.db_utils (1).executor": "Debug",
+    "Python.db_utils.executor": "Debug",
+    "Python.download_reports (1).executor": "Debug",
+    "Python.download_reports.executor": "Run",
+    "Python.fetch_parms (1).executor": "Run",
+    "Python.kite_api_login.executor": "Debug",
+    "Python.kite_connect (1).executor": "Debug",
+    "Python.kite_connection_new.executor": "Debug",
+    "Python.kite_get_access_token.executor": "Run",
+    "Python.load_reports (1).executor": "Run",
+    "Python.load_reports.executor": "Run",
+    "Python.logger.executor": "Run",
+    "Python.login (1).executor": "Run",
+    "Python.login.executor": "Debug",
+    "Python.login_new.executor": "Debug",
+    "Python.market_monitor.executor": "Run",
+    "Python.market_ticker (1).executor": "Debug",
+    "Python.market_ticker.executor": "Run",
+    "Python.parameter_loader (1).executor": "Run",
+    "Python.report_donwloader.executor": "Run",
+    "Python.report_downloader (1).executor": "Run",
+    "Python.report_downloader (2).executor": "Debug",
+    "Python.report_downloader.executor": "Run",
+    "Python.report_uploader (1).executor": "Run",
+    "Python.report_uploader.executor": "Run",
+    "Python.service_algo_thread_schedule_timing.executor": "Run",
+    "Python.service_parameter_table.executor": "Run",
+    "Python.service_thread_schedule_timing.executor": "Run",
+    "Python.settings_loader.executor": "Run",
+    "Python.settings_loader_new.executor": "Run",
+    "Python.sync_data.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_db_utils.executor": "Debug",
+    "Python.thread_decorator.executor": "Debug",
+    "Python.thread_manager.executor": "Run",
+    "Python.thread_market_open_restart.executor": "Run",
+    "Python.thread_pre_market.executor": "Run",
+    "Python.thread_schedule_timing.executor": "Run",
+    "Python.thread_stock_list.executor": "Run",
+    "Python.thread_sync_data (1).executor": "Run",
+    "Python.thread_sync_data.executor": "Run",
+    "Python.zerodha_kite.executor": "Debug",
+    "Python.zerodha_kite_connect.executor": "Run",
+    "Python.zerodha_socket.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/rrambo_the_algo",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\rrambo_trader_new\services" />
@@ -442,14 +425,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00077" summary="restructured settings code-2">
-      <option name="closed" value="true" />
-      <created>1742491082594</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1742491082594</updated>
     </task>
     <task id="LOCAL-00078" summary="restructured settings code-2">
       <option name="closed" value="true" />
@@ -835,7 +810,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745037234779</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="restructure app_state - 1">
+      <option name="closed" value="true" />
+      <created>1745398698424</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1745398698433</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -860,7 +843,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="thread with 4 tasks executing successfully" />
     <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes" />
     <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes - 2" />
     <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes - 3" />
@@ -885,7 +867,8 @@
     <MESSAGE value="fix for OptionStrategies which is removed and not required presently" />
     <MESSAGE value="fix for pre_market. updated app_state with the datastructures to update and fetch various details." />
     <MESSAGE value="restructure app_state" />
-    <option name="LAST_COMMIT_MESSAGE" value="restructure app_state" />
+    <MESSAGE value="restructure app_state - 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="restructure app_state - 1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -941,14 +924,34 @@
           <option name="timeStamp" value="486" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/services/service_instrument_list.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="653" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/services/service_schedule_time.py</url>
           <line>107</line>
           <option name="timeStamp" value="658" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/app_initializer.py</url>
+          <line>118</line>
+          <option name="timeStamp" value="696" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/app_initializer.py</url>
+          <line>100</line>
+          <option name="timeStamp" value="699" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/services/service_instrument_list.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="700" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/app_state_manager.py</url>
+          <line>94</line>
+          <option name="timeStamp" value="705" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/helpers/utils.py</url>
+          <line>93</line>
+          <option name="timeStamp" value="710" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

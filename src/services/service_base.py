@@ -290,8 +290,8 @@ class ServiceBase:
 
                 if update_columns is None and update_on_conflict:
                     update_columns = non_conflict_cols
-
-                for i in range(0, len(records), batch_size):
+                rec_count = len(records)
+                for i in range(0, rec_count, batch_size):
                     batch = records[i:i + batch_size]
                     stmt = pg_insert(self.model).values(batch)
 
@@ -304,6 +304,8 @@ class ServiceBase:
                         stmt = stmt.on_conflict_do_nothing(index_elements=conflict_target)
 
                     await session.execute(stmt)
+                    end_rec = i + batch_size
+                    logger.info(f"Inserting records {i+1}:{end_rec if end_rec < rec_count else rec_count}")
 
                 await session.commit()
                 # Clear cached records to force refresh
@@ -332,6 +334,7 @@ class ServiceBase:
                                   exclude_from_update=('timestamp',),
                                   skip_update_if_exists: bool = False,
                                   ignore_extra_columns: bool = False,
+                                  batch_size=100,
                                   ) -> List[ModelType]:
         """
         Insert default records using the bulk mechanism for efficiency.
@@ -347,6 +350,12 @@ class ServiceBase:
 
         Returns:
             List of all records after the operation completes.
+            :param ignore_extra_columns:
+            :param skip_update_if_exists:
+            :param exclude_from_update:
+            :param update_columns:
+            :param default_records:
+            :param batch_size:
         """
         if not self.conflict_cols:
             raise ValueError("`self.conflict_cols` must be set in __init__ to use setup_table_records.")
@@ -382,7 +391,7 @@ class ServiceBase:
             update_on_conflict=True,
             skip_update_if_exists=skip_update_if_exists,
             update_columns=update_columns,
-            batch_size=100,
+            batch_size=batch_size,
             ignore_extra_columns=ignore_extra_columns
         )
         logger.info(f"Default records setup completed for {self.table_name}.")

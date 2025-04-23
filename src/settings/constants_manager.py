@@ -90,7 +90,7 @@ Type = SimpleNamespace(FLOAT='float', BOOL='bool', INT='int', STR='str')
 Thread = SimpleNamespace(**{"start_socket_ticker": Schedule.MARKET, "sync_stock_reports": Schedule.PRE_MARKET,
                             "sync_instrument_list": Schedule.PRE_MARKET,
                             "sync_holdings": Schedule.PRE_MARKET, "sync_positions": Schedule.PRE_MARKET,
-                            'sync_watch_list': Schedule.PRE_MARKET
+                            'sync_watchlist': Schedule.PRE_MARKET
                             })
 
 # Default configurations
@@ -141,7 +141,7 @@ DEF_WATCH_LIST = (
     {'watchlist': 'COMMODITIES'}
 )
 
-DEF_WATCH_LIST_INSTRUMENTS = (
+DEF_WATCHLIST_SYMBOLS = (
     {"watchlist": "INDEX_MINI", "tradingsymbol": "NIFTY 50", "exchange": "NSE"},
     {"watchlist": "INDEX_MINI", "tradingsymbol": "SENSEX", "exchange": "BSE"},
     {"watchlist": "INDEX_MINI", "tradingsymbol": "NIFTY BANK", "exchange": "NSE"},

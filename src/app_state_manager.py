@@ -1,8 +1,6 @@
 import threading
 from collections import defaultdict
 
-from setuptools.command.build_ext import use_stubs
-
 from src.core.decorators import update_lock
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
@@ -25,9 +23,9 @@ class Xref:
     SYMBOL_POSITIONS = 'symbol_positions'
     INSTR_POSITIONS = 'instr_positions'
 
-    WATCHLIST_XREF = 'watchlist_xref'
-    SYMBOL_WATCHLIST_XREF = 'symbol_watchlist_xref'
-    INSTR_WATCHLIST_XREF = 'instr_watchlist_xref'
+    WATCHLISTS = 'watchlists'
+    SYMBOL_WATCHLISTS = 'symbol_watchlists'
+    INSTR_WATCHLISTS = 'instr_watchlists'
 
     INSTR_TRACKLIST = 'instr_tracklist'
     SYMBOL_TRACKLIST = 'symbol_tracklist'
@@ -80,21 +78,24 @@ class AppState(SingletonBase):
     # Specific set methods
     def set_positions(self, value=None, sub_key=None):
         self.set(Xref.POSITIONS, value, sub_key)
-        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref, reverse_key='symbol_exchange')
+        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref,
+                                                                 reverse_key='symbol_exchange')
         self.set(Xref.SYMBOL_POSITIONS, symbol_id_xref, sub_key)
         self.set(Xref.INSTR_POSITIONS, instr_id_xref, sub_key)
 
     def set_holdings(self, value=None, sub_key=None):
         self.set(Xref.HOLDINGS, value, sub_key)
-        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref, reverse_key='symbol_exchange')
+        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref,
+                                                                 reverse_key='symbol_exchange')
         self.set(Xref.SYMBOL_HOLDINGS, symbol_id_xref, sub_key)
         self.set(Xref.INSTR_HOLDINGS, instr_id_xref, sub_key)
 
     def set_watchlist(self, value=None, sub_key=None):
-        self.set(Xref.WATCHLIST_SYMBOL, value, sub_key)
-        self.set(Xref.SYMBOL_WATCHLIST_INST, reverse_dict(value, reverse_key='symbol_exchange'), sub_key)
-
-
+        self.set(Xref.WATCHLISTS, value, sub_key)
+        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref,
+                                                                 reverse_key='symbol_exchange')
+        self.set(Xref.SYMBOL_WATCHLISTS, symbol_id_xref, sub_key)
+        self.set(Xref.INSTR_WATCHLISTS, instr_id_xref, sub_key)
 
     def set_schedule_time(self, value=None, sub_key=None):
         self.set(Xref.SCHEDULE_TIME, value, sub_key=sub_key)

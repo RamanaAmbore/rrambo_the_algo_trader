@@ -8,7 +8,7 @@ from src.helpers.logger import get_logger
 from src.services.service_holdings import service_holdings
 from src.services.service_instrument_list import service_instrument_list
 from src.services.service_positions import service_positions
-from src.services.service_watch_list_instruments import service_watch_list_instruments
+from src.services.service_watchlist_symbols import service_watchlist_symbols
 
 logger = get_logger(__name__)
 
@@ -21,7 +21,7 @@ async def backend_process():
     app_state.positions = await service_positions.get_record_map()
     symbol_map1 = await service_holdings.get_record_map()
     symbol_map2 = await service_instrument_list.get_record_map()
-    symbol_map3 = await service_watch_list_instruments.get_record_map()
+    symbol_map3 = await service_watchlist_symbols.get_record_map()
 
 
 if __name__ == "__main__":

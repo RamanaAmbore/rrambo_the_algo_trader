@@ -18,10 +18,10 @@ from src.services.service_schedule_list import service_schedule_list
 from src.services.service_schedule_time import service_schedule_time
 from src.services.service_thread_list import service_thread_list
 from src.services.service_thread_schedule import service_thread_schedule
-from src.services.service_watch_list import service_watch_list
-from src.services.service_watch_list_instruments import service_watch_list_instruments
+from src.services.service_watchlist import service_watchlist
+from src.services.service_watchlist_symbols import service_watchlist_symbols
 from src.settings.constants_manager import DEF_PARAMETERS, DEF_BROKER_ACCOUNTS, DEF_ACCESS_TOKENS, DEF_THREAD_LIST, \
-    DEF_SCHEDULES, DEF_WATCH_LIST, DEF_EXCHANGE_LIST, DEF_THREAD_SCHEDULE, DEF_SCHEDULE_TIME, DEF_WATCH_LIST_INSTRUMENTS
+    DEF_SCHEDULES, DEF_WATCH_LIST, DEF_EXCHANGE_LIST, DEF_THREAD_SCHEDULE, DEF_SCHEDULE_TIME, DEF_WATCHLIST_SYMBOLS
 from src.settings.parameter_manager import refresh_parameters, parms
 
 logger = get_logger(__name__)
@@ -73,13 +73,19 @@ class AppInitializer(SingletonBase):
             await asyncio.to_thread(app_initializer.get_kite_conn().positions)
         )
 
+        await service_positions.process_records(
+            await asyncio.to_thread(app_initializer.get_kite_conn().positions)
+        )
+
+        await service_watchlist_symbols.process_records(DEF_WATCHLIST_SYMBOLS)
+
         await self.update_app_sate()
 
     @track_it()
     async def setup_pre_market(self):
         await asyncio.gather(
             service_thread_list.setup_table_records(DEF_THREAD_LIST, skip_update_if_exists=True),
-            service_watch_list.setup_table_records(DEF_WATCH_LIST, skip_update_if_exists=True),
+            service_watchlist.setup_table_records(DEF_WATCH_LIST, skip_update_if_exists=True),
         )
         await asyncio.gather(
             service_thread_schedule.setup_table_records(DEF_THREAD_SCHEDULE, skip_update_if_exists=True),
@@ -101,7 +107,7 @@ class AppInitializer(SingletonBase):
             # service_positions.process_records(positions),
             service_holdings.process_records(holdings),
         )
-        await service_watch_list_instruments.setup_table_records(DEF_WATCH_LIST_INSTRUMENTS, skip_update_if_exists=True)
+        # await service_watchlist_symbols.setup_table_records(DEF_WATCHLIST_SYMBOLS, skip_update_if_exists=True)
 
     @classmethod
     async def update_app_sate(cls):
@@ -110,7 +116,7 @@ class AppInitializer(SingletonBase):
 
         app_state.set_positions(await service_positions.get_record_map())
         app_state.set_holdings(await service_holdings.get_record_map())
-        # app_state.set_watchlist(await service_watch_list_instruments.get_record_map())
+        app_state.set_watchlist(await service_watchlist_symbols.get_record_map())
 
     @staticmethod
     async def sync_reports():

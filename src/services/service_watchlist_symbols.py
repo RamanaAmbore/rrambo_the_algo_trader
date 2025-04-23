@@ -1,16 +1,16 @@
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
-from src.models import InstrumentList
+from src.models.watchlist_symbols import WatchlistSymbols
 from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
 
-class ServiceInstrumentList(SingletonBase, ServiceBase):
+class ServiceWatchlistSymbols(SingletonBase, ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
-    model = InstrumentList
-    conflict_cols = ['tradingsymbol', 'exchange']
+    model = WatchlistSymbols
+    conflict_cols = ['account', 'watchlist', 'tradingsymbol', 'exchange']
 
     def __init__(self):
         """Ensure __init__ is only called once."""
@@ -19,15 +19,20 @@ class ServiceInstrumentList(SingletonBase, ServiceBase):
             return
         super().__init__(self.model, self.conflict_cols)
 
+        self.records = None
+        self.symbol_map = None
+
     async def process_records(self, records):
-        """Cleans and validates trade records before inserting into the database."""
-        # Ensure expiry column is handled properly
+        """Cleans and validates positions data before inserting into DB."""
+
+        result = []
+
         for record in records:
-            if record['expiry'] == '':
-                record['expiry'] = None
             record['symbol_exchange'] = f'{record["tradingsymbol"]}:{record["exchange"]}'
+            result.append(record)
 
-        await self.delete_setup_table_records(records,batch_size=500)
+        await self.delete_setup_table_records(result)
+        self.records = result
 
 
-service_instrument_list = ServiceInstrumentList()
+service_watchlist_symbols = ServiceWatchlistSymbols()

@@ -10,9 +10,9 @@ from .base import Base
 logger = get_logger(__name__)
 
 
-class WatchList(Base):
-    """Model for storing user watch_list."""
-    __tablename__ = "watch_list"
+class Watchlist(Base):
+    """Model for storing user watchlist."""
+    __tablename__ = "watchlist"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), nullable=False)
@@ -25,11 +25,11 @@ class WatchList(Base):
     notes = Column(String(255), nullable=True)
 
     __table_args__ = (
-        UniqueConstraint('watchlist', 'account', name='uq_watchlist_account'),
+        UniqueConstraint('watchlist', 'account', name='uq_watchlist_account1'),
         Index("idx_watchlist1", "watchlist"),
     )
 
-    watchlist_instruments_rel = relationship("WatchListInstruments", back_populates="watch_list_rel",
+    watchlist_symbols_rel = relationship("WatchlistSymbols", back_populates="watchlist_rel",
                                              passive_deletes=True, )
 
     def __repr__(self):

@@ -14,5 +14,5 @@ from .instrument_list import InstrumentList
 from .thread_list import ThreadList
 from .thread_schedule import ThreadSchedule
 from .thread_status_tracker import ThreadStatusTracker
-from .watch_list import WatchList
-from .watch_list_instruments import WatchListInstruments
+from .watchlist import Watchlist
+from .watchlist_symbols import WatchlistSymbols

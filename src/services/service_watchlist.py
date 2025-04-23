@@ -1,15 +1,15 @@
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
-from src.models import WatchList
+from src.models import Watchlist
 from src.services.service_base import ServiceBase
 
 logger = get_logger(__name__)
 
 
-class ServiceWatchList(SingletonBase, ServiceBase):
+class ServiceWatchlist(SingletonBase, ServiceBase):
     """Service class for handling ReportProfitLoss database operations."""
 
-    model = WatchList
+    model = Watchlist
     conflict_cols = ['watchlist', 'account']
 
     def __init__(self):
@@ -18,9 +18,8 @@ class ServiceWatchList(SingletonBase, ServiceBase):
             logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
             return
         super().__init__(self.model, self.conflict_cols)
-        self.records = None
-        self.symbol_map = None
+
 
 
 # Singleton instance
-service_watch_list = ServiceWatchList()
+service_watchlist = ServiceWatchlist()

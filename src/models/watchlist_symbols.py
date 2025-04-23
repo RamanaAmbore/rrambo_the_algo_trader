@@ -7,9 +7,9 @@ from src.settings.constants_manager import Source
 from .base import Base
 
 
-class WatchListInstruments(Base):
+class WatchlistSymbols(Base):
     """Model for storing instruments in a watchlist."""
-    __tablename__ = "watch_list_instruments"
+    __tablename__ = "watchlist_symbols"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     watchlist = Column(String(20), nullable=False)
@@ -40,10 +40,10 @@ class WatchListInstruments(Base):
 
     __table_args__ = (
         UniqueConstraint("watchlist", "account", "tradingsymbol", "exchange",
-                         name="uq_watchlist_instruments"),
+                         name="uq_watchlist_symbols"),
 
         # Foreign key reference for (watchlist, account)
-        ForeignKeyConstraint(["watchlist", "account"], ["watch_list.watchlist", "watch_list.account"],
+        ForeignKeyConstraint(["watchlist", "account"], ["watchlist.watchlist", "watchlist.account"],
                              ondelete="CASCADE", name="fk_watchlist_account"),
 
         # # Foreign key reference for (tradingsymbol, instrument_token, exchange)
@@ -52,12 +52,12 @@ class WatchListInstruments(Base):
         #                      ondelete="CASCADE", name="fk_instrument_list"),
 
         # Explicitly defining indexes
-        Index("idx_tradingsymbol2", "tradingsymbol"),
+        Index("idx_tradingsymbol5", "tradingsymbol"),
         Index("idx_tradingsymbol4", "tradingsymbol", "exchange"),
 
     )
 
-    watch_list_rel = relationship("WatchList", back_populates="watchlist_instruments_rel", passive_deletes=True, )
+    watchlist_rel = relationship("Watchlist", back_populates="watchlist_symbols_rel", passive_deletes=True, )
 
     def __repr__(self):
         return f"<WatchlistInstrument(id={self.id}, watchlist='{self.watchlist}', " \
