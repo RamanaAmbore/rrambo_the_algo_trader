@@ -1,28 +1,22 @@
 # You should run the async function inside an event loop (e.g., in an async main function)
 
-import asyncio
-
 from src.app_initializer import app_initializer
-from src.app_state_manager import app_state
 from src.helpers.logger import get_logger
-from src.services.service_holdings import service_holdings
-from src.services.service_instrument_list import service_instrument_list
-from src.services.service_positions import service_positions
-from src.services.service_watchlist_symbols import service_watchlist_symbols
 
 logger = get_logger(__name__)
 
+import asyncio
+import threading
+
 
 async def backend_process():
-    await app_initializer.setup_parameters()
+    await app_initializer.setup()  # This starts the MarketTicker thread
 
-    positions = await asyncio.to_thread(app_initializer.get_kite_conn().positions)
-    await service_positions.process_records(positions)
-    app_state.positions = await service_positions.get_record_map()
-    symbol_map1 = await service_holdings.get_record_map()
-    symbol_map2 = await service_instrument_list.get_record_map()
-    symbol_map3 = await service_watchlist_symbols.get_record_map()
+    # Wait until MarketTicker (or any non-main thread) is done
+    main_thread = threading.current_thread()
+    while any(t.is_alive() for t in threading.enumerate() if t is not main_thread):
+        await asyncio.sleep(1)  # Yield control, avoid busy-waiting
 
 
 if __name__ == "__main__":
-    asyncio.run(backend_process())  # Proper way to call an async function
+    asyncio.run(backend_process())

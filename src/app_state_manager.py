@@ -1,7 +1,7 @@
 import threading
 from collections import defaultdict
 
-from src.core.decorators import update_lock
+from src.core.decorators import update_lock, track_it
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.helpers.utils import reverse_dict, create_instr_symbol_xref
@@ -44,6 +44,9 @@ class AppState(SingletonBase):
         self.lock = threading.RLock()
         self._singleton_initialized = True
         self.symbol_instr_xref = {}
+        self.track_instr_set = set()
+        self.track_symbol_set = set()
+        self.track_instr_xref = {}
 
     def get(self, key=None, sub_key=None, default=None):
         if key is None:
@@ -99,6 +102,26 @@ class AppState(SingletonBase):
 
     def set_schedule_time(self, value=None, sub_key=None):
         self.set(Xref.SCHEDULE_TIME, value, sub_key=sub_key)
+
+    @track_it()
+    def set_track_list(self):
+
+        self.track_instr_xref = defaultdict(dict)
+
+        for key, val in self.get(Xref.INSTR_POSITIONS).items():
+            self.track_instr_xref[key]['p'] = val
+
+        for key, val in self.get(Xref.INSTR_HOLDINGS).items():
+            self.track_instr_xref[key]['h'] = val
+
+        for key, val in self.get(Xref.INSTR_WATCHLISTS).items():
+            self.track_instr_xref[key]['w'] = val
+
+        self.track_instr_xref = dict(self.track_instr_xref)
+
+        self.track_instr_set = set(self.track_instr_xref.keys())
+        instr_symbol_xref = self.get(Xref.INSTR_SYMBOL_XREF)
+        self.track_symbol_set = {instr_symbol_xref[key] for key in self.track_instr_xref}
 
 
 # Singleton instance

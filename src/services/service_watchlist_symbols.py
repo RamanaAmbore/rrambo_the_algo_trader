@@ -31,7 +31,7 @@ class ServiceWatchlistSymbols(SingletonBase, ServiceBase):
             record['symbol_exchange'] = f'{record["tradingsymbol"]}:{record["exchange"]}'
             result.append(record)
 
-        await self.delete_setup_table_records(result)
+        await self.setup_table_records(result)
         self.records = result
 
 

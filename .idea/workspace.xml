@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructure app_state - 1">
+    <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructure app_state - 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app_initializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_initializer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app_state_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watch_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/watchlist_symbols.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_instrument_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_instrument_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watchlist.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watch_list_instruments.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watchlist_symbols.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/market_ticker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service_watchlist_symbols.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watchlist_symbols.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -220,28 +214,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="backend" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\backend.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="backend_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -352,6 +324,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="market_ticker" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/market_ticker.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -398,7 +392,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
-      <item itemvalue="Python.backend" />
+      <item itemvalue="Python.market_ticker" />
       <item itemvalue="Python.backend_process" />
       <item itemvalue="Python.backend (1)" />
       <item itemvalue="Python.test" />
@@ -407,6 +401,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.backend (1)" />
+        <item itemvalue="Python.market_ticker" />
       </list>
     </recent_temporary>
   </component>
@@ -425,14 +420,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1740009929954</updated>
-    </task>
-    <task id="LOCAL-00078" summary="restructured settings code-2">
-      <option name="closed" value="true" />
-      <created>1742492510665</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1742492510665</updated>
     </task>
     <task id="LOCAL-00079" summary="restructured settings code-2">
       <option name="closed" value="true" />
@@ -818,7 +805,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745398698433</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="restructure app_state - 2">
+      <option name="closed" value="true" />
+      <created>1745422136879</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1745422136879</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -843,7 +838,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes" />
     <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes - 2" />
     <MESSAGE value="Optimized code for positions, stock_list, holdings, and bug fixes - 3" />
     <MESSAGE value="removed batch_size = 1" />
@@ -868,7 +862,8 @@
     <MESSAGE value="fix for pre_market. updated app_state with the datastructures to update and fetch various details." />
     <MESSAGE value="restructure app_state" />
     <MESSAGE value="restructure app_state - 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="restructure app_state - 1" />
+    <MESSAGE value="restructure app_state - 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="restructure app_state - 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -892,11 +887,6 @@
           <url>file://$PROJECT_DIR$/src/core/report_uploader.py</url>
           <line>54</line>
           <option name="timeStamp" value="320" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/core/decorators.py</url>
-          <line>52</line>
-          <option name="timeStamp" value="360" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/core/report_uploader.py</url>
@@ -930,28 +920,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/app_initializer.py</url>
-          <line>118</line>
-          <option name="timeStamp" value="696" />
+          <line>125</line>
+          <option name="timeStamp" value="726" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/app_initializer.py</url>
-          <line>100</line>
-          <option name="timeStamp" value="699" />
+          <line>129</line>
+          <option name="timeStamp" value="727" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/services/service_instrument_list.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="700" />
+          <url>file://$PROJECT_DIR$/src/market_ticker.py</url>
+          <line>55</line>
+          <option name="timeStamp" value="729" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/app_state_manager.py</url>
-          <line>94</line>
-          <option name="timeStamp" value="705" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/helpers/utils.py</url>
-          <line>93</line>
-          <option name="timeStamp" value="710" />
+          <url>file://$PROJECT_DIR$/src/backend.py</url>
+          <line>15</line>
+          <option name="timeStamp" value="730" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

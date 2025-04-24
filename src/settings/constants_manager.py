@@ -7,10 +7,14 @@ from dotenv import load_dotenv, dotenv_values
 from src.helpers.cipher_utils import encrypt_text
 
 loaded = False
+
+
 def load_env():
     if loaded:
         return
     load_dotenv()
+
+
 load_env()
 
 INDIAN_TIMEZONE = 'Asia/Kolkata'
@@ -105,7 +109,7 @@ DEF_SCHEDULES = tuple(
     {"schedule": schedule} for schedule in Schedule.__dict__.values() if not schedule.startswith('_'))
 
 DEF_SCHEDULE_TIME = (
-    {'market_day': Weekday.GLOBAL,  'schedule': Schedule.MARKET, 'start_time': '09:00',
+    {'market_day': Weekday.GLOBAL, 'schedule': Schedule.MARKET, 'start_time': '09:00',
      'end_time': '15:30',
      'is_market_open': True},
     {'market_day': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'start_time': '09:00',
@@ -113,15 +117,17 @@ DEF_SCHEDULE_TIME = (
      'is_market_open': True},
     {'market_day': Weekday.SATURDAY, 'schedule': Schedule.MARKET, 'is_market_open': False},
     {'market_day': Weekday.SATURDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
-    {'market_day': Weekday.SUNDAY, 'schedule': Schedule.MARKET,      'is_market_open': False},
+    {'market_day': Weekday.SUNDAY, 'schedule': Schedule.MARKET, 'is_market_open': False},
     {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.MARKET, 'is_market_open': False},
     {'market_day': Weekday.GLOBAL, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
      'is_market_open': True},
-    {'market_day': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
+    {'market_day': Weekday.GLOBAL, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+     'end_time': '09:30',
      'is_market_open': True},
     {'market_day': Weekday.SUNDAY, 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
      'is_market_open': False},
-    {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30', 'end_time': '09:30',
+    {'market_day': Weekday.SUNDAY, 'exchange': 'MCX', 'schedule': Schedule.PRE_MARKET, 'start_time': '08:30',
+     'end_time': '09:30',
      'is_market_open': False},
 )
 
@@ -148,7 +154,6 @@ DEF_WATCHLIST_SYMBOLS = (
     {"watchlist": "INDEX_MINI", "tradingsymbol": "INDIA VIX", "exchange": "NSE"},
 
     {"watchlist": "INDEX", "tradingsymbol": "NIFTY MIDCAP 100", "exchange": "NSE"},
-    {"watchlist": "INDEX", "tradingsymbol": "ALLCAP", "exchange": "NSE"},
     {"watchlist": "INDEX", "tradingsymbol": "NIFTY IT", "exchange": "NSE"},
     {"watchlist": "INDEX", "tradingsymbol": "NIFTY REALTY", "exchange": "NSE"},
     {"watchlist": "INDEX", "tradingsymbol": "NIFTY INFRA", "exchange": "NSE"},
@@ -185,12 +190,8 @@ DEF_WATCHLIST_SYMBOLS = (
     {"watchlist": "COMMODITIES", "tradingsymbol": "MCXMETAL", "exchange": "MCX"},
     {"watchlist": "COMMODITIES", "tradingsymbol": "MCXSILVDEX", "exchange": "MCX"},
 
-    {"watchlist": "OPTION_STOCKS", "tradingsymbol": "NIFTY2540323500CE", "exchange": "NFO"},
-    {"watchlist": "OPTION_STOCKS", "tradingsymbol": "NIFTY2540323800CE", "exchange": "NFO"},
-
     {"watchlist": "WATCHLIST", "tradingsymbol": "RELIANCE", "exchange": "NSE"}
 )
-
 
 DEF_EXCHANGE_LIST = (
     {"exchange": "*", "desc": "all exchanges"},
@@ -209,19 +210,23 @@ DEF_PARAMETERS = tuple(
     [{'parameter': key, 'value': val} for key, val in env_vars.items() if not key.startswith('ACCOUNT')] + [
         {'account': Account.ACCOUNT1, 'parameter': 'API_KEY', 'value': encrypt_text(os.getenv('ACCOUNT1_API_KEY')),
          'encrypted': True},
-        {'account': Account.ACCOUNT1, 'parameter': 'API_SECRET', 'value': encrypt_text(os.getenv('ACCOUNT1_API_SECRET')),
+        {'account': Account.ACCOUNT1, 'parameter': 'API_SECRET',
+         'value': encrypt_text(os.getenv('ACCOUNT1_API_SECRET')),
          'encrypted': True},
         {'account': Account.ACCOUNT1, 'parameter': 'PASSWORD', 'value': encrypt_text(os.getenv('ACCOUNT1_PASSWORD')),
          'encrypted': True},
-        {'account': Account.ACCOUNT1, 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(os.getenv('ACCOUNT1_TOTP_TOKEN')),
+        {'account': Account.ACCOUNT1, 'parameter': 'TOTP_TOKEN',
+         'value': encrypt_text(os.getenv('ACCOUNT1_TOTP_TOKEN')),
          'encrypted': True},
 
         {'account': Account.ACCOUNT2, 'parameter': 'API_KEY', 'value': encrypt_text(os.getenv('ACCOUNT2_API_KEY')),
          'encrypted': True},
-        {'account': Account.ACCOUNT2, 'parameter': 'API_SECRET', 'value': encrypt_text(os.getenv('ACCOUNT2_API_SECRET')),
+        {'account': Account.ACCOUNT2, 'parameter': 'API_SECRET',
+         'value': encrypt_text(os.getenv('ACCOUNT2_API_SECRET')),
          'encrypted': True},
         {'account': Account.ACCOUNT2, 'parameter': 'PASSWORD', 'value': encrypt_text(os.getenv('ACCOUNT2_PASSWORD')),
          'encrypted': True},
-        {'account': Account.ACCOUNT2, 'parameter': 'TOTP_TOKEN', 'value': encrypt_text(os.getenv('ACCOUNT2_TOTP_TOKEN')),
+        {'account': Account.ACCOUNT2, 'parameter': 'TOTP_TOKEN',
+         'value': encrypt_text(os.getenv('ACCOUNT2_TOTP_TOKEN')),
          'encrypted': True},
     ])

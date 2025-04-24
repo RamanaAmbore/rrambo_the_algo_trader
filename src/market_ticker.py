@@ -1,15 +1,12 @@
-import asyncio
 import threading
 import time
 
 from kiteconnect import KiteTicker
 
-from src.app_initializer import app_initializer
 from src.core.decorators import retry_kite_conn
 from src.core.singleton_base import SingletonBase
 from src.helpers.date_time_utils import today_indian, current_time_indian
 from src.helpers.logger import get_logger
-from src.services.service_schedule_time import service_schedule_time
 from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
@@ -22,7 +19,7 @@ class MarketTicker(SingletonBase, threading.Thread):
     MAX_RECONNECT_ATTEMPTS = int(parms.MAX_SOCKET_RECONNECT_ATTEMPTS)
     RECONNECT_BACKOFF = 5  # Seconds, optional exponential backoff
 
-    def __init__(self):
+    def __init__(self, kite_obj, start_time, end_time):
         with MarketTicker._lock:
             if getattr(self, '_singleton_initialized', False):
                 logger.debug(f"{self.__class__.__name__} already initialized.")
@@ -32,14 +29,14 @@ class MarketTicker(SingletonBase, threading.Thread):
         super().__init__(daemon=True)
 
         # Setup internal state
-        self.kite = app_initializer.get_kite_obj()
+        self.kite = kite_obj
         self.socket_conn = None
         self.running = True
-        self.market_hours = None
         self.last_checked_date = None
+        self.start_time = start_time
+        self.end_time = end_time
 
         logger.info("MarketTicker thread initialized.")
-        self.start()
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def setup_socket_conn(self):
@@ -59,19 +56,11 @@ class MarketTicker(SingletonBase, threading.Thread):
         today = today_indian()
         current_time = current_time_indian()
 
-        if self.last_checked_date != today or self.market_hours is None:
-            try:
-                self.market_hours = service_schedule_time.get_market_schedule_recs_for_today()
-                self.last_checked_date = today
-            except Exception as e:
-                logger.error(f"Failed to fetch market hours: {e}")
-                self.market_hours = None
+        if self.last_checked_date != today:
+            self.last_checked_date = today
 
-        if self.market_hours and self.market_hours.is_market_open:
-            return self.market_hours.start_time <= current_time <= self.market_hours.end_time
-
-        return False
-
+        # return self.start_time <= current_time <= self.end_time
+        return True
     def run(self):
         logger.info("MarketTicker started.")
         while self.running:
@@ -112,7 +101,6 @@ class MarketTicker(SingletonBase, threading.Thread):
         if "TokenException" in str(reason) or "Invalid access token" in str({"" if reason is None else reason}):
             logger.error("Access token may be invalid. Re-authenticating...")
             try:
-                self.init_ticker_state()
                 logger.info("Reinitializing WebSocket with new token...")
                 self.setup_socket_conn()
             except Exception as e:
@@ -156,12 +144,3 @@ class MarketTicker(SingletonBase, threading.Thread):
                 cls._instance.close_socket()
                 cls._instance.join()
                 cls._instance = None
-
-
-if __name__ == "__main__":
-    asyncio.run(app_initializer.setup_parameters())  # Proper way to call an async function
-    market_ticker = MarketTicker()
-    market_ticker.add_instruments([738561, 5633])  # Add tokens
-    time.sleep(1)
-    market_ticker.remove_instruments([5633])  # Remove tokens
-    time.sleep(1000)
