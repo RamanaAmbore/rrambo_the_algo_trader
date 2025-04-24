@@ -121,9 +121,9 @@ class AppInitializer(SingletonBase):
         app_state.set_holdings(await service_holdings.get_record_map())
         app_state.set_watchlist(await service_watchlist_symbols.get_record_map())
 
-        app_state.set_track_list()
+        app_state.set_track_list(service_schedule_time.get_unique_exchanges())
 
-        market_ticker = MarketTicker(app_initializer.get_kite_obj(), self.start_time, self.end_time)
+        market_ticker = MarketTicker(app_initializer.get_kite_obj(), self.start_time['start_time'], self.end_time['end_time'])
         market_ticker.add_instruments(app_state.track_instr_set)  # Add tokens
         market_ticker.start()
 

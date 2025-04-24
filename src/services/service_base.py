@@ -13,6 +13,7 @@ from src.core.decorators import track_it
 # Assuming db and logger setup are correct
 from src.helpers.database_manager import db
 from src.helpers.logger import get_logger
+from src.helpers.utils import rec_to_dict
 
 logger = get_logger(__name__)
 
@@ -436,5 +437,5 @@ class ServiceBase:
             for record in records:
                 if hasattr(record, key_attr):
                     key = getattr(record, key_attr)
-                    self.record_map[key] = {key:val for key,val in record.__dict__.items() if not key.startswith('_sa')}
+                    self.record_map[key] = rec_to_dict(record)
             return self.record_map

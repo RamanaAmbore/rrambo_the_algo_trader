@@ -47,6 +47,7 @@ class AppState(SingletonBase):
         self.track_instr_set = set()
         self.track_symbol_set = set()
         self.track_instr_xref = {}
+        self.track_instr_set = set()
 
     def get(self, key=None, sub_key=None, default=None):
         if key is None:
@@ -104,24 +105,46 @@ class AppState(SingletonBase):
         self.set(Xref.SCHEDULE_TIME, value, sub_key=sub_key)
 
     @track_it()
-    def set_track_list(self):
-
+    def set_track_list(self, unique_exchanges):
         self.track_instr_xref = defaultdict(dict)
+        self.track_instr_set = defaultdict(set)
 
+        # Populate cross-reference and token sets
         for key, val in self.get(Xref.INSTR_POSITIONS).items():
             self.track_instr_xref[key]['p'] = val
+            self.track_instr_set[key].update(val)
 
         for key, val in self.get(Xref.INSTR_HOLDINGS).items():
             self.track_instr_xref[key]['h'] = val
+            self.track_instr_set[key].update(val)
 
         for key, val in self.get(Xref.INSTR_WATCHLISTS).items():
             self.track_instr_xref[key]['w'] = val
+            self.track_instr_set[key].update(val)
 
+        # Finalize dicts
         self.track_instr_xref = dict(self.track_instr_xref)
+        self.track_instr_set = dict(self.track_instr_set)
 
-        self.track_instr_set = set(self.track_instr_xref.keys())
+        # Prepare for exchange-specific mapping
+        instr_exchange_xref = defaultdict(set)
+        exchange_specific_instr = set()
         instr_symbol_xref = self.get(Xref.INSTR_SYMBOL_XREF)
-        self.track_symbol_set = {instr_symbol_xref[key] for key in self.track_instr_xref}
+
+        for exchange in unique_exchanges:
+            if exchange != '*':
+                for token in self.track_instr_set:
+                    symbol = instr_symbol_xref.get(token)
+                    if symbol and symbol.endswith(f':{exchange}'):
+                        instr_exchange_xref[exchange].add(token)
+                        exchange_specific_instr.add(token)
+
+        # Assign tokens without a specific exchange under '*'
+        wildcard_instr = set(self.track_instr_set.keys()) - exchange_specific_instr
+        instr_exchange_xref['*'].update(wildcard_instr)
+
+        # Convert to regular dict if needed
+        instr_exchange_xref = dict(instr_exchange_xref)
 
 
 # Singleton instance

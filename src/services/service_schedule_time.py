@@ -8,6 +8,7 @@ from src.core.singleton_base import SingletonBase
 from src.helpers.database_manager import db
 from src.helpers.date_time_utils import today_indian, current_time_indian
 from src.helpers.logger import get_logger
+from src.helpers.utils import rec_to_dict
 from src.models.schedule_time import ScheduleTime
 from src.services.service_base import ServiceBase
 
@@ -30,7 +31,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
         self.last_checked_date = None
         self.schedule_records = {}
 
-    def _get_unique_exchanges(self) -> List[str]:
+    def get_unique_exchanges(self) -> List[str]:
         """Fetch unique exchange values from the table."""
         with db.get_sync_session() as session:
             try:
@@ -50,7 +51,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
         weekday = today.strftime("%A")
         today_str = today.strftime("%Y-%m-%d")  # Assuming default postgres date format is YYYY-MM-DD
         records = []
-        exchanges = self._get_unique_exchanges()
+        exchanges = self.get_unique_exchanges()
         imp_columns = self.conflict_cols + ['end_time', 'is_market_open']
 
         with db.get_sync_session() as session:
@@ -67,7 +68,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
                         )
                         record = session.execute(query).scalars().first()
                         if record:
-                            result = {k: v for k, v in record.__dict__.items()}
+                            result = rec_to_dict(record)
                             # result = {column: getattr(record, column) for column in self._model_inspect.columns}
                             records.append(result)
                             self.schedule_records[result['id']] = result
@@ -87,7 +88,7 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
         """Retrieve today's batch processing schedule list, considering all exchanges."""
         today_str = today_indian().strftime("%Y-%m-%d")
         all_schedules = []
-        exchanges = self._get_unique_exchanges()
+        exchanges = self.get_unique_exchanges()
 
         with db.get_sync_session() as session:
             for exchange in exchanges + ["*"]:  # Handles global after loop

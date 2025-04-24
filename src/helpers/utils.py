@@ -111,3 +111,5 @@ def reverse_dict(data, reverse_key=None, use_type=set):
         return multi_set_dict
     else:
         return dict(multi_set_dict)
+def rec_to_dict(record):
+    return {k: v for k, v in record.__dict__.items() if not k.startswith('_')} if record else {}
