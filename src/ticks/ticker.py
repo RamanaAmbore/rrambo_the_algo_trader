@@ -98,6 +98,7 @@ class Ticker(SingletonBase, threading.Thread):
         instruments = set()
         for sch_rec in self.schedule_time:
             if sch_rec['start_time'] <= current_time <= sch_rec['end_time']:
+                logger.info(f"Exchange {sch_rec['exchange']} is open" )
                 instruments.update(self.track_instr_xref_exchange[sch_rec['exchange']])
 
         if not instruments and self.instruments:

@@ -1,93 +1,223 @@
 import dash
-import dash_html_components as html
+from dash import dcc, html, dash_table
+import requests
 from dash.dependencies import Input, Output
-import yfinance as yf
-import plotly.graph_objs as go 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-import datetime
-from layout import create_layout
-from src.models import InstrumentList, get_stock_data, get_stock_info
+import pandas as pd
 
-app = dash.Dash()
-app.title = "RRambo - Stock Market Dashboard"
+app = dash.Dash(__name__, title="rambo-the-algo", assets_folder='./assets', suppress_callback_exceptions=True)
+app._favicon = "favicon.ico"
 
-# Database Configuration
-DB_FILE = "stocks.db"
-engine = create_engine(f'sqlite:///{DB_FILE}', echo=False)
-Base = declarative_base()
+# Custom HTML and CSS
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>rambo-the-algo</title>
+        {%favicon%}
+        {%css%}
+        <style>
+            body {
+                margin: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #f4f4f9;
+                color: #1e1e1e;
+            }
 
-Base.metadata.create_all(engine)
-Base.metadata.drop_all(engine)
-Session = sessionmaker(bind=engine)
+            .navbar {
+                background-color: #f8f9fa;
+                padding: 12px 24px;
+                color: #1e1e1e;
+                display: flex;
+                align-items: center;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
 
+            .navbar img {
+                height: 50px;
+                margin-right: 16px;
+            }
 
-def update_instrument_list():
-    """Fetch NSE stock list once a week and update the database."""
-    session = Session()
-    last_update = session.query(InstrumentList).order_by(InstrumentList.last_updated.desc()).first()
-    if last_update and (datetime.date.today() - last_update.last_updated).days < 7:
-        session.close()
-        return
+            .navbar span {
+                font-size: 1.4em;
+                font-weight: bold;
+            }
 
-    stock_symbols = ["RELIANCE.NS", "TATAMOTORS.NS", "INFY.NS", "HDFCBANK.NS", "TCS.NS"]  # Replace with full list
-    session.query(InstrumentList).delete()
-    for tradingsymbol in stock_symbols:
-        session.add(InstrumentList(tradingsymbol=tradingsymbol, name=tradingsymbol, last_updated=datetime.date.today()))
-    session.commit()
-    session.close()
+            .tab-headings {
+                background-color: #e5e7eb;
+                padding: 10px 20px;
+                border-bottom: 1px solid #d1d5db;
+                font-weight: 600;
+                color: #1e1e1e;
+            }
 
+            th {
+                background-color: #e5e7eb !important;
+                color: #1e1e1e !important;
+                font-weight: 600;
+                padding: 10px;
+            }
 
-# Update stock list once a week
-update_instrument_list()
+            #loader-wrapper {
+                position: fixed;
+                top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #ffffff;
+                z-index: 9999;
+                flex-direction: column;
+            }
 
-session = Session()
-stocks = session.query(InstrumentList).all()
-stock_options = [{'label': stock.name, 'value': stock.tradingsymbol} for stock in stocks]
-session.close()
+            #loader-wrapper img {
+                width: 100vw;
+                height: 100vh;
+                object-fit: cover;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: -1;
+            }
 
-app.layout = create_layout(stock_options)
+            #loader-text {
+                color: #1e1e1e;
+                font-size: 2em;
+                font-weight: bold;
+                text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.8);
+                z-index: 10000;
+            }
 
+            /* Override default Dash tab highlight */
+            .dash-tabs-container .tab--selected {
+                border-top: 4px solid #8cbdc4 !important;
+                background-color: #ffffff !important;
+                color: #1e1e1e !important;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loader-wrapper">
+            <img src="/assets/loading.gif" alt="Loading...">
+            <div id="loader-text">Loading...</div>
+        </div>
 
-@app.callback(
-    Output('market-graph', 'figure'),
-    [Input('stock-dropdown', 'value'), Input('tabs', 'value')]
-)
-def update_graph(selected_stock, selected_tab):
-    """Update stock chart based on selected stock and tab."""
-    if selected_tab == 'historical':
-        df = get_stock_data(selected_stock)
-    else:
-        df = yf.download(selected_stock, period="1d", interval="1m")
+        <div id="react-entry-point">
+            {%app_entry%}
+        </div>
 
-    figure = {
-        'data': [go.Candlestick(
-            x=df.index,
-            open=df['Open'],
-            high=df['High'],
-            low=df['Low'],
-            close=df['Close'],
-            name=selected_stock
-        )],
-        'layout': go.Layout(title=f"Stock Market Data for {selected_stock}", xaxis_title='Date', yaxis_title='Price')
-    }
-    return figure
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
 
+        <script>
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    const loader = document.getElementById('loader-wrapper');
+                    if (loader) loader.style.display = 'none';
+                }, 2000); // 2 seconds delay
+            });
+        </script>
+    </body>
+</html>
+'''
 
-@app.callback(
-    Output('stock-info', 'children'),
-    [Input('stock-dropdown', 'value')]
-)
-def update_stock_info(selected_stock):
-    """Update stock fundamental details."""
-    info = get_stock_info(selected_stock)
-    return html.Div([
-        html.P(f"Sector: {info['Sector']}", className="mt-2"),
-        html.P(f"Market Cap: {info['Market Cap']}", className="mt-2"),
-        html.P(f"PE Ratio: {info['PE Ratio']}", className="mt-2"),
-        html.P(f"Dividend Yield: {info['Dividend Yield']}", className="mt-2")
-    ])
+app.layout = html.Div([
+    html.Div(className="navbar", children=[
+        html.Img(src="assets/logo.png"),
+    ]),
+    dcc.Tabs(id="tabs", value='tab-ticks', children=[
+        dcc.Tab(
+            label='Live Ticker Data',
+            value='tab-ticks',
+            className='tab-headings',
+            selected_style={
+                'borderTop': '4px solid #102d33',
+                'backgroundColor': '#ffffff',
+                'color': '#1e1e1e',
+                'fontWeight': 'bold'
+            }
+        ),
+        dcc.Tab(
+            label='System Logs',
+            value='tab-logs',
+            className='tab-headings',
+            selected_style={
+                'borderTop': '4px solid #1e1e1e',
+                'backgroundColor': '#ffffff',
+                'color': '#1e1e1e',
+                'fontWeight': 'bold'
+            }
+        )
+    ]),
+    html.Div(id='tabs-content')
+])
 
+def fetch_ticks():
+    try:
+        response = requests.get('http://127.0.0.1:5000/get_ticks')
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching tick data: {e}")
+        return []
+
+def fetch_logs():
+    try:
+        response = requests.get('http://127.0.0.1:5000/get_logs')
+        response.raise_for_status()
+        return response.text
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching logs: {e}")
+        return "Error fetching logs."
+
+@app.callback(Output('tabs-content', 'children'),
+              Input('tabs', 'value'))
+def render_content(tab):
+    if tab == 'tab-ticks':
+        return html.Div([
+            dash_table.DataTable(
+                id='ticks-table',
+                columns=[
+                    {"name": "Instrument Token", "id": "instrument_token"},
+                    {"name": "Last Price", "id": "last_price"},
+                    {"name": "Timestamp", "id": "timestamp"}
+                ],
+                data=[],
+                style_table={'overflowX': 'auto'},
+                style_cell={'textAlign': 'left'},
+                style_header={
+                    'backgroundColor': '#1e1e2f',
+                    'color': 'white',
+                    'fontWeight': 'bold'
+                }
+            ),
+            dcc.Interval(id='interval-component', interval=5000, n_intervals=0)
+        ])
+    elif tab == 'tab-logs':
+        return html.Div([
+            html.H3("Log Output"),
+            html.Pre(id='logs-content', style={'whiteSpace': 'pre-wrap', 'backgroundColor': '#f9f9f9', 'padding': '10px'})
+        ])
+
+@app.callback(Output('ticks-table', 'data'),
+              Input('interval-component', 'n_intervals'))
+def update_ticks(n):
+    ticks_data = fetch_ticks()
+    return pd.DataFrame(ticks_data).to_dict('records') if ticks_data else []
+
+@app.callback(Output('logs-content', 'children'),
+              Input('tabs', 'value'))
+def update_logs(tab):
+    if tab == 'tab-logs':
+        return fetch_logs()
+    return dash.no_update
 
 if __name__ == '__main__':
     app.run_server(debug=True)
+
+
+

@@ -1,4 +1,5 @@
 import asyncio
+import os
 import threading
 
 from flask import Flask, jsonify  # Import current_app for accessing app context
@@ -20,7 +21,7 @@ app.tick_manager_instance = None
 
 @app.route('/get_ticks', methods=['GET'])
 def get_ticks():
-    logger.info("Request received for /get_ticks")
+    logger.debug("Request received for /get_ticks")
     tick_queue_manager = app.tick_manager_instance  # Access the shared instance
 
     if tick_queue_manager is None:
@@ -28,9 +29,9 @@ def get_ticks():
         return jsonify({"error": "Service not fully initialized"}), 503
 
     try:
-        logger.info("Attempting to get all ticks from manager...")
+        logger.debug("Attempting to get all ticks from manager...")
         ticks_map = tick_queue_manager.get_all_ticks()
-        logger.info(f"Successfully fetched {len(ticks_map)} ticks.")
+        logger.debug(f"Successfully fetched {len(ticks_map)} ticks.")
 
         # Corrected line: Use tick.exchange_timestamp
         ticks_data = [
@@ -40,13 +41,23 @@ def get_ticks():
             for tick in ticks_map.values()
         ]
 
-        logger.info(f"Returning {len(ticks_data)} ticks data.")
+        logger.debug(f"Returning {len(ticks_data)} ticks data.")
         return jsonify(ticks_data)
 
     except Exception as e:
         logger.error(f"An error occurred while processing /get_ticks: {e}", exc_info=True)
         return jsonify({"error": "An internal error occurred"}), 500
 
+@app.route('/get_logs', methods=['GET'])
+def get_logs():
+    log_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../logs/log.log"))
+    try:
+        with open(log_path, 'r') as f:
+            log_content = f.read()
+        return jsonify({"logs": log_content})
+    except Exception as e:
+        logger.error(f"Failed to read log file: {e}", exc_info=True)
+        return jsonify({"error": "Could not read log file"}), 500
 
 # Backend process, including Flask server
 async def backend_process():
