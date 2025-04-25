@@ -1,6 +1,8 @@
 import threading
 from collections import defaultdict
 
+from bidict import bidict
+
 from src.core.decorators import update_lock, track_it
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
@@ -31,7 +33,10 @@ class Xref:
     SYMBOL_TRACKLIST = 'symbol_tracklist'
 
     SCHEDULE_TIME = 'schedule_time'
-    EXCHANGE_LIST = 'exchange_list'
+
+    TRACK_INSTR_XREF_BY_CATEGORY = 'track_instr_xref_by_category'
+    TRACK_INSTR_XREF_XCHANGE = 'track_instr_xref_xchange'
+    TRACK_INSTR_SYMBOL_XREF = 'track_instr_symbol_xref'
 
 
 class AppState(SingletonBase):
@@ -43,11 +48,6 @@ class AppState(SingletonBase):
         self.element_locks = {}
         self.lock = threading.RLock()
         self._singleton_initialized = True
-        self.symbol_instr_xref = {}
-        self.track_instr_set = set()
-        self.track_symbol_set = set()
-        self.track_instr_xref = {}
-        self.track_instr_set = set()
 
     def get(self, key=None, sub_key=None, default=None):
         if key is None:
@@ -75,76 +75,83 @@ class AppState(SingletonBase):
                 self.track_state[key].pop(sub_key, None)
 
     def set_instruments(self, value=None, sub_key=None):
-        self.symbol_instr_xref = value
         self.set(Xref.SYMBOL_INSTR_XREF, value, sub_key)
         self.set(Xref.INSTR_SYMBOL_XREF, reverse_dict(value, reverse_key='instrument_token', use_type=None), sub_key)
 
     # Specific set methods
     def set_positions(self, value=None, sub_key=None):
         self.set(Xref.POSITIONS, value, sub_key)
-        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref,
+        symbol_instr_xref = self.get(Xref.SYMBOL_INSTR_XREF)
+        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, symbol_instr_xref,
                                                                  reverse_key='symbol_exchange')
         self.set(Xref.SYMBOL_POSITIONS, symbol_id_xref, sub_key)
         self.set(Xref.INSTR_POSITIONS, instr_id_xref, sub_key)
 
     def set_holdings(self, value=None, sub_key=None):
         self.set(Xref.HOLDINGS, value, sub_key)
-        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref,
+        symbol_instr_xref = self.get(Xref.SYMBOL_INSTR_XREF)
+        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, symbol_instr_xref,
                                                                  reverse_key='symbol_exchange')
         self.set(Xref.SYMBOL_HOLDINGS, symbol_id_xref, sub_key)
         self.set(Xref.INSTR_HOLDINGS, instr_id_xref, sub_key)
 
     def set_watchlist(self, value=None, sub_key=None):
         self.set(Xref.WATCHLISTS, value, sub_key)
-        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, self.symbol_instr_xref,
+        symbol_instr_xref = self.get(Xref.SYMBOL_INSTR_XREF)
+        symbol_id_xref, instr_id_xref = create_instr_symbol_xref(value, symbol_instr_xref,
                                                                  reverse_key='symbol_exchange')
         self.set(Xref.SYMBOL_WATCHLISTS, symbol_id_xref, sub_key)
         self.set(Xref.INSTR_WATCHLISTS, instr_id_xref, sub_key)
 
-    def set_schedule_time(self, value=None, sub_key=None):
-        self.set(Xref.SCHEDULE_TIME, value, sub_key=sub_key)
-
     @track_it()
     def set_track_list(self, unique_exchanges):
-        self.track_instr_xref = defaultdict(dict)
-        self.track_instr_set = defaultdict(set)
+        track_instr_xref_by_category = defaultdict(dict)
+        track_instr_xref_xchange = defaultdict(set)
+
+        track_instr_set = defaultdict(set)
 
         # Populate cross-reference and token sets
         for key, val in self.get(Xref.INSTR_POSITIONS).items():
-            self.track_instr_xref[key]['p'] = val
-            self.track_instr_set[key].update(val)
+            track_instr_xref_by_category[key]['p'] = val
+            track_instr_set[key].update(val)
 
         for key, val in self.get(Xref.INSTR_HOLDINGS).items():
-            self.track_instr_xref[key]['h'] = val
-            self.track_instr_set[key].update(val)
+            track_instr_xref_by_category[key]['h'] = val
+            track_instr_set[key].update(val)
 
         for key, val in self.get(Xref.INSTR_WATCHLISTS).items():
-            self.track_instr_xref[key]['w'] = val
-            self.track_instr_set[key].update(val)
+            track_instr_xref_by_category[key]['w'] = val
+            track_instr_set[key].update(val)
 
         # Finalize dicts
-        self.track_instr_xref = dict(self.track_instr_xref)
-        self.track_instr_set = dict(self.track_instr_set)
+        track_instr_xref_by_category = dict(track_instr_xref_by_category)
+        track_instr_set = dict(track_instr_set)
 
         # Prepare for exchange-specific mapping
-        instr_exchange_xref = defaultdict(set)
+
         exchange_specific_instr = set()
         instr_symbol_xref = self.get(Xref.INSTR_SYMBOL_XREF)
 
         for exchange in unique_exchanges:
             if exchange != '*':
-                for token in self.track_instr_set:
+                for token in track_instr_set:
                     symbol = instr_symbol_xref.get(token)
                     if symbol and symbol.endswith(f':{exchange}'):
-                        instr_exchange_xref[exchange].add(token)
+                        track_instr_xref_xchange[exchange].add(token)
                         exchange_specific_instr.add(token)
 
         # Assign tokens without a specific exchange under '*'
-        wildcard_instr = set(self.track_instr_set.keys()) - exchange_specific_instr
-        instr_exchange_xref['*'].update(wildcard_instr)
+        wildcard_instr = set(track_instr_set.keys()) - exchange_specific_instr
+        track_instr_xref_xchange['*'].update(wildcard_instr)
+
+        track_instr_symbol_xref = {i: instr_symbol_xref[i] for i in track_instr_set}
 
         # Convert to regular dict if needed
-        instr_exchange_xref = dict(instr_exchange_xref)
+        track_instr_xref_xchange = dict(track_instr_xref_xchange)
+
+        self.set(Xref.TRACK_INSTR_SYMBOL_XREF, bidict(track_instr_symbol_xref))
+        self.set(Xref.TRACK_INSTR_XREF_XCHANGE, track_instr_xref_xchange)
+        self.set(Xref.TRACK_INSTR_XREF_BY_CATEGORY, track_instr_xref_by_category)
 
 
 # Singleton instance

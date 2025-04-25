@@ -23,3 +23,5 @@ selenium~=4.28.1
 webdriver-manager~=4.0.2
 cryptography~=44.0.1
 twilio~=9.5.1
+pydantic~=2.11.3
+bidict~=0.23.1

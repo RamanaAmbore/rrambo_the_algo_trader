@@ -19,7 +19,7 @@ class MarketTicker(SingletonBase, threading.Thread):
     MAX_RECONNECT_ATTEMPTS = int(parms.MAX_SOCKET_RECONNECT_ATTEMPTS)
     RECONNECT_BACKOFF = 5  # Seconds, optional exponential backoff
 
-    def __init__(self, kite_obj, start_time, end_time):
+    def __init__(self, kite_obj):
         with MarketTicker._lock:
             if getattr(self, '_singleton_initialized', False):
                 logger.debug(f"{self.__class__.__name__} already initialized.")
@@ -33,14 +33,20 @@ class MarketTicker(SingletonBase, threading.Thread):
         self.socket_conn = None
         self.running = True
         self.last_checked_date = None
-        self.start_time = start_time
-        self.end_time = end_time
+        self.tokens = set()
+        self.track_instr_xref_exchange = None
+        self.schedule_time = None
+        self.instruments = set()
+        self.instr_xchange_xref = {}
+        self.add_instruments = set()
+        self.remove_instruments = set()
+        self.reconnect_attempts = 0
 
         logger.info("MarketTicker thread initialized.")
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def setup_socket_conn(self):
-        if self.is_market_open():
+        if self.instruments:
             if self.socket_conn:
                 return
 
@@ -52,20 +58,16 @@ class MarketTicker(SingletonBase, threading.Thread):
             self.socket_conn.on_reconnect = self.on_reconnect
             self.socket_conn.connect(threaded=True)
 
-    def is_market_open(self):
-        today = today_indian()
-        current_time = current_time_indian()
-
-        if self.last_checked_date != today:
-            self.last_checked_date = today
-
-        # return self.start_time <= current_time <= self.end_time
-        return True
     def run(self):
+        if not (self.schedule_time and self.track_instr_xref_exchange):
+            logger.error(
+                "update_schedule_time and update_instruments are not called before executing market_ticker start")
+            return
+
         logger.info("MarketTicker started.")
         while self.running:
             try:
-                if self.is_market_open():
+                if self.update_instruments():
                     logger.debug("Market is open. Ensuring WebSocket is active.")
                     self.setup_socket_conn()
                 else:
@@ -117,6 +119,39 @@ class MarketTicker(SingletonBase, threading.Thread):
     @classmethod
     def on_reconnect(cls, ws, attempts):
         logger.info(f"WebSocket reconnecting, attempt {attempts}...")
+
+    def update_instruments(self, track_instr_xref_exchange=None):
+        if not (self.schedule_time and (self.track_instr_xref_exchange or track_instr_xref_exchange)):
+            logger.error(
+                "update_schedule_time and update_instruments are not called before executing update_instruments")
+            return
+        if not self.track_instr_xref_exchange:
+            self.track_instr_xref_exchange = track_instr_xref_exchange
+
+        today = today_indian()
+        current_time = current_time_indian().strftime('%H:%M')
+
+        if self.last_checked_date != today:
+            self.last_checked_date = today
+        instruments = set()
+        for sch_rec in self.schedule_time:
+            if sch_rec['start_time'] <= current_time <= sch_rec['end_time']:
+                instruments = instruments.union(self.track_instr_xref_exchange[sch_rec['exchange']])
+
+        self.remove_instruments = self.instruments.difference(instruments)
+        self.add_instruments = instruments.difference(self.instruments)
+        if self.remove_instruments:
+            MarketTicker.remove_instruments(self.remove_instruments)
+        if self.add_instruments:
+            MarketTicker.add_instruments(self.add_instruments)
+
+        self.instruments = instruments
+        return self.instruments
+
+    def update_schedule_time(self, schedule_time):
+        self.schedule_time = [val for val in schedule_time if val['schedule'] == "MARKET"]
+
+        return self
 
     @classmethod
     def add_instruments(cls, tokens):
