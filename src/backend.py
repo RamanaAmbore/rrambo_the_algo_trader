@@ -8,7 +8,7 @@ logger = get_logger(__name__)
 
 
 async def backend_process():
-    await app_initializer.setup()  # This starts background threads (e.g. MarketTicker)
+    await app_initializer.setup()  # This starts background threads (e.g. Ticker)
 
     # Keep the async loop alive until all non-main threads finish
     main_thread = threading.current_thread()

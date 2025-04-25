@@ -8,12 +8,12 @@ from src.core.singleton_base import SingletonBase
 from src.helpers.date_time_utils import today_indian, current_time_indian
 from src.helpers.logger import get_logger
 from src.settings.parameter_manager import parms
-from src.websocket_ticks.tick_service import TickService
+from src.ticks.tick_service import TickService
 
 logger = get_logger(__name__)
 
 
-class MarketTicker(SingletonBase, threading.Thread):
+class Ticker(SingletonBase, threading.Thread):
     _instance = None
     _lock = threading.Lock()
     instrument_tokens = set()
@@ -21,8 +21,8 @@ class MarketTicker(SingletonBase, threading.Thread):
     RECONNECT_BACKOFF = 5  # Seconds, exponential backoff base
 
     def __init__(self, kite_obj):
-        with MarketTicker._lock:
-            if MarketTicker._instance is not None:
+        with Ticker._lock:
+            if Ticker._instance is not None:
                 logger.debug(f"{self.__class__.__name__} already initialized.")
                 return
 
@@ -43,8 +43,8 @@ class MarketTicker(SingletonBase, threading.Thread):
             self.remove_instruments = set()
             self.reconnect_attempts = 0
 
-            MarketTicker._instance = self  # Set instance after initialization
-            logger.info("MarketTicker thread initialized.")
+            Ticker._instance = self  # Set instance after initialization
+            logger.info("Ticker thread initialized.")
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def setup_socket_conn(self):
@@ -66,7 +66,7 @@ class MarketTicker(SingletonBase, threading.Thread):
                 "update_schedule_time and update_instruments are not called before executing market_ticker start")
             return
 
-        logger.info("MarketTicker started.")
+        logger.info("Ticker started.")
         while self.running:
             try:
                 if self.update_instruments():
@@ -80,7 +80,7 @@ class MarketTicker(SingletonBase, threading.Thread):
                 time.sleep(parms.KITE_SOCKET_SLEEP)
 
             except Exception as e:
-                logger.error(f"Error in MarketTicker loop: {e}")
+                logger.error(f"Error in Ticker loop: {e}")
                 raise
 
     def close_socket(self):
@@ -147,9 +147,9 @@ class MarketTicker(SingletonBase, threading.Thread):
         self.add_instruments = instruments.difference(self.instruments)
 
         if self.remove_instruments:
-            MarketTicker.remove_instruments(self.remove_instruments)
+            Ticker.remove_instruments(self.remove_instruments)
         if self.add_instruments:
-            MarketTicker.add_instruments(self.add_instruments)
+            Ticker.add_instruments(self.add_instruments)
 
         self.instruments = instruments
         return self.instruments
@@ -179,7 +179,7 @@ class MarketTicker(SingletonBase, threading.Thread):
     def stop(cls):
         with cls._lock:
             if cls._instance:
-                logger.info("Stopping MarketTicker thread")
+                logger.info("Stopping Ticker thread")
                 cls._instance.running = False
                 cls._instance.close_socket()
                 cls._instance.join()

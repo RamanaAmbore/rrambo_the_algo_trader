@@ -1,5 +1,5 @@
-from src.websocket_ticks.TickModel import TickModel
-from src.websocket_ticks.tick_queue_manager import TickQueueManager
+from src.ticks.tick_model import TickModel
+from src.ticks.tick_queue_manager import TickQueueManager
 from src.core.singleton_base import SingletonBase
 
 
