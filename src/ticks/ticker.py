@@ -140,7 +140,7 @@ class Ticker(SingletonBase, threading.Thread):
 
     @classmethod
     def on_ticks(cls, ws, ticks):
-        logger.info(f"Received tick data: {ticks}")
+        # logger.info(f"Received tick data: {ticks}")
         TickService().process_ticks(ticks)
 
     @classmethod

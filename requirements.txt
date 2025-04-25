@@ -25,3 +25,6 @@ cryptography~=44.0.1
 twilio~=9.5.1
 pydantic~=2.11.3
 bidict~=0.23.1
+Flask~=3.0.3
+uvicorn~=0.34.2
+fastapi~=0.115.12
