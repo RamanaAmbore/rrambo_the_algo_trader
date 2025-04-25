@@ -73,7 +73,7 @@ app.index_string = '''
             #loader-wrapper img {
                 width: 100vw;
                 height: 100vh;
-                object-fit: cover;
+                object-fit: fill;
                 position: absolute;
                 top: 0;
                 left: 0;
