@@ -17,32 +17,33 @@ class MarketTicker(SingletonBase, threading.Thread):
     _lock = threading.Lock()
     instrument_tokens = set()
     MAX_RECONNECT_ATTEMPTS = int(parms.MAX_SOCKET_RECONNECT_ATTEMPTS)
-    RECONNECT_BACKOFF = 5  # Seconds, optional exponential backoff
+    RECONNECT_BACKOFF = 5  # Seconds, exponential backoff base
 
     def __init__(self, kite_obj):
         with MarketTicker._lock:
-            if getattr(self, '_singleton_initialized', False):
+            if MarketTicker._instance is not None:
                 logger.debug(f"{self.__class__.__name__} already initialized.")
                 return
-            self._singleton_initialized = True
 
-        super().__init__(daemon=True)
+            # Initialize thread AFTER checking singleton status
+            threading.Thread.__init__(self, daemon=True)
 
-        # Setup internal state
-        self.kite = kite_obj
-        self.socket_conn = None
-        self.running = True
-        self.last_checked_date = None
-        self.tokens = set()
-        self.track_instr_xref_exchange = None
-        self.schedule_time = None
-        self.instruments = set()
-        self.instr_xchange_xref = {}
-        self.add_instruments = set()
-        self.remove_instruments = set()
-        self.reconnect_attempts = 0
+            # Setup instance variables
+            self.kite = kite_obj
+            self.socket_conn = None
+            self.running = True
+            self.last_checked_date = None
+            self.tokens = set()
+            self.track_instr_xref_exchange = None
+            self.schedule_time = None
+            self.instruments = set()
+            self.instr_xchange_xref = {}
+            self.add_instruments = set()
+            self.remove_instruments = set()
+            self.reconnect_attempts = 0
 
-        logger.info("MarketTicker thread initialized.")
+            MarketTicker._instance = self  # Set instance after initialization
+            logger.info("MarketTicker thread initialized.")
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def setup_socket_conn(self):
@@ -60,8 +61,7 @@ class MarketTicker(SingletonBase, threading.Thread):
 
     def run(self):
         if not (self.schedule_time and self.track_instr_xref_exchange):
-            logger.error(
-                "update_schedule_time and update_instruments are not called before executing market_ticker start")
+            logger.error("update_schedule_time and update_instruments are not called before executing market_ticker start")
             return
 
         logger.info("MarketTicker started.")
@@ -75,7 +75,7 @@ class MarketTicker(SingletonBase, threading.Thread):
                     self.close_socket()
                     return
 
-                time.sleep(parms.KITE_SOCKET_SLEEP)  # Tune this as needed for responsiveness vs. CPU
+                time.sleep(parms.KITE_SOCKET_SLEEP)
 
             except Exception as e:
                 logger.error(f"Error in MarketTicker loop: {e}")
@@ -99,8 +99,8 @@ class MarketTicker(SingletonBase, threading.Thread):
         logger.info(f"Received tick data: {ticks}")
 
     def on_close(self, ws, code, reason):
-        logger.warning(f"WebSocket connection closed: {reason}...")
-        if "TokenException" in str(reason) or "Invalid access token" in str({"" if reason is None else reason}):
+        logger.warning(f"WebSocket connection closed: {reason}")
+        if "TokenException" in str(reason) or "Invalid access token" in str(reason or ""):
             logger.error("Access token may be invalid. Re-authenticating...")
             try:
                 logger.info("Reinitializing WebSocket with new token...")
@@ -122,9 +122,9 @@ class MarketTicker(SingletonBase, threading.Thread):
 
     def update_instruments(self, track_instr_xref_exchange=None):
         if not (self.schedule_time and (self.track_instr_xref_exchange or track_instr_xref_exchange)):
-            logger.error(
-                "update_schedule_time and update_instruments are not called before executing update_instruments")
+            logger.error("update_schedule_time and update_instruments are not called before executing update_instruments")
             return
+
         if not self.track_instr_xref_exchange:
             self.track_instr_xref_exchange = track_instr_xref_exchange
 
@@ -133,13 +133,15 @@ class MarketTicker(SingletonBase, threading.Thread):
 
         if self.last_checked_date != today:
             self.last_checked_date = today
+
         instruments = set()
         for sch_rec in self.schedule_time:
             if sch_rec['start_time'] <= current_time <= sch_rec['end_time']:
-                instruments = instruments.union(self.track_instr_xref_exchange[sch_rec['exchange']])
+                instruments.update(self.track_instr_xref_exchange[sch_rec['exchange']])
 
         self.remove_instruments = self.instruments.difference(instruments)
         self.add_instruments = instruments.difference(self.instruments)
+
         if self.remove_instruments:
             MarketTicker.remove_instruments(self.remove_instruments)
         if self.add_instruments:
@@ -150,7 +152,6 @@ class MarketTicker(SingletonBase, threading.Thread):
 
     def update_schedule_time(self, schedule_time):
         self.schedule_time = [val for val in schedule_time if val['schedule'] == "MARKET"]
-
         return self
 
     @classmethod
