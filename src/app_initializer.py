@@ -7,7 +7,7 @@ from src.core.report_uploader import ReportUploader
 from src.core.singleton_base import SingletonBase
 from src.core.zerodha_kite_connect import ZerodhaKiteConnect
 from src.helpers.logger import get_logger
-from src.market_ticker import MarketTicker
+from src.websocket_ticks.market_ticker import MarketTicker
 from src.services.service_access_tokens import service_access_tokens
 from src.services.service_broker_accounts import service_broker_accounts
 from src.services.service_exchange_list import service_exchange_list

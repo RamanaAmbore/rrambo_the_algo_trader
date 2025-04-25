@@ -8,6 +8,7 @@ from src.core.singleton_base import SingletonBase
 from src.helpers.date_time_utils import today_indian, current_time_indian
 from src.helpers.logger import get_logger
 from src.settings.parameter_manager import parms
+from src.websocket_ticks.tick_service import TickService
 
 logger = get_logger(__name__)
 
@@ -61,7 +62,8 @@ class MarketTicker(SingletonBase, threading.Thread):
 
     def run(self):
         if not (self.schedule_time and self.track_instr_xref_exchange):
-            logger.error("update_schedule_time and update_instruments are not called before executing market_ticker start")
+            logger.error(
+                "update_schedule_time and update_instruments are not called before executing market_ticker start")
             return
 
         logger.info("MarketTicker started.")
@@ -97,6 +99,7 @@ class MarketTicker(SingletonBase, threading.Thread):
 
     def on_ticks(self, ws, ticks):
         logger.info(f"Received tick data: {ticks}")
+        TickService().process_ticks(ticks)
 
     def on_close(self, ws, code, reason):
         logger.warning(f"WebSocket connection closed: {reason}")
@@ -122,7 +125,8 @@ class MarketTicker(SingletonBase, threading.Thread):
 
     def update_instruments(self, track_instr_xref_exchange=None):
         if not (self.schedule_time and (self.track_instr_xref_exchange or track_instr_xref_exchange)):
-            logger.error("update_schedule_time and update_instruments are not called before executing update_instruments")
+            logger.error(
+                "update_schedule_time and update_instruments are not called before executing update_instruments")
             return
 
         if not self.track_instr_xref_exchange:
