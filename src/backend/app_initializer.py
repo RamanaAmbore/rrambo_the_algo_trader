@@ -1,6 +1,6 @@
 import asyncio
 
-from src.app_state_manager import app_state, Xref
+from src.helpers.app_state_manager import app_state, Xref
 from src.core.decorators import track_it
 from src.core.report_downloader import ReportDownloader
 from src.core.report_uploader import ReportUploader

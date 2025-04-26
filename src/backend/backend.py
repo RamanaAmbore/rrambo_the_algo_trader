@@ -4,7 +4,7 @@ import threading
 
 from flask import Flask, jsonify  # Import current_app for accessing app context
 
-from src.app_initializer import app_initializer
+from src.backend.app_initializer import app_initializer
 from src.helpers.logger import get_logger
 # Assuming TickQueueManager might be populated by app_initializer
 from src.ticks.tick_queue_manager import TickQueueManager
