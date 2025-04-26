@@ -51,8 +51,7 @@ class AppInitializer(SingletonBase):
         await service_access_tokens.setup_table_records(DEF_ACCESS_TOKENS, skip_update_if_exists=True)
 
         # Step 3: Refresh parameters
-        records = await service_parameter_table.get_all_records()
-        refresh_parameters(records, refresh=True)
+        await self.refresh_parms()
 
         await asyncio.gather(
             service_schedule_list.setup_table_records(DEF_SCHEDULES, skip_update_if_exists=True),
@@ -71,17 +70,22 @@ class AppInitializer(SingletonBase):
             is_open, self.start_time, self.end_time = service_schedule_time.is_market_open(pre_market=True)
 
         if is_open:
-            await app_initializer.setup_pre_market()
+            await self.setup_pre_market()
 
         await service_positions.process_records(
-            await asyncio.to_thread(app_initializer.get_kite_conn().positions)
+            await asyncio.to_thread(self.get_kite_conn().positions)
         )
 
         await service_positions.process_records(
-            await asyncio.to_thread(app_initializer.get_kite_conn().positions)
+            await asyncio.to_thread(self.get_kite_conn().positions)
         )
 
-        await self.update_app_sate()
+        await self.update_app_state()
+
+    async def refresh_parms(self):
+
+        records = await service_parameter_table.get_all_records()
+        refresh_parameters(records, refresh=True)
 
     @track_it()
     async def setup_pre_market(self):
@@ -113,7 +117,7 @@ class AppInitializer(SingletonBase):
         await service_watchlist_symbols.process_records(DEF_WATCHLIST_SYMBOLS)
 
     @track_it()
-    async def update_app_sate(self):
+    async def update_app_state(self):
 
         app_state.set_instruments(await service_instrument_list.get_record_map(key_attr='symbol_exchange'))
 
@@ -142,6 +146,3 @@ class AppInitializer(SingletonBase):
     @staticmethod
     def get_kite_obj():
         return ZerodhaKiteConnect()
-
-
-app_initializer = AppInitializer()

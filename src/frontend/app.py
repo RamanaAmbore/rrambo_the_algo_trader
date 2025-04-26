@@ -1,160 +1,18 @@
+# src/frontend/app.py
+
 import dash
 from dash import dcc, html, dash_table
 import requests
-from dash.dependencies import Input, Output
 import pandas as pd
+from dash.dependencies import Input, Output
+
+from index_string import index_string
+from src.frontend.layout import layout
 
 app = dash.Dash(__name__, title="rambo-the-algo", assets_folder='./assets', suppress_callback_exceptions=True)
 app._favicon = "favicon.ico"
-
-# Custom HTML and CSS
-app.index_string = '''
-<!DOCTYPE html>
-<html>
-    <head>
-        {%metas%}
-        <title>rambo-the-algo</title>
-        {%favicon%}
-        {%css%}
-        <style>
-            body {
-                margin: 0;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #f4f4f9;
-                color: #1e1e1e;
-            }
-
-            .navbar {
-                background-color: #f8f9fa;
-                padding: 12px 24px;
-                color: #1e1e1e;
-                display: flex;
-                align-items: center;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            }
-
-            .navbar img {
-                height: 50px;
-                margin-right: 16px;
-            }
-
-            .navbar span {
-                font-size: 1.4em;
-                font-weight: bold;
-            }
-
-            .tab-headings {
-                background-color: #e5e7eb;
-                padding: 10px 20px;
-                border-bottom: 1px solid #d1d5db;
-                font-weight: 600;
-                color: #1e1e1e;
-            }
-
-            th {
-                background-color: #e5e7eb !important;
-                color: #1e1e1e !important;
-                font-weight: 600;
-                padding: 10px;
-            }
-
-            #loader-wrapper {
-                position: fixed;
-                top: 0; left: 0;
-                width: 100vw; height: 100vh;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: #ffffff;
-                z-index: 9999;
-                flex-direction: column;
-            }
-
-            #loader-wrapper img {
-                width: 100vw;
-                height: 100vh;
-                object-fit: fill;
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: -1;
-            }
-
-            #loader-text {
-                color: #1e1e1e;
-                font-size: 2em;
-                font-weight: bold;
-                text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.8);
-                z-index: 10000;
-            }
-
-            /* Override default Dash tab highlight */
-            .dash-tabs-container .tab--selected {
-                border-top: 4px solid #8cbdc4 !important;
-                background-color: #ffffff !important;
-                color: #1e1e1e !important;
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="loader-wrapper">
-            <img src="/assets/loading.gif" alt="Loading...">
-            <div id="loader-text">Loading...</div>
-        </div>
-
-        <div id="react-entry-point">
-            {%app_entry%}
-        </div>
-
-        <footer>
-            {%config%}
-            {%scripts%}
-            {%renderer%}
-        </footer>
-
-        <script>
-            window.addEventListener('load', function () {
-                setTimeout(function () {
-                    const loader = document.getElementById('loader-wrapper');
-                    if (loader) loader.style.display = 'none';
-                }, 2000); // 2 seconds delay
-            });
-        </script>
-    </body>
-</html>
-'''
-
-app.layout = html.Div([
-    html.Div(className="navbar", children=[
-        html.Img(src="assets/logo.png"),
-    ]),
-    dcc.Tabs(id="tabs", value='tab-ticks', children=[
-        dcc.Tab(
-            label='Live Ticker Data',
-            value='tab-ticks',
-            className='tab-headings',
-            selected_style={
-                'borderTop': '4px solid #102d33',
-                'backgroundColor': '#ffffff',
-                'color': '#1e1e1e',
-                'fontWeight': 'bold'
-            }
-        ),
-        dcc.Tab(
-            label='System Logs',
-            value='tab-logs',
-            className='tab-headings',
-            selected_style={
-                'borderTop': '4px solid #1e1e1e',
-                'backgroundColor': '#ffffff',
-                'color': '#1e1e1e',
-                'fontWeight': 'bold'
-            }
-        )
-    ]),
-    html.Div(id='tabs-content')
-])
+app.index_string = index_string
+app.layout = layout
 
 def fetch_ticks():
     try:

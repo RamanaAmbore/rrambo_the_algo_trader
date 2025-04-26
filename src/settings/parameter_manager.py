@@ -2,7 +2,7 @@ import threading
 from types import SimpleNamespace
 from typing import Dict, Any
 
-from dotenv import load_dotenv, dotenv_values
+from dotenv import dotenv_values
 
 from src.helpers.cipher_utils import decrypt_text
 from src.helpers.utils import parse_value

@@ -20,7 +20,7 @@ def send_twilio_alert(message):
         print(f"Failed to send Twilio alert: {e}")
 
 # Ensure log directory exists
-os.makedirs(os.path.dirname(parm.DEBUG_LOG_FILE), exist_ok=True)
+os.makedirs(os.path.dirname(parm.FILE_LOG_FILE), exist_ok=True)
 
 # Global log queue
 log_queue = queue.Queue()
@@ -29,9 +29,9 @@ log_queue = queue.Queue()
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 # File Handlers
-debug_file_handler = logging.FileHandler(parm.DEBUG_LOG_FILE)
-debug_file_handler.setLevel(getattr(logging, parm.FILE_LOG_LEVEL.upper(), parm.FILE_LOG_LEVEL))
-debug_file_handler.setFormatter(formatter)
+log_file_handler = logging.FileHandler(parm.FILE_LOG_FILE)
+log_file_handler.setLevel(getattr(logging, parm.FILE_LOG_LEVEL.upper(), parm.FILE_LOG_LEVEL))
+log_file_handler.setFormatter(formatter)
 
 error_file_handler = logging.FileHandler(parm.ERROR_LOG_FILE)
 error_file_handler.setLevel(getattr(logging, parm.ERROR_LOG_LEVEL.upper(), parm.ERROR_LOG_LEVEL))
@@ -53,7 +53,7 @@ twilio_handler.setLevel(logging.ERROR)
 twilio_handler.setFormatter(formatter)
 
 # Queue Listener (Processes Logs from Queue)
-queue_listener = QueueListener(log_queue, console_handler, debug_file_handler, error_file_handler, twilio_handler,
+queue_listener = QueueListener(log_queue, console_handler, log_file_handler, error_file_handler, twilio_handler,
                                respect_handler_level=True)
 queue_listener.start()
 

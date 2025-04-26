@@ -1,5 +1,4 @@
 import os
-from datetime import time
 from types import SimpleNamespace
 
 from dotenv import load_dotenv, dotenv_values

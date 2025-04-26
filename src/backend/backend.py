@@ -4,10 +4,12 @@ import threading
 
 from flask import Flask, jsonify  # Import current_app for accessing app context
 
-from src.backend.app_initializer import app_initializer
+from src.backend.app_initializer import AppInitializer
 from src.helpers.logger import get_logger
 # Assuming TickQueueManager might be populated by app_initializer
 from src.ticks.tick_queue_manager import TickQueueManager
+from src.settings.constants_manager import load_env
+load_env()
 
 logger = get_logger(__name__)
 
@@ -50,7 +52,7 @@ def get_ticks():
 
 @app.route('/get_logs', methods=['GET'])
 def get_logs():
-    log_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../logs/log.log"))
+    log_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.getenv('FILE_LOG_LEVEL')))
     try:
         with open(log_path, 'r') as f:
             log_content = f.read()
@@ -67,7 +69,7 @@ async def backend_process():
     logger.info("Running app_initializer setup...")
     # app_initializer.setup() might return the manager or populate internal state.
     # Assuming TickQueueManager() can be safely instantiated *after* setup completes.
-    await app_initializer.setup()  # This starts background tasks/threads
+    await AppInitializer().setup()  # This starts background tasks/threads
 
     logger.info("app_initializer setup complete.")
 
