@@ -15,7 +15,7 @@ index_string = '''
             }
 
             .navbar {
-                background-color: #f6f7f7; /* Navbar background stays */
+                background-color: #f0f1f1; /* Navbar background stays */
                 padding: 10px 20px;
                 color: #333333;
                 display: flex;
