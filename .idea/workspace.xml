@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a029c845-ddc0-445e-b54f-20a4a7ea4671" name="Changes" comment="restructure app_state - 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app_initializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_initializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app_state_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/app_state_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/market_ticker.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/market_ticker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/service_watchlist_symbols.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service_watchlist_symbols.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/settings/constants_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/settings/constants_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/backend.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/backend.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +62,8 @@
     "Python.SimpleDashboard.executor": "Run",
     "Python.algo_thread_status.executor": "Run",
     "Python.app.executor": "Run",
-    "Python.backend (1).executor": "Debug",
+    "Python.backend (1).executor": "Run",
+    "Python.backend (2).executor": "Run",
     "Python.backend.executor": "Run",
     "Python.backend_process (1).executor": "Run",
     "Python.backend_process (2).executor": "Run",
@@ -129,7 +125,7 @@
     "Python.zerodha_socket.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "release__version__1.0",
     "last_opened_file_path": "D:/rrambo_the_algo",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
@@ -147,7 +143,7 @@
       <recent name="D:\rrambo_trader_new\src\helpers" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.backend (1)">
+  <component name="RunManager" selected="Python.app">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -162,6 +158,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/.venv/Scripts/python.exe" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="rrambo_trader_new" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/frontend" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/frontend/app.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -192,7 +210,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="backend" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="backend (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -201,33 +219,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/backend" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\backend.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="backend_process" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="D:\rrambo_trader_new\src\backend_process.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/backend/backend.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -346,28 +342,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="rrambo_trader_new" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/threads" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/threads/test.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="thread_pre_market" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="rrambo_trader_new" />
       <option name="ENV_FILES" value="" />
@@ -392,14 +366,16 @@
     </configuration>
     <list>
       <item itemvalue="Python.Python" />
+      <item itemvalue="Python.app" />
+      <item itemvalue="Python.backend (2)" />
       <item itemvalue="Python.market_ticker" />
-      <item itemvalue="Python.backend_process" />
       <item itemvalue="Python.backend (1)" />
-      <item itemvalue="Python.test" />
       <item itemvalue="Python.thread_pre_market" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.app" />
+        <item itemvalue="Python.backend (2)" />
         <item itemvalue="Python.backend (1)" />
         <item itemvalue="Python.market_ticker" />
       </list>
