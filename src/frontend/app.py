@@ -70,8 +70,11 @@ def serve_layout():
             ]),
             dcc.Link(html.Div([html.Img(src="https://cdn-icons-png.freepik.com/256/17063/17063555.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid", alt="Holdings", width="20", height="20"), " Holdings"]), href="/holdings", className="nav-link"),
             dcc.Link(html.Div([html.Img(src="https://cdn-icons-png.freepik.com/256/7169/7169336.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid", alt="Positions", width="20", height="20"), " Positions"]), href="/positions", className="nav-link"),
-            dcc.Link(html.Div([html.Img(src="https://cdn-icons-png.freepik.com/256/8155/8155692.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid", alt="Trades", width="20", height="20"), " Trades"]), href="/trades", className="nav-link"),
-            dcc.Link(html.Div([html.Img(src="https://cdn-icons-png.freepik.com/256/4240/4240419.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid", alt="Orders", width="20", height="20"), " Orders"]), href="/orders", className="nav-link"),
+
+            dcc.Link(html.Div([html.Img(src="https://cdn-icons-png.freepik.com/256/10319/10319450.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid", alt="Orders", width="20", height="20"), " Orders"]), href="/orders", className="nav-link"),
+            dcc.Link(html.Div([html.Img(
+                src="https://cdn-icons-png.freepik.com/256/8155/8155692.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid",
+                alt="Trades", width="20", height="20"), " Trades"]), href="/trades", className="nav-link"),
             dcc.Link(html.Div([html.Img(src="https://cdn-icons-png.freepik.com/256/14872/14872554.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid", alt="Console", width="20", height="20"), " Console"]), href="/ticker", className="nav-link"), # Renamed from console to ticker based on usage
             dcc.Link(html.Div([html.Img(src="https://cdn-icons-png.freepik.com/256/14668/14668098.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid", alt="Settings", width="20", height="20"), " Settings"]), href="/settings", className="nav-link"),
         ]),

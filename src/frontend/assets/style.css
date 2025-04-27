@@ -78,6 +78,8 @@ body {
     background-color: #00548b;
 }
 
+
+
 /* Explicitly set the size for all icons within navigation links */
 .nav-links a img,
 .nav-links .nav-item > .nav-link-btn img {
@@ -131,6 +133,8 @@ body {
 .nav-item:hover .nav-submenu {
     display: block; /* Show submenu on hover */
 }
+
+
 
 .nav-submenu a {
     display: block;
@@ -311,5 +315,48 @@ footer img {
      .nav-links.auth-links {
         margin-left: 0;
         margin-top: 10px; /* Add space between link groups */
+    }
+}
+/* --- Ticker Scroller Styles --- */
+/* Container for the ticker */
+.ticker-scroller-container {
+    width: 100%;
+    background-color: #e9ecef; /* Light grey background */
+    padding: 5px 0; /* Small vertical padding */
+    overflow: hidden; /* Crucial: Hides the content outside the container */
+    box-sizing: border-box;
+    border-bottom: 1px solid #d3d3d3; /* Optional border */
+}
+
+/* The element that holds the scrolling items */
+.ticker-content {
+    display: inline-block; /* Allows white-space nowrap and animation */
+    white-space: nowrap; /* Prevents items from wrapping */
+    padding-left: 100%; /* Starts the content off-screen right */
+    /* Adjust animation duration as needed */
+    animation: ticker-scroll 30s linear infinite;
+}
+
+/* Styling for individual items within the ticker */
+.ticker-content span { /* Assuming items are spans */
+    display: inline-block; /* Treat each item as a block */
+    padding: 0 20px; /* Spacing between ticker items */
+    font-size: 0.85em;
+    color: #495057; /* Dark grey text */
+}
+
+/* Optional: Pause animation on hover */
+.ticker-scroller-container:hover .ticker-content {
+    animation-play-state: paused;
+}
+
+/* The scrolling animation */
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0); /* Starts having just entered from right (due to padding-left) */
+    }
+    100% {
+        /* Scrolls left by its own width. Ensure content is wide enough or duplicated for seamless loop */
+        transform: translateX(-100%);
     }
 }

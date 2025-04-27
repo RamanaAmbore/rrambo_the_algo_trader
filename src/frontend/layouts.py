@@ -88,7 +88,7 @@ def layout_ticker():
             }
         ),
         # Interval component placed within the ticker layout
-        dcc.Interval(id='interval-component', interval=5000, n_intervals=0)
+        dcc.Interval(id='interval-component', interval=0, n_intervals=0)
     ])
 
 # Add the callback for the ticker table update here (or in index.py if preferred, but keeping it with the layout is often cleaner)
@@ -165,6 +165,55 @@ def layout_auth(pathname):
     return html.Div(id='auth-page-background',   style=background_style, children=[
         html.Div(id='auth-page-content-container', children=content)
     ])
+# --- Ticker Scroller Component Function ---
+def create_ticker_scroller():
+    """
+    Creates the HTML structure for the ticker scroller.
+    The content will be populated dynamically by a callback.
+    """
+    return html.Div(className="ticker-scroller-container", children=[
+        html.Div(id="ticker-content", className="ticker-content", children=[
+            # Content will be loaded here by the callback
+            html.Span("Loading ticker data...")
+        ])
+        # NOTE: The dcc.Interval component should be placed in the main app layout
+        #       (e.g., in index.py) so it runs globally.
+    ])
+
+# --- Existing Layout Functions ---
+def layout_home():
+    # ... (keep existing code)
+    return html.Div([
+        html.H1("Welcome to rambo-the-algo"),
+        html.P("Select a section from the navigation bar to view data."),
+    ])
+
+# ... (keep all other layout functions: layout_market, layout_watchlist, etc.)
+# ... (keep layout_ticker for the table view if still needed)
+
+def layout_ticker():
+    return html.Div([
+        html.H3("Live Ticker Data (Table View)"), # Renamed slightly for clarity
+        dash_table.DataTable(
+            id='ticks-table',
+            columns=[
+                {"name": "Instrument Token", "id": "instrument_token"},
+                {"name": "Last Price", "id": "last_price"},
+                {"name": "Timestamp", "id": "timestamp"}
+            ],
+            data=[], # Initial empty data
+            style_table={'overflowX': 'auto'},
+            style_cell={'textAlign': 'left'},
+            style_header={
+                'backgroundColor': '#1e1e2f',
+                'color': 'white',
+                'fontWeight': 'bold'
+            }
+        ),
+        # This interval is specifically for the table below
+        dcc.Interval(id='table-interval-component', interval=1000, n_intervals=0) # Adjust interval
+    ])
+
 
 # --- Example of System Logs Layout and Callback (Similar to Ticker) ---
 # def layout_system_logs():
