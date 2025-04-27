@@ -269,10 +269,10 @@ index_string = '''
             <img src="assets/logo.png" alt="Rambo Logo">
             <div class="nav-links">
                 <a href="#" data-page="home">
-                    <img src="https://cdn-icons-png.freepik.com/256/6410/6410297.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Home" width="20" height="20"> Home
+                    <img src="https://cdn-icons-png.freepik.com/256/8784/8784978.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Home" width="20" height="20"> Home
                 </a>
                 <a href="#" data-page="market">
-                    <img src="https://cdn-icons-png.freepik.com/256/6410/6410297.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Market" width="20" height="20"> Market
+                    <img src="https://cdn-icons-png.freepik.com/256/2254/2254981.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Market" width="20" height="20"> Market
                 </a>
                 <a href="#" data-page="watchlist"  class="nav-item">
                     <img src="https://cdn-icons-png.freepik.com/256/15597/15597823.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Watchlist" width="20" height="20"> Watchlist
@@ -285,30 +285,30 @@ index_string = '''
                     <img src="https://cdn-icons-png.freepik.com/256/17063/17063555.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Holdings" width="20" height="20"> Holdings
                 </a>
                 <a href="#" data-page="positions">
-                    <img src="https://cdn-icons-png.freepik.com/256/16136/16136534.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Positions" width="20" height="20"> Positions
+                    <img src="https://cdn-icons-png.freepik.com/256/7169/7169336.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Positions" width="20" height="20"> Positions
                 </a>
                 <a href="#" data-page="trades">
                     <img src="https://cdn-icons-png.freepik.com/256/8155/8155692.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Trades" width="20" height="20"> Trades
                 </a>
                 <a href="#" data-page="orders">
-                    <img src="https://cdn-icons-png.freepik.com/256/9154/9154980.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Orders" width="20" height="20"> Orders
+                    <img src="https://cdn-icons-png.freepik.com/256/4240/4240419.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Orders" width="20" height="20"> Orders
                 </a>
                 <a href="#" data-page="ticker">
-                    <img src="https://cdn-icons-png.freepik.com/256/2254/2254981.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Console" width="20" height="20"> Console
+                    <img src="https://cdn-icons-png.freepik.com/256/14872/14872554.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Console" width="20" height="20"> Console
                 </a>
                 <a href="#" data-page="settings">
-                    <img src="https://cdn-icons-png.freepik.com/256/4031/4031425.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Settings" width="20" height="20"> Settings
+                    <img src="https://cdn-icons-png.freepik.com/256/14668/14668098.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Settings" width="20" height="20"> Settings
                 </a>
             </div>
             <div class="nav-links auth-links">
                 <a href="#" data-page="signin">
-                    <img src="https://cdn-icons-png.freepik.com/256/1151/1151841.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Sign In" width="20" height="20"> Sign In
+                    <img src="https://cdn-icons-png.freepik.com/256/10908/10908421.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Sign In" width="20" height="20"> Sign In
                 </a>
                 <a href="#" data-page="signup">
-                    <img src="https://cdn-icons-png.freepik.com/256/4842/4842592.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Sign Up" width="20" height="20"> Sign Up
+                    <img src="https://cdn-icons-png.freepik.com/256/17026/17026380.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Sign Up" width="20" height="20"> Sign Up
                 </a>
                 <a href="#" data-page="signout">
-                    <img src="https://cdn-icons-png.freepik.com/256/4202/4202845.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Sign Out" width="20" height="20"> Sign Out
+                    <img src="https://cdn-icons-png.freepik.com/256/4476/4476505.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid" alt="Sign Out" width="20" height="20"> Sign Out
                 </a>
             </div>
         </div>
