@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 index_string = '''
 <!DOCTYPE html>
 <html>
- <head>
+    <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>rambo-the-algo</title>
@@ -16,58 +16,91 @@ index_string = '''
         <style>
             body {
                 margin: 0;
-                font-family: 'Arial', sans-serif; /* More professional font */
+                font-family: 'Arial', sans-serif;
                 background-color: #ffffff;
                 color: #333333;
             }
 
             .navbar {
                 background-color: #f0f1f1;
-                padding: 10px 15px; /* Reduced horizontal padding */
+                padding: 10px 15px;
                 color: #333333;
                 display: flex;
                 align-items: center;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                border-bottom: 1px solid #f0f1f1;
+                border-bottom: 1px solid #d3d3d3;
                 flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
             }
 
             .navbar img {
                 height: 45px;
-                margin-right: 10px; /* Reduced margin-right */
+                margin-right: 10px;
+                margin-right: 0px; /* adjust margin manually */
+                vertical-align: middle;
             }
 
             .nav-links {
                 display: flex;
-                gap: 12px; /* Reduced gap */
                 margin-left: auto;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 0; /* Remove default gap */
+            }
+            .nav-links.auth-links {
+                margin-left: 0; /* Push auth links to the left */
+                margin-right: auto; /* Push auth links to the right */
+                margin-left: 20px; /* Add left margin to separate the groups */
             }
 
             .nav-links a {
-                color: #333333;
+                color: #e6ffed;
                 text-decoration: none;
                 font-weight: 500;
-                padding: 6px 10px; /* Slightly reduced padding */
-                border-radius: 4px;
-                transition: background-color 0.2s ease;
+                padding: 6px 10px;
+                border-radius: 0; /* Removed default border radius */
                 display: flex;
                 align-items: center;
-                gap: 6px; /* Reduced gap */
-                font-size: 0.9em; /* Reduced font size */
+                gap: 5px;
+                font-size: 0.8em;
+                background-color: #308ac7;
+                margin-right: 0;
+                border: 1px solid #9fadbd;
             }
 
             .nav-links a:hover {
-                background-color: #d0d0d0;
+                background-color: #00548b;
             }
 
             .nav-links a.active {
-                background-color: #308ac7;
+                background-color: #006ea9;
                 color: #ffffff;
             }
 
             .nav-links a img {
                 width: 20px;
                 height: 20px;
+            }
+
+            /* Add this rule to apply the border to the right of the anchor */
+            .nav-links a {
+                border-right: 1px solid #006ea9;
+            }
+
+            /* Remove the border from the last anchor element */
+            .nav-links a:last-child {
+                border-right: none;
+            }
+
+
+            .nav-links a:first-child {
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px;
+            }
+            .nav-links a:last-child{
+                 border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
             }
 
             th {
@@ -123,6 +156,7 @@ index_string = '''
             footer {
                 position: fixed;
                 bottom: 0;
+                left: 0;
                 width: 100%;
                 background-color: #f0f1f1;
                 padding: 6px 16px;
@@ -135,6 +169,7 @@ index_string = '''
                 align-items: center;
                 gap: 6px;
                 z-index: 1000;
+                border-top: 1px solid #d3d3d3;
             }
 
             footer img {
@@ -152,6 +187,75 @@ index_string = '''
                 padding: 20px;
                 margin-bottom: 40px;
             }
+            /* Add media query for small screens */
+            @media (max-width: 768px) {
+                .navbar {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .nav-links {
+                    flex-direction: column;
+                    margin-left: 0;
+                    align-items: flex-start;
+                    width: 100%;
+                }
+                .nav-links a {
+                    width: 100%;
+                    text-align: left;
+                    border-right: none;
+                }
+                .navbar img{
+                    margin-bottom: 10px;
+                }
+            }
+            /* Style for submenu */
+            .nav-item {
+                position: relative;
+            }
+
+            .nav-submenu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #f0f1f1;
+                padding: 10px 0;
+                border-radius: 6px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                z-index: 10;
+                width: 180px;
+            }
+
+            .nav-submenu li {
+                list-style: none;
+            }
+
+            .nav-submenu li a {
+                display: block;
+                padding: 8px 16px;
+                color: #333333;
+                text-decoration: none;
+                font-size: 0.9em;
+                transition: background-color 0.2s ease;
+                white-space: nowrap;
+            }
+
+            .nav-submenu li a:hover {
+                background-color: #d0d0d0;
+            }
+
+            .nav-item:hover .nav-submenu {
+                display: block;
+            }
+            #auth-page {
+                background-image: url('/assets/background.gif');
+                background-size: cover;
+                background-position: center;
+                min-height: calc(100vh - 100px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
         </style>
     </head>
@@ -163,36 +267,50 @@ index_string = '''
 
         <div class="navbar">
             <img src="assets/logo.png" alt="Rambo Logo">
-<div class="nav-links">
-    <a href="#" data-page="watchlist">
-        <img src="https://cdn-icons-png.freepik.com/256/6410/6410297.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Market" width="20" height="20"> Market
-    </a>
-    <a href="#" data-page="watchlist">
-        <img src="https://cdn-icons-png.freepik.com/256/15597/15597823.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Watchlist" width="20" height="20"> Watchlist
-    </a>
-    <a href="#" data-page="holdings">
-        <img src="https://cdn-icons-png.freepik.com/256/17063/17063555.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Holdings" width="20" height="20"> Holdings
-    </a>
-    <a href="#" data-page="positions">
-        <img src="https://cdn-icons-png.freepik.com/256/16136/16136534.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Positions" width="20" height="20"> Positions
-    </a>
-    <a href="#" data-page="trades">
-        <img src="https://cdn-icons-png.freepik.com/256/8155/8155692.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Trades" width="20" height="20"> Trades
-    </a>
-    <a href="#" data-page="orders">
-        <img src="https://cdn-icons-png.freepik.com/256/9154/9154980.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Orders" width="20" height="20"> Orders
-    </a>
-    <a href="#" data-page="ticker">
-        <img src="https://cdn-icons-png.freepik.com/256/2254/2254981.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Ticker" width="20" height="20"> Ticker
-    </a>
-    <a href="#" data-page="system-logs">
-        <img src="https://cdn-icons-png.freepik.com/256/3924/3924724.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="System Logs" width="20" height="20"> Logs
-    </a>
-    <a href="#" data-page="settings">
-        <img src="https://cdn-icons-png.freepik.com/256/4031/4031425.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Settings" width="20" height="20"> Settings
-    </a>
-</div>
-
+            <div class="nav-links">
+                <a href="#" data-page="home">
+                    <img src="https://cdn-icons-png.freepik.com/256/6410/6410297.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Home" width="20" height="20"> Home
+                </a>
+                <a href="#" data-page="market">
+                    <img src="https://cdn-icons-png.freepik.com/256/6410/6410297.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Market" width="20" height="20"> Market
+                </a>
+                <a href="#" data-page="watchlist"  class="nav-item">
+                    <img src="https://cdn-icons-png.freepik.com/256/15597/15597823.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Watchlist" width="20" height="20"> Watchlist
+                     <ul class="nav-submenu">
+                        <li><a href="#" data-page="watchlist-1">Watchlist 1</a></li>
+                        <li><a href="#" data-page="watchlist-2">Watchlist 2</a></li>
+                    </ul>
+                </a>
+                <a href="#" data-page="holdings">
+                    <img src="https://cdn-icons-png.freepik.com/256/17063/17063555.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Holdings" width="20" height="20"> Holdings
+                </a>
+                <a href="#" data-page="positions">
+                    <img src="https://cdn-icons-png.freepik.com/256/16136/16136534.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Positions" width="20" height="20"> Positions
+                </a>
+                <a href="#" data-page="trades">
+                    <img src="https://cdn-icons-png.freepik.com/256/8155/8155692.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Trades" width="20" height="20"> Trades
+                </a>
+                <a href="#" data-page="orders">
+                    <img src="https://cdn-icons-png.freepik.com/256/9154/9154980.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Orders" width="20" height="20"> Orders
+                </a>
+                <a href="#" data-page="ticker">
+                    <img src="https://cdn-icons-png.freepik.com/256/2254/2254981.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Console" width="20" height="20"> Console
+                </a>
+                <a href="#" data-page="settings">
+                    <img src="https://cdn-icons-png.freepik.com/256/4031/4031425.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Settings" width="20" height="20"> Settings
+                </a>
+            </div>
+            <div class="nav-links auth-links">
+                <a href="#" data-page="signin">
+                    <img src="https://cdn-icons-png.freepik.com/256/1151/1151841.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Sign In" width="20" height="20"> Sign In
+                </a>
+                <a href="#" data-page="signup">
+                    <img src="https://cdn-icons-png.freepik.com/256/4842/4842592.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Sign Up" width="20" height="20"> Sign Up
+                </a>
+                <a href="#" data-page="signout">
+                    <img src="https://cdn-icons-png.freepik.com/256/4202/4202845.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid" alt="Sign Out" width="20" height="20"> Sign Out
+                </a>
+            </div>
         </div>
 
         <div id="react-entry-point">
@@ -230,6 +348,14 @@ index_string = '''
                  <h1>Watchlist</h1>
                  <p>Content for Watchlist.</p>
             </div>
+             <div id="watchlist-1-content" class="hidden">
+                 <h1>Watchlist 1</h1>
+                 <p>Content for Watchlist 1.</p>
+            </div>
+            <div id="watchlist-2-content" class="hidden">
+                 <h1>Watchlist 2</h1>
+                 <p>Content for Watchlist 2.</p>
+            </div>
             <div id="holdings-content" class="hidden">
                 <h1>Holdings</h1>
                 <p>Content for Holdings.</p>
@@ -250,6 +376,24 @@ index_string = '''
                 <h1>Settings</h1>
                 <p>Content for Settings.</p>
             </div>
+            <div id="auth-page" class="hidden">
+                 <div>
+                    <h1>Authentication</h1>
+                    <p>Content for Authentication.</p>
+                 </div>
+            </div>
+             <div id="signin-content" class="hidden">
+                <h1>Sign In</h1>
+                <p>Content for Sign In.</p>
+            </div>
+            <div id="signup-content" class="hidden">
+                <h1>Sign Up</h1>
+                <p>Content for Sign Up.</p>
+            </div>
+            <div id="signout-content" class="hidden">
+                <h1>Sign Out</h1>
+                <p>Content for Sign Out.</p>
+            </div>
         </div>
 
         <footer>
@@ -267,8 +411,8 @@ index_string = '''
                 setTimeout(function () {
                     const loader = document.getElementById('loader-wrapper');
                     if (loader) loader.style.display = 'none';
-                     document.querySelector('[data-page="ticker"]').classList.add('active');
-                    showPage('ticker');
+                     document.querySelector('[data-page="home"]').classList.add('active');
+                    showPage('home');
                 }, 2000);
                 document.querySelectorAll('.nav-links a').forEach(link => {
                     link.addEventListener('click', function() {
@@ -286,11 +430,25 @@ index_string = '''
                 if (pageContent) {
                     pageContent.classList.remove('hidden');
                 }
-                 if (page === 'ticker') {
-                    updateTicks();
-                } else if (page === 'system-logs') {
-                    updateLogs();
+                const authPage = document.getElementById('auth-page');
+
+                if(page === 'signin' || page === 'signup' || page === 'signout'){
+                    if (authPage) {
+                        authPage.classList.remove('hidden');
+                    }
                 }
+                else{
+                    if (authPage) {
+                        authPage.classList.add('hidden');
+                    }
+                     if (page === 'ticker') {
+                        updateTicks();
+                    } else if (page === 'system-logs') {
+                        updateLogs();
+                    }
+                }
+
+
             }
 
             function updateTicks() {
