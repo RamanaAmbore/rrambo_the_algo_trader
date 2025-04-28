@@ -6,3 +6,4 @@ worspace.xml
 data/
 db/
 *.xml
+__pycache__/

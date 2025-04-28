@@ -39,7 +39,7 @@ log_file_handler.setFormatter(formatter)
 
 error_file_handler = RotatingFileHandler(
     parm.ERROR_LOG_FILE,
-    maxBytes=5 * 1024 * 1024,
+    maxBytes=5 * 1024,
     backupCount=5
 )
 error_file_handler.setLevel(getattr(logging, parm.ERROR_LOG_LEVEL.upper(), parm.ERROR_LOG_LEVEL))
