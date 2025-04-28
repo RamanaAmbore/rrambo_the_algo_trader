@@ -1,6 +1,7 @@
 from datetime import timedelta
 from typing import Any
 
+from src.core.decorators import singleton_init_guard
 from src.core.singleton_base import SingletonBase
 from src.helpers.cipher_utils import encrypt_text, decrypt_text
 from src.helpers.database_manager import db
@@ -17,11 +18,10 @@ class ServiceAccessTokens(SingletonBase, ServiceBase):
 
     conflict_cols = ['account']
 
+    @singleton_init_guard
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if getattr(self, '_singleton_initialized', False):
-            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
-            return
+
         super().__init__(self.model, self.conflict_cols)
 
     def get_stored_access_token(self, account: str) -> tuple[Any, Any] | None:

@@ -3,7 +3,7 @@ import threading
 import requests
 from kiteconnect import KiteConnect
 
-from src.core.decorators import retry_kite_conn
+from src.core.decorators import retry_kite_conn, singleton_init_guard
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.helpers.utils import generate_totp
@@ -15,11 +15,8 @@ logger = get_logger(__name__)
 
 class ZerodhaKiteConnect(SingletonBase):
     """Singleton class to handle Kite API authentication and access token management."""
-
+    @singleton_init_guard
     def __init__(self):
-        if getattr(self, '_singleton_initialized', False):
-            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
-            return
         self.account = parms.DEF_ACCOUNT
         credentials = ACCOUNT_CREDENTIALS[self.account]
 

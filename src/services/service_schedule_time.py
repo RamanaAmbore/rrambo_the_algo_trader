@@ -4,6 +4,7 @@ from typing import Tuple, Optional, Dict
 
 from sqlalchemy import select
 
+from src.core.decorators import singleton_init_guard
 from src.core.singleton_base import SingletonBase
 from src.helpers.database_manager import db
 from src.helpers.date_time_utils import today_indian, current_time_indian
@@ -22,11 +23,10 @@ class ServiceScheduleTime(SingletonBase, ServiceBase):
     model = ScheduleTime
     conflict_cols = ['schedule', 'market_day', 'exchange', 'start_time']
 
+    @singleton_init_guard
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if getattr(self, '_singleton_initialized', False):
-            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
-            return
+
         super().__init__(self.model, self.conflict_cols)
         self.last_checked_date = None
         self.schedule_records = {}

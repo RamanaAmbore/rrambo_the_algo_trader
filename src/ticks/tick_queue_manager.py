@@ -1,5 +1,8 @@
 import queue
 from threading import Lock
+
+from src.core.decorators import singleton_init_guard
+from src.helpers.app_state_manager import Xref, app_state
 from src.ticks.tick_model import TickModel
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
@@ -8,6 +11,7 @@ logger = get_logger(__name__)
 
 
 class TickQueueManager(SingletonBase):
+    @singleton_init_guard
     def __init__(self):
         self._queue = queue.Queue()
         self._lock = Lock()

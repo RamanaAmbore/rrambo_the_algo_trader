@@ -2,6 +2,7 @@ from typing import Union, List
 
 import pandas as pd
 
+from src.core.decorators import singleton_init_guard
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import ReportProfitLoss
@@ -23,11 +24,10 @@ class ServiceReportProfitLoss(SingletonBase, ServiceBase):
                      "buy_value",
                      "sell_value"]
 
+    @singleton_init_guard
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if getattr(self, '_singleton_initialized', False):
-            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
-            return
+
         super().__init__(self.model, self.conflict_cols)
 
     async def validate_insert_records(self, records: Union[pd.DataFrame, List[dict]]):

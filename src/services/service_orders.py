@@ -1,5 +1,6 @@
 import pandas as pd
 
+from src.core.decorators import singleton_init_guard
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import Orders
@@ -13,6 +14,7 @@ model = Orders
 class ServiceOrders(SingletonBase, ServiceBase):
     """Service class for handling orders database operations."""
 
+    @singleton_init_guard
     def __init__(self):
         super().__init__(model)
 

@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
+from src.core.decorators import singleton_init_guard
 from src.core.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models.base import Base
@@ -21,10 +22,9 @@ class DatabaseManager(SingletonBase):
     _instance = None
     _lock = Lock()
 
+    @singleton_init_guard
     def __init__(self):
-        if getattr(self, '_singleton_initialized', False):
-            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
-            return
+
         self._setup_database_urls()
         self._initialize_engines_and_sessions()
         self._setup_database_tables()

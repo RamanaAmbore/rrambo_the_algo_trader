@@ -12,7 +12,8 @@ class TickService(SingletonBase):
             model = self._convert_to_model(tick)
             self.queue_manager.enqueue(model)
 
-    def _convert_to_model(self, tick_data: dict) -> TickModel:
+    @staticmethod
+    def _convert_to_model(tick_data: dict) -> TickModel:
         ohlc = tick_data.get("ohlc", {})
         return TickModel(
             instrument_token=tick_data["instrument_token"],

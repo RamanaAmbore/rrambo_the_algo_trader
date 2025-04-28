@@ -7,9 +7,10 @@ from flask import Flask, jsonify  # Import current_app for accessing app context
 from src.backend.app_initializer import AppInitializer
 from src.helpers.app_state_manager import app_state, Xref
 from src.helpers.logger import get_logger
+from src.settings.constants_manager import load_env
 # Assuming TickQueueManager might be populated by app_initializer
 from src.ticks.tick_queue_manager import TickQueueManager
-from src.settings.constants_manager import load_env
+
 load_env()
 
 logger = get_logger(__name__)
@@ -20,7 +21,6 @@ app = Flask(__name__)
 # We will store the single instance of TickQueueManager here after initialization
 # Using an attribute on the app object is a clean way to share resources
 app.tick_manager_instance = None
-
 
 
 @app.route('/get_ticks', methods=['GET'])
@@ -34,14 +34,14 @@ def get_ticks(INSTR_SYMBOL_XREF=None):
 
     try:
         logger.debug("Attempting to get all ticks from manager...")
-        ticks_map = tick_queue_manager.get_all_ticks()
+        ticks_map = tick_queue_manager.get_all_ticks(app_state.get(key=Xref.TRACK_INSTR_SYMBOL_XREF))
         logger.debug(f"Successfully fetched {len(ticks_map)} ticks.")
 
         # Corrected line: Use tick.exchange_timestamp
 
         instr_symbol_xref = app_state.get(key=Xref.INSTR_SYMBOL_XREF)
         ticks_data = {instr_symbol_xref[tick.instrument_token]: (tick.last_price, tick.change)
-            for tick in ticks_map.values()}
+                      for tick in ticks_map.values()}
 
         logger.info(f"Returning {len(ticks_data)} ticks data.")
         return jsonify(ticks_data)
@@ -49,6 +49,7 @@ def get_ticks(INSTR_SYMBOL_XREF=None):
     except Exception as e:
         logger.error(f"An error occurred while processing /get_ticks: {e}", exc_info=True)
         return jsonify({"error": "An internal error occurred"}), 500
+
 
 @app.route('/get_logs', methods=['GET'])
 def get_logs():
@@ -60,6 +61,7 @@ def get_logs():
     except Exception as e:
         logger.error(f"Failed to read log file: {e}", exc_info=True)
         return jsonify({"error": "Could not read log file"}), 500
+
 
 # Backend process, including Flask server
 async def backend_process():

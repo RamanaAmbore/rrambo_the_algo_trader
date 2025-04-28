@@ -1,7 +1,7 @@
 import asyncio
 
 from src.helpers.app_state_manager import app_state, Xref
-from src.core.decorators import track_it
+from src.core.decorators import track_it, singleton_init_guard
 from src.core.report_downloader import ReportDownloader
 from src.core.report_uploader import ReportUploader
 from src.core.singleton_base import SingletonBase
@@ -29,11 +29,10 @@ logger = get_logger(__name__)
 
 
 class AppInitializer(SingletonBase):
+    @singleton_init_guard
     def __init__(self):
         """Ensure __init__ is only called once."""
-        if getattr(self, '_singleton_initialized', False):
-            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
-            return
+
         self.kite_obj = None
         self.kite_conn = None
         self.start_time = None

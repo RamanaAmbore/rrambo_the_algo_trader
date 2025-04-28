@@ -7,6 +7,7 @@ from typing import Optional
 class TickModel:
     instrument_token: int
     last_price: float
+    symbol_exchange: Optional[str] = None
     last_traded_quantity: Optional[int] = None
     average_traded_price: Optional[float] = None
     volume_traded: Optional[int] = None

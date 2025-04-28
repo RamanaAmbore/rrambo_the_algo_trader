@@ -8,6 +8,19 @@ from src.helpers.logger import get_logger
 logger = get_logger(__name__)
 
 
+from functools import wraps
+
+def singleton_init_guard(init_func):
+    @wraps(init_func)
+    def wrapper(self, *args, **kwargs):
+        if getattr(self, '_singleton_initialized', False):
+            logger.debug(f"Instance for {self.__class__.__name__} already initialized.")
+            return
+        init_func(self, *args, **kwargs)
+        self._singleton_initialized = True
+    return wrapper
+
+
 def retry_kite_conn(max_attempts):
     """
     Decorator to retry a function on failure.

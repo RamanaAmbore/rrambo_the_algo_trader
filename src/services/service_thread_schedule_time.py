@@ -35,14 +35,3 @@ async def get_active_thread_schedule_time(account=None):
         return filtered_threads
 
     return thread_schedules  # Return all if no market hours found
-
-
-# Simple test runner for async SQLAlchemy call
-async def main():
-    results = await get_active_thread_schedule_time()
-    print("\n🧪 Active Thread Schedule Timings:\n")
-    print(results)  # pretty prints list of tuples
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
