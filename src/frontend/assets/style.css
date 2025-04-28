@@ -5,7 +5,7 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #ffffff;
     color: #333333;
-    padding-bottom: 50px; /* Add padding to body to prevent footer from covering content */
+    padding-bottom: 50px;
 }
 
 .navbar {
@@ -16,12 +16,11 @@ body {
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-bottom: 1px solid #d3d3d3;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    position: sticky; /* Make header sticky */
-    top: 0; /* Stick to the top */
-    z-index: 1000; /* Ensure it stays on top */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar img {
@@ -37,40 +36,29 @@ body {
     justify-content: flex-end;
     gap: 0;
 }
+
 .nav-links.auth-links {
     margin-left: 20px;
     margin-right: 0;
 }
 
- .nav-links .nav-item {
-     position: relative;
-     display: inline-block; /* Required for dropdown positioning */
-     margin-right: 0;
- }
-
-/* Apply height and box-sizing to the main navigation links and the Watchlist button */
-/* assets/style.css */
-
-/* ... (previous CSS rules) ... */
-
 .nav-links a,
 .nav-links .nav-item > .nav-link-btn {
-     color: #e6ffed;
-     text-decoration: none;
-     font-weight: 500;
-     padding: 6px 10px;
-     border-radius: 0;
-     display: flex;
-     align-items: center; /* Ensures vertical centering of flex items (image and text) */
-     gap: 0px;
-     font-size: 0.8em;
-     background-color: #308ac7;
-     margin-right: 0;
-     border: 1px solid #9fadbd;
-     cursor: pointer;
-
-     box-sizing: border-box;
-     height: 35px; /* Explicitly set height */
+    color: #e6ffed;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8em;
+    background-color: #308ac7;
+    margin-right: 0;
+    border: 1px solid #9fadbd;
+    cursor: pointer;
+    height: 35px;
+    box-sizing: border-box;
 }
 
 .nav-links a:hover,
@@ -80,42 +68,45 @@ body {
 
 
 
-/* Explicitly set the size for all icons within navigation links */
 .nav-links a img,
 .nav-links .nav-item > .nav-link-btn img {
     width: 20px;
     height: 20px;
-    /* vertical-align: middle; /* Can sometimes help with subtle alignment, though flexbox should handle it */
 }
 
-
-/* Adjust border application for consistency */
 .nav-links a {
-     border-right: 1px solid #006ea9; /* Border between links */
+    border-right: 1px solid #006ea9;
 }
 
-/* Remove border from the last direct child link or the last nav-item button */
 .nav-links > a:last-child,
 .nav-links > .nav-item:last-child > .nav-link-btn {
-   border-right: none;
+    border-right: none;
 }
 
+.nav-links a:first-child,
+.nav-links .nav-item:first-child > .nav-link-btn {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
 
- /* Apply border radius to the first and last items */
- .nav-links a:first-child,
- .nav-links .nav-item:first-child > .nav-link-btn {
-     border-top-left-radius: 4px;
-     border-bottom-left-radius: 4px;
- }
+.nav-links a:last-child:not(.nav-submenu a),
+.nav-links .nav-item:last-child > .nav-link-btn {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
 
- .nav-links a:last-child:not(.nav-submenu a), /* Exclude submenu links */
- .nav-links .nav-item:last-child > .nav-link-btn {
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px;
- }
+.nav-links a.active,
+.nav-links .nav-item > .nav-link-btn.active {
+    background-color: #006ea9;
+    color: #ffffff;
+}
 
+.nav-item {
+    position: relative;
+    display: inline-block;
+    margin-right: 0;
+}
 
-/* Submenu styles */
 .nav-submenu {
     display: none;
     position: absolute;
@@ -127,44 +118,40 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 10;
     width: 180px;
-     border: 1px solid #d3d3d3; /* Add border to submenu */
+    border: 1px solid #d3d3d3;
 }
 
 .nav-item:hover .nav-submenu {
-    display: block; /* Show submenu on hover */
+    display: block;
 }
-
-
 
 .nav-submenu a {
     display: block;
-    padding: 8px 16px; /* Submenu links might need different padding */
+    padding: 8px 16px;
     color: #333333;
     text-decoration: none;
     font-size: 0.9em;
     transition: background-color 0.2s ease;
     white-space: nowrap;
     background-color: transparent;
-    border: none !important; /* Remove border for submenu links */
-    height: auto; /* Ensure submenu links don't inherit fixed height */
-    box-sizing: content-box; /* Reset box-sizing for submenu links */
+    border: none !important;
+    height: auto;
+    box-sizing: content-box;
 }
 
 .nav-submenu a:hover {
     background-color: #d0d0d0;
 }
 
-/* Ensure images within submenu links are also sized correctly */
 .nav-submenu a img {
     width: 20px;
     height: 20px;
 }
 
-
-/* Dash DataTable styles */
 .dash-table-container {
     margin-top: 20px;
 }
+
 .dash-table-container th {
     background-color: #f6f7f7 !important;
     color: #333333 !important;
@@ -183,7 +170,6 @@ body {
     border-collapse: collapse;
     width: 100%;
 }
-
 
 #loader-wrapper {
     position: fixed;
@@ -243,33 +229,31 @@ footer img {
     object-fit: cover;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
+
 .page-content {
     padding: 20px;
-    /* Adjust padding-top based on navbar height if not sticky */
-    /* margin-bottom: 40px; /* Adjust based on footer height */
 }
 
-/* Auth Page Background (if used for a full-page background) */
- #auth-page-background {
+#auth-page-background {
     background-image: url('/assets/background.gif');
     background-size: cover;
     background-position: center;
-    min-height: calc(100vh - 100px); /* Adjust based on header/footer height */
+    min-height: calc(100vh - 100px);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px; /* Add padding */
+    padding: 20px;
 }
- /* Style for the container within auth-page-background */
+
 #auth-page-content-container {
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 500px; /* Limit width */
+    max-width: 500px;
     width: 100%;
- }
+}
 
 
 /* Add media query for small screens */
@@ -278,71 +262,77 @@ footer img {
         flex-direction: column;
         align-items: flex-start;
     }
+
     .nav-links {
         flex-direction: column;
         margin-left: 0;
         align-items: flex-start;
         width: 100%;
     }
-    /* Remove fixed height and border right on small screens */
-    .nav-links a, .nav-links .nav-item > .nav-link-btn {
+
+    .nav-links a,
+    .nav-links .nav-item > .nav-link-btn {
         width: 100%;
         text-align: left;
         border-right: none;
-        height: auto; /* Remove fixed height on small screens for flexibility */
+        height: auto;
         box-sizing: border-box;
     }
-     /* Ensure submenu links stack properly */
-     .nav-item .nav-submenu {
-         position: static;
-         width: 100%;
-         box-shadow: none;
-         border: none;
-         padding-left: 20px;
-     }
-     .nav-submenu a {
-         padding: 8px 30px;
-         height: auto; /* Ensure submenu links don't have fixed height */
-         box-sizing: content-box;
-     }
-     .nav-submenu a img { /* Ensure submenu icons are also sized correctly on small screens */
+
+    .nav-item .nav-submenu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        padding-left: 20px;
+    }
+
+    .nav-submenu a {
+        padding: 8px 30px;
+        height: auto;
+        box-sizing: content-box;
+    }
+
+    .nav-submenu a img {
         width: 20px;
         height: 20px;
-     }
-    .navbar img{
+    }
+
+    .navbar img {
         margin-bottom: 10px;
     }
-     .nav-links.auth-links {
+
+    .nav-links.auth-links {
         margin-left: 0;
-        margin-top: 10px; /* Add space between link groups */
+        margin-top: 10px;
     }
 }
+
 /* --- Ticker Scroller Styles --- */
 /* Container for the ticker */
 .ticker-scroller-container {
     width: 100%;
-    background-color: #e9ecef; /* Light grey background */
-    padding: 5px 0; /* Small vertical padding */
-    overflow: hidden; /* Crucial: Hides the content outside the container */
+    background-color: #e9ecef;
+    padding: 5px 0;
+    overflow: hidden;
     box-sizing: border-box;
-    border-bottom: 1px solid #d3d3d3; /* Optional border */
+    border-bottom: 1px solid #d3d3d3;
 }
 
 /* The element that holds the scrolling items */
 .ticker-content {
-    display: inline-block; /* Allows white-space nowrap and animation */
-    white-space: nowrap; /* Prevents items from wrapping */
-    padding-left: 100%; /* Starts the content off-screen right */
-    /* Adjust animation duration as needed */
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
     animation: ticker-scroll 30s linear infinite;
 }
 
 /* Styling for individual items within the ticker */
-.ticker-content span { /* Assuming items are spans */
-    display: inline-block; /* Treat each item as a block */
-    padding: 0 20px; /* Spacing between ticker items */
+.ticker-content span {
+    display: inline-block;
+    padding: 0 20px;
     font-size: 0.85em;
-    color: #495057; /* Dark grey text */
+    color: #495057;
 }
 
 /* Optional: Pause animation on hover */
@@ -353,21 +343,21 @@ footer img {
 /* The scrolling animation */
 @keyframes ticker-scroll {
     0% {
-        transform: translateX(0); /* Starts having just entered from right (due to padding-left) */
+        transform: translateX(0);
     }
+
     100% {
-        /* Scrolls left by its own width. Ensure content is wide enough or duplicated for seamless loop */
         transform: translateX(-100%);
     }
 }
 
 .ticker-scroller {
     position: fixed;
-    bottom: 40px; /* Adjust based on footer height */
+    bottom: 40px;
     left: 0;
     width: 100%;
-    background: linear-gradient(to right, #308ac7, #308ac7); /* Updated background color */
-    color: #f0f1f1 !important; /* Set font color to #333333 */
+    background: linear-gradient(to right, #308ac7, #308ac7);
+    color: #f0f1f1 !important;
     z-index: 999;
     overflow: hidden;
     white-space: nowrap;
@@ -386,6 +376,12 @@ footer img {
 }
 
 @keyframes scroll-ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }
+

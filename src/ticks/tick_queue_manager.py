@@ -18,7 +18,7 @@ class TickQueueManager(SingletonBase):
             self._queue.put_nowait(tick)
             with self._lock:
                 self._tick_map[tick.instrument_token] = tick
-            # logger.debug(f"Tick enqueued and stored for instrument: {tick.instrument_token}")
+            logger.info(f"Tick enqueued and stored for instrument: {tick.instrument_token}")
         except queue.Full:
             logger.warning("Tick queue is full. Dropping tick.")
 
