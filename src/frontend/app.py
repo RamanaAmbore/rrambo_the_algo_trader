@@ -1,4 +1,5 @@
 import dash
+import requests
 from dash import dcc, html
 from dash.dependencies import Input, Output
 
@@ -6,6 +7,7 @@ from dash.dependencies import Input, Output
 from layouts import layout_home, layout_market, layout_watchlist, layout_watchlist_1, layout_watchlist_2, \
     layout_holdings, layout_positions, layout_trades, layout_orders, layout_ticker, layout_settings, \
     layout_auth  # Assuming layout_auth handles signin/signup/signout forms
+from src.frontend import layouts
 
 # Define CDN links as a dictionary
 CDN_LINKS = {
@@ -107,6 +109,21 @@ def serve_layout():
         ])
     ])
 
+    # --- ADD THE TICKER SCROLLER COMPONENT HERE ---
+    ticker_scroller = html.Div(id="ticker-scroller", children=[
+        html.Div(id="ticker-container", children=[
+            html.Span("Loading ticker data...")  # Initial loading message
+        ], className="ticker-container")
+    ], className="ticker-scroller")
+
+    # --- ADD THE GLOBAL INTERVAL FOR THE TICKER SCROLLER ---
+    ticker_interval = dcc.Interval(
+        id='ticker-interval-component',
+        interval=5 * 1000,  # Update every 5 seconds (adjust as needed)
+        n_intervals=0
+    )
+    # --- END TICKER SCROLLER ADDITIONS ---
+
     footer = html.Footer(children=[
         html.Div(style={"display": "flex", "align-items": "center", "gap": "8px"}, children=[
             html.Span("© 2025 Ramana Ambore, FRM, CFA Level 3 Candidate"),
@@ -118,6 +135,8 @@ def serve_layout():
         dcc.Location(id='url', refresh=False),  # Component to track URL
         header,  # Persistent Header
         html.Div(id='page-content', className='page-content'),  # Content area updated by callback
+        ticker_scroller,  # Ticker Scroller at the bottom
+        ticker_interval,  # Interval for ticker updates
         footer  # Persistent Footer
     ])
 
@@ -160,6 +179,36 @@ def display_page(pathname):
             html.H1("404 - Not Found"),
             html.P(f"The page {pathname} does not exist.")
         ])
+
+
+def update_ticker_scroller(n):
+    try:
+
+        # Replace with your actual API endpoint for ticker data
+        response = requests.get('http://127.0.0.1:5000/get_ticks')  # Or a summary endpoint
+        response.raise_for_status()
+        data = response.json()  # Assuming it returns a list of dicts like [{"instrument_token": "...", "last_price": ...}, ...]
+
+        if not data:
+            return [html.Span("No ticker data available.")]
+
+        # Format data into spans for the scroller
+        ticker_items = []
+        # --- Adjust formatting based on your needs ---
+        for item in data:
+            token = item.get("instrument_token", "N/A")
+            price = item.get("last_price", "N/A")
+            display_text = f"{token}: {price}"
+            ticker_items.append(html.Span(display_text))
+
+        return ticker_items
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching ticker data for scroller: {e}")
+        return [html.Span(f"Error loading ticker: {e}")]
+    except Exception as e:
+        print(f"Error processing ticker data: {e}")
+        return [html.Span("Error processing ticker data.")]
 
 
 if __name__ == '__main__':
