@@ -5,6 +5,7 @@ import threading
 from flask import Flask, jsonify  # Import current_app for accessing app context
 
 from src.backend.app_initializer import AppInitializer
+from src.helpers.app_state_manager import app_state, Xref
 from src.helpers.logger import get_logger
 # Assuming TickQueueManager might be populated by app_initializer
 from src.ticks.tick_queue_manager import TickQueueManager
@@ -21,8 +22,9 @@ app = Flask(__name__)
 app.tick_manager_instance = None
 
 
+
 @app.route('/get_ticks', methods=['GET'])
-def get_ticks():
+def get_ticks(INSTR_SYMBOL_XREF=None):
     logger.debug("Request received for /get_ticks")
     tick_queue_manager = app.tick_manager_instance  # Access the shared instance
 
@@ -36,14 +38,12 @@ def get_ticks():
         logger.debug(f"Successfully fetched {len(ticks_map)} ticks.")
 
         # Corrected line: Use tick.exchange_timestamp
-        ticks_data = [
-            {'instrument_token': tick.instrument_token,
-             'last_price': tick.last_price,
-             'timestamp': tick.exchange_timestamp}  # <-- CHANGED THIS LINE
-            for tick in ticks_map.values()
-        ]
 
-        logger.debug(f"Returning {len(ticks_data)} ticks data.")
+        instr_symbol_xref = app_state.get(key=Xref.INSTR_SYMBOL_XREF)
+        ticks_data = {instr_symbol_xref[tick.instrument_token]: (tick.last_price, tick.change)
+            for tick in ticks_map.values()}
+
+        logger.info(f"Returning {len(ticks_data)} ticks data.")
         return jsonify(ticks_data)
 
     except Exception as e:

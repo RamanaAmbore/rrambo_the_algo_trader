@@ -309,48 +309,6 @@ footer img {
 }
 
 /* --- Ticker Scroller Styles --- */
-/* Container for the ticker */
-.ticker-scroller-container {
-    width: 100%;
-    background-color: #e9ecef;
-    padding: 5px 0;
-    overflow: hidden;
-    box-sizing: border-box;
-    border-bottom: 1px solid #d3d3d3;
-}
-
-/* The element that holds the scrolling items */
-.ticker-content {
-    display: inline-block;
-    white-space: nowrap;
-    padding-left: 100%;
-    animation: ticker-scroll 30s linear infinite;
-}
-
-/* Styling for individual items within the ticker */
-.ticker-content span {
-    display: inline-block;
-    padding: 0 20px;
-    font-size: 0.85em;
-    color: #495057;
-}
-
-/* Optional: Pause animation on hover */
-.ticker-scroller-container:hover .ticker-content {
-    animation-play-state: paused;
-}
-
-/* The scrolling animation */
-@keyframes ticker-scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-100%);
-    }
-}
-
 .ticker-scroller {
     position: fixed;
     bottom: 40px;
@@ -362,26 +320,38 @@ footer img {
     overflow: hidden;
     white-space: nowrap;
     padding: 10px 0;
-    text-align: center;
     font-size: 0.8em;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #d3d3d3;
+    text-align: left; /* <-- changed from center to left */
 }
 
-
+/* Container that holds the scrolling text */
 .ticker-container {
     display: inline-block;
-    padding-left: 100%;
+    white-space: nowrap;
     animation: scroll-ticker 30s linear infinite;
 }
 
+/* Individual ticker items */
+.ticker-container span {
+    display: inline-block;
+    padding: 0 20px;
+    font-size: 0.85em;
+    color: #f0f1f1;
+}
+
+/* Smooth scrolling animation */
 @keyframes scroll-ticker {
     0% {
-        transform: translateX(0);
+        transform: translateX(100%);
     }
-
     100% {
         transform: translateX(-100%);
     }
 }
 
+/* Pause animation on hover (optional) */
+.ticker-scroller:hover .ticker-container {
+    animation-play-state: paused;
+}
