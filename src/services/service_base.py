@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.inspection import inspect as sqlainspect  # Alias to avoid name clash
 from sqlalchemy.orm import DeclarativeBase  # Assuming use of declarative base for model type hint
 
-from src.core.decorators import track_it
+from src.helpers.decorators import track_it
 # Assuming db and logger setup are correct
 from src.helpers.database_manager import db
 from src.helpers.logger import get_logger

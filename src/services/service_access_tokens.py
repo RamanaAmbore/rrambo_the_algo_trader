@@ -1,8 +1,8 @@
 from datetime import timedelta
 from typing import Any
 
-from src.core.decorators import singleton_init_guard
-from src.core.singleton_base import SingletonBase
+from src.helpers.decorators import singleton_init_guard
+from src.helpers.singleton_base import SingletonBase
 from src.helpers.cipher_utils import encrypt_text, decrypt_text
 from src.helpers.database_manager import db
 from src.helpers.date_time_utils import timestamp_indian

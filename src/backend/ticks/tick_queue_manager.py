@@ -1,10 +1,9 @@
 import queue
 from threading import Lock
 
-from src.core.decorators import singleton_init_guard
-from src.helpers.app_state_manager import Xref, app_state
-from src.ticks.tick_model import TickModel
-from src.core.singleton_base import SingletonBase
+from src.helpers.decorators import singleton_init_guard
+from src.backend.ticks.tick_model import TickModel
+from src.helpers.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 
 logger = get_logger(__name__)
@@ -22,7 +21,8 @@ class TickQueueManager(SingletonBase):
             self._queue.put_nowait(tick)
             with self._lock:
                 self._tick_map[tick.instrument_token] = tick
-            logger.debug(f"Tick enqueued and stored for instrument: {tick.instrument_token}")
+            logger.debug(f"Tick enqueued and stored instruments: {', '.join(map(str, self._tick_map.keys()))}")
+
         except queue.Full:
             logger.warning("Tick queue is full. Dropping tick.")
 

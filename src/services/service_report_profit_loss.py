@@ -2,8 +2,8 @@ from typing import Union, List
 
 import pandas as pd
 
-from src.core.decorators import singleton_init_guard
-from src.core.singleton_base import SingletonBase
+from src.helpers.decorators import singleton_init_guard
+from src.helpers.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models import ReportProfitLoss
 from src.services.service_base import ServiceBase

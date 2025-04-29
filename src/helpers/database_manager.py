@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import sessionmaker, Session, scoped_session
 from sqlalchemy_utils import database_exists, create_database
 
-from src.core.decorators import singleton_init_guard
-from src.core.singleton_base import SingletonBase
+from src.helpers.decorators import singleton_init_guard
+from src.helpers.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.models.base import Base
 from src.settings.parameter_manager import parms

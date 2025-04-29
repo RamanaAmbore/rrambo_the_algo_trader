@@ -3,12 +3,12 @@ import time
 
 from kiteconnect import KiteTicker
 
-from src.helpers.decorators import retry_kite_conn
-from src.helpers.singleton_base import SingletonBase
-from src.helpers.date_time_utils import today_indian, current_time_indian
-from src.helpers.logger import get_logger
-from src.settings.parameter_manager import parms
 from src.backend.ticks.tick_service import TickService
+from src.helpers.date_time_utils import current_time_indian
+from src.helpers.decorators import retry_kite_conn
+from src.helpers.logger import get_logger
+from src.helpers.singleton_base import SingletonBase
+from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
 
@@ -21,6 +21,7 @@ class Ticker(SingletonBase, threading.Thread):
     RECONNECT_BACKOFF = 5  # seconds
 
     def __init__(self, kite_obj):
+        global  socket_conn
         with Ticker._lock:
             if Ticker._instance is not None:
                 logger.debug(f"{self.__class__.__name__} already initialized.")
@@ -39,6 +40,7 @@ class Ticker(SingletonBase, threading.Thread):
             self.add_instruments = set()
             self.remove_instruments = set()
             self.reconnect_attempts = 0
+            self.first_time = True
 
             Ticker._instance = self
             logger.info("Ticker thread initialized.")
@@ -68,6 +70,13 @@ class Ticker(SingletonBase, threading.Thread):
                 if self.update_instruments():
                     logger.debug("Market is open. Ensuring WebSocket is active.")
                     self.setup_socket_conn()
+                    if self.first_time:
+                        self.first_time = None
+                        self.socket_conn.set_mode(self.socket_conn.MODE_FULL, self.instruments)
+                    if self.first_time is None:
+                        self.socket_conn.set_mode(self.socket_conn.MODE_LTP, self.instruments)
+                        self.first_time = False
+
                 else:
                     logger.debug("Market is closed. WebSocket not required.")
                     self.close_socket()
@@ -104,6 +113,10 @@ class Ticker(SingletonBase, threading.Thread):
         if not instruments and self.instruments:
             Ticker.stop()
             return  # ✅ Exit early
+
+
+        if self.first_time:
+            return self.instruments
 
         if instruments == self.instruments:
             return self.instruments
@@ -142,7 +155,9 @@ class Ticker(SingletonBase, threading.Thread):
     @classmethod
     def on_ticks(cls, ws, ticks):
         # logger.info(f"Received tick data: {ticks}")
+
         TickService().process_ticks(ticks)
+
 
     @classmethod
     def on_close(cls, ws, code, reason):

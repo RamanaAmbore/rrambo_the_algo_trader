@@ -3,8 +3,8 @@ from collections import defaultdict
 
 from bidict import bidict
 
-from src.core.decorators import update_lock, track_it
-from src.core.singleton_base import SingletonBase
+from src.helpers.decorators import update_lock, track_it
+from src.helpers.singleton_base import SingletonBase
 from src.helpers.logger import get_logger
 from src.helpers.utils import reverse_dict, create_instr_symbol_xref
 
@@ -37,7 +37,7 @@ class Xref:
     TRACK_INSTR_XREF_BY_CATEGORY = 'track_instr_xref_by_category'
     TRACK_INSTR_XREF_XCHANGE = 'track_instr_xref_xchange'
     TRACK_INSTR_SYMBOL_XREF = 'track_instr_symbol_xref'
-
+    TRACK_INSTR_LTP_XREF = 'track_instr_ltp_xref'
 
 class AppState(SingletonBase):
     def __init__(self):
@@ -102,6 +102,10 @@ class AppState(SingletonBase):
                                                                  reverse_key='symbol_exchange')
         self.set(Xref.SYMBOL_WATCHLISTS, symbol_id_xref, sub_key)
         self.set(Xref.INSTR_WATCHLISTS, instr_id_xref, sub_key)
+
+    def set_ltp(self, value=None, sub_key=None):
+        self.set(Xref.TRACK_INSTR_LTP_XREF, value, sub_key)
+
 
     @track_it()
     def set_track_list(self, unique_exchanges):

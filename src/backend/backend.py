@@ -9,7 +9,7 @@ from src.helpers.app_state_manager import app_state, Xref
 from src.helpers.logger import get_logger
 from src.settings.constants_manager import load_env
 # Assuming TickQueueManager might be populated by app_initializer
-from src.ticks.tick_queue_manager import TickQueueManager
+from src.backend.ticks.tick_queue_manager import TickQueueManager
 
 load_env()
 
@@ -24,7 +24,7 @@ app.tick_manager_instance = None
 
 
 @app.route('/get_ticks', methods=['GET'])
-def get_ticks(INSTR_SYMBOL_XREF=None):
+def get_ticks():
     logger.debug("Request received for /get_ticks")
     tick_queue_manager = app.tick_manager_instance  # Access the shared instance
 
@@ -34,7 +34,7 @@ def get_ticks(INSTR_SYMBOL_XREF=None):
 
     try:
         logger.debug("Attempting to get all ticks from manager...")
-        ticks_map = tick_queue_manager.get_all_ticks(app_state.get(key=Xref.TRACK_INSTR_SYMBOL_XREF))
+        ticks_map = tick_queue_manager.get_all_ticks()
         logger.debug(f"Successfully fetched {len(ticks_map)} ticks.")
 
         # Corrected line: Use tick.exchange_timestamp
@@ -80,6 +80,7 @@ async def backend_process():
     # If app_initializer.setup() returns the instance, get it from there.
     # For now, assuming we instantiate it here after setup.
     try:
+        xref = app_state.get(Xref.TRACK_INSTR_SYMBOL_XREF)
         app.tick_manager_instance = TickQueueManager()
         logger.info("TickQueueManager instance successfully created and attached to app.")
     except Exception as e:

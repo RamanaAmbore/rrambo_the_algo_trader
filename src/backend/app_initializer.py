@@ -1,11 +1,11 @@
 import asyncio
 
 from src.helpers.app_state_manager import app_state, Xref
-from src.core.decorators import track_it, singleton_init_guard
-from src.core.report_downloader import ReportDownloader
-from src.core.report_uploader import ReportUploader
-from src.core.singleton_base import SingletonBase
-from src.core.zerodha_kite_connect import ZerodhaKiteConnect
+from src.helpers.decorators import track_it, singleton_init_guard
+from src.backend.reports.report_downloader import ReportDownloader
+from src.backend.reports.report_uploader import ReportUploader
+from src.helpers.singleton_base import SingletonBase
+from src.backend.zerodha.zerodha_kite_connect import ZerodhaKiteConnect
 from src.helpers.logger import get_logger
 from src.ticks.ticker import Ticker
 from src.services.service_access_tokens import service_access_tokens

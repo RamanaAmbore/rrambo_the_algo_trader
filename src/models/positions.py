@@ -8,7 +8,7 @@ from src.helpers.date_time_utils import timestamp_indian
 from src.helpers.logger import get_logger
 from src.settings.parameter_manager import parms
 from .base import Base
-from ..settings.constants_manager import Source
+from src.settings.constants_manager import Source
 
 logger = get_logger(__name__)
 

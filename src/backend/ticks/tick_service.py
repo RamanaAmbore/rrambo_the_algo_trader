@@ -1,6 +1,6 @@
-from src.ticks.tick_model import TickModel
-from src.ticks.tick_queue_manager import TickQueueManager
-from src.core.singleton_base import SingletonBase
+from src.backend.ticks.tick_model import TickModel
+from src.backend.ticks.tick_queue_manager import TickQueueManager
+from src.helpers.singleton_base import SingletonBase
 
 
 class TickService(SingletonBase):
