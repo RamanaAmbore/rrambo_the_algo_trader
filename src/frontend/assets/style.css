@@ -328,7 +328,7 @@ footer img {
 
 /* Container that holds the scrolling text */
 .ticker-container {
-    display: inline-block;
+    display: inline-flex; /* <-- was inline-block, change to flex */
     white-space: nowrap;
     animation: scroll-ticker 30s linear infinite;
 }
@@ -339,6 +339,7 @@ footer img {
     padding: 0 20px;
     font-size: 0.85em;
     color: #f0f1f1;
+    text-shadow: 1px 1px 2px #000,    /* subtle dark shadow */
 }
 
 /* Smooth scrolling animation */

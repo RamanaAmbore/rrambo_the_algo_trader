@@ -1,5 +1,6 @@
 import threading
 import time
+from enum import Enum
 
 from kiteconnect import KiteTicker
 
@@ -12,6 +13,10 @@ from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
 
+class TickerState(Enum):
+    FIRST_RUN = 1
+    CONNECTED = 2
+    SUBSEQUENT_RUNS = 3
 
 class Ticker(SingletonBase, threading.Thread):
     _instance = None
@@ -20,8 +25,7 @@ class Ticker(SingletonBase, threading.Thread):
     MAX_RECONNECT_ATTEMPTS = int(parms.MAX_SOCKET_RECONNECT_ATTEMPTS)
     RECONNECT_BACKOFF = 5  # seconds
 
-    def __init__(self, kite_obj):
-        global  socket_conn
+    def __init__(self, kite_obj, track_instr_xref_exchange, schedule_time):
         with Ticker._lock:
             if Ticker._instance is not None:
                 logger.debug(f"{self.__class__.__name__} already initialized.")
@@ -33,54 +37,46 @@ class Ticker(SingletonBase, threading.Thread):
             self.socket_conn = None
             self.running = True
             self.tokens = set()
-            self.track_instr_xref_exchange = None
+            self.track_instr_xref_exchange = track_instr_xref_exchange
             self.schedule_time = None
             self.instruments = set()
             self.instr_xchange_xref = {}
             self.add_instruments = set()
             self.remove_instruments = set()
             self.reconnect_attempts = 0
-            self.first_time = True
+            self.ticker_state = TickerState.FIRST_RUN  # Using enum for state management
 
             Ticker._instance = self
+            self.update_schedule_time(schedule_time)
             logger.info("Ticker thread initialized.")
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def setup_socket_conn(self):
-        if self.instruments:
-            if self.socket_conn:
-                return
-
-            self.socket_conn = KiteTicker(self.kite.api_key, self.kite.get_access_token())
-            self.socket_conn.on_ticks = Ticker.on_ticks
-            self.socket_conn.on_connect = Ticker.on_connect
-            self.socket_conn.on_close = Ticker.on_close
-            self.socket_conn.on_error = Ticker.on_error
-            self.socket_conn.on_reconnect = Ticker.on_reconnect
-            self.socket_conn.connect(threaded=True)
-
-    def run(self):
-        if not (self.schedule_time and self.track_instr_xref_exchange):
-            logger.error("update_schedule_time and update_instruments must be called before starting Ticker.")
+        if self.socket_conn:
             return
 
+        self.socket_conn = KiteTicker(self.kite.api_key, self.kite.get_access_token())
+        self.socket_conn.on_ticks = Ticker.on_ticks
+        self.socket_conn.on_connect = Ticker.on_connect
+        self.socket_conn.on_close = Ticker.on_close
+        self.socket_conn.on_error = Ticker.on_error
+        self.socket_conn.on_reconnect = Ticker.on_reconnect
+        self.socket_conn.connect(threaded=True)
+
+    def run(self):
         logger.info("Ticker thread started.")
+
         while self.running:
             try:
-                if self.update_instruments():
+                if instruments := self.setup_instruments():
                     logger.debug("Market is open. Ensuring WebSocket is active.")
-                    self.setup_socket_conn()
-                    if self.first_time:
-                        self.first_time = None
-                        self.socket_conn.set_mode(self.socket_conn.MODE_FULL, self.instruments)
-                    if self.first_time is None:
-                        self.socket_conn.set_mode(self.socket_conn.MODE_LTP, self.instruments)
-                        self.first_time = False
-
-                else:
-                    logger.debug("Market is closed. WebSocket not required.")
-                    self.close_socket()
-                    return
+                    if self.ticker_state == TickerState.FIRST_RUN:
+                        Ticker.add_instruments(instruments)
+                        self.setup_socket_conn()
+                        self.ticker_state = TickerState.CONNECTED
+                    elif self.ticker_state == TickerState.CONNECTED:
+                        self.socket_conn.set_mode(self.socket_conn.MODE_QUOTE, list(self.instrument_tokens))
+                        self.ticker_state = TickerState.SUBSEQUENT_RUNS
 
                 time.sleep(parms.KITE_SOCKET_SLEEP)
 
@@ -94,28 +90,26 @@ class Ticker(SingletonBase, threading.Thread):
             self.socket_conn.close()
             self.socket_conn = None
 
-    def update_instruments(self, track_instr_xref_exchange=None):
-        if not (self.schedule_time and (self.track_instr_xref_exchange or track_instr_xref_exchange)):
-            logger.error("update_schedule_time and update_instruments must be called before executing update_instruments.")
-            return
-
-        if not self.track_instr_xref_exchange:
-            self.track_instr_xref_exchange = track_instr_xref_exchange
-
+    def setup_instruments(self):
         current_time = current_time_indian().strftime('%H:%M')
 
         instruments = set()
+        market_open = False
         for sch_rec in self.schedule_time:
-            if sch_rec['start_time'] <= current_time <= sch_rec['end_time']:
-                logger.info(f"Exchange {sch_rec['exchange']} is open" )
+            market_open = (sch_rec['start_time'] <= current_time <= sch_rec[
+                'end_time'])
+            if market_open or self.ticker_state == TickerState.FIRST_RUN:
+                logger.info(f"Exchange {sch_rec['exchange']} is open")
                 instruments.update(self.track_instr_xref_exchange[sch_rec['exchange']])
 
-        if not instruments and self.instruments:
-            Ticker.stop()
-            return  # ✅ Exit early
+        if market_open and not instruments:  # If no instruments are found, close the WebSocket
+            logger.debug("No instruments found. Closing WebSocket and resetting Ticker state.")
+            self.close_socket()
+            self.ticker_state = TickerState.FIRST_RUN  # Reset to FIRST_RUN to reconnect when market opens again
+            return set()
 
-
-        if self.first_time:
+        if self.ticker_state == TickerState.FIRST_RUN:
+            self.instruments = instruments
             return self.instruments
 
         if instruments == self.instruments:
@@ -154,10 +148,10 @@ class Ticker(SingletonBase, threading.Thread):
 
     @classmethod
     def on_ticks(cls, ws, ticks):
-        # logger.info(f"Received tick data: {ticks}")
+        # Use debug logging instead of print
+        logger.debug(f"Received tick data: {ticks}")
 
         TickService().process_ticks(ticks)
-
 
     @classmethod
     def on_close(cls, ws, code, reason):
@@ -194,7 +188,7 @@ class Ticker(SingletonBase, threading.Thread):
             cls.instrument_tokens.update(tokens)
             if cls._instance and cls._instance.socket_conn:
                 cls._instance.socket_conn.subscribe(list(tokens))
-                cls._instance.socket_conn.set_mode(cls._instance.socket_conn.MODE_FULL, list(tokens))
+                cls._instance.socket_conn.set_mode(cls._instance.socket_conn.MODE_QUOTE, list(tokens))
                 logger.info(f"Subscribed to new tokens: {tokens}")
 
     @classmethod
@@ -214,3 +208,4 @@ class Ticker(SingletonBase, threading.Thread):
                 cls._instance.close_socket()
                 cls._instance.join()
                 cls._instance = None
+
