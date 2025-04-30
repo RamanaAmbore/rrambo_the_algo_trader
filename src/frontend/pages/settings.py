@@ -1,4 +1,3 @@
-# pages/settings.py
 import dash
 from dash import html
 

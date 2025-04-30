@@ -139,14 +139,15 @@ def serve_layout():
 app.layout = serve_layout()
 
 # --- Ticker Update Logic ---
-current_ticker_text = deque(maxlen=10000)
+current_ticker_text = ""
 max_ticker_length = 10000
 char_width_in_pixels = 7
 TICKER_UPDATE_FREQUENCY = 50
 BASE_INTERVAL = 50
 SCROLL_SPEED_MULTIPLIER = 1
 VIEWPORT_WIDTH = 1000
-
+url = "http://127.0.0.1:5000/get_ticks"
+first_time = True
 
 @app.callback(
     Output('ticker-container', 'children'),
@@ -172,19 +173,28 @@ def update_ticker(n, current_interval, viewport_width):
 
     try:
         if n % TICKER_UPDATE_FREQUENCY == 0:
-            response = requests.get("http://127.0.0.1:5000/get_ticks")
+            response = requests.get(url)
             response.raise_for_status()
             tick_data = response.json()
+
             new_ticker_chunk = ' '.join(
                 [f"{symbol.split(':')[0]} {price} {change:.2f} | "
                  for symbol, (price, change) in tick_data.items()]
             )
-            for char in new_ticker_chunk:
-                current_ticker_text.append(char)  # Append to the right
+            if not current_ticker_text:
+                current_ticker_text = new_ticker_chunk
+                max_ticker_length = len(current_ticker_text) * 2
+            else:
+                new_text = current_ticker_text + new_ticker_chunk
 
-        # Calculate visible text length based on viewport width
-        visible_chars = int(VIEWPORT_WIDTH / char_width_in_pixels)
-        ticker_text = "".join(list(current_ticker_text)[:visible_chars])
+                if len(new_text) < max_ticker_length:
+                    current_ticker_text = new_text
+
+
+        # # Calculate visible text length based on viewport width
+        # visible_chars = int(VIEWPORT_WIDTH / char_width_in_pixels)
+        # ticker_text = "".join(list(current_ticker_text)[:visible_chars])
+        ticker_text = current_ticker_text
 
         return (
             html.Span(
@@ -194,31 +204,11 @@ def update_ticker(n, current_interval, viewport_width):
                     "display": "inline-block",
                     "animation-duration": f"{BASE_INTERVAL * len(ticker_text) * SCROLL_SPEED_MULTIPLIER}ms",
                 },
-                className="ticker-content"
+                className="scroll-ticker"
             ),
             BASE_INTERVAL
         )
 
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Error fetching ticker data: {e}")
-        return (
-            html.Span(
-                "Error loading ticker data.",
-                style={"white-space": "nowrap", "display": "inline-block"},
-                className="ticker-content"
-            ),
-            BASE_INTERVAL
-        )
-    except json.JSONDecodeError as e:
-        logging.error(f"Error decoding JSON response: {e}")
-        return (
-            html.Span(
-                "Error decoding data from server.",
-                style={"white-space": "nowrap", "display": "inline-block"},
-                className="ticker-content"
-            ),
-            BASE_INTERVAL
-        )
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
         return (
