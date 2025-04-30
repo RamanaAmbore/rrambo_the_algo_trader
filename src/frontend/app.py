@@ -143,7 +143,7 @@ current_ticker_text = ""
 max_ticker_length = 10000
 char_width_in_pixels = 7
 TICKER_UPDATE_FREQUENCY = 50
-BASE_INTERVAL = 50
+BASE_INTERVAL = 500
 SCROLL_SPEED_MULTIPLIER = 1
 VIEWPORT_WIDTH = 1000
 url = "http://127.0.0.1:5000/get_ticks"
@@ -202,7 +202,7 @@ def update_ticker(n, current_interval, viewport_width):
                 style={
                     "white-space": "nowrap",
                     "display": "inline-block",
-                    "animation-duration": f"{BASE_INTERVAL * len(ticker_text) * SCROLL_SPEED_MULTIPLIER}ms",
+                    "animation": f"scroll-ticker 500000ms linear infinite",
                 },
                 className="scroll-ticker"
             ),

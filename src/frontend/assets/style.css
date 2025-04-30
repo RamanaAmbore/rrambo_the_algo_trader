@@ -330,7 +330,7 @@ footer img {
 .ticker-container {
     display: inline-flex; /* <-- was inline-block, change to flex */
     white-space: nowrap;
-    animation: scroll-ticker 30s linear infinite;
+
 }
 
 /* Individual ticker items */
