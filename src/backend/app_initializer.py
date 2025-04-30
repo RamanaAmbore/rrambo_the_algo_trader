@@ -4,7 +4,7 @@ from src.backend.reports.report_downloader import ReportDownloader
 from src.backend.reports.report_uploader import ReportUploader
 from src.backend.ticks.ticker import Ticker
 from src.backend.zerodha.zerodha_kite_connect import ZerodhaKiteConnect
-from src.helpers.app_state_manager import app_state, Xref
+from src.helpers.app_state_manager import app_state, AppState
 from src.helpers.decorators import track_it, singleton_init_guard
 from src.helpers.logger import get_logger
 from src.helpers.singleton_base import SingletonBase
@@ -33,7 +33,7 @@ class AppInitializer(SingletonBase):
     def __init__(self):
         """Ensure __init__ is only called once."""
 
-        self.kite_obj = None
+        self.kite_wrapper = None
         self.kite_conn = None
         self.start_time = None
         self.end_time = None
@@ -127,7 +127,7 @@ class AppInitializer(SingletonBase):
         app_state.set_track_list(service_schedule_time.get_unique_exchanges())
 
         self.schedule_time = service_schedule_time.get_schedule_records()
-        market_ticker = Ticker(self.get_kite_obj(), app_state.get(Xref.TRACK_TOKEN_XREF_XCHANGE), self.schedule_time)
+        market_ticker = Ticker(self.get_kite_wrapper(), app_state.get(AppState.TRACK_TOKEN_XREF_XCHANGE), self.schedule_time)
         market_ticker.start()  # Add tokens
 
     @staticmethod
@@ -140,5 +140,5 @@ class AppInitializer(SingletonBase):
         return ZerodhaKiteConnect().get_kite_conn()
 
     @staticmethod
-    def get_kite_obj():
+    def get_kite_wrapper():
         return ZerodhaKiteConnect()

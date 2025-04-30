@@ -7,7 +7,7 @@ from flask import Flask, jsonify  # Import current_app for accessing app context
 from src.backend.app_initializer import AppInitializer
 # Assuming TickQueueManager might be populated by app_initializer
 from src.backend.ticks.tick_queue_manager import TickQueueManager
-from src.helpers.app_state_manager import app_state, Xref
+from src.helpers.app_state_manager import app_state, AppState
 from src.helpers.logger import get_logger
 from src.settings.constants_manager import load_env
 
@@ -39,7 +39,7 @@ def get_ticks():
 
         # Corrected line: Use tick.exchange_timestamp
 
-        instr_symbol_xref = app_state.get(key=Xref.TOKEN_SYMBOL_MAP)
+        instr_symbol_xref = app_state.get(key=AppState.TOKEN_SYMBOL_MAP)
         ticks_data = {instr_symbol_xref[tick.instrument_token]: (tick.last_price, tick.change)
                       for tick in ticks_map.values()}
 
@@ -80,7 +80,7 @@ async def backend_process():
     # If app_initializer.setup() returns the instance, get it from there.
     # For now, assuming we instantiate it here after setup.
     try:
-        xref = app_state.get(Xref.TRACK_TOKEN_SYMBOL_MAP)
+        xref = app_state.get(AppState.TRACK_TOKEN_SYMBOL_MAP)
         app.tick_manager_instance = TickQueueManager()
         logger.info("TickQueueManager instance successfully created and attached to app.")
     except Exception as e:
