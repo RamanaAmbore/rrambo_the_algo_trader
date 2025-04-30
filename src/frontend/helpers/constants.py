@@ -1,4 +1,4 @@
-# Define CDN links as a dictionary
+# --- Configuration ---
 CDN_LINKS = {
     "home": "https://cdn-icons-png.freepik.com/256/8784/8784978.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
     "market": "https://cdn-icons-png.freepik.com/256/2254/2254981.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid",
@@ -10,6 +10,5 @@ CDN_LINKS = {
     "logs": "https://cdn-icons-png.freepik.com/256/14872/14872554.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
     "settings": "https://cdn-icons-png.freepik.com/256/14668/14668098.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
     "signin": "https://cdn-icons-png.freepik.com/256/10908/10908421.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-    "signup": "https://cdn-icons-png.freepik.com/256/17026/17026380.png?ga=GA1.1.707069739.1745663557&semt=ais_hybrid",
     "signout": "https://cdn-icons-png.freepik.com/256/4476/4476505.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
 }

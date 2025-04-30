@@ -1,58 +1,15 @@
-import dash
-from dash import dcc, html
-import requests
-from dash.dependencies import Input, Output, State
-import logging
 import json
+import logging
+from collections import deque
 
-# --- Configuration ---
-CDN_LINKS = {
-    "home": "https://cdn-icons-png.freepik.com/256/8784/8784978.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-    "market": "https://cdn-icons-png.freepik.com/256/2254/2254981.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid",
-    "watchlist": "https://cdn-icons-png.freepik.com/256/15597/15597823.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid",
-    "holdings": "https://cdn-icons-png.freepik.com/256/17063/17063555.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid",
-    "positions": "https://cdn-icons-png.freepik.com/256/7169/7169336.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-    "orders": "https://cdn-icons-png.freepik.com/256/10319/10319450.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-    "trades": "https://cdn-icons-png.freepik.com/256/8155/8155692.png?ga=GA1.1.1753840782.1745663557&semt=ais_hybrid",
-    "logs": "https://cdn-icons-png.freepik.com/256/14872/14872554.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-    "settings": "https://cdn-icons-png.freepik.com/256/14668/14668098.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-    "signin": "https://cdn-icons-png.freepik.com/256/10908/10908421.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-    "signout": "https://cdn-icons-png.freepik.com/256/4476/4476505.png?ga=GA1.1.707069739.1745760056&semt=ais_hybrid",
-}
 
-index_string = '''
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>rambo-the-algo</title>
-        {%favicon%}
-        {%css%}
-    </head>
-    <body>
-        <div id="loader-wrapper">
-            <img src="/assets/loading.gif" alt="Loading...">
-            <div id="loader-text">Loading...</div>
-        </div>
-        {%app_entry%}
-        {%config%}
-        {%scripts%}
-        {%renderer%}
-        <script>
-            window.addEventListener('load', function () {
-                setTimeout(function () {
-                    const loader = document.getElementById('loader-wrapper');
-                    if (loader) loader.style.display = 'none';
-                }, 100);
-            });
-        </script>
-    </body>
-</html>
-'''
+import dash
+import requests
+from dash import dcc, html
+from dash.dependencies import Input, Output, State
 
-# --- Initialize Logging ---
-logging.basicConfig(level=logging.ERROR)
+from src.frontend.helpers.constants import CDN_LINKS
+from src.frontend.helpers.index_string import index_string
 
 # --- Initialize Dash App ---
 app = dash.Dash(
@@ -60,10 +17,11 @@ app = dash.Dash(
     use_pages=True,
     suppress_callback_exceptions=True,
     assets_folder='./assets',
-    title="rambo-the-algo",
+    title="RRambo-the-Algo",
 )
 app.index_string = index_string
 app._favicon = "favicon.ico"
+
 
 # --- Navigation Helpers ---
 def generate_nav_link(href, label, icon_key):
@@ -77,6 +35,7 @@ def generate_nav_link(href, label, icon_key):
         className="nav-link"
     )
 
+
 def generate_submenu(label, submenu_items):
     """Generates a submenu with a label and a list of items."""
     return html.Div(
@@ -89,12 +48,13 @@ def generate_submenu(label, submenu_items):
             html.Ul(
                 className="nav-submenu",
                 children=[
-                    html.Li(dcc.Link(item, href=f"/watchlist/{i+1}", className="nav-link"))
+                    html.Li(dcc.Link(item, href=f"/watchlist/{i + 1}", className="nav-link"))
                     for i, item in enumerate(submenu_items)
                 ]
             )
         ]
     )
+
 
 # --- Layout ---
 def serve_layout():
@@ -138,7 +98,7 @@ def serve_layout():
                         style={"white-space": "nowrap", "display": "inline-block"}
                     )
                 ],
-                className="ticker-container"
+                className="ticker-container left-to-right"  # Added class for left-to-right
             )
         ],
         className="ticker-scroller"
@@ -146,14 +106,17 @@ def serve_layout():
 
     ticker_interval = dcc.Interval(
         id='ticker-interval-component',
-        interval=20,  #  set a fixed interval.
+        interval=50,
         n_intervals=0
     )
+
+    # Use dcc.Store instead of html.Div for storing data
+    viewport_width_store = dcc.Store(id='viewport-width-store', storage_type='memory')
 
     footer = html.Footer(
         children=[
             html.Div(
-                style={"display": "flex", "align-items": "center", "gap": "8px"},
+                style={"display": "flex", "align-items": "left", "gap": "8px"},
                 children=[
                     html.Span("© 2025 Ramana Ambore, FRM, CFA Level 3 Candidate"),
                     html.Img(src="/assets/ramana.jpg", alt="Ramana Ambore")
@@ -167,32 +130,34 @@ def serve_layout():
         dash.page_container,
         ticker_scroller,
         ticker_interval,
+        viewport_width_store,
         footer,
     ])
 
+
 # Set the layout
-app.layout = serve_layout
+app.layout = serve_layout()
 
 # --- Ticker Update Logic ---
-current_ticker_text = ''
+current_ticker_text = deque(maxlen=10000)
 max_ticker_length = 10000
 char_width_in_pixels = 7
-# target_scroll_speed = 5 # Removed, using CSS for animation speed
 TICKER_UPDATE_FREQUENCY = 50
-BASE_INTERVAL = 5 # in ms,  Controls speed.  Smaller = faster.  Keep this constant
-SCROLL_SPEED_MULTIPLIER = 1  #  Can be changed via callback if needed
+BASE_INTERVAL = 50
+SCROLL_SPEED_MULTIPLIER = 1
+VIEWPORT_WIDTH = 1000
 
 
 @app.callback(
     Output('ticker-container', 'children'),
     Output('ticker-interval-component', 'interval'),
     Input('ticker-interval-component', 'n_intervals'),
-    State('ticker-interval-component', 'interval')
+    State('ticker-interval-component', 'interval'),
+    State('viewport-width-store', 'data')
 )
-def update_ticker(n, current_interval):
+def update_ticker(n, current_interval, viewport_width):
     """
-    Updates the ticker text.  The animation speed is now controlled by CSS,
-    and the interval is kept constant.
+    Updates the ticker text.
     """
     global current_ticker_text
     global max_ticker_length
@@ -200,6 +165,10 @@ def update_ticker(n, current_interval):
     global TICKER_UPDATE_FREQUENCY
     global BASE_INTERVAL
     global SCROLL_SPEED_MULTIPLIER
+    global VIEWPORT_WIDTH
+
+    if viewport_width is not None:
+        VIEWPORT_WIDTH = viewport_width
 
     try:
         if n % TICKER_UPDATE_FREQUENCY == 0:
@@ -210,18 +179,21 @@ def update_ticker(n, current_interval):
                 [f"{symbol.split(':')[0]} {price} {change:.2f} | "
                  for symbol, (price, change) in tick_data.items()]
             )
-            current_ticker_text += new_ticker_chunk
-            print("new_ticker_chunk:", new_ticker_chunk) # added console log
+            for char in new_ticker_chunk:
+                current_ticker_text.append(char)  # Append to the right
 
-        if len(current_ticker_text) > max_ticker_length:
-            current_ticker_text = current_ticker_text[-max_ticker_length:]
-            print("current_ticker_text:", current_ticker_text) # added console log
+        # Calculate visible text length based on viewport width
+        visible_chars = int(VIEWPORT_WIDTH / char_width_in_pixels)
+        ticker_text = "".join(list(current_ticker_text)[:visible_chars])
 
-        # Important:  Return a constant interval.  The scrolling speed is controlled by CSS.
         return (
             html.Span(
-                current_ticker_text,
-                style={"white-space": "nowrap", "display": "inline-block", "animation-duration": f"{BASE_INTERVAL * len(current_ticker_text) * SCROLL_SPEED_MULTIPLIER}ms"}, #Set CSS here
+                ticker_text,
+                style={
+                    "white-space": "nowrap",
+                    "display": "inline-block",
+                    "animation-duration": f"{BASE_INTERVAL * len(ticker_text) * SCROLL_SPEED_MULTIPLIER}ms",
+                },
                 className="ticker-content"
             ),
             BASE_INTERVAL
@@ -257,6 +229,18 @@ def update_ticker(n, current_interval):
             ),
             BASE_INTERVAL
         )
+
+
+# --- Client-side callback to get viewport width ---
+app.clientside_callback(
+    """
+    function(n_intervals) {
+        return window.innerWidth;
+    }
+    """,
+    Output('viewport-width-store', 'data'),
+    Input('ticker-interval-component', 'n_intervals')
+)
 
 if __name__ == '__main__':
     app.run_server(debug=True)

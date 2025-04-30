@@ -118,7 +118,7 @@ class AppInitializer(SingletonBase):
     @track_it()
     async def update_app_state(self):
 
-        app_state.set_instruments(await service_instrument_list.get_record_map(key_attr='symbol_exchange'))
+        app_state.set_tokens(await service_instrument_list.get_record_map(key_attr='symbol_exchange'))
 
         app_state.set_positions(await service_positions.get_record_map())
         app_state.set_holdings(await service_holdings.get_record_map())
@@ -127,7 +127,8 @@ class AppInitializer(SingletonBase):
         app_state.set_track_list(service_schedule_time.get_unique_exchanges())
 
         self.schedule_time = service_schedule_time.get_schedule_records()
-        market_ticker = Ticker(self.get_kite_wrapper(), app_state.get(AppState.TRACK_TOKEN_XREF_XCHANGE), self.schedule_time)
+        market_ticker = Ticker(self.get_kite_wrapper(), app_state.get(AppState.TRACK_TOKEN_XREF_XCHANGE),
+                               self.schedule_time)
         market_ticker.start()  # Add tokens
 
     @staticmethod

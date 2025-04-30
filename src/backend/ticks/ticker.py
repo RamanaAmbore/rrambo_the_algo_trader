@@ -27,7 +27,7 @@ class Ticker(SingletonBase, threading.Thread):
     MAX_RECONNECT_ATTEMPTS = int(parms.MAX_SOCKET_RECONNECT_ATTEMPTS)
     RECONNECT_BACKOFF = 5  # seconds
 
-    def __init__(self, kite_obj, track_token_map_xchange, schedule_time):
+    def __init__(self, kite_obj, track_token_xchange_map, schedule_time):
         with Ticker._lock:
             if Ticker._instance is not None:
                 logger.debug(f"{self.__class__.__name__} already initialized.")
@@ -39,12 +39,11 @@ class Ticker(SingletonBase, threading.Thread):
             self.kws = None
             self.running = True
             self.tokens = set()
-            self.track_token_map_xchange = track_token_map_xchange
+            self.track_token_xchange_map = track_token_xchange_map
             self.schedule_time = None
-            self.instruments = set()
-            self.instr_xchange_xref = {}
-            self.add_instruments = set()
-            self.remove_instruments = set()
+            self.token_xchange_xref = {}
+            self.add_tokens = set()
+            self.remove_tokens = set()
             self.reconnect_attempts = 0
             self.ticker_state = TickerState.FIRST_RUN  # Using enum for state management
 
@@ -70,7 +69,7 @@ class Ticker(SingletonBase, threading.Thread):
 
         while self.running:
             try:
-                if instruments := self.setup_instruments():
+                if instruments := self.setup_tokens():
                     logger.debug("Market is open. Ensuring WebSocket is active.")
                     if self.ticker_state == TickerState.FIRST_RUN:
                         Ticker.add_instruments(instruments)
@@ -92,41 +91,41 @@ class Ticker(SingletonBase, threading.Thread):
             self.kws.close()
             self.kws = None
 
-    def setup_instruments(self):
+    def setup_tokens(self):
         current_time = current_time_indian().strftime('%H:%M')
 
-        instruments = set()
+        tokens = set()
         market_open = False
         for sch_rec in self.schedule_time:
             market_open = (sch_rec['start_time'] <= current_time <= sch_rec[
                 'end_time'])
             if market_open or self.ticker_state == TickerState.FIRST_RUN:
                 logger.info(f"Exchange {sch_rec['exchange']} is open")
-                instruments.update(self.track_token_map_xchange[sch_rec['exchange']])
+                tokens.update(self.track_token_xchange_map[sch_rec['exchange']])
 
-        if market_open and not instruments:  # If no instruments are found, close the WebSocket
-            logger.debug("No instruments found. Closing WebSocket and resetting Ticker state.")
+        if market_open and not tokens:  # If no tokens are found, close the WebSocket
+            logger.debug("No tokens found. Closing WebSocket and resetting Ticker state.")
             self.close_socket()
             self.ticker_state = TickerState.FIRST_RUN  # Reset to FIRST_RUN to reconnect when market opens again
             return set()
 
         if self.ticker_state == TickerState.FIRST_RUN:
-            self.instruments = instruments
-            return self.instruments
+            self.tokens = tokens
+            return self.tokens
 
-        if instruments == self.instruments:
-            return self.instruments
+        if tokens == self.tokens:
+            return self.tokens
 
-        self.remove_instruments = self.instruments.difference(instruments)
-        self.add_instruments = instruments.difference(self.instruments)
+        self.remove_tokens = self.tokens.difference(tokens)
+        self.add_tokens = tokens.difference(self.tokens)
 
-        if self.remove_instruments:
-            Ticker.remove_instruments(self.remove_instruments)
-        if self.add_instruments:
-            Ticker.add_instruments(self.add_instruments)
+        if self.remove_tokens:
+            Ticker.remove_instruments(self.remove_tokens)
+        if self.add_tokens:
+            Ticker.add_instruments(self.add_tokens)
 
-        self.instruments = instruments
-        return self.instruments
+        self.tokens = tokens
+        return self.tokens
 
     def update_schedule_time(self, schedule_time):
         self.schedule_time = [val for val in schedule_time if val['schedule'] == "MARKET"]

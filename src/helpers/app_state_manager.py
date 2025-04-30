@@ -83,7 +83,7 @@ class AppStateManager(SingletonBase):
             if key in self.track_state:
                 self.track_state[key].pop(sub_key, None)
 
-    def set_instruments(self, value=None, sub_key=None):
+    def set_tokens(self, value=None, sub_key=None):
         self.set(AppState.SYMBOL_TOKEN_MAP, value, sub_key)
         self.set(AppState.TOKEN_SYMBOL_MAP, reverse_dict(value, reverse_key='instrument_token', use_type=None), sub_key)
 
