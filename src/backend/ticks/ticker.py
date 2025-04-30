@@ -13,10 +13,12 @@ from src.settings.parameter_manager import parms
 
 logger = get_logger(__name__)
 
+
 class TickerState(Enum):
     FIRST_RUN = 1
     CONNECTED = 2
     SUBSEQUENT_RUNS = 3
+
 
 class Ticker(SingletonBase, threading.Thread):
     _instance = None
@@ -208,4 +210,3 @@ class Ticker(SingletonBase, threading.Thread):
                 cls._instance.close_socket()
                 cls._instance.join()
                 cls._instance = None
-

@@ -5,11 +5,11 @@ import threading
 from flask import Flask, jsonify  # Import current_app for accessing app context
 
 from src.backend.app_initializer import AppInitializer
+# Assuming TickQueueManager might be populated by app_initializer
+from src.backend.ticks.tick_queue_manager import TickQueueManager
 from src.helpers.app_state_manager import app_state, Xref
 from src.helpers.logger import get_logger
 from src.settings.constants_manager import load_env
-# Assuming TickQueueManager might be populated by app_initializer
-from src.backend.ticks.tick_queue_manager import TickQueueManager
 
 load_env()
 
