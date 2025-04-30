@@ -323,36 +323,76 @@ footer img {
     font-size: 0.8em;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #d3d3d3;
-    text-align: left; /* <-- changed from center to left */
+    text-align: left;
 }
 
 /* Container that holds the scrolling text */
 .ticker-container {
-    display: inline-flex; /* <-- was inline-block, change to flex */
+    display: inline-flex;
     white-space: nowrap;
-
+    animation: scroll-ticker linear infinite;
+    animation-duration: var(--scroll-duration, 30s); /* Default scroll speed */
+    animation-play-state: running;
 }
 
-/* Individual ticker items */
-.ticker-container span {
-    display: inline-block;
+/* Pause animation on hover */
+.ticker-scroller:hover .ticker-container {
+    animation-play-state: paused;
+}
+
+/* General style for each stock item */
+.ticker-item {
+    display: inline-flex;
+    align-items: center;
     padding: 0 20px;
     font-size: 0.85em;
     color: #f0f1f1;
-    text-shadow: 1px 1px 2px #000,    /* subtle dark shadow */
+    text-shadow: 1px 1px 2px #000;
 }
 
-/* Smooth scrolling animation */
+/* Specific parts inside each ticker item */
+.ticker-symbol {
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.ticker-price {
+    color: #e0e0e0;
+    margin-right: 6px;
+}
+
+.ticker-change {
+    font-style: italic;
+}
+
+/* Special style for the last stock item */
+.last-ticker-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 0.85em;
+    color: #ffd700; /* slightly golden */
+    text-shadow: 1px 1px 2px #000;
+}
+
+.last-ticker-item .ticker-symbol {
+    font-weight: bold;
+}
+
+.last-ticker-item .ticker-price {
+    color: #fffacd; /* light golden */
+}
+
+.last-ticker-item .ticker-change {
+    font-style: italic;
+}
+
+/* --- KEYFRAMES --- */
 @keyframes scroll-ticker {
     0% {
-        transform: translateX(0%);
+        transform: translateX(2%);
     }
     100% {
         transform: translateX(-100%);
     }
-}
-
-/* Pause animation on hover (optional) */
-.ticker-scroller:hover .ticker-container {
-    animation-play-state: paused;
 }
