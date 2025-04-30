@@ -127,7 +127,7 @@ class AppInitializer(SingletonBase):
         app_state.set_track_list(service_schedule_time.get_unique_exchanges())
 
         self.schedule_time = service_schedule_time.get_schedule_records()
-        market_ticker = Ticker(self.get_kite_obj(), app_state.get(Xref.TRACK_INSTR_XREF_XCHANGE), self.schedule_time)
+        market_ticker = Ticker(self.get_kite_obj(), app_state.get(Xref.TRACK_TOKEN_XREF_XCHANGE), self.schedule_time)
         market_ticker.start()  # Add tokens
 
     @staticmethod

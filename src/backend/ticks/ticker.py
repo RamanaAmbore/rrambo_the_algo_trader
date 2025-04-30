@@ -27,7 +27,7 @@ class Ticker(SingletonBase, threading.Thread):
     MAX_RECONNECT_ATTEMPTS = int(parms.MAX_SOCKET_RECONNECT_ATTEMPTS)
     RECONNECT_BACKOFF = 5  # seconds
 
-    def __init__(self, kite_obj, track_instr_xref_exchange, schedule_time):
+    def __init__(self, kite_obj, track_token_map_xchange, schedule_time):
         with Ticker._lock:
             if Ticker._instance is not None:
                 logger.debug(f"{self.__class__.__name__} already initialized.")
@@ -35,11 +35,11 @@ class Ticker(SingletonBase, threading.Thread):
 
             threading.Thread.__init__(self, daemon=True)
 
-            self.kite = kite_obj
-            self.socket_conn = None
+            self.kite_wrapper = kite_obj
+            self.kws = None
             self.running = True
             self.tokens = set()
-            self.track_instr_xref_exchange = track_instr_xref_exchange
+            self.track_token_map_xchange = track_token_map_xchange
             self.schedule_time = None
             self.instruments = set()
             self.instr_xchange_xref = {}
@@ -54,16 +54,16 @@ class Ticker(SingletonBase, threading.Thread):
 
     @retry_kite_conn(parms.MAX_KITE_CONN_RETRY_COUNT)
     def setup_socket_conn(self):
-        if self.socket_conn:
+        if self.kws:
             return
 
-        self.socket_conn = KiteTicker(self.kite.api_key, self.kite.get_access_token())
-        self.socket_conn.on_ticks = Ticker.on_ticks
-        self.socket_conn.on_connect = Ticker.on_connect
-        self.socket_conn.on_close = Ticker.on_close
-        self.socket_conn.on_error = Ticker.on_error
-        self.socket_conn.on_reconnect = Ticker.on_reconnect
-        self.socket_conn.connect(threaded=True)
+        self.kws = KiteTicker(self.kite_wrapper.api_key, self.kite_wrapper.get_access_token())
+        self.kws.on_ticks = Ticker.on_ticks
+        self.kws.on_connect = Ticker.on_connect
+        self.kws.on_close = Ticker.on_close
+        self.kws.on_error = Ticker.on_error
+        self.kws.on_reconnect = Ticker.on_reconnect
+        self.kws.connect(threaded=True)
 
     def run(self):
         logger.info("Ticker thread started.")
@@ -77,7 +77,7 @@ class Ticker(SingletonBase, threading.Thread):
                         self.setup_socket_conn()
                         self.ticker_state = TickerState.CONNECTED
                     elif self.ticker_state == TickerState.CONNECTED:
-                        self.socket_conn.set_mode(self.socket_conn.MODE_QUOTE, list(self.instrument_tokens))
+                        self.kws.set_mode(self.kws.MODE_QUOTE, list(self.instrument_tokens))
                         self.ticker_state = TickerState.SUBSEQUENT_RUNS
 
                 time.sleep(parms.KITE_SOCKET_SLEEP)
@@ -87,10 +87,10 @@ class Ticker(SingletonBase, threading.Thread):
                 raise
 
     def close_socket(self):
-        if self.socket_conn:
+        if self.kws:
             logger.info("Closing WebSocket connection...")
-            self.socket_conn.close()
-            self.socket_conn = None
+            self.kws.close()
+            self.kws = None
 
     def setup_instruments(self):
         current_time = current_time_indian().strftime('%H:%M')
@@ -102,7 +102,7 @@ class Ticker(SingletonBase, threading.Thread):
                 'end_time'])
             if market_open or self.ticker_state == TickerState.FIRST_RUN:
                 logger.info(f"Exchange {sch_rec['exchange']} is open")
-                instruments.update(self.track_instr_xref_exchange[sch_rec['exchange']])
+                instruments.update(self.track_token_map_xchange[sch_rec['exchange']])
 
         if market_open and not instruments:  # If no instruments are found, close the WebSocket
             logger.debug("No instruments found. Closing WebSocket and resetting Ticker state.")
@@ -188,17 +188,17 @@ class Ticker(SingletonBase, threading.Thread):
     def add_instruments(cls, tokens):
         with cls._lock:
             cls.instrument_tokens.update(tokens)
-            if cls._instance and cls._instance.socket_conn:
-                cls._instance.socket_conn.subscribe(list(tokens))
-                cls._instance.socket_conn.set_mode(cls._instance.socket_conn.MODE_QUOTE, list(tokens))
+            if cls._instance and cls._instance.kws:
+                cls._instance.kws.subscribe(list(tokens))
+                cls._instance.kws.set_mode(cls._instance.kws.MODE_QUOTE, list(tokens))
                 logger.info(f"Subscribed to new tokens: {tokens}")
 
     @classmethod
     def remove_instruments(cls, tokens):
         with cls._lock:
             cls.instrument_tokens.difference_update(tokens)
-            if cls._instance and cls._instance.socket_conn:
-                cls._instance.socket_conn.unsubscribe(list(tokens))
+            if cls._instance and cls._instance.kws:
+                cls._instance.kws.unsubscribe(list(tokens))
                 logger.info(f"Unsubscribed from tokens: {tokens}")
 
     @classmethod
