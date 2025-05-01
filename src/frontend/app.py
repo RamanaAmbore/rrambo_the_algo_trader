@@ -115,7 +115,7 @@ def serve_layout():
     footer = html.Footer(
         children=[
             html.Div(
-                style={"display": "flex", "align-items": "left", "gap": "8px"},
+
                 children=[
                     html.Span("© 2025 Ramana Ambore, FRM, CFA Level 3 Candidate"),
                     html.Img(src="/assets/ramana.jpg", alt="Ramana Ambore")
@@ -146,7 +146,7 @@ max_ticker_length = 0
 
 url = "http://127.0.0.1:5000/get_ticks"
 
-
+scroll_refresh =True
 @app.callback(
     Output('ticker-container', 'children'),
     Input('ticker-interval-component', 'n_intervals'),
@@ -161,6 +161,7 @@ def update_ticker(n):
     global BASE_INTERVAL
     global SCROLL_SPEED_MULTIPLIER
     global max_ticker_length
+    global scroll_refresh
 
     try:
         if n % TICKER_UPDATE_FREQUENCY == 0:
@@ -168,18 +169,29 @@ def update_ticker(n):
             response.raise_for_status()
             tick_data = response.json()
 
-            new_ticker_chunk = ' '.join(
-                [f"{symbol.split(':')[0]} {price} {change:.2f} | "
-                 for symbol, (price, change) in tick_data.items()]
-            )
-            if not current_ticker_text:
-                current_ticker_text = new_ticker_chunk
-                max_ticker_length = len(current_ticker_text) * 2
-            else:
-                new_text = current_ticker_text + new_ticker_chunk
+            ticker_items = []
+            for idx, (symbol, (price, change)) in enumerate(tick_data.items()):
+                is_last = (idx == len(tick_data) - 1)
+                # Python (Dash HTML) update
+                change_color_class = (
+                    "ticker-change-zero" if change == 0 else
+                    "ticker-change-negative" if change < 0 else
+                    "ticker-last-change" if is_last else
+                    "ticker-change"
+                )
 
-                if len(new_text) < max_ticker_length:
-                    current_ticker_text = new_text
+                item = html.Span([
+                    html.Span(symbol.split(':')[0], className="ticker-symbol"),
+                    html.Span(f"{price}", className="ticker-price"),
+                    html.Span(f"{change:+.2f}", className=change_color_class),
+                ], className="ticker-item")
+
+                ticker_items.append(item)
+
+            new_ticker_chunk = ticker_items
+            if scroll_refresh:
+                current_ticker_text = new_ticker_chunk
+                scroll_refresh = False
 
         ticker_text = current_ticker_text
 
@@ -201,7 +213,7 @@ def update_ticker(n):
             html.Span(
                 "An unexpected error occurred.",
                 style={"white-space": "nowrap", "display": "inline-block"},
-                className="ticker-content"
+                className="scroll-ticker"
             )
         )
 

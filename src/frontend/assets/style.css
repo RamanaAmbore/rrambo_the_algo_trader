@@ -208,6 +208,7 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
+    height: 20px;
     background-color: #f1f7fb;
     padding: 6px 16px;
     text-align: center;
@@ -221,6 +222,12 @@ footer {
     z-index: 1000;
     border-top: 1px solid #d3d3d3;
 }
+
+    footer span {
+    align-items: center;
+    height: 100%
+
+    }
 
 footer img {
     width: 30px;
@@ -311,7 +318,7 @@ footer img {
 /* --- Ticker Scroller Styles --- */
 .ticker-scroller {
     position: fixed;
-    bottom: 40px;
+    bottom: 28px;
     left: 0;
     width: 100%;
     background: linear-gradient(to right, #308ac7, #308ac7);
@@ -320,7 +327,7 @@ footer img {
     overflow: hidden;
     white-space: nowrap;
     padding: 10px 0;
-    font-size: 0.8em;
+    font-size: 0.75em;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #d3d3d3;
     text-align: left; /* <-- changed from center to left */
@@ -330,6 +337,7 @@ footer img {
 .ticker-container {
     display: inline-flex; /* <-- was inline-block, change to flex */
     white-space: nowrap;
+    align-items: center;  /* Vertically centers the text */
 
 }
 
@@ -338,14 +346,7 @@ footer img {
     animation-play-state: paused;
 }
 
-/* Individual ticker items */
-.ticker-container span {
-    display: inline-block;
-    padding: 0 20px;
-    font-size: 0.85em;
-    color: #f0f1f1;
-    text-shadow: 1px 1px 2px #000,    /* subtle dark shadow */
-}
+
 
 /* Smooth scrolling animation */
 @keyframes scroll-ticker {
@@ -359,26 +360,48 @@ footer img {
 .ticker-item {
     display: inline-flex;
     align-items: center;
-    margin-right: 20px; /* spacing between each stock info */
+    margin-right: 8px; /* spacing between each stock info */
 }
 
 .ticker-symbol {
-    font-weight: bold;
-    color: #1a73e8; /* blue color */
-    margin-right: 5px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
 }
 
 .ticker-price {
-    color: #333; /* dark text */
-    margin-right: 5px;
+    color: #ffd700;
+    text-shadow: 1px 1px 2px #000;
 }
 
+
+
+
+
+/* Neutral (zero change) — uses light gray */
+.ticker-change-zero {
+    color: #cccccc; /* Gray, matches vertical bar */
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Negative change — strong red for contrast on blue background */
+.ticker-change-negative {
+    color: #ff4d4d; /* Bright red #d65c64*/
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Existing (positive) classes remain unchanged */
 .ticker-change {
-    color: green; /* or red depending on positivity later if needed */
-    margin-right: 5px;
+    color: #00ff00;
+    text-shadow: 1px 1px 2px #000;
 }
 
-.ticker-separator, .ticker-separator-last {
-    color: #ccc; /* light gray */
+.ticker-last-change {
+    color: #00ff00;
+    text-shadow: 1px 1px 2px #000;
 }
 
+.ticker-symbol,
+.ticker-price,
+.ticker-change, .ticker-last-change, .ticker-change-negative, .ticker-change-positive  {
+    margin-right: 3px;
+}
