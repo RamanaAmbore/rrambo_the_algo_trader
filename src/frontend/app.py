@@ -1,11 +1,9 @@
-import json
 import logging
-from collections import deque
 
 import dash
 import requests
 from dash import dcc, html
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 
 from src.frontend.helpers.constants import CDN_LINKS
 from src.frontend.helpers.index_string import index_string
@@ -16,7 +14,8 @@ app = dash.Dash(
     use_pages=True,
     suppress_callback_exceptions=True,
     assets_folder='./assets',
-    title="RRambo-the-Algo",
+    title="Rambo-the-Algo",
+    update_title='Rambo-the-algo',
 )
 app.index_string = index_string
 app._favicon = "favicon.ico"
@@ -146,7 +145,9 @@ max_ticker_length = 0
 
 url = "http://127.0.0.1:5000/get_ticks"
 
-scroll_refresh =True
+scroll_refresh = True
+
+
 @app.callback(
     Output('ticker-container', 'children'),
     Input('ticker-interval-component', 'n_intervals'),

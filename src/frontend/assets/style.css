@@ -173,7 +173,7 @@ body {
 }
 
 .home-background {
-    background-image: url("/assets/background_no_man.png");
+    background-image: url("/assets/background.png");
     background-size: 100% 100%;  /* Stretches the image in both directions */
     background-repeat: no-repeat;
     background-position: center;
@@ -234,7 +234,11 @@ footer {
     z-index: 1000;
     border-top: 1px solid #d3d3d3;
 }
-
+footer div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
     footer span {
     align-items: center;
     height: 100%
@@ -468,3 +472,83 @@ font-family: 'Roboto', monospace;
           z-index: -1;
 }
 
+.form-container {
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 30px;
+    border-radius: 16px;
+    backdrop-filter: blur(6px);
+    animation: fadeIn 2s ease-out;
+    margin: 8% auto;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.form-container:hover,
+.form-container:focus-within {
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+.form-title {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.form-input::placeholder {
+    color: #bbb;
+}
+
+.form-button {
+    width: auto;
+    padding: 8px 24px;
+    background-color: #308ac7;
+    color: #fff;
+    border: 2px solid #308ac7;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    margin-top: 5px;
+}
+
+.form-button:hover {
+    background-color: #246d9c;
+    border-color: #246d9c;
+}
+
+.form-footer {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #eee;
+}
+
+/* Link styling for the footer */
+.form-footer-link {
+    color: #308ac7;
+    text-decoration: none;
+}
+
+.form-footer-link:hover {
+    text-decoration: underline;
+}

@@ -9,7 +9,7 @@ import time
 ZERODHA_USERNAME = "your_username"
 ZERODHA_PASSWORD = "your_password"
 ZERODHA_PIN = "your_pin"
-APP_NAME = "RRambo"  # Name of the app
+APP_NAME = "Rambo"  # Name of the app
 
 # URLs
 LOGIN_URL = "https://console.zerodha.com/login/"
@@ -40,7 +40,7 @@ try:
     wait.until(EC.url_contains("console.zerodha.com/dashboard"))
     driver.get(API_URL)
 
-    # Step 5: Click on "RRambo" App
+    # Step 5: Click on "Rambo" App
     wait.until(EC.presence_of_element_located((By.LINK_TEXT, APP_NAME)))
     driver.find_element(By.LINK_TEXT, APP_NAME).click()
 

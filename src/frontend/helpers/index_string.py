@@ -5,7 +5,7 @@ index_string = '''
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>RRambo-the-Algo</title>
+        <title>Rambo-the-Algo</title>
         {%favicon%}
         {%css%}
     </head>
