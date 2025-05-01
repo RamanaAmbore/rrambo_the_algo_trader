@@ -10,10 +10,6 @@ index_string = '''
         {%css%}
     </head>
     <body>
-        <div id="loader-wrapper">
-            <img src="/assets/loading.gif" alt="Loading...">
-            <div id="loader-text">Loading...</div>
-        </div>
 
         {%app_entry%}
 
