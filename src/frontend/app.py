@@ -179,11 +179,14 @@ def update_ticker(n):
                     "ticker-last-change" if is_last else
                     "ticker-change"
                 )
-
+                formatted_change = (
+                    "+0.0" if round(change, 2) == 0
+                    else f"{change:+.2f}".rstrip("0").rstrip(".")
+                )
                 item = html.Span([
                     html.Span(symbol.split(':')[0], className="ticker-symbol"),
                     html.Span(f"{price}", className="ticker-price"),
-                    html.Span(f"{change:+.2f}", className=change_color_class),
+                    html.Span(formatted_change, className=change_color_class),
                 ], className="ticker-item")
 
                 ticker_items.append(item)
