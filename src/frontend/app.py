@@ -1,4 +1,7 @@
+import json
 import logging
+from collections import deque
+
 
 import dash
 import requests
@@ -103,7 +106,7 @@ def serve_layout():
 
     ticker_interval = dcc.Interval(
         id='ticker-interval-component',
-        interval=60,
+        interval=50,
         n_intervals=0
     )
 
@@ -123,7 +126,6 @@ def serve_layout():
     )
 
     return html.Div([
-        html.Title('RRambo-the-Algo'),
         header,
         dash.page_container,
         ticker_scroller,
@@ -133,160 +135,72 @@ def serve_layout():
     ])
 
 
-@app.callback(
-    Output('ticker-interval-component', 'n_intervals'),
-    Input('ticker-interval-component', 'n_intervals')
-)
-def update_interval(n):
-    # Set your threshold here
-    if n >= 10000:
-        n = 0  # Reset to 0
-    return n
-
-
 # Set the layout
 app.layout = serve_layout()
 
 # --- Ticker Update Logic ---
 current_ticker_text = ""
-max_ticker_length = 0
-char_width_in_pixels = 7
-TICKER_UPDATE_FREQUENCY = 360
-SCROLL_SPEED_BASE_INTERVAL = 60
+TICKER_UPDATE_FREQUENCY = 50
+BASE_INTERVAL = 500
 SCROLL_SPEED_MULTIPLIER = 1
-VIEWPORT_WIDTH = 1000
+max_ticker_length=0
+
 url = "http://127.0.0.1:5000/get_ticks"
-first_time = True
-wasted_count = 0
 
 
 @app.callback(
     Output('ticker-container', 'children'),
     Input('ticker-interval-component', 'n_intervals'),
     State('ticker-interval-component', 'interval'),
+    State('viewport-width-store', 'data')
 )
-def update_ticker(n, current_interval):
+def update_ticker(n, current_interval, viewport_width):
     """
-    Updates the ticker text with structured HTML for each stock.
-    Initial fetch always happens, then next happens when last item fully scrolls.
+    Updates the ticker text.
     """
     global current_ticker_text
-    global SCROLL_SPEED_BASE_INTERVAL
+    global TICKER_UPDATE_FREQUENCY
+    global BASE_INTERVAL
     global SCROLL_SPEED_MULTIPLIER
-    global need_refresh
+    global max_ticker_length
 
     try:
-        ticker_elements = []
-
-        # Always fetch new data when required
-        if current_ticker_text is None or need_refresh:
+        if n % TICKER_UPDATE_FREQUENCY == 0:
             response = requests.get(url)
             response.raise_for_status()
             tick_data = response.json()
-            tick_items = list(tick_data.items())
 
-            for idx, (symbol, (price, change)) in enumerate(tick_items):
-                is_last = idx == len(tick_items) - 1
+            new_ticker_chunk = ' '.join(
+                [f"{symbol.split(':')[0]} {price} {change:.2f} | "
+                 for symbol, (price, change) in tick_data.items()]
+            )
+            if not current_ticker_text:
+                current_ticker_text = new_ticker_chunk
+                max_ticker_length = len(current_ticker_text) * 2
+            else:
+                new_text = current_ticker_text + new_ticker_chunk
 
-                stock_span = html.Span(
-                    symbol.split(":")[0],
-                    className="ticker-symbol"
-                )
+                if len(new_text) < max_ticker_length:
+                    current_ticker_text = new_text
 
-                price_span = html.Span(
-                    f"{price}",
-                    className="ticker-price"
-                )
 
-                change_span = html.Span(
-                    f"{change:.2f}%",
-                    className="ticker-change"
-                )
+        # # Calculate visible text length based on viewport width
+        # visible_chars = int(VIEWPORT_WIDTH / char_width_in_pixels)
+        # ticker_text = "".join(list(current_ticker_text)[:visible_chars])
+        ticker_text = current_ticker_text
 
-                separator_span = html.Span(
-                    " | ",
-                    className="ticker-separator"
-                )
-
-                group_span = html.Span(
-                    [stock_span, " ", price_span, " ", change_span, separator_span],
-                    className="ticker-item",
-                    id="last-ticker-item" if is_last else None
-                )
-
-                ticker_elements.append(group_span)
-
-            current_ticker_text = ticker_elements
-            need_refresh = False
-
-        animation_duration = SCROLL_SPEED_BASE_INTERVAL * len(current_ticker_text) * SCROLL_SPEED_MULTIPLIER
-
-        # Return updated ticker with JavaScript embedded to control the scroll and refresh
-        return html.Div([
+        return (
             html.Span(
-                current_ticker_text,
+                ticker_text,
                 style={
                     "white-space": "nowrap",
                     "display": "inline-block",
-                    "animation": f"scroll-ticker {SCROLL_SPEED_BASE_INTERVAL * len(current_ticker_text) * SCROLL_SPEED_MULTIPLIER}ms linear infinite",
+                    "animation": f"scroll-ticker 500000ms linear infinite",
                 },
-                className="ticker-container"
+                className="scroll-ticker"
             ),
-            html.Script("""
-                  // JavaScript to control ticker scroll and refresh when last item is visible
-                  let need_refresh = false;
-
-                  function animateTicker() {
-                      const tickerContainer = document.querySelector('.ticker-container');
-                      const lastTickerItem = document.querySelector('.last-ticker-item');
-
-                      let start = null;
-
-                      function step(timestamp) {
-                          if (!start) start = timestamp;
-                          const elapsed = timestamp - start;
-
-                          // Scroll left based on elapsed time
-                          tickerContainer.style.transform = `translateX(${-elapsed * 0.05}px)`; // Adjust 0.05 for speed
-
-                          // Check if the last item is leaving the viewport
-                          if (lastTickerItem) {
-                              const rect = lastTickerItem.getBoundingClientRect();
-                              if (rect.right < window.innerWidth) {
-                                  need_refresh = true;  // Mark that we need to refresh the data
-                              }
-                          }
-
-                          // If refresh is needed, fetch new data and reset animation
-                          if (need_refresh) {
-                              fetchTickerData();  // Fetch new ticker data
-                              need_refresh = false;  // Reset the refresh flag
-                              start = null;  // Reset animation start time
-                          } else {
-                              requestAnimationFrame(step);  // Continue the animation
-                          }
-                      }
-
-                      requestAnimationFrame(step);
-                  }
-
-                  // Function to fetch ticker data via an API
-                  async function fetchTickerData() {
-                      try {
-                          const response = await fetch('""" + url + """');  // Replace with your API endpoint
-                          const data = await response.json();
-
-                          // Update the ticker with new data
-                          updateTicker(data);  // You can call your update function here
-                      } catch (error) {
-                          console.error("Error fetching ticker data:", error);
-                      }
-                  }
-
-                  // Initialize ticker animation
-                  animateTicker();
-              """)
-        ])
+            BASE_INTERVAL
+        )
 
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")
@@ -295,21 +209,10 @@ def update_ticker(n, current_interval):
                 "An unexpected error occurred.",
                 style={"white-space": "nowrap", "display": "inline-block"},
                 className="ticker-content"
-            )
+            ),
+            BASE_INTERVAL
         )
 
 
-# --- Client-side callback to get viewport width ---
-app.clientside_callback(
-    """
-    function(n_intervals) {
-        return window.innerWidth;
-    }
-    """,
-    Output('viewport-width-store', 'data'),
-    Input('ticker-interval-component', 'n_intervals')
-)
-
 if __name__ == '__main__':
-    app.run_server(debug=True, use_reloader=False)
-
+    app.run_server(debug=True)
