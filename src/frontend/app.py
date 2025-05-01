@@ -2,7 +2,6 @@ import json
 import logging
 from collections import deque
 
-
 import dash
 import requests
 from dash import dcc, html
@@ -143,7 +142,7 @@ current_ticker_text = ""
 TICKER_UPDATE_FREQUENCY = 50
 BASE_INTERVAL = 500
 SCROLL_SPEED_MULTIPLIER = 1
-max_ticker_length=0
+max_ticker_length = 0
 
 url = "http://127.0.0.1:5000/get_ticks"
 
@@ -151,10 +150,9 @@ url = "http://127.0.0.1:5000/get_ticks"
 @app.callback(
     Output('ticker-container', 'children'),
     Input('ticker-interval-component', 'n_intervals'),
-    State('ticker-interval-component', 'interval'),
-    State('viewport-width-store', 'data')
+
 )
-def update_ticker(n, current_interval, viewport_width):
+def update_ticker(n):
     """
     Updates the ticker text.
     """
@@ -183,10 +181,6 @@ def update_ticker(n, current_interval, viewport_width):
                 if len(new_text) < max_ticker_length:
                     current_ticker_text = new_text
 
-
-        # # Calculate visible text length based on viewport width
-        # visible_chars = int(VIEWPORT_WIDTH / char_width_in_pixels)
-        # ticker_text = "".join(list(current_ticker_text)[:visible_chars])
         ticker_text = current_ticker_text
 
         return (
@@ -198,8 +192,7 @@ def update_ticker(n, current_interval, viewport_width):
                     "animation": f"scroll-ticker 500000ms linear infinite",
                 },
                 className="scroll-ticker"
-            ),
-            BASE_INTERVAL
+            )
         )
 
     except Exception as e:
@@ -209,8 +202,7 @@ def update_ticker(n, current_interval, viewport_width):
                 "An unexpected error occurred.",
                 style={"white-space": "nowrap", "display": "inline-block"},
                 className="ticker-content"
-            ),
-            BASE_INTERVAL
+            )
         )
 
 
