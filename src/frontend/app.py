@@ -61,7 +61,7 @@ def serve_layout():
     header = html.Div(
         className='navbar',
         children=[
-            html.Img(src="assets/logo.png", alt="Rambo Logo"),
+            html.Img(src="assets/logo1.png", alt="Rambo Logo"),
             html.Div(
                 className='nav-links',
                 children=[

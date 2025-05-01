@@ -44,9 +44,10 @@ body {
 
 .nav-links a,
 .nav-links .nav-item > .nav-link-btn {
-    color: #e6ffed;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 500;
+    text-shadow: 1px 1px 2px #000;
     padding: 6px 10px;
     border-radius: 0;
     display: flex;
@@ -317,6 +318,7 @@ footer img {
 
 /* --- Ticker Scroller Styles --- */
 .ticker-scroller {
+font-family: 'Roboto', monospace;
     position: fixed;
     bottom: 28px;
     left: 0;
@@ -379,7 +381,7 @@ footer img {
 
 /* Neutral (zero change) — uses light gray */
 .ticker-change-zero {
-    color: #cccccc; /* Gray, matches vertical bar */
+    color: #b8ffff; /* Gray, matches vertical bar */
     text-shadow: 1px 1px 2px #000;
 }
 
