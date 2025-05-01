@@ -3,13 +3,13 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background-color: #ffffff;
+    background-color: #fafbfb;
     color: #333333;
     padding-bottom: 50px;
 }
 
 .navbar {
-    background-color: #f1f7fb;
+    background-color: #d4e7f4;
     padding: 10px 15px;
     color: #333333;
     display: flex;
@@ -172,37 +172,48 @@ body {
     width: 100%;
 }
 
-#loader-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
+.home-background {
+    background-image: url("/assets/background_no_man.png");
+    background-size: 100% 100%;  /* Stretches the image in both directions */
+    background-repeat: no-repeat;
+    background-position: center;
     width: 100vw;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffffff;
-    z-index: 9999;
-    flex-direction: column;
-}
-
-#loader-wrapper img {
-    width: 100vw;
-    height: 100vh;
-    object-fit: fill;
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
 }
 
-#loader-text {
-    color: #333333;
-    font-size: 2em;
-    font-weight: bold;
-    text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.8);
-    z-index: 10000;
+.home-background-no-man {
+    background-image: url("/assets/background_no_man.jpg");
+    background-size: 100% 100%;  /* Stretches the image in both directions */
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
+
+.home-background {
+    background-image: url("/assets/background.jpg");
+    background-size: 100% 100%;  /* Stretches the image in both directions */
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+
+
+
 
 footer {
     position: fixed;
@@ -407,3 +418,53 @@ font-family: 'Roboto', monospace;
 .ticker-change, .ticker-last-change, .ticker-change-negative, .ticker-change-positive  {
     margin-right: 3px;
 }
+
+.home-content {
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.07); /* very light with minimal blue */
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(6px);
+    animation: fadeIn 2s ease-out;
+}
+
+
+.home-content h1 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+}
+
+.home-content p {
+    font-size: 1.2em;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.signature {
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.home-background {
+    background: linear-gradient(135deg, #d0eaff 0%, #e8f4ff 100%);
+    background-size: 100% 100%;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-image: url("/assets/background_no_man.jpg");
+          z-index: -1;
+}
+
