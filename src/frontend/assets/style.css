@@ -296,7 +296,6 @@ font-family: 'Roboto', monospace;
     left: 0;
     width: 100%;
     background-color: #308ac7;
-    color: #f0f1f1 !important;
     z-index: 999;
     overflow: hidden;
     white-space: nowrap;
