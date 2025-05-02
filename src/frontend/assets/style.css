@@ -14,7 +14,7 @@ html, body {
     display: flex;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid #c1c1c1;
+    border-bottom: 1px solid #a1a1a1;
     flex-wrap: wrap;
     justify-content: space-between;
     position: sticky;
@@ -304,7 +304,7 @@ font-family: 'Roboto', monospace;
     padding-top:5px;
     font-size: 0.75em;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
-    border-top: 1px solid #c1c1c1;
+    border-top: 1px solid #a1a1a1;
     text-align: left; /* <-- changed from center to left */
 }
 .scroll-text{
@@ -385,8 +385,8 @@ font-family: 'Roboto', monospace;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(6px);
     animation: fadeIn 2s ease-out;
-    border-color: white !important;
-    border-width: 5px !important;
+        /* Border properties */
+    border: 1px solid #5a9092 !important; /* Set border color and width */
 }
 
 
