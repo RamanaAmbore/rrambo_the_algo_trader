@@ -1,6 +1,3 @@
-/* assets/style.css */
-
-
 html, body {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -11,14 +8,13 @@ html, body {
 }
 
 .navbar {
-
-    background-color: #3b87ba;
+    background-color: #308ac7;
     padding: 10px 15px;
     color: #333333;
     display: flex;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid #d3d3d3;
+    border-bottom: 1px solid #c1c1c1;
     flex-wrap: wrap;
     justify-content: space-between;
     position: sticky;
@@ -45,59 +41,35 @@ html, body {
     margin-right: 0;
 }
 
-.nav-links a,
-.nav-links .nav-item > .nav-link-btn {
+.nav-links a {
     color: #ffffff;
     text-decoration: none;
     font-weight: 500;
     text-shadow: 1px 1px 2px #000;
     padding: 6px 10px;
-    border-radius: 0;
+    border-radius: 4px;
     display: flex;
     align-items: center;
-    gap: 5px;
     font-size: 0.8em;
     margin-right: 0;
-
     cursor: pointer;
     height: 35px;
     box-sizing: border-box;
 }
 
-.nav-links a:hover,
-.nav-links .nav-item > .nav-link-btn:hover {
+.nav-links a:hover {
     background-color: #00548b;
 }
 
-.nav-links a img,
-.nav-links .nav-item > .nav-link-btn img {
+.nav-links a img {
     width: 20px;
     height: 20px;
+    margin-right:3px;
 }
 
-
-
-.nav-links > a:last-child,
-.nav-links > .nav-item:last-child > .nav-link-btn {
-    border-right: none;
-}
-
-.nav-links a:first-child,
-.nav-links .nav-item:first-child > .nav-link-btn {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-.nav-links a:last-child:not(.nav-submenu a),
-.nav-links .nav-item:last-child > .nav-link-btn {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-
-.nav-links a.active,
-.nav-links .nav-item > .nav-link-btn.active {
-    background-color: #006ea9;
-    color: #ffffff;
+.nav-links a.active {
+    background-color: #006ea9 !important;
+    color: red;
 }
 
 .nav-item {
@@ -170,48 +142,33 @@ html, body {
     width: 100%;
 }
 
+/* === Backgrounds === */
+
 .home-background {
-    background-image: url("/assets/background.png");
-    background-size: cover;              /* Ensures image covers entire area */
+    background-image: url("/assets/background.jpg");
+    background-size: 100% 100%;  /* Stretch image both horizontally and vertically */
     background-repeat: no-repeat;
     background-position: center;
-    position: fixed;                     /* Fixed prevents scroll */
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
 }
 
 .home-background-no-man {
     background-image: url("/assets/background_no_man.jpg");
-    background-size: 100% 100%;  /* Stretches the image in both directions */
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
-    width: 100vw;
-    height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1;
-}
-
-.home-background {
-    background-image: url("/assets/background.jpg");
-    background-size: 100% 100%;  /* Stretches the image in both directions */
-    background-repeat: no-repeat;
-    background-position: center;
     width: 100vw;
     height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
     z-index: -1;
 }
-
-
-
-
 
 footer {
     position: fixed;
@@ -338,7 +295,7 @@ font-family: 'Roboto', monospace;
     bottom: 28px;
     left: 0;
     width: 100%;
-    background: linear-gradient(to right, #308ac7, #308ac7);
+    background-color: #308ac7;
     color: #f0f1f1 !important;
     z-index: 999;
     overflow: hidden;
@@ -347,7 +304,7 @@ font-family: 'Roboto', monospace;
     padding-top:5px;
     font-size: 0.75em;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
-    border-top: 1px solid #d3d3d3;
+    border-top: 1px solid #c1c1c1;
     text-align: left; /* <-- changed from center to left */
 }
 .scroll-text{
@@ -428,6 +385,8 @@ font-family: 'Roboto', monospace;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(6px);
     animation: fadeIn 2s ease-out;
+    border-color: white !important;
+    border-width: 5px !important;
 }
 
 

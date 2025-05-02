@@ -70,7 +70,7 @@ header = html.Div(
             children=[
                 generate_nav_link("/", "Home", "home"),
                 generate_nav_link("/market", "Market", "market"),
-                generate_submenu("watchlist", ["Watchlist 1", "Watchlist 2"]),
+                generate_nav_link("watchlist", "Watchlist","watchlist"),
                 generate_nav_link("/holdings", "Holdings", "holdings"),
                 generate_nav_link("/positions", "Positions", "positions"),
                 generate_nav_link("/orders", "Orders", "orders"),
