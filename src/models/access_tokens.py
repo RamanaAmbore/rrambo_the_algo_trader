@@ -38,14 +38,17 @@ def initialize_default_records(connection):
     """Initialize default records in the table."""
     try:
         table = AccessTokens.__table__
-        for record in DEF_ACCESS_TOKENS:
-            exists = connection.execute(select(table.c.account).where(
-                table.c.account == record['account'])).scalar_one_or_none() is not None
-
-            if not exists:
-                connection.execute(table.insert(), record)
-        connection.commit()
+        with connection.begin():  # Create transaction context
+            for record in DEF_ACCESS_TOKENS:
+                try:
+                    # Use merge instead of manual check + insert
+                    stmt = table.merge().values(record)
+                    connection.execute(stmt)
+                except Exception as e:
+                    logger.error(f"Error processing record {record['account']}: {e}")
+                    raise
         logger.info('Default Access Token records inserted/updated')
     except Exception as e:
         logger.error(f"Error managing default access tokens: {e}")
+        connection.rollback()  # Explicit rollback
         raise

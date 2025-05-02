@@ -46,23 +46,23 @@ def serve_layout():
                         id="scrollTicker",
                         style={"white-space": "nowrap", "display": "inline-block"},
                         className="scroll-ticker"
-                    ),
-                    dcc.Store(id="ticker-scroll-complete"),
-                    html.Div(id="dummy-div", style={"display": "none"}),
-                    html.Script("""
-                        document.addEventListener("DOMContentLoaded", function () {
-                            const ticker = document.getElementById("scrollTicker");
-                            const dummy = document.getElementById("dummy-div");
-                            if (ticker && dummy) {
-                                ticker.addEventListener("animationend", () => {
-                                    dummy.innerText = new Date().toISOString();
-                                });
-                            }
-                        });
-                    """)
+                    )
                 ],
                 className="ticker-container left-to-right"
-            )
+            ),
+            dcc.Store(id="ticker-scroll-complete"),
+            html.Div(id="dummy-div", style={"display": "none"}),
+            html.Script("""
+                window.addEventListener("load", function () {
+                    const ticker = document.getElementById("scrollTicker");
+                    const dummy = document.getElementById("dummy-div");
+                    if (ticker && dummy) {
+                        ticker.addEventListener("animationend", () => {
+                            dummy.innerText = new Date().toISOString();
+                        });
+                    }
+                });
+            """)
         ],
         className="ticker-scroller"
     )
@@ -89,39 +89,23 @@ clientside_callback(
 
 # --- Server Callback: Re-populate ticker on scroll end ---
 @app.callback(
-    Output('ticker-container', 'children'),
+    Output('scrollTicker', 'children'),
+    Output('scrollTicker', 'style'),
     Input('ticker-scroll-complete', 'data'),
     prevent_initial_call=True
 )
 def update_ticker(n):
+
     try:
-        if n % check_duration == 0 or not current_ticker_items:
+        if not current_ticker_items:
             logger.info('next_ticker_items empty')
             set_ticker_items()
 
-        return [
-            html.Span(
-                current_ticker_items,
-                id="scrollTicker",
-                style={
-                    "white-space": "nowrap",
-                    "display": "inline-block",
-                    "animation": f"scroll-ticker {scroll_duration}ms linear 1",
-                },
-                className="scroll-ticker"
-            ),
-            dcc.Store(id="ticker-scroll-complete"),
-            html.Div(id="dummy-div", style={"display": "none"}),
-            html.Script("""
-                const ticker = document.getElementById("scrollTicker");
-                const dummy = document.getElementById("dummy-div");
-                if (ticker && dummy) {
-                    ticker.addEventListener("animationend", () => {
-                        dummy.innerText = new Date().toISOString();
-                    });
-                }
-            """)
-        ]
+        return current_ticker_items, {
+            "white-space": "nowrap",
+            "display": "inline-block",
+            "animation": f"scroll-ticker {scroll_duration}ms linear 1",
+        }
 
     except Exception as e:
         logging.error(f"An unexpected error occurred: {e}")

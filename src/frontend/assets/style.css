@@ -331,6 +331,16 @@ footer img {
     }
 }
 
+
+
+/* Container that holds the scrolling text */
+.ticker-container {
+    display: inline-flex; /* <-- was inline-block, change to flex */
+    white-space: nowrap;
+    align-items: center;  /* Vertically centers the text */
+
+}
+
 /* --- Ticker Scroller Styles --- */
 .ticker-scroller {
 font-family: 'Roboto', monospace;
@@ -348,14 +358,6 @@ font-family: 'Roboto', monospace;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #d3d3d3;
     text-align: left; /* <-- changed from center to left */
-}
-
-/* Container that holds the scrolling text */
-.ticker-container {
-    display: inline-flex; /* <-- was inline-block, change to flex */
-    white-space: nowrap;
-    align-items: center;  /* Vertically centers the text */
-
 }
 
 /* Pause animation on hover (optional) */
