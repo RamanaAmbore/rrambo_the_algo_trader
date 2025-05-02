@@ -43,9 +43,9 @@ def serve_layout():
                 children=[
                     html.Span(
                         "Loading ticker data...",
-                        id="scrollTicker",
+                        id="scrollText",
                         style={"white-space": "nowrap", "display": "inline-block"},
-                        className="scroll-ticker"
+                        className="scroll-text"
                     )
                 ],
                 className="ticker-container left-to-right"
@@ -54,7 +54,7 @@ def serve_layout():
             html.Div(id="dummy-div", style={"display": "none"}),
             html.Script("""
                 window.addEventListener("load", function () {
-                    const ticker = document.getElementById("scrollTicker");
+                    const ticker = document.getElementById("scrollText");
                     const dummy = document.getElementById("dummy-div");
                     if (ticker && dummy) {
                         ticker.addEventListener("animationend", () => {
@@ -89,8 +89,8 @@ clientside_callback(
 
 # --- Server Callback: Re-populate ticker on scroll end ---
 @app.callback(
-    Output('scrollTicker', 'children'),
-    Output('scrollTicker', 'style'),
+    Output('scrollText', 'children'),
+    Output('scrollText', 'style'),
     Input('ticker-scroll-complete', 'data'),
     prevent_initial_call=True
 )
@@ -104,7 +104,7 @@ def update_ticker(n):
         return current_ticker_items, {
             "white-space": "nowrap",
             "display": "inline-block",
-            "animation": f"scroll-ticker {scroll_duration}ms linear 1",
+            "animation": f"scroll-text {scroll_duration}ms linear 1",
         }
 
     except Exception as e:
@@ -112,7 +112,7 @@ def update_ticker(n):
         return html.Span(
             "An unexpected error occurred.",
             style={"white-space": "nowrap", "display": "inline-block"},
-            className="scroll-ticker"
+            className="scroll-text"
         )
 
 def set_ticker_items():

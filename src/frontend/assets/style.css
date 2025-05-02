@@ -1,15 +1,18 @@
 /* assets/style.css */
 
-body {
+
+html, body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: #fafbfb;
     color: #333333;
-    padding-bottom: 50px;
+    padding: 0px;
+    overflow: hidden; /* Prevent scrollbars */
 }
 
 .navbar {
-    background-color: #d4e7f4;
+
+    background-color: #3b87ba;
     padding: 10px 15px;
     color: #333333;
     display: flex;
@@ -54,9 +57,8 @@ body {
     align-items: center;
     gap: 5px;
     font-size: 0.8em;
-    background-color: #308ac7;
     margin-right: 0;
-    border: 1px solid #9fadbd;
+
     cursor: pointer;
     height: 35px;
     box-sizing: border-box;
@@ -67,17 +69,13 @@ body {
     background-color: #00548b;
 }
 
-
-
 .nav-links a img,
 .nav-links .nav-item > .nav-link-btn img {
     width: 20px;
     height: 20px;
 }
 
-.nav-links a {
-    border-right: 1px solid #006ea9;
-}
+
 
 .nav-links > a:last-child,
 .nav-links > .nav-item:last-child > .nav-link-btn {
@@ -174,14 +172,14 @@ body {
 
 .home-background {
     background-image: url("/assets/background.png");
-    background-size: 100% 100%;  /* Stretches the image in both directions */
+    background-size: cover;              /* Ensures image covers entire area */
     background-repeat: no-repeat;
     background-position: center;
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
+    position: fixed;                     /* Fixed prevents scroll */
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
     z-index: -1;
 }
 
@@ -333,14 +331,6 @@ footer img {
 
 
 
-/* Container that holds the scrolling text */
-.ticker-container {
-    display: inline-flex; /* <-- was inline-block, change to flex */
-    white-space: nowrap;
-    align-items: center;  /* Vertically centers the text */
-
-}
-
 /* --- Ticker Scroller Styles --- */
 .ticker-scroller {
 font-family: 'Roboto', monospace;
@@ -354,21 +344,25 @@ font-family: 'Roboto', monospace;
     overflow: hidden;
     white-space: nowrap;
     padding: 10px 0;
+    padding-top:5px;
     font-size: 0.75em;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #d3d3d3;
     text-align: left; /* <-- changed from center to left */
 }
-
-/* Pause animation on hover (optional) */
-.ticker-container:hover {
-    animation-play-state: paused;
+.scroll-text{
+    white-space: nowrap;
+     display: inline-block;
 }
 
 
+/* Pause animation on hover */
+.ticker-scroller:hover .scroll-text {
+    animation-play-state: paused !important;
+}
 
 /* Smooth scrolling animation */
-@keyframes scroll-ticker {
+@keyframes scroll {
     0% {
         transform: translateX(0%);
     }
@@ -379,7 +373,10 @@ font-family: 'Roboto', monospace;
 .ticker-item {
     display: inline-flex;
     align-items: center;
-    margin-right: 8px; /* spacing between each stock info */
+    padding-right: 3px; /* spacing between each stock info */
+    margin-right: 4px;
+    border-right: 2px solid #d1d1d1; /* Light gray solid border for a simple separator */
+    box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1); /* Shadow for 3D effect */
 }
 
 .ticker-symbol {
@@ -393,9 +390,6 @@ font-family: 'Roboto', monospace;
 }
 
 
-
-
-
 /* Neutral (zero change) — uses light gray */
 .ticker-change-zero {
     color: #b8ffff; /* Gray, matches vertical bar */
@@ -404,8 +398,8 @@ font-family: 'Roboto', monospace;
 
 /* Negative change — strong red for contrast on blue background */
 .ticker-change-negative {
-    color: #ff4d4d; /* Bright red #d65c64*/
-    text-shadow: 1px 1px 2px #000;
+    color: #ff4500; /* Bright red #d65c64*/
+    text-shadow: 1px 1px 2px #515151;
 }
 
 /* Existing (positive) classes remain unchanged */
@@ -414,10 +408,7 @@ font-family: 'Roboto', monospace;
     text-shadow: 1px 1px 2px #000;
 }
 
-.ticker-last-change {
-    color: #00ff00;
-    text-shadow: 1px 1px 2px #000;
-}
+
 
 .ticker-symbol,
 .ticker-price,

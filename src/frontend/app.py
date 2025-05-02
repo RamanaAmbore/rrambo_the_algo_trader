@@ -1,5 +1,3 @@
-import logging
-
 import dash
 import requests
 from dash import dcc, html, clientside_callback
@@ -17,7 +15,6 @@ duration_per_item = 10
 duration_multiplier = 300
 len_current_ticker = 0
 scroll_duration = 0
-check_duration = 50
 url = "http://127.0.0.1:5000/get_ticks"
 
 # --- Initialize Dash App ---
@@ -37,45 +34,18 @@ app._favicon = "favicon.ico"
 def serve_layout():
     ticker_scroller = html.Div(
         id="ticker-scroller",
-        children=[
-            html.Div(
-                id="ticker-container",
-                children=[
-                    html.Span(
-                        "Loading ticker data...",
-                        id="scrollTicker",
-                        style={"white-space": "nowrap", "display": "inline-block"},
-                        className="scroll-ticker"
-                    ),
-                    dcc.Store(id="ticker-scroll-complete"),
-                    html.Div(id="dummy-div", style={"display": "none"}),
-                    html.Script("""
-                        document.addEventListener("DOMContentLoaded", function () {
-                            const ticker = document.getElementById("scrollTicker");
-                            const dummy = document.getElementById("dummy-div");
-                            if (ticker && dummy) {
-                                ticker.addEventListener("animationend", () => {
-                                    dummy.innerText = new Date().toISOString();
-                                });
-                            }
-                        });
-                    """)
-                ],
-                className="ticker-container left-to-right"
-            )
-        ],
-        className="ticker-scroller"
-    )
+        children=[html.Span("Loading ticker data...", id="scrollText", className="scroll-text"),
+                  dcc.Store(id="ticker-scroll-complete"),
+                  html.Div(id="dummy-div", style={"display": "none"})
+                  ],
+        className="ticker-scroller")
 
-    ticker_interval = dcc.Interval(id='ticker-interval-component', interval=50, n_intervals=0)
-
-    return html.Div([header, dash.page_container, ticker_scroller, ticker_interval, footer])
+    return html.Div([header, dash.page_container, ticker_scroller, footer])
 
 
 app.layout = serve_layout()
 
-
-# --- Clientside Callback ---
+# --- Clientside Callback: Trigger when animation ends ---
 clientside_callback(
     """
     function(dummyText) {
@@ -87,49 +57,34 @@ clientside_callback(
 )
 
 
-# --- Server Callback: Re-populate ticker on scroll end ---
+# --- Server Callback: Refresh ticker content ---
 @app.callback(
-    Output('ticker-container', 'children'),
+    Output('scrollText', 'children'),
     Input('ticker-scroll-complete', 'data'),
     prevent_initial_call=True
 )
-def update_ticker(n):
+def update_ticker(_):
     try:
-        if n % check_duration == 0 or not current_ticker_items:
-            logger.info('next_ticker_items empty')
-            set_ticker_items()
+        set_ticker_items()
 
+        # ✅ Regenerate ticker span with updated content and animation
         return [
             html.Span(
                 current_ticker_items,
-                id="scrollTicker",
-                style={
-                    "white-space": "nowrap",
-                    "display": "inline-block",
-                    "animation": f"scroll-ticker {scroll_duration}ms linear 1",
-                },
-                className="scroll-ticker"
-            ),
-            dcc.Store(id="ticker-scroll-complete"),
-            html.Div(id="dummy-div", style={"display": "none"}),
-            html.Script("""
-                const ticker = document.getElementById("scrollTicker");
-                const dummy = document.getElementById("dummy-div");
-                if (ticker && dummy) {
-                    ticker.addEventListener("animationend", () => {
-                        dummy.innerText = new Date().toISOString();
-                    });
-                }
-            """)
+                id="scrollText",
+                style={"animation": f"scroll {scroll_duration}ms linear infinite", },
+                className="scroll-text"
+            )
         ]
 
     except Exception as e:
-        logging.error(f"An unexpected error occurred: {e}")
+        logger.error(f"An unexpected error occurred: {e}")
         return html.Span(
             "An unexpected error occurred.",
             style={"white-space": "nowrap", "display": "inline-block"},
-            className="scroll-ticker"
+            className="scroll-text"
         )
+
 
 def set_ticker_items():
     global current_ticker_items, len_current_ticker, scroll_duration
@@ -141,7 +96,6 @@ def set_ticker_items():
     next_ticker_items_local = []
     if api_tick_data:
         for idx, (symbol, (price, change)) in enumerate(api_tick_data.items()):
-            # Python (Dash HTML) update
             change_color_class = (
                 "ticker-change-zero" if change == 0 else
                 "ticker-change-negative" if change < 0 else
@@ -163,6 +117,34 @@ def set_ticker_items():
     current_ticker_items = next_ticker_items_local
     len_current_ticker = len(current_ticker_items)
     scroll_duration = duration_per_item * len_current_ticker * duration_multiplier
+
+
+# --- Include JavaScript for scroll animation listener ---
+app.clientside_callback(
+    """
+    function(dummyText) {
+        return true;
+    }
+    """,
+    Output("ticker-scroll-complete", "data"),
+    Input("dummy-div", "children"),
+)
+
+# Add the JavaScript code directly within the app
+app.layout.children.append(
+    html.Script("""
+    document.addEventListener("DOMContentLoaded", function() {
+        const scrollText = document.getElementById('scrollText');
+        const dummyDiv = document.getElementById('dummy-div');
+
+        if (scrollText && dummyDiv) {
+            scrollText.addEventListener('animationiteration', function() {
+                dummyDiv.innerHTML = Date.now();  // Trigger callback via content update
+            });
+        }
+    });
+    """)
+)
 
 
 if __name__ == '__main__':
