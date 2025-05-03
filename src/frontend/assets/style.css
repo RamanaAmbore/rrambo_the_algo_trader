@@ -1,103 +1,81 @@
 html, body {
     margin: 0;
     padding: 0;
-    width:100%;
+    width: 100%;
     font-family: 'Arial', sans-serif;
     background-color: #f1f7fb;
     color: #333333;
-    overflow: hidden; /* Prevent scrollbars */
+    overflow: hidden;
     box-sizing: border-box;
 }
 
-.sidebar-wrapper {
-    display: flex;
-    flex-direction: column;
-}
-
-.hamburger-icon {
-    font-size: 24px;
-    padding: 10px 15px;
-    cursor: pointer;
-    display: none; /* show only on smaller screens or when toggling */
-    background-color: #308ac7;
-    color: white;
-}
-
-@media (max-width: 768px) {
-    .hamburger-icon {
-        display: block;
-    }
-
-    .navbar {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .navbar.collapsed {
-        display: flex;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .nav-links a {
-        width: 100%;
-        padding: 10px;
-    }
-}
-
-
-.navbar {
-    background-color: #308ac7;
-    padding: 10px 15px;
-    color: #333333;
+/* Navbar row container */
+.navbar-row {
     display: flex;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid #a1a1a1;
-    flex-wrap: wrap;
     justify-content: space-between;
+    background-color: #308ac7;
+    padding: 10px 15px;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1100;
 }
 
-.navbar img {
+/* Logo container */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
     height: 45px;
     margin-right: 10px;
-    vertical-align: middle;
 }
 
+/* Hamburger icon */
+.hamburger-icon {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px 15px;
+    color: white;
+    background-color: #308ac7;
+    border: none;
+    display: none; /* show only on mobile */
+}
+
+/* Nav links default (mobile hidden) */
 .nav-links {
-    display: flex;
-    margin-left: auto;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #308ac7;
+    padding: 10px;
+    width: 50vw;
+    height: 100vh;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    z-index: 999;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.nav-links {
-    margin-left: 20px;
-    margin-right: 0;
+/* Toggle show/hide */
+.nav-links.show {
+    display: flex !important;
 }
 
+/* Nav links item styling */
 .nav-links a {
     color: #ffffff;
     text-decoration: none;
     font-weight: 500;
     text-shadow: 1px 1px 2px #000;
-    padding: 0px 6px 0px 10px ;
+    padding: 10px 15px;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
+    display: block;
     font-size: 0.8em;
-    margin-right: 0;
     cursor: pointer;
-    height: 30px;
-    box-sizing: border-box;
+    width: 100%;
 }
 
 .nav-links a:hover {
@@ -107,6 +85,30 @@ html, body {
 .nav-link.active {
     color: #e39d22;
 }
+
+/* DESKTOP STYLES */
+@media (min-width: 769px) {
+
+
+    .nav-links {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        position: static;
+        width: auto;
+        height: auto;
+        padding: 0;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    .nav-links a {
+        padding: 8px 12px;
+        width: auto;
+    }
+}
+
 
 .dash-table-container {
     margin-top: 20px;
@@ -286,7 +288,7 @@ font-family: 'Roboto', monospace;
 
     padding: 2rem;           /* Reduced from 40px and made relative */
     box-sizing: border-box; /* Ensures padding doesn't cause overflow */
-    z-index: -1;
+    z-index: 0;
 }
 
 /* Foreground content box */
@@ -307,7 +309,7 @@ font-family: 'Roboto', monospace;
     animation: fadeIn 2s ease-out;
     border: 2px solid #5a9092 !important;
 
-    z-index: 1;
+    z-index: 10;
     box-sizing: border-box;
     line-height: 1.4; /* Lower than default (usually 1.5–1.6) */
 }
@@ -376,6 +378,8 @@ font-family: 'Roboto', monospace;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
 }
 
+/* Keep your existing form styles */
+
 .form-title {
     font-size: 1.6rem;
     margin-bottom: 10px;
@@ -432,4 +436,71 @@ font-family: 'Roboto', monospace;
 
 .form-footer-link:hover {
     text-decoration: underline;
+}
+
+/* Add proper sidebar styling */
+.sidebar-row, .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh !important;
+    min-height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    background-color: #202930;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; /* Adjust if you have a navbar at top */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-item {
+    padding: 12px 20px;
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .navbar-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .logo-container {
+        flex-shrink: 0;
+        /* Removes unwanted shrinking, keeps logo fixed on the left */
+    }
+
+    .hamburger-icon {
+        display: block;
+        font-size: 2rem;
+        cursor: pointer;
+        margin-left: auto;
+        order: 2; /* Ensures it's on the far right */
+    }
+
+    .nav-links {
+        display: none;
+    }
+    
+    /* Mobile sidebar adjustment */
+    .sidebar-row, .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar-open {
+        transform: translateX(0);
+    }
 }
