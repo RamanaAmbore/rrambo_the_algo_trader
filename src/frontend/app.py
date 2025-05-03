@@ -1,7 +1,7 @@
 import dash
 import requests
 from dash import dcc, html, clientside_callback
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, MATCH
 
 from src.frontend.helpers.index_string import index_string
 from src.frontend.helpers.template_utils import footer, header
@@ -113,7 +113,7 @@ def set_ticker_items():
 
             next_ticker_items_local.append(item)
 
-    logger.info(f"Input Ticker size: {len(api_tick_data)}, Formatted: {len(next_ticker_items_local)}")
+    logger.debug(f"Input Ticker size: {len(api_tick_data)}, Formatted: {len(next_ticker_items_local)}")
     current_ticker_items = next_ticker_items_local
     len_current_ticker = len(current_ticker_items)
     scroll_duration = duration_per_item * len_current_ticker * duration_multiplier

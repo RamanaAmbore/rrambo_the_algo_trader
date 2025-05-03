@@ -11,7 +11,7 @@ def layout():
             html.Div(
                 className="home-content",
                 children=[
-                    html.H1("Rambo-the-Algo - Option Strategy meets speed"),
+                    html.H1("Rambo-the-Algo - Option Strategy meets Speed"),
                     html.P("This platform leverages a robust architecture, featuring a Flask backend and a responsive Dash frontend. "
                            "Real-time data is streamed via WebSocket connections, managed with asynchronous techniques to maximize efficiency. "
                            "The system employs multi-threading to handle concurrent operations, ensuring production-grade algorithmic trading capabilities."),
