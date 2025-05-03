@@ -1,16 +1,12 @@
 # --- Configuration ---
-from dash import dcc, html
-
-
+from dash import dcc, html, Output, Input
 
 
 # --- Navigation Helpers ---
-def generate_nav_link(href, label, icon_key):
-    """Generates a navigation link with an icon and label."""
+def generate_nav_link(href, label):
+    """Generates a navigation link with a label."""
     return dcc.Link(
-        html.Div(
-            label
-        ),
+        html.Div(label),
         href=href,
         className="nav-link"
     )
@@ -22,8 +18,8 @@ def generate_submenu(label, submenu_items):
         className="nav-item",
         children=[
             html.Div(label,
-                className="nav-link-btn"
-            ),
+                     className="nav-link-btn"
+                     ),
             html.Ul(
                 className="nav-submenu",
                 children=[
@@ -54,18 +50,20 @@ header = html.Div(
         html.Div(
             className='nav-links',
             children=[
-                generate_nav_link("/", "Home", "home"),
-                generate_nav_link("/market", "Market", "market"),
-                generate_nav_link("watchlist", "Watchlist","watchlist"),
-                generate_nav_link("/holdings", "Holdings", "holdings"),
-                generate_nav_link("/positions", "Positions", "positions"),
-                generate_nav_link("/orders", "Orders", "orders"),
-                generate_nav_link("/trades", "Trades", "trades"),
-                generate_nav_link("/logs", "Console", "logs"),
-                generate_nav_link("/settings", "Settings", "settings"),
-                generate_nav_link("/sign_in", "Sign In/Up", "signin"),
-                generate_nav_link("/sign_out", "Sign Out", "signout"),
+                generate_nav_link("/", "Home", ),
+                generate_nav_link("/market", "Market", ),
+                generate_nav_link("watchlist", "Watchlist", ),
+                generate_nav_link("/holdings", "Holdings", ),
+                generate_nav_link("/positions", "Positions", ),
+                generate_nav_link("/orders", "Orders", ),
+                generate_nav_link("/trades", "Trades", ),
+                generate_nav_link("/logs", "Console", ),
+                generate_nav_link("/settings", "Settings", ),
+                generate_nav_link("/sign_in", "Sign In/Up", ),
+                generate_nav_link("/sign_out", "Sign Out", ),
             ]
         )
     ]
 )
+
+

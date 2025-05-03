@@ -1,10 +1,12 @@
 html, body {
     margin: 0;
+    padding: 0;
+    width:100%;
     font-family: 'Arial', sans-serif;
     background-color: #f1f7fb;
     color: #333333;
-    padding: 0px;
     overflow: hidden; /* Prevent scrollbars */
+    box-sizing: border-box;
 }
 
 .navbar {
@@ -53,7 +55,7 @@ html, body {
     font-size: 0.8em;
     margin-right: 0;
     cursor: pointer;
-    height: 35px;
+    height: 30px;
     box-sizing: border-box;
 
 }
@@ -93,31 +95,7 @@ html, body {
 
 /* === Backgrounds === */
 
-.home-background {
-    background-image: url("/assets/background.jpg");
-    background-size: 100% 100%;  /* Stretch image both horizontally and vertically */
-    background-repeat: no-repeat;
-    background-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-}
 
-.home-background-no-man {
-    background-image: url("/assets/background_no_man.jpg");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-}
 
 footer {
     position: fixed;
@@ -258,6 +236,50 @@ font-family: 'Roboto', monospace;
     margin-right: 3px;
 }
 
+/* Background container */
+.home-background {
+    background: linear-gradient(135deg, #d0eaff 0%, #e8f4ff 100%);
+    background-image: url("/assets/background_no_man.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;             /* Changed from 100vw to prevent overflow */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2rem;           /* Reduced from 40px and made relative */
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+    z-index: -1;
+}
+
+/* Foreground content box */
+.home-content {
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.07);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(6px);
+    animation: fadeIn 2s ease-out;
+    border: 2px solid #5a9092 !important;
+
+    z-index: 1;
+    box-sizing: border-box;
+    line-height: 1.4; /* Lower than default (usually 1.5–1.6) */
+}
 .home-content {
     color: white;
     font-family: 'Segoe UI', sans-serif;
@@ -272,18 +294,20 @@ font-family: 'Roboto', monospace;
     animation: fadeIn 2s ease-out;
         /* Border properties */
     border: 2px solid #5a9092 !important; /* Set border color and width */
+    z-index: 1;  /* ensures it's above the background */
 }
 
 
 .home-content h1 {
-    font-size: 2.2em;
-    margin-bottom: 20px;
+    margin: 0 0 0.5em 0; /* No top margin, small bottom spacing */
 }
 
 .home-content p {
-    font-size: 1.2em;
-    margin-bottom: 16px;
-    line-height: 1.6;
+    margin: 0 0 0.5em 0; /* Tight vertical spacing between paragraphs */
+}
+
+.home-content p:last-child {
+    margin-bottom: 0; /* No extra space after the last paragraph */
 }
 
 .signature {
@@ -295,18 +319,6 @@ font-family: 'Roboto', monospace;
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
-}
-.home-background {
-    background: linear-gradient(135deg, #d0eaff 0%, #e8f4ff 100%);
-    background-size: 100% 100%;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background-image: url("/assets/background_no_man.jpg");
-          z-index: -1;
 }
 
 .form-container {
