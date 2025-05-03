@@ -63,11 +63,6 @@ header = html.Div(
                 generate_nav_link("/trades", "Trades", "trades"),
                 generate_nav_link("/logs", "Console", "logs"),
                 generate_nav_link("/settings", "Settings", "settings"),
-            ]
-        ),
-        html.Div(
-            className='nav-links auth-links',
-            children=[
                 generate_nav_link("/sign_in", "Sign In/Up", "signin"),
                 generate_nav_link("/sign_out", "Sign Out", "signout"),
             ]

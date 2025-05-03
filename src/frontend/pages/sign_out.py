@@ -5,7 +5,7 @@ from dash import html, dcc
 dash.register_page(__name__, path='/sign_out')
 
 def layout():
-    return html.Div( className="home-background-no-man", children=[
+    return html.Div( className="home-background", children=[
         html.H1("Signout page"),
     ])
 

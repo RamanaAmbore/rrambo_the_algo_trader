@@ -36,7 +36,7 @@ html, body {
     gap: 0;
 }
 
-.nav-links.auth-links {
+.nav-links {
     margin-left: 20px;
     margin-right: 0;
 }
@@ -61,63 +61,13 @@ html, body {
     background-color: #00548b;
 }
 
-.nav-links a img {
-    width: 20px;
-    height: 20px;
-    margin-right:3px;
-}
 
 .nav-links a.active {
     background-color: #006ea9 !important;
     color: red;
 }
 
-.nav-item {
-    position: relative;
-    display: inline-block;
-    margin-right: 0;
-}
 
-.nav-submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #f0f1f1;
-    padding: 10px 0;
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    width: 180px;
-    border: 1px solid #d3d3d3;
-}
-
-.nav-item:hover .nav-submenu {
-    display: block;
-}
-
-.nav-submenu a {
-    display: block;
-    padding: 8px 16px;
-    color: #333333;
-    text-decoration: none;
-    font-size: 0.9em;
-    transition: background-color 0.2s ease;
-    white-space: nowrap;
-    background-color: transparent;
-    border: none !important;
-    height: auto;
-    box-sizing: content-box;
-}
-
-.nav-submenu a:hover {
-    background-color: #d0d0d0;
-}
-
-.nav-submenu a img {
-    width: 20px;
-    height: 20px;
-}
 
 .dash-table-container {
     margin-top: 20px;
@@ -212,16 +162,7 @@ footer img {
     padding: 20px;
 }
 
-#auth-page-background {
-    background-image: url('/assets/background.gif');
-    background-size: cover;
-    background-position: center;
-    min-height: calc(100vh - 100px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+
 
 #auth-page-content-container {
     background-color: rgba(255, 255, 255, 0.9);
@@ -232,60 +173,6 @@ footer img {
     max-width: 500px;
     width: 100%;
 }
-
-
-/* Add media query for small screens */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        margin-left: 0;
-        align-items: flex-start;
-        width: 100%;
-    }
-
-    .nav-links a,
-    .nav-links .nav-item > .nav-link-btn {
-        width: 100%;
-        text-align: left;
-        border-right: none;
-        height: auto;
-        box-sizing: border-box;
-    }
-
-    .nav-item .nav-submenu {
-        position: static;
-        width: 100%;
-        box-shadow: none;
-        border: none;
-        padding-left: 20px;
-    }
-
-    .nav-submenu a {
-        padding: 8px 30px;
-        height: auto;
-        box-sizing: content-box;
-    }
-
-    .nav-submenu a img {
-        width: 20px;
-        height: 20px;
-    }
-
-    .navbar img {
-        margin-bottom: 10px;
-    }
-
-    .nav-links.auth-links {
-        margin-left: 0;
-        margin-top: 10px;
-    }
-}
-
 
 
 /* --- Ticker Scroller Styles --- */
