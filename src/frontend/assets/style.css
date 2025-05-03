@@ -57,17 +57,14 @@ html, body {
     cursor: pointer;
     height: 30px;
     box-sizing: border-box;
-
-}
-
-/* Active state with a high specificity */
-.navbar .nav-links a.active {
-    background-color: #006ea9 !important;
-    color: red;
 }
 
 .nav-links a:hover {
     background-color: #00548b;
+}
+
+.nav-link.active {
+    color: #e39d22;
 }
 
 .dash-table-container {
@@ -93,10 +90,6 @@ html, body {
     width: 100%;
 }
 
-/* === Backgrounds === */
-
-
-
 footer {
     position: fixed;
     bottom: 0;
@@ -116,16 +109,18 @@ footer {
     z-index: 1000;
     border-top: 1px solid #d3d3d3;
 }
+
 footer div {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-    footer span {
+
+footer span {
     align-items: center;
     height: 100%
 
-    }
+}
 
 footer img {
     width: 30px;
@@ -139,8 +134,6 @@ footer img {
     padding: 20px;
 }
 
-
-
 #auth-page-content-container {
     background-color: rgba(255, 255, 255, 0.9);
     padding: 30px;
@@ -150,7 +143,6 @@ footer img {
     max-width: 500px;
     width: 100%;
 }
-
 
 /* --- Ticker Scroller Styles --- */
 .ticker-scroller {
@@ -228,8 +220,6 @@ font-family: 'Roboto', monospace;
     text-shadow: 1px 1px 2px #000;
 }
 
-
-
 .ticker-symbol,
 .ticker-price,
 .ticker-change, .ticker-last-change, .ticker-change-negative, .ticker-change-positive  {
@@ -280,6 +270,7 @@ font-family: 'Roboto', monospace;
     box-sizing: border-box;
     line-height: 1.4; /* Lower than default (usually 1.5–1.6) */
 }
+
 .home-content {
     color: white;
     font-family: 'Segoe UI', sans-serif;
