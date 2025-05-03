@@ -9,6 +9,47 @@ html, body {
     box-sizing: border-box;
 }
 
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.hamburger-icon {
+    font-size: 24px;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: none; /* show only on smaller screens or when toggling */
+    background-color: #308ac7;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .hamburger-icon {
+        display: block;
+    }
+
+    .navbar {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .navbar.collapsed {
+        display: flex;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+
 .navbar {
     background-color: #308ac7;
     padding: 10px 15px;
