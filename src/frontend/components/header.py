@@ -17,7 +17,7 @@ class HeaderComponent:
                 html.Div([
                     # Set initial n_clicks=0 to properly track clicks
                     html.Div("\u2630", className="hamburger-icon", id="hamburger-icon", n_clicks=0),
-                    html.Div(html.Img(src="assets/logo1.png", alt="Rambo Logo"), className="logo-container"),
+                    html.Div(html.Img(src="assets/logo.png", alt="Rambo Logo"), className="logo-container"),
                 ], className="logo-hamburger-container"),
 
                 # Nav items container (center aligned on large screens)
