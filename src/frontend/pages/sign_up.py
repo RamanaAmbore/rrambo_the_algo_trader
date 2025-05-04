@@ -9,34 +9,43 @@ def layout():
         className="home-background",
         children=[
             html.Div(
-                className="form-container",
+                className="popup-window",
                 children=[
-                    html.H2("Sign Up", className="form-title"),
-                    dcc.Input(
-                        type="text",
-                        placeholder="Username",
-                        className="form-input"
-                    ),
-                    dcc.Input(
-                        type="email",
-                        placeholder="Email Address",
-                        className="form-input"
-                    ),
-                    dcc.Input(
-                        type="password",
-                        placeholder="Password",
-                        className="form-input"
-                    ),
-                    dcc.Input(
-                        type="password",
-                        placeholder="Confirm Password",
-                        className="form-input"
-                    ),
-                    html.Button("Sign Up", className="form-button"),
+                    html.Div("Sign Up", className="popup-title-bar"),
                     html.Div(
+                        className="popup-content",
                         children=[
-                            "Already have an account? ",
-                            html.A("Sign in here.", href="/", className="form-footer-link")
+                            dcc.Input(
+                                type="text",
+                                placeholder="Username",
+                                className="form-input"
+                            ),
+                            dcc.Input(
+                                type="email",
+                                placeholder="Email Address",
+                                className="form-input"
+                            ),
+                            dcc.Input(
+                                type="password",
+                                placeholder="Password",
+                                className="form-input"
+                            ),
+                            dcc.Input(
+                                type="password",
+                                placeholder="Confirm Password",
+                                className="form-input"
+                            ),
+                            html.Div(
+                                html.Button("Submit", className="popup-button"),
+                                style={"display": "flex", "justifyContent": "center"}
+                            ),
+                            html.Div(
+                                children=[
+                                    "Already have an account? ",
+                                    html.A("Sign in here.", href="/sign_in", className="form-footer-link")
+                                ],
+                                className="popup-footer-text"
+                            )
                         ]
                     )
                 ]
