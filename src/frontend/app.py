@@ -20,6 +20,10 @@ app = dash.Dash(
     assets_folder=APP_CONFIG['ASSETS_FOLDER'],
     title=APP_CONFIG['TITLE'],
     update_title=APP_CONFIG['UPDATE_TITLE'],
+    meta_tags=[
+        {"name": "viewport", "content": "width=device-width, initial-scale=1"},
+    ],
+
 )
 app.index_string = index_string
 app._favicon = APP_CONFIG['FAVICON']
@@ -59,4 +63,4 @@ clientside_callback(
 )
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0')

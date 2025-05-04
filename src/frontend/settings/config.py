@@ -1,5 +1,5 @@
 APP_CONFIG = {
-    'TITLE': "Rambo-the-Algo",
+    'TITLE': "Rambo, the Algo",
     'UPDATE_TITLE': 'Rambo-the-algo',
     'FAVICON': "favicon.ico",
     'ASSETS_FOLDER': './assets'
