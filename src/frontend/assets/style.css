@@ -1,3 +1,4 @@
+/* Base Styles */
 html, body {
     margin: 0;
     padding: 0;
@@ -9,15 +10,8 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Add this missing class that's used in your header.py */
-.logo-hamburger-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-    z-index: 1201;
-}
-
-/* Navbar row container - update z-index */
+/* ===== NAVBAR AND NAVIGATION ===== */
+/* Navbar Container */
 .navbar {
     display: flex;
     align-items: center;
@@ -26,15 +20,23 @@ html, body {
     padding: 10px 15px;
     position: sticky;
     top: 0;
-    z-index: 1200; /* Increased from 1100 */
+    z-index: 1200;
 }
 
-/* Logo container - update z-index */
+/* Logo and Hamburger Container */
+.logo-hamburger-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1202; /* Increased to be above navbar */
+}
+
+/* Logo Container */
 .logo-container {
     display: flex;
     align-items: center;
     position: relative;
-    z-index: 1201;
+    z-index: 1202; /* Increased to be above navbar */
 }
 
 .logo-container img {
@@ -42,7 +44,7 @@ html, body {
     margin-right: 10px;
 }
 
-/* Hamburger icon - update z-index and ensure solid background */
+/* Hamburger Icon */
 .hamburger-icon {
     font-size: 24px;
     cursor: pointer;
@@ -50,19 +52,21 @@ html, body {
     color: white;
     background-color: #308ac7;
     border: none;
-    display: none; /* show only on mobile */
+    display: none; /* Show only on mobile */
     position: relative;
-    z-index: 1201;
+    z-index: 1203; /* Highest z-index in the navbar */
 }
-/* Nav items container and items */
+
+/* Nav Items Container */
 .nav-items-container {
     flex-grow: 1;
     display: flex;
     justify-content: center;
+    position: relative;
+    z-index: 1201; /* Above navbar but below hamburger */
 }
 
-
-/* Nav links default (mobile hidden) */
+/* Nav Items */
 .nav-items {
     display: none;
     flex-direction: column;
@@ -74,20 +78,20 @@ html, body {
     position: absolute;
     top: 70px;
     left: 0;
-    z-index: 9999; /* Much higher z-index */
+    z-index: 1201; /* Decreased from 9999 to maintain hierarchy */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    overflow-y: auto
+    overflow-y: auto;
 }
 
-/* Toggle show/hide - keep this part the same */
+/* Toggle Show/Hide for Nav Items */
 .nav-items.show {
     display: flex !important;
     position: fixed;
-    z-index: 9999;
+    z-index: 1201; /* Consistent with .nav-items */
 }
 
-/* Add a semi-transparent overlay when menu is open */
+/* Menu Overlay */
 .menu-overlay {
     display: none;
     position: fixed;
@@ -96,14 +100,14 @@ html, body {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9990; /* Below menu but above other content */
+    z-index: 1100; /* Below navbar but above content */
 }
 
 .menu-overlay.show {
     display: block;
 }
 
-/* Nav links item styling */
+/* Nav Links Styling */
 .nav-items a {
     color: #ffffff;
     text-decoration: none;
@@ -125,8 +129,39 @@ html, body {
     color: #e39d22;
 }
 
+/* ===== SIDEBAR ===== */
+.sidebar-row, .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh !important;
+    min-height: 100vh;
+    overflow-y: auto;
+    z-index: 1050; /* Lower than navbar and menu items */
+    background-color: #202930;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; /* Adjust for navbar height */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-item {
+    padding: 12px 20px;
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== TABLE STYLES ===== */
 .dash-table-container {
     margin-top: 20px;
+    position: relative;
+    z-index: 10; /* Lower than everything else */
 }
 
 .dash-table-container th {
@@ -148,6 +183,7 @@ html, body {
     width: 100%;
 }
 
+/* ===== FOOTER ===== */
 footer {
     position: fixed;
     bottom: 0;
@@ -164,7 +200,7 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 0px;
-    z-index: 1000;
+    z-index: 1000; /* Above content but below navbar and sidebar */
     border-top: 1px solid #d3d3d3;
 }
 
@@ -176,8 +212,7 @@ footer div {
 
 footer span {
     align-items: center;
-    height: 100%
-
+    height: 100%;
 }
 
 footer img {
@@ -188,8 +223,11 @@ footer img {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
+/* ===== PAGE CONTENT ===== */
 .page-content {
     padding: 20px;
+    position: relative;
+    z-index: 5; /* Lower than all UI components */
 }
 
 #auth-page-content-container {
@@ -200,29 +238,32 @@ footer img {
     text-align: center;
     max-width: 500px;
     width: 100%;
+    position: relative;
+    z-index: 5;
 }
 
-/* --- Ticker Scroller Styles --- */
+/* ===== TICKER SCROLLER ===== */
 .ticker-scroller {
-font-family: 'Roboto', monospace;
+    font-family: 'Roboto', monospace;
     position: fixed;
     bottom: 28px;
     left: 0;
     width: 100%;
     background-color: #308ac7;
-    z-index: 999;
+    z-index: 999; /* Above content, below navigation */
     overflow: hidden;
     white-space: nowrap;
     padding: 10px 0;
-    padding-top:5px;
+    padding-top: 5px;
     font-size: 0.75em;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #a1a1a1;
-    text-align: left; /* <-- changed from center to left */
+    text-align: left;
 }
-.scroll-text{
+
+.scroll-text {
     white-space: nowrap;
-     display: inline-block;
+    display: inline-block;
 }
 
 /* Pause animation on hover */
@@ -239,13 +280,14 @@ font-family: 'Roboto', monospace;
         transform: translateX(-100%);
     }
 }
+
 .ticker-item {
     display: inline-flex;
     align-items: center;
-    padding-right: 3px; /* spacing between each stock info */
+    padding-right: 3px;
     margin-right: 4px;
-    border-right: 2px solid #d1d1d1; /* Light gray solid border for a simple separator */
-    box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1); /* Shadow for 3D effect */
+    border-right: 2px solid #d1d1d1;
+    box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1);
 }
 
 .ticker-symbol {
@@ -258,62 +300,58 @@ font-family: 'Roboto', monospace;
     text-shadow: 1px 1px 2px #000;
 }
 
-/* Neutral (zero change) — uses light gray */
-.ticker-change-zero {
-    color: #b8ffff; /* Gray, matches vertical bar */
-    text-shadow: 1px 1px 2px #000;
-}
-
-/* Negative change — strong red for contrast on blue background */
-.ticker-change-negative {
-    color: #ff4500; /* Bright red #d65c64*/
-    text-shadow: 1px 1px 2px #515151;
-}
-
-/* Existing (positive) classes remain unchanged */
+/* Ticker change classes */
 .ticker-change {
     color: #00ff00;
     text-shadow: 1px 1px 2px #000;
 }
 
+.ticker-change-zero {
+    color: #b8ffff;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.ticker-change-negative {
+    color: #ff4500;
+    text-shadow: 1px 1px 2px #515151;
+}
+
 .ticker-symbol,
 .ticker-price,
-.ticker-change, .ticker-last-change, .ticker-change-negative, .ticker-change-positive  {
+.ticker-change,
+.ticker-last-change,
+.ticker-change-negative,
+.ticker-change-positive {
     margin-right: 3px;
 }
 
-/* Background container - keep z-index low */
+/* ===== HOME BACKGROUND ===== */
 .home-background {
     background: linear-gradient(135deg, #d0eaff 0%, #e8f4ff 100%);
     background-image: url("/assets/background_no_man.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;             /* Changed from 100vw to prevent overflow */
+    width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding: 2rem;           /* Reduced from 40px and made relative */
-    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
-    z-index: 0; /* Ensure this is lower than navbar */
+    padding: 2rem;
+    box-sizing: border-box;
+    z-index: 1; /* Lowest z-index - background only */
 }
 
-/* Foreground content box */
+/* ===== HOME CONTENT ===== */
 .home-content {
     color: white;
     font-family: 'Segoe UI', sans-serif;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-
-    width: 100%;
     max-width: 800px;
     text-align: center;
-
     background: rgba(255, 255, 255, 0.07);
     padding: 30px;
     border-radius: 16px;
@@ -321,40 +359,21 @@ font-family: 'Roboto', monospace;
     backdrop-filter: blur(6px);
     animation: fadeIn 2s ease-out;
     border: 2px solid #5a9092 !important;
-
-    z-index: 10;
+    z-index: 10; /* Above background, below UI components */
     box-sizing: border-box;
-    line-height: 1.4; /* Lower than default (usually 1.5–1.6) */
+    line-height: 1.4;
 }
-
-.home-content {
-    color: white;
-    font-family: 'Segoe UI', sans-serif;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.07); /* very light with minimal blue */
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(6px);
-    animation: fadeIn 2s ease-out;
-        /* Border properties */
-    border: 2px solid #5a9092 !important; /* Set border color and width */
-    z-index: 1;  /* ensures it's above the background */
-}
-
 
 .home-content h1 {
-    margin: 0 0 0.5em 0; /* No top margin, small bottom spacing */
+    margin: 0 0 0.5em 0;
 }
 
 .home-content p {
-    margin: 0 0 0.5em 0; /* Tight vertical spacing between paragraphs */
+    margin: 0 0 0.5em 0;
 }
 
 .home-content p:last-child {
-    margin-bottom: 0; /* No extra space after the last paragraph */
+    margin-bottom: 0;
 }
 
 .signature {
@@ -364,10 +383,17 @@ font-family: 'Roboto', monospace;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* ===== FORM CONTAINER ===== */
 .form-container {
     color: white;
     font-family: 'Segoe UI', sans-serif;
@@ -383,6 +409,8 @@ font-family: 'Roboto', monospace;
     border: 2px solid #5a9092 !important;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    z-index: 10; /* Above background, below UI components */
 }
 
 .form-container:hover,
@@ -391,8 +419,7 @@ font-family: 'Roboto', monospace;
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
 }
 
-/* Keep your existing form styles */
-
+/* ===== FORM ELEMENTS ===== */
 .form-title {
     font-size: 1.6rem;
     margin-bottom: 10px;
@@ -441,7 +468,6 @@ font-family: 'Roboto', monospace;
     color: #eee;
 }
 
-/* Link styling for the footer */
 .form-footer-link {
     color: #308ac7;
     text-decoration: none;
@@ -451,35 +477,8 @@ font-family: 'Roboto', monospace;
     text-decoration: underline;
 }
 
-/* Add proper sidebar styling */
-.sidebar-row, .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100vh !important;
-    min-height: 100vh;
-    overflow-y: auto;
-    z-index: 1000;
-    background-color: #202930;
-    display: flex;
-    flex-direction: column;
-    padding-top: 60px; /* Adjust if you have a navbar at top */
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-}
-
-.sidebar-item {
-    padding: 12px 20px;
-    color: #e0e0e0;
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-}
-
-.sidebar-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Mobile styles */
+/* ===== RESPONSIVE STYLES ===== */
+/* Mobile Styles */
 @media (max-width: 768px) {
     .navbar {
         background-color: #308ac7;
@@ -490,16 +489,17 @@ font-family: 'Roboto', monospace;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%; /* Take full width */
+        width: 100%;
     }
 
     .hamburger-icon {
         display: block;
         font-size: 2rem;
         cursor: pointer;
+        margin-left: auto;
+        order: 2;
     }
 
-    /* Force a solid background for the icon to ensure it's visible */
     .hamburger-icon::after {
         content: "";
         position: absolute;
@@ -513,44 +513,33 @@ font-family: 'Roboto', monospace;
 
     .logo-container {
         flex-shrink: 0;
-        /* Removes unwanted shrinking, keeps logo fixed on the left */
-    }
-
-    .hamburger-icon {
-        display: block;
-        font-size: 2rem;
-        cursor: pointer;
-        margin-left: auto;
-        order: 2; /* Ensures it's on the far right */
     }
 
     .nav-items {
         display: none;
     }
-    
-    /* Mobile sidebar adjustment */
+
     .sidebar-row, .sidebar {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
     }
-    
+
     .sidebar-open {
         transform: translateX(0);
     }
 
-    /* Other styles remain the same */
     .nav-items-container {
         position: relative;
-        z-index: 9999; /* Ensure container has high z-index too */
+        z-index: 1201; /* Consistent with non-mobile version */
     }
-    
+
     .nav-items {
-        background-color: #308ac7 !important; /* Force solid background */
-        position: fixed; /* Use fixed instead of absolute */
+        background-color: #308ac7 !important;
+        position: fixed;
     }
 }
 
-/* DESKTOP STYLES */
+/* Desktop Styles */
 @media (min-width: 769px) {
     .nav-items {
         display: flex !important;
