@@ -20,12 +20,15 @@ def create_popup(title, message_content, buttons_config, additional_content=None
     buttons = []
     for label, path in buttons_config.items():
         buttons.append(
-            dcc.Link(
-                label,
-                href=path,
-                className="popup-button",
-                # Set refresh=False to ensure client-side navigation
-                refresh=False
+            html.Div(
+                dcc.Link(
+                    label,
+                    href=path,
+                    className="popup-button",
+                    # Set refresh=False to ensure client-side navigation
+                    refresh=False
+                ),
+                style={"display": "flex", "justifyContent": "center", "width": "100%"}
             )
         )
     
@@ -46,6 +49,7 @@ def create_popup(title, message_content, buttons_config, additional_content=None
             html.Div(
                 buttons,
                 className="popup-button-container",
+                style={"display": "flex", "justifyContent": "center", "width": "100%"}
             )
         )
     
@@ -68,7 +72,8 @@ def create_popup(title, message_content, buttons_config, additional_content=None
                             # Content
                             html.Div(
                                 className="popup-content",
-                                children=content_children
+                                children=content_children,
+                                style={"textAlign": "center"}
                             )
                         ]
                     )

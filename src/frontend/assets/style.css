@@ -74,9 +74,9 @@ html, body {
     background-color: #308ac7;
     padding: 10px;
     width: 30vw;
-    height: 45vh;
+    height: 50vh;
     position: absolute;
-    top: 70px;
+    top: 65px;
     left: 0;
     z-index: 1201; /* Decreased from 9999 to maintain hierarchy */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
@@ -322,7 +322,7 @@ footer img {
 .ticker-last-change,
 .ticker-change-negative,
 .ticker-change-positive {
-    margin-right: 3px;
+ margin-right: 3px;
 }
 
 /* ===== HOME BACKGROUND ===== */
@@ -483,6 +483,11 @@ footer img {
     .navbar {
         background-color: #308ac7;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0px 20px 0px 5px; /* Remove any default padding */
     }
 
     .logo-hamburger-container {
@@ -560,12 +565,63 @@ footer img {
     }
 }
 /* ===== POPUP WINDOW STYLES ===== */
-.popup-container {
+/* Update button container with more specific styles to ensure centering */
+.popup-button-container {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: center !important; /* Force center alignment */
     align-items: center;
-    height: 100vh;
+    gap: 10px;
+    margin: 20px auto 0;
     width: 100%;
+    text-align: center;
+}
+
+/* Enhance button styling to ensure proper display */
+.popup-button {
+    background-color: #6db5e8;
+    color: #e8f4ff;
+    padding: 8px 24px;
+    border-radius: 6px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid #1a5080;
+    box-shadow: none;
+    font-size: 1rem;
+    text-shadow: -1px -1px 0 #1a5080, 1px -1px 0 #1a5080, -1px 1px 0 #1a5080, 1px 1px 0 #1a5080, 0 2px 3px rgba(0,0,0,0.4);
+    letter-spacing: 0.5px;
+    margin: 0 auto; /* Add horizontal auto margins */
+    text-align: center; /* Center the text */
+}
+
+/* Add specific mobile styles to ensure centering on small screens */
+@media (max-width: 768px) {
+    .popup-button-container {
+        flex-direction: column; /* Stack buttons on mobile if there are multiple */
+    }
+    
+    .popup-button {
+        width: auto;
+        min-width: 150px; /* Ensure buttons have reasonable width */
+        margin: 5px auto; /* Increase vertical spacing between stacked buttons */
+    }
+}
+
+/* Make sure popup content is properly centered */
+.popup-content {
+    padding: 20px;
+    background-color: white;
+    text-align: center; /* Center all text content */
+}
+
+.popup-message {
+    margin: 15px 0;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center; /* Redundant but ensures centering */
 }
 
 .popup-window {
@@ -591,23 +647,12 @@ footer img {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.popup-content {
-    padding: 20px;
-    background-color: white;
-}
-
-.popup-message {
-    margin: 15px 0;
-    color: #333;
-    font-size: 16px;
-    line-height: 1.5;
-}
-
 .popup-button-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center; /* Changed from flex-end to center */
     gap: 10px;
     margin-top: 20px;
+    width: 100%; /* Ensure full width of container */
 }
 
 .popup-button {
@@ -624,6 +669,16 @@ footer img {
     font-size: 1rem;
     text-shadow: -1px -1px 0 #1a5080, 1px -1px 0 #1a5080, -1px 1px 0 #1a5080, 1px 1px 0 #1a5080, 0 2px 3px rgba(0,0,0,0.4);
     letter-spacing: 0.5px;
+    text-align: center; /* Ensure text is centered within button */
+}
+
+/* Make sure message content is also centered */
+.popup-message {
+    margin: 15px 0;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center; /* Ensure text is centered */
 }
 
 .popup-button:hover {

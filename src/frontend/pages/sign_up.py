@@ -36,7 +36,7 @@ def layout():
                                 className="form-input"
                             ),
                             html.Div(
-                                html.Button("Sign Up", className="popup-button"),
+                                html.Button("Submit", className="popup-button"),
                                 style={"display": "flex", "justifyContent": "center"}
                             ),
                             html.Div(
