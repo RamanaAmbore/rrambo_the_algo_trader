@@ -1,6 +1,7 @@
-from dash import html, dcc, Input, Output, callback_context
-import dash
+from dash import html, dcc, Input, Output, callback_context, State
+
 from src.frontend.settings.config import NAV_LINKS
+
 
 class HeaderComponent:
     @staticmethod
@@ -14,7 +15,8 @@ class HeaderComponent:
             html.Div([
                 # Logo and hamburger container (left side)
                 html.Div([
-                    html.Div("\u2630", className="hamburger-icon", id="hamburger-icon"),
+                    # Set initial n_clicks=0 to properly track clicks
+                    html.Div("\u2630", className="hamburger-icon", id="hamburger-icon", n_clicks=0),
                     html.Div(html.Img(src="assets/logo1.png", alt="Rambo Logo"), className="logo-container"),
                 ], className="logo-hamburger-container"),
 
@@ -27,7 +29,9 @@ class HeaderComponent:
                             dcc.Link(
                                 html.Div(text, id={'type': 'nav-item', 'index': href}),
                                 href=href,
-                                className="nav-item"
+                                className="nav-item",
+                                # Set refresh=False to ensure no page reload
+                                refresh=False
                             )
                             for text, href in NAV_LINKS
                         ]
@@ -52,15 +56,15 @@ class HeaderComponent:
              Output('menu-overlay', 'className')],
             [Input('hamburger-icon', 'n_clicks'),
              Input('menu-overlay', 'n_clicks')],
+            [State('nav-items', 'className')],  # Using State instead of ctx.states
             prevent_initial_call=True
         )
-        def toggle_nav_links(hamburger_clicks, overlay_clicks):
+        def toggle_nav_links(hamburger_clicks, overlay_clicks, current_classes):
             ctx = callback_context
             trigger_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
 
-            # Check current state of menu
-            current_classes = ctx.states.get('nav-items.className', 'nav-items')
-            is_open = 'show' in current_classes
+            # Check current state of menu using the provided State
+            is_open = 'show' in current_classes if current_classes else False
 
             # If hamburger is clicked, toggle menu
             if trigger_id == 'hamburger-icon':
@@ -74,4 +78,4 @@ class HeaderComponent:
                 return 'nav-items', 'menu-overlay'  # Hide menu and overlay
 
             # Default case (should not happen)
-            return current_classes, 'menu-overlay' if is_open else 'menu-overlay'
+            return current_classes, 'menu-overlay show' if is_open else 'menu-overlay'

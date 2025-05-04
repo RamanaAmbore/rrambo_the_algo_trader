@@ -76,9 +76,11 @@ html, body {
     left: 0;
     z-index: 9999; /* Much higher z-index */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow-y: auto
+
 }
 
-/* Toggle show/hide */
 /* Toggle show/hide - keep this part the same */
 .nav-items.show {
     display: flex !important;
