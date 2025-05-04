@@ -8,6 +8,9 @@ class HeaderComponent:
         return html.Div([
             dcc.Location(id='url', refresh=False),
 
+            # Add overlay div for closing menu when clicking outside
+            html.Div(id="menu-overlay", className="menu-overlay"),
+
             html.Div([
                 # Logo and hamburger container (left side)
                 html.Div([
@@ -42,20 +45,33 @@ class HeaderComponent:
         )
         def update_active_links(pathname):
             return ['nav-item active' if pathname == href else 'nav-item'
-                   for text, href in NAV_LINKS]
+                    for text, href in NAV_LINKS]
 
         @app.callback(
-            Output('nav-items', 'className'),
-            Input('hamburger-icon', 'n_clicks'),
+            [Output('nav-items', 'className'),
+             Output('menu-overlay', 'className')],
+            [Input('hamburger-icon', 'n_clicks'),
+             Input('menu-overlay', 'n_clicks')],
             prevent_initial_call=True
         )
-        def toggle_nav_links(n):
-            triggered = callback_context.triggered
-            if not triggered:
-                return 'nav-items'
+        def toggle_nav_links(hamburger_clicks, overlay_clicks):
+            ctx = callback_context
+            trigger_id = ctx.triggered[0]['prop_id'].split('.')[0] if ctx.triggered else None
 
-            current_classes = callback_context.states.get('nav-items.className', '')
-            if 'show' in current_classes:
-                return 'nav-items'  # Hide
-            else:
-                return 'nav-items show'  # Show
+            # Check current state of menu
+            current_classes = ctx.states.get('nav-items.className', 'nav-items')
+            is_open = 'show' in current_classes
+
+            # If hamburger is clicked, toggle menu
+            if trigger_id == 'hamburger-icon':
+                if is_open:
+                    return 'nav-items', 'menu-overlay'  # Hide menu and overlay
+                else:
+                    return 'nav-items show', 'menu-overlay show'  # Show menu and overlay
+
+            # If overlay is clicked, always close the menu
+            elif trigger_id == 'menu-overlay':
+                return 'nav-items', 'menu-overlay'  # Hide menu and overlay
+
+            # Default case (should not happen)
+            return current_classes, 'menu-overlay' if is_open else 'menu-overlay'

@@ -9,7 +9,15 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Navbar row container */
+/* Add this missing class that's used in your header.py */
+.logo-hamburger-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1201;
+}
+
+/* Navbar row container - update z-index */
 .navbar {
     display: flex;
     align-items: center;
@@ -18,13 +26,15 @@ html, body {
     padding: 10px 15px;
     position: sticky;
     top: 0;
-    z-index: 1100;
+    z-index: 1200; /* Increased from 1100 */
 }
 
-/* Logo container */
+/* Logo container - update z-index */
 .logo-container {
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 1201;
 }
 
 .logo-container img {
@@ -32,7 +42,7 @@ html, body {
     margin-right: 10px;
 }
 
-/* Hamburger icon */
+/* Hamburger icon - update z-index and ensure solid background */
 .hamburger-icon {
     font-size: 24px;
     cursor: pointer;
@@ -41,6 +51,8 @@ html, body {
     background-color: #308ac7;
     border: none;
     display: none; /* show only on mobile */
+    position: relative;
+    z-index: 1201;
 }
 /* Nav items container and items */
 .nav-items-container {
@@ -62,13 +74,32 @@ html, body {
     position: absolute;
     top: 60px;
     left: 0;
-    z-index: 999;
+    z-index: 9999; /* Much higher z-index */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Toggle show/hide */
+/* Toggle show/hide - keep this part the same */
 .nav-items.show {
     display: flex !important;
+    position: fixed;
+    z-index: 9999;
+}
+
+/* Add a semi-transparent overlay when menu is open */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9990; /* Below menu but above other content */
+}
+
+.menu-overlay.show {
+    display: block;
 }
 
 /* Nav links item styling */
@@ -276,7 +307,7 @@ font-family: 'Roboto', monospace;
     margin-right: 3px;
 }
 
-/* Background container */
+/* Background container - keep z-index low */
 .home-background {
     background: linear-gradient(135deg, #d0eaff 0%, #e8f4ff 100%);
     background-image: url("/assets/background_no_man.jpg");
@@ -295,7 +326,7 @@ font-family: 'Roboto', monospace;
 
     padding: 2rem;           /* Reduced from 40px and made relative */
     box-sizing: border-box; /* Ensures padding doesn't cause overflow */
-    z-index: 0;
+    z-index: 0; /* Ensure this is lower than navbar */
 }
 
 /* Foreground content box */
@@ -476,12 +507,33 @@ font-family: 'Roboto', monospace;
 /* Mobile styles */
 @media (max-width: 768px) {
     .navbar {
+        background-color: #308ac7;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo-hamburger-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
-        padding-left: 16px;
-        padding-right: 16px;
+        width: 100%; /* Take full width */
+    }
+
+    .hamburger-icon {
+        display: block;
+        font-size: 2rem;
+        cursor: pointer;
+    }
+
+    /* Force a solid background for the icon to ensure it's visible */
+    .hamburger-icon::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #308ac7;
+        z-index: -1;
     }
 
     .logo-container {
@@ -509,5 +561,17 @@ font-family: 'Roboto', monospace;
     
     .sidebar-open {
         transform: translateX(0);
+    }
+
+    /* Other styles remain the same */
+    
+    .nav-items-container {
+        position: relative;
+        z-index: 9999; /* Ensure container has high z-index too */
+    }
+    
+    .nav-items {
+        background-color: #308ac7 !important; /* Force solid background */
+        position: fixed; /* Use fixed instead of absolute */
     }
 }
