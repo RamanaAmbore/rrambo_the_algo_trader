@@ -50,11 +50,11 @@ def layout():
             }
         ),
         
-        # Sign up link
+        # Sign up link - using dcc.Link instead of html.A
         html.Div(
             children=[
                 "Don't have an account? ",
-                html.A("Sign up here.", href="/sign_up", className="form-footer-link")
+                dcc.Link("Sign up here.", href="/sign_up", className="form-footer-link")
             ],
             className="popup-footer-text",
             style={

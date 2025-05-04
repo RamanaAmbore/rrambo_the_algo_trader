@@ -36,13 +36,14 @@ def layout():
                                 className="form-input"
                             ),
                             html.Div(
-                                html.Button("Submit", className="popup-button"),
+                                html.Button("Sign Up", className="popup-button"),
                                 style={"display": "flex", "justifyContent": "center"}
                             ),
                             html.Div(
                                 children=[
                                     "Already have an account? ",
-                                    html.A("Sign in here.", href="/sign_in", className="form-footer-link")
+                                    # Replace html.A with dcc.Link for client-side routing
+                                    dcc.Link("Sign in here.", href="/sign_in", className="form-footer-link")
                                 ],
                                 className="popup-footer-text"
                             )

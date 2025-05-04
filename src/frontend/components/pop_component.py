@@ -1,5 +1,5 @@
 import dash
-from dash import html
+from dash import html, dcc
 
 def create_popup(title, message_content, buttons_config, additional_content=None):
     """
@@ -16,14 +16,16 @@ def create_popup(title, message_content, buttons_config, additional_content=None
     - Dash component representing the popup window
     """
     
-    # Create buttons from config dictionary
+    # Create buttons from config dictionary - using dcc.Link instead of html.A
     buttons = []
     for label, path in buttons_config.items():
         buttons.append(
-            html.A(
+            dcc.Link(
                 label,
                 href=path,
                 className="popup-button",
+                # Set refresh=False to ensure client-side navigation
+                refresh=False
             )
         )
     
