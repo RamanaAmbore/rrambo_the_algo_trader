@@ -1,8 +1,9 @@
 APP_CONFIG = {
     'TITLE': "Rambo, the Algo",
-    'UPDATE_TITLE': 'Rambo-the-algo',
+    'UPDATE_TITLE': 'Rambo, the Algo',
     'FAVICON': "favicon.ico",
-    'ASSETS_FOLDER': './assets'
+    'ASSETS_FOLDER': './assets',
+    'API_BASE_URL': 'http://localhost:5000'
 }
 
 # Configuration Constants
@@ -14,7 +15,6 @@ TICKER_CONFIG = {
 
 
 # ... your existing config ...
-
 NAV_LINKS = [
     ("Home", "/"),
     ("Market", "/market"),

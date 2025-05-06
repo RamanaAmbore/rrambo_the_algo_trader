@@ -2,14 +2,15 @@ import asyncio
 import os
 import threading
 
-from flask import Flask, jsonify  # Import current_app for accessing app context
+from flask import Flask, jsonify
 
 from src.backend.app_initializer import AppInitializer
-# Assuming TickQueueManager might be populated by app_initializer
 from src.backend.ticks.tick_queue_manager import TickQueueManager
 from src.helpers.app_state_manager import app_state, AppState
 from src.helpers.logger import get_logger
 from src.settings.constants_manager import load_env
+from src.backend.stock_charts import initialize_stock_charts  # Add this import
+from src.backend.api import register_api_endpoints
 
 load_env()
 
@@ -25,6 +26,9 @@ app.tick_manager_instance = None
 
 @app.route('/get_ticks', methods=['GET'])
 def get_ticks():
+    # Existing code...
+    # No changes needed here
+    # ...
     logger.debug("Request received for /get_ticks")
     tick_queue_manager = app.tick_manager_instance  # Access the shared instance
 
@@ -53,6 +57,9 @@ def get_ticks():
 
 @app.route('/get_logs', methods=['GET'])
 def get_logs():
+    # Existing code...
+    # No changes needed here
+    # ...
     log_path = os.path.abspath(os.getenv('ERROR_LOG_FILE'))
     try:
         with open(log_path, 'r') as f:
@@ -69,37 +76,48 @@ async def backend_process():
 
     # Start the app initializer (Ticker, and other background threads)
     logger.info("Running app_initializer setup...")
-    # app_initializer.setup() might return the manager or populate internal state.
-    # Assuming TickQueueManager() can be safely instantiated *after* setup completes.
     await AppInitializer().setup()  # This starts background tasks/threads
 
     logger.info("app_initializer setup complete.")
 
-    # --- Create the TickQueueManager instance ONCE after setup ---
-    # This is crucial. Create the instance here and store it.
-    # If app_initializer.setup() returns the instance, get it from there.
-    # For now, assuming we instantiate it here after setup.
+    # Create the TickQueueManager instance
     try:
         xref = app_state.get(AppState.TRACK_TOKEN_SYMBOL_MAP)
         app.tick_manager_instance = TickQueueManager()
         logger.info("TickQueueManager instance successfully created and attached to app.")
     except Exception as e:
         logger.critical(f"Failed to create TickQueueManager instance: {e}", exc_info=True)
-        # Depending on severity, you might want to exit here.
-        # raise e # Uncomment to stop execution if manager is critical
 
-    # Start Flask server in a separate thread so it can run alongside other background tasks
+    # Initialize stock charts module
+    try:
+        logger.info("Initializing stock charts module...")
+        initialize_stock_charts(app)
+        logger.info("Stock charts module successfully initialized.")
+    except Exception as e:
+        logger.error(f"Failed to initialize stock charts module: {e}", exc_info=True)
+        # Continue even if this fails - it's not critical for core functionality
+
+    # Inside the backend_process function, after initializing stock charts:
+    # Register API endpoints
+    # try:
+    #     logger.info("Registering API endpoints...")
+    #     register_api_endpoints(app)
+    # except Exception as e:
+    #     logger.error(f"Failed to register API endpoints: {e}", exc_info=True)
+
+    # Start Flask server in a separate thread
     logger.info("Starting Flask server thread...")
-    # app.run is a blocking call, hence it needs its own thread.
     flask_thread = threading.Thread(target=app.run,
-                                    kwargs={'debug': False, 'use_reloader': False, 'host': '0.0.0.0', 'port': 5000},
-                                    daemon=True,  # Daemon threads exit when the main thread exits
-                                    name="FlaskServerThread")  # Give it a name for easier debugging
+                                   kwargs={'debug': False, 'use_reloader': False, 'host': '0.0.0.0', 'port': 5000},
+                                   daemon=True,
+                                   name="FlaskServerThread")
 
     flask_thread.start()
     logger.info(f"Flask server thread started. (Daemon: {flask_thread.daemon}, Name: {flask_thread.name})")
     logger.info("Flask server should be listening on http://0.0.0.0:5000")
 
+    # Rest of the function remains unchanged
+    # ...
     # Keep the async loop alive until all non-main threads finish
     # This prevents asyncio.run from exiting immediately.
     main_thread = threading.current_thread()

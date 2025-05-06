@@ -7,8 +7,6 @@ class HeaderComponent:
     @staticmethod
     def create():
         return html.Div([
-            dcc.Location(id='url', refresh=False),
-
             # Add overlay div for closing menu when clicking outside
             html.Div(id="menu-overlay", className="menu-overlay"),
 

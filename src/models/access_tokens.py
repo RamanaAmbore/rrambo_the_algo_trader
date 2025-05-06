@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, DateTime, text, Integer, ForeignKey, UniqueConstraint, Index, \
-    func, select
+    func, select, Boolean
 from sqlalchemy.orm import relationship
 
 from src.helpers.date_time_utils import timestamp_indian
@@ -15,23 +15,33 @@ class AccessTokens(Base):
     __tablename__ = "access_tokens"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(String(50), ForeignKey('users.user_id'), nullable=False)
     account = Column(String(10), ForeignKey("broker_accounts.account", ondelete="CASCADE"), nullable=False, default='*')
+    service_name = Column(String(50), nullable=True)
     token = Column(String(255), nullable=True)
-    source = Column(String(50), nullable=False, server_default=Source.API)
+    api_key = Column(String(255), nullable=True)
+    api_secret = Column(String(255), nullable=True)
+    is_active = Column(Boolean, default=True)
+    source = Column(String(50), nullable=True, server_default=Source.API)
     timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                        server_default=text("CURRENT_TIMESTAMP"))
     upd_timestamp = Column(DateTime(timezone=True), nullable=False, default=timestamp_indian,
                            onupdate=func.now(), server_default=text("CURRENT_TIMESTAMP"))
     notes = Column(String(255), nullable=True)
 
-    # Relationship
-    broker_accounts_rel = relationship("BrokerAccounts", back_populates="access_tokens_rel", passive_deletes=True, )
+    # Relationships
+    broker_accounts_rel = relationship("BrokerAccounts", back_populates="access_tokens_rel", passive_deletes=True)
+    # This should reference the Users class
+    user_rel = relationship("Users", back_populates="access_tokens_rel", passive_deletes=True)
 
-    __table_args__ = (UniqueConstraint('account', name='uq_access_token'), Index("idx_account", "account"),)
+    __table_args__ = (
+        UniqueConstraint('user_id', name='uq_access_token_key'),
+        Index("idx_account1", "account"),
+    )
 
     def __repr__(self):
-        return (f"<AccessTokens(id={self.id}, account='{self.account}', "
-                f"source='{self.source}', warning_error={self.warning_error})>")
+        return (f"<AccessTokens(id={self.id}, user_id='{self.user_id}, account='{self.account}', "
+                f"service_name='{self.service_name}', source='{self.source}')>")
 
 
 def initialize_default_records(connection):

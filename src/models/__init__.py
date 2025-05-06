@@ -16,3 +16,4 @@ from .thread_schedule import ThreadSchedule
 from .thread_status_tracker import ThreadStatusTracker
 from .watchlist import Watchlist
 from .watchlist_symbols import WatchlistSymbols
+from .users import Users

@@ -84,7 +84,7 @@ ThreadStatus = SimpleNamespace(
     IN_PROGRESS="IN_PROGRESS", COMPLETED="COMPLETED", FAILED="FAILED", RESTARTED="RESTARTED"
 )
 
-Account = SimpleNamespace(ACCOUNT1=os.getenv('ACCOUNT1'), ACCOUNT2=os.getenv('ACCOUNT2'))
+Account = SimpleNamespace(USERID1=os.getenv('USERID1'), USERID2=os.getenv('USERID2'), ACCOUNT1=os.getenv('ACCOUNT1'), ACCOUNT2=os.getenv('ACCOUNT2'))
 
 Schedule = SimpleNamespace(MARKET='MARKET', PRE_MARKET='PRE_MARKET')
 
@@ -98,8 +98,14 @@ Thread = SimpleNamespace(**{"start_socket_ticker": Schedule.MARKET, "sync_stock_
 
 # Default configurations
 DEF_ACCESS_TOKENS = (
-    {'account': Account.ACCOUNT1, 'token': None},
-    {'account': Account.ACCOUNT2, 'token': None}
+    {'user_id': Account.USERID1, 'account': Account.ACCOUNT1, 'token': None},
+    {'user_id': Account.USERID2, 'account': Account.ACCOUNT2, 'token': None}
+)
+
+# Default configurations
+DEF_USER_IDS = (
+    {'user_id': Account.USERID1},
+    {'user_id': Account.USERID2}
 )
 
 DEF_THREAD_LIST = tuple({"thread": thread} for thread in vars(Thread) if not thread.startswith('_'))

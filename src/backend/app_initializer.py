@@ -19,10 +19,12 @@ from src.services.service_schedule_list import service_schedule_list
 from src.services.service_schedule_time import service_schedule_time
 from src.services.service_thread_list import service_thread_list
 from src.services.service_thread_schedule import service_thread_schedule
+from src.services.service_users import service_users
 from src.services.service_watchlist import service_watchlist
 from src.services.service_watchlist_symbols import service_watchlist_symbols
 from src.settings.constants_manager import DEF_PARAMETERS, DEF_BROKER_ACCOUNTS, DEF_ACCESS_TOKENS, DEF_THREAD_LIST, \
-    DEF_SCHEDULES, DEF_WATCH_LIST, DEF_EXCHANGE_LIST, DEF_THREAD_SCHEDULE, DEF_SCHEDULE_TIME, DEF_WATCHLIST_SYMBOLS
+    DEF_SCHEDULES, DEF_WATCH_LIST, DEF_EXCHANGE_LIST, DEF_THREAD_SCHEDULE, DEF_SCHEDULE_TIME, DEF_WATCHLIST_SYMBOLS, \
+    DEF_USER_IDS
 from src.settings.parameter_manager import refresh_parameters, parms
 
 logger = get_logger(__name__)
@@ -45,6 +47,7 @@ class AppInitializer(SingletonBase):
         # Step 1: Set up broker and parameter records
         await service_broker_accounts.setup_table_records(DEF_BROKER_ACCOUNTS, skip_update_if_exists=True)
         await service_parameter_table.setup_table_records(DEF_PARAMETERS, skip_update_if_exists=True)
+        await service_users.setup_table_records(DEF_USER_IDS, skip_update_if_exists=True)
 
         # Step 2: Set up access token records
         await service_access_tokens.setup_table_records(DEF_ACCESS_TOKENS, skip_update_if_exists=True)

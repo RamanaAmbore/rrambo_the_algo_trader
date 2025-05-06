@@ -16,7 +16,7 @@ class ServiceAccessTokens(SingletonBase, ServiceBase):
 
     model = AccessTokens  # Assign model at the class level
 
-    conflict_cols = ['account']
+    conflict_cols = ['user_id']
 
     @singleton_init_guard
     def __init__(self):
