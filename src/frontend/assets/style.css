@@ -20,7 +20,7 @@ html, body {
     padding: 10px 15px;
     position: sticky;
     top: 0;
-    border-bottom: 1px solid #ecf5fa;
+    border-bottom: 1px solid #cccccc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1200;
 }
@@ -259,7 +259,7 @@ footer img {
     padding: 10px 0;
     padding-top: 5px;
     font-size: 0.75em;
-    border-top: 1px solid #ecf5fa;
+    border-top: 1px solid #cccccc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 
     text-align: left;
