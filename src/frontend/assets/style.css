@@ -489,7 +489,7 @@ footer img {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 0px;
     margin: 5px auto 10px;
     width: auto;  /* Changed from 100% to auto */
     max-width: 100%;  /* Added to prevent overflow */
@@ -735,6 +735,6 @@ footer img {
 @media (max-width: 480px) {
     .popup-window {
         width: 92%;
-        min-height: 360px;
+        min-height: 150px;
     }
 }
